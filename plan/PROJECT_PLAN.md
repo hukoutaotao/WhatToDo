@@ -151,15 +151,15 @@ Daily Plan / Weekly Plan / Alerts
 
 ---
 
-## 5. n8n vs Dify
+## 5. Workflow Platform Decision: n8n Only
 
 ### Decision
 
-Use **n8n as the primary workflow / orchestration layer**.
+Use **n8n as the sole workflow / orchestration platform** for WhatToDo.
 
-Do not make Dify a mandatory dependency in the first version.
+Dify is explicitly out of scope and should not be introduced into the architecture unless the user later reverses this decision.
 
-### Why n8n is primary
+### Responsibilities of n8n
 
 The core system needs to coordinate:
 
@@ -174,26 +174,12 @@ The core system needs to coordinate:
 - Trigger-based actions
 - Calling internal services
 - Notifications
+- Invoking low-cost AI APIs when needed
+- Passing standardized AI jobs to the project's AI Router
 
-These are integration and orchestration problems, which fit n8n better than an AI-first platform.
+n8n is the system's orchestration layer. AI-specific logic that should remain portable across model providers belongs in the custom AI Router / application code rather than in a separate AI workflow platform.
 
-### Role of Dify
-
-Dify is optional and may be added later as an **AI service / AI workflow layer** if the system accumulates many model-based pipelines and requires:
-
-- Prompt management
-- Multiple providers
-- Model selection
-- Token / run tracking
-- RAG
-- Agent workflows
-- Evaluation of different models
-
-Dify should never be the source of truth.
-
-Dify should never own the core task state.
-
-The rest of the system should continue working if Dify is removed.
+This keeps the deployment and operational model simpler and avoids maintaining overlapping workflow systems.
 
 ---
 
@@ -239,7 +225,6 @@ Possible backends:
 - Low-cost API model
 - OpenAI-compatible provider
 - Local model
-- Dify-managed model
 
 ### Level 2 — Premium Reasoning AI
 
@@ -870,7 +855,6 @@ Current planning preference:
 - Learning platform: custom connector / scraper
 - Planner: custom service, likely Python or TypeScript; not yet finalized
 - AI integration: custom AI Router
-- Dify: optional later
 - Premium reasoning: user-triggered ChatGPT Work / Codex
 - Runtime: always-on cloud/VPS/containerized environment
 
@@ -885,7 +869,6 @@ Do not prematurely lock down the following:
 - Exact PostgreSQL schema
 - Exact programming language for the planner
 - Exact cloud/VPS provider
-- Whether Dify will be deployed
 - Exact cheap model provider
 - Exact notification channel
 - Exact daily report format
@@ -973,7 +956,7 @@ The following decisions are currently considered accepted unless the user later 
 
 - The project is a personal task/schedule operating system, not a basic to-do app.
 - n8n is preferred as the main workflow orchestration layer.
-- Dify is optional, not foundational.
+- n8n is the sole workflow / orchestration platform; Dify is not part of the planned architecture.
 - PostgreSQL is the canonical dynamic state store.
 - Long-term declarative knowledge should be version-controlled, likely YAML/JSON.
 - Calendar represents time occupancy, not task truth.
