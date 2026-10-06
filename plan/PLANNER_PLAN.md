@@ -50,16 +50,20 @@ Expected conceptual inputs:
 Examples:
 - class/training cannot overlap work block
 - task cannot be scheduled after a hard deadline
-- dependency must be completed first
+- explicitly hard prerequisite/dependency
 - minimum session length where truly required
+- today-only user lock, unless physically incompatible with another hard obligation
 
 ### Soft constraints
 Examples:
+- default academic sequence such as preview → class → notes → homework
 - prefer high-cognitive work earlier
 - avoid overly dense days
 - preserve buffer
 - prefer grouping related work
 - use fragmentable tasks in short windows
+
+If capacity is tight, a soft academic prerequisite may be bypassed to protect REQUIRED work. Surface the exception rather than pretending the prerequisite was completed.
 
 Soft constraints should influence scoring, not masquerade as impossibility.
 
@@ -73,8 +77,9 @@ It should:
 - estimate approximately how much usable free time exists today;
 - allocate a realistic amount of work to that capacity;
 - avoid chronic overfilling and unnecessary underfilling;
-- preserve roughly 40–60 minutes of normal-day buffer/rest capacity when feasible;
-- relax that buffer during recognized high-intensity periods when deadline/goal safety requires it;
+- preserve a SAFE reserve of about 1 hour per day after REQUIRED work when feasible;
+- when SAFE and only a ~40-minute-or-smaller free gap remains, normally leave it unscheduled rather than filling it just for utilization;
+- allow DANGER/EMERGENCY logic to consume the reserve when needed to protect REQUIRED work;
 - identify which tasks require large uninterrupted blocks;
 - identify which tasks are suitable for fragmented time;
 - protect deadlines and long-term workload.
@@ -89,31 +94,36 @@ Primary load metric:
 Primary optimization objective:
 - long-horizon feasibility and deadline safety, not maximizing daily completion percentage.
 
-Required-work advancement rule:
+Discretionary-capacity rule:
 - no separate generic "start N days early" field is required;
-- once currently urgent/required obligations remain feasible, use remaining safe capacity to pull future REQUIRED work forward and build slack before deadlines.
+- first ensure REQUIRED work is feasible;
+- preserve the SAFE reserve when possible;
+- then use Task importance as a primary criterion for additional work allocation;
+- future REQUIRED work may be advanced, but it does not automatically outrank higher-importance eligible OPTIONAL/EXPIRING work once REQUIRED feasibility is protected.
 
 ---
 
 ## 6. Planning Horizons
 
-### Daily
-Concrete executable recommendation.
+### Daily Planner
+Produces today's actionable recommendation and computes 1-day / 3-day / 7-day feasibility.
 
-### 1 / 3 / 7-day feasibility horizons
-At minimum compare:
-- expected usable free time;
-- expected effort of work that should/must be completed within the horizon.
+### Weekly Planner
+Looks roughly 2–4 weeks ahead for:
+- workload distribution
+- tight future days
+- large work that should begin before urgency
+- Course Progress Axis backlog
+- long-term Goal pacing deficits
 
-Use the ratio/difference to identify comfortable, tight, and infeasible periods and to pull future work earlier when needed.
+### Long-Term Planner
+Looks across the whole Goal / Exam / project horizon for:
+- milestones
+- phases
+- recurring workload generation
+- long-run feasibility
 
-### Weekly
-Capacity/risk balancing and distribution.
-
-### Multi-week
-Exam preparation, large projects, milestone pacing.
-
-The same data model should support all horizons; do not build unrelated planners.
+All three layers share the same canonical Task model; do not build separate task worlds.
 
 ---
 
@@ -149,6 +159,13 @@ Planner should eventually support:
 - concrete session objective
 
 Avoid scheduling vague "work on assignment" blocks when a more concrete sub-goal can be generated.
+
+Child stages/subtasks may be reopened when later work reveals rework is necessary.
+
+Daily display should normally show:
+- parent remaining effort;
+- today's selected stage/subtask;
+- today's stage/subtask estimate.
 
 ---
 
@@ -207,7 +224,17 @@ Use three high-level states:
 - DANGER
 - EMERGENCY
 
-Determine them from feasibility margin between usable capacity and required expected effort.
+Determine them from feasibility margin between usable capacity and REQUIRED expected effort.
+
+For a horizon representing D days:
+- C = usable capacity
+- R = REQUIRED expected effort
+- S ≈ D hours of safety reserve (1 hour per represented day)
+
+Then:
+- SAFE when C - R >= S
+- DANGER when 0 <= C - R < S
+- EMERGENCY when C - R < 0
 
 Evaluate 1-day, 3-day, and 7-day horizons separately.
 
@@ -216,7 +243,7 @@ Overall mode uses the worst horizon:
 - else any DANGER → overall DANGER;
 - else SAFE.
 
-Exact numeric thresholds are deferred.
+Exact handling of partial days and numerical rounding is deferred to implementation.
 
 ## 13. Emergency / Risk Mode
 
@@ -273,6 +300,9 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 - Marking uncertain state as fact instead of surfacing confirmation
 - Overusing short fragments for tasks that need deep continuity
 - Ignoring historical underestimation patterns
+- Ignoring older Unit-linked unfinished work after teaching/task-family progress moves ahead
+- Treating soft academic sequence dependencies as absolute when REQUIRED feasibility is at risk
+- Letting today-only user overrides persist beyond the day
 
 ---
 
@@ -286,6 +316,8 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 - large-assignment strategy
 - tolerance for fragmented scheduling
 - whether exact time blocks are desired in final output
+- course-specific hard vs soft dependency exceptions
+- weekly/long-term planning preferences where they materially differ from defaults
 
 ---
 
