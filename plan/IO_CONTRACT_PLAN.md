@@ -33,6 +33,18 @@ human Daily Brief / other surfaces
 
 Do not make the user manually author JSON for ordinary use.
 
+### Semantic contract vs adapter contract
+
+Before implementation, define the internal semantic contract: what WhatToDo needs to know and what that information means.
+
+Provider-specific adapter contracts should be defined when the real integration is examined.
+
+Example:
+- semantic Calendar concept now: start/end, fixed/flexible, busy/free, ownership, recurrence concept
+- Google Calendar mapping later: exact API fields, IDs, sync tokens, webhook/watch behavior, recurrence edge cases
+
+Do not guess provider-specific details merely to make an early schema look complete.
+
 ---
 
 ## 2. Input Source Classes
@@ -217,3 +229,5 @@ Need from user:
 - exact information the user wants visible every day
 
 These should be solved before Phase 2 database design.
+
+Provider-specific Calendar/email/learning-platform payload details are intentionally not required at this stage; they are resolved during their integration phases unless a discovery changes the internal semantic model.
