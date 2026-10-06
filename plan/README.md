@@ -82,7 +82,7 @@ Authority:
 - Feeds USER_MODEL, DATA_MODEL, IO_CONTRACT, PLANNER, DEVELOPMENT, TESTING, and later implementation.
 
 #### `USER_MODEL_PLAN.md`
-- Active M1 specification for collecting courses, recurring activities, and planning-relevant preferences.
+- M1 specification for collecting courses, recurring activities, and planning-relevant preferences; it becomes active after A0 is accepted.
 - Defines what may become stable declarative user/course profiles.
 
 #### `DATA_MODEL_PLAN.md`
