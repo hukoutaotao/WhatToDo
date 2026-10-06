@@ -10,12 +10,13 @@ When taking over this repository:
 1. Read this file completely.
 2. Read `PROGRESS.md` to learn the current project state and immediate next action.
 3. Read `DECISIONS.md` to learn accepted decisions that must not be silently reversed.
-4. Read `PROJECT_PLAN.md` for architecture and system boundaries.
-5. Read `DEVELOPMENT_PLAN.md` for implementation order and prerequisites.
-6. Read only the specialized planning documents relevant to the current task.
-7. If the task touches input/output formats, also inspect `../formats/input/` and/or `../formats/output/`.
-8. Before making a material change, use the dependency/update rules in this file.
-9. After completing work, update `PROGRESS.md` and any affected source-of-truth planning documents.
+4. Read `ALIGNMENT_PLAN.md` to understand the required user-AI interaction model, information granularity rules, and pre-development alignment gate.
+5. Read `PROJECT_PLAN.md` for architecture and system boundaries.
+6. Read `DEVELOPMENT_PLAN.md` for implementation order and prerequisites.
+7. Read only the specialized planning documents relevant to the current task.
+8. If the task touches input/output formats, also inspect `../formats/input/` and/or `../formats/output/`.
+9. Before making a material change, use the dependency/update rules in this file.
+10. After completing work, update `PROGRESS.md` and any affected source-of-truth planning documents.
 
 Do not treat prior chat history as the canonical project state when repository planning documents are available.
 
@@ -69,6 +70,11 @@ Authority:
 
 ### Specialized planning files
 
+#### `ALIGNMENT_PLAN.md`
+- Defines the pre-development user-AI interaction model and semantic information-alignment process.
+- Separates information that must be agreed before implementation from provider-specific details that should be deferred until real integration.
+- Defines Alignment Gate A0.
+
 #### `USER_MODEL_PLAN.md`
 - Active M1 specification for collecting courses, recurring activities, and planning-relevant preferences.
 - Defines what may become stable declarative user/course profiles.
@@ -121,53 +127,61 @@ Do not silently resolve a meaningful contradiction. Update the conflicting docum
 ## 4. Dependency Graph
 
 ```text
-User decisions
-    ↓
-DECISIONS.md
-    ├──────────────→ PROJECT_PLAN.md
-    │                    ↓
-    │              DEVELOPMENT_PLAN.md
-    │                    ↓
-    │       ┌────────────┼────────────┐
-    │       ↓            ↓            ↓
-    │ USER_MODEL → DATA_MODEL     IO_CONTRACT
-    │                    ↓            ↓
-    │                 INTEGRATION ←───┘
-    │       │            │            │
-    │       └──────┬─────┘            │
-    │              ↓                  │
-    │         PLANNER_PLAN ←──────────┘
-    │              ↓
-    │      AI_EXECUTION_PLAN
-    │              │
-    ├──────────────┼──────────────┐
-    ↓              ↓              ↓
-OPERATIONS     SECURITY        TESTING
-    \______________|______________/
-                   ↓
-              implementation
-                   ↓
-              PROGRESS.md
-
-IO_CONTRACT_PLAN.md
-    ↓
-../formats/input/
-../formats/output/
+User intent / corrections
+          ↓
+     DECISIONS.md
+          ↓
+    ALIGNMENT_PLAN.md
+      ┌────┴───────────────┐
+      ↓                    ↓
+PROJECT_PLAN.md      USER_MODEL_PLAN.md
+      ↓                    ↓
+DEVELOPMENT_PLAN.md   DATA_MODEL_PLAN.md
+      │                    ↓
+      │              IO_CONTRACT_PLAN.md
+      │               ┌────┴─────────────┐
+      │               ↓                  ↓
+      │        ../formats/input/   ../formats/output/
+      │
+      ├────────→ INTEGRATION_PLAN.md
+      ├────────→ PLANNER_PLAN.md
+      └────────→ AI_EXECUTION_PLAN.md
+                       │
+         ┌─────────────┼──────────────┐
+         ↓             ↓              ↓
+   OPERATIONS_PLAN  SECURITY_      TESTING_PLAN.md
+                    PRIVACY_PLAN.md
+         \_____________|_____________/
+                       ↓
+                 implementation
+                       ↓
+                  PROGRESS.md
 ```
 
 Interpretation:
+- `ALIGNMENT_PLAN.md` is the semantic gate before implementation: it defines how the user and AI align on meaning, granularity, sources, downstream effects, and deferred provider details.
 - Architecture determines module boundaries.
 - Development order determines when modules may be implemented.
-- Data and I/O definitions are prerequisites for reliable persistence and connectors.
+- User/course, data, and I/O semantics must stabilize before persistence and connectors.
+- Provider-specific adapter details are defined only when real integrations are examined.
 - Integrations feed normalized state; they do not own planning logic.
 - Planner depends on stable state and time availability.
-- AI augments planner/ingestion but must not become canonical state.
-- Operations, security, and testing apply across all implementation phases.
+- AI augments planning/ingestion but must not become canonical state.
+- Operations, security, and testing apply across implementation phases.
 - Progress reflects actual repository state, not intended future state.
 
 ---
 
 ## 5. Mandatory Change-Propagation Rules
+
+### If the interaction model, information granularity, or semantic-vs-adapter boundary changes
+Update:
+1. `ALIGNMENT_PLAN.md`
+2. `DECISIONS.md` for accepted policy changes
+3. `DEVELOPMENT_PLAN.md` if the alignment gate/order changes
+4. `USER_MODEL_PLAN.md`, `DATA_MODEL_PLAN.md`, or `IO_CONTRACT_PLAN.md` as affected
+5. Any downstream specialized plan whose inputs/behavior change
+6. `PROGRESS.md`
 
 ### If a product/architecture decision changes
 Update:
@@ -288,7 +302,9 @@ Unless explicitly changed by the user:
 - AI output should normally be a structured proposal validated before state mutation.
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
-- The project is currently still in planning/domain-model definition, not infrastructure implementation.
+- The project is currently in pre-development interaction/information-model alignment, not infrastructure implementation.
+- Alignment Gate A0 must be completed before M1 domain collection and before any implementation.
+- Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
 For rationale, read `DECISIONS.md` and `PROJECT_PLAN.md`.
 
