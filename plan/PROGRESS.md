@@ -7,11 +7,11 @@
 
 Last updated: 2026-10-06
 
-Overall status: **PRE-DEVELOPMENT ALIGNMENT**
+Overall status: **DOMAIN MODELING / M1**
 
-Current milestone: **M0 complete → A0 IN PROGRESS → M1 next**
+Current milestone: **M0 COMPLETE → A0 COMPLETE → M1 CURRENT**
 
-Current phase: **Phase 0 — Interaction and Information-Model Alignment**
+Current phase: **Phase 1 — Define What the System Understands**
 
 Implementation status:
 - Production system: not started
@@ -21,108 +21,90 @@ Implementation status:
 - Email integration: not started
 - Learning-platform integration: not started
 - Planner implementation: not started
+- Historical-learning implementation: not started
 - AI Router implementation: not started
 
-This is intentional. The approved roadmap requires semantic/data contracts before infrastructure.
+This is intentional. A0 semantic alignment is complete; M1/M1B/M2 still precede infrastructure implementation.
 
 ---
 
 ## 2. Completed
 
-### Repository/planning foundation
+### Planning/control foundation
 - GitHub repository exists: `hukoutaotao/WhatToDo`.
+- `plan/README.md` defines authority, dependencies, propagation rules, and new-AI bootstrap.
 - `plan/PROJECT_PLAN.md` defines architecture.
-- `plan/DEVELOPMENT_PLAN.md` defines ordered development.
-- `formats/input/` exists.
-- `formats/output/` exists.
-- The plan control-center documentation has been expanded.
-- `plan/README.md` now defines file authority, dependency relationships, and mandatory change-propagation rules.
-- `plan/DECISIONS.md` records accepted decisions.
-- `plan/USER_MODEL_PLAN.md` defines the M1 collection/modeling process that becomes active after A0.
-- Specialized plans now exist for alignment, user/course modeling, data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
-- `plan/ALIGNMENT_PLAN.md` defines the required pre-development interaction/information alignment gate A0.
-- `plan/A0_USER_INTENT.md` stores the canonical interpretation of the user's first A0 answers and feeds downstream planning documents.
-- `plan/LEARNING_PLAN.md` defines historical estimation calibration, behavior-pattern discovery, weekly analysis, and user-confirmed learned rules.
+- `plan/DEVELOPMENT_PLAN.md` defines ordered milestones.
+- `plan/DECISIONS.md` records accepted/superseded decisions.
+- Specialized plans exist for alignment, user/course modeling, data model, I/O, integrations, Planner, historical learning, AI execution, operations, security/privacy, and testing.
+- `formats/input/` and `formats/output/` exist.
+- `formats/output/DAILY_BRIEF_TEMPLATE.md` stores the accepted conceptual Daily Brief.
 
-### Accepted major decisions
-- Project goal is a long-lived personal task/schedule operating system, not a simple to-do list.
-- Top-level life domains start as study, exercise, life administration, and other.
-- n8n is the sole workflow/orchestration platform.
-- Dify is out of scope.
-- PostgreSQL is planned for canonical dynamic state.
-- Stable declarative knowledge should be explicit/version-controlled rather than entrusted to chat memory.
-- Calendar is a time-occupancy system, not the task source of truth.
-- Google Calendar is preferred as automation backend; Apple Calendar may remain the user's normal client.
-- AI is a replaceable execution layer.
-- ChatGPT Work/Codex premium use is human-triggered rather than pretending Plus is an API subscription.
-- Deterministic logic should be preferred over model calls where possible.
-- Recovery after inactivity is a first-class feature.
+### Alignment Gate A0 — COMPLETE
+A0 is complete after five rounds of user-AI alignment plus a consistency audit.
+
+Accepted semantics include:
+- Task is the fundamental planning unit.
+- Course/domain/goal/source layers provide context, grouping, defaults, generation, and long-horizon structure.
+- Normal interaction is morning + evening, roughly 5–10 minutes each.
+- Morning: reconcile → clear confirmations → guided special-circumstance question → capacity/risk → Daily Brief.
+- Evening: one consolidated review prompt, then follow-up only where required.
+- Canonical Task-state changes require user review by default.
+- External evidence creates candidates; no external completion shortcut exists in v1.
+- Parent Task completion is primarily INCOMPLETE / COMPLETE; progress uses cumulative actual effort, remaining effort, and child stages.
+- Every future-relevant incomplete Task must receive a user-provided remaining-effort estimate in review.
+- User remaining-effort estimate remains canonical; model estimate is derived/advisory.
+- Child stages may be reopened for rework with audit history retained.
+- Task importance uses 1–5.
+- Requiredness uses REQUIRED / OPTIONAL / EXPIRING; EXPIRING has an expiration point.
+- Three difficulty dimensions use 1–5: thinking depth, repetitive volume, new-learning load.
+- TaskType templates provide defaults; concrete Tasks inherit and may override.
+- Parent deadline + child stage/subtask planning is accepted.
+- Course Progress Axis uses course-defined units and tracks teaching progress plus task-family progress.
+- Default academic sequences may be soft or hard; soft sequences may be bypassed to protect REQUIRED feasibility.
+- Older Unit-linked unfinished work creates backlog/accumulation warnings.
+- Exam is an independent event/object; preparation is generated as Tasks/Goals.
+- Initial review triggers include three consecutive missed post-class note tasks and exam-preparation phase.
+- SAFE / DANGER / EMERGENCY use required-work feasibility:
+  - SAFE: required work fits while preserving ~1 hour/day safety reserve.
+  - DANGER: required work fits but the reserve is breached.
+  - EMERGENCY: required work exceeds total usable capacity.
+- 1-day / 3-day / 7-day risks are reported separately; overall mode is the worst horizon.
+- When SAFE and only a ~40-minute-or-smaller residual gap remains, normally leave it free rather than filling it for utilization.
+- No generic "start N days early" field is required.
+- First protect REQUIRED feasibility and safety reserve; then use Task importance as a primary criterion for discretionary capacity.
+- Today-only user Task locks are supported and expire at day end.
+- Daily / Weekly / Long-Term Planner horizons share one canonical Task model.
+- Weekly planning includes forward risk, bottlenecks, Course backlog, and Goal pacing.
+- Numeric effort models may learn automatically; behavioral/planning rules require user approval.
+- Historical COMPLETE / CANCELLED / EXPIRED / reopened-stage records are preserved.
+- Two consecutive days without normal interaction triggers a reconciliation reminder.
+- Long-term Goals require onboarding; generated Tasks enter Planner like ordinary Tasks.
+- A0 separates internal semantic contracts from provider-specific adapter contracts.
+
+Authority:
+- detailed user intent: `A0_USER_INTENT.md`
+- gate/closure: `ALIGNMENT_PLAN.md`
+- accepted decisions: `DECISIONS.md`
 
 ---
 
 ## 3. Current Work
 
-The active work is **A0: Interaction and Information-Model Alignment**.
+The active work is **M1 — User and Course Model**.
 
 No implementation task is active.
 
-Current alignment progress:
-- four A0 question rounds are complete and consolidated in `plan/A0_USER_INTENT.md`;
-- normal cadence: morning interaction + evening interaction, roughly 5–10 minutes each;
-- missed-day behavior: automated collection continues, then next interaction performs reconciliation;
-- uncertainty policy: uncertain facts wait for user confirmation and are batched into the next interaction;
-- task granularity is course/task-type dependent and requires a dedicated modeling stage;
-- task difficulty is conceptually split into thinking depth, repetitive volume, and new-learning load;
-- time model needs total effort, minimum useful continuous session, fragmentability, actual effort, and historical calibration;
-- planner should estimate usable free time and recommend workload/block type, not assign exact clock times by default;
-- every new long-term goal needs dedicated onboarding before automatic task generation;
-- external completion evidence is advisory until user confirmation;
-- normal explanations should stay concise and expand mainly for exceptions/risks.
-- morning flow order is accepted: reconcile → confirmations → guided special-circumstance question → capacity → plan;
-- evening review should ask all routine questions in one batch, then follow up only if necessary;
-- incomplete tasks remain INCOMPLETE and store cumulative actual effort plus latest remaining-effort estimate;
-- parent tasks own deadlines; task types normally use fixed decomposition templates;
-- psychological resistance/procrastination should be learned primarily from history, not manually pre-scored;
-- normal plans preserve roughly 40–60 minutes of buffer, with dynamic exceptions for intensive periods;
-- all new task-like content requires user review before canonical task creation;
-- urgent reminders may occur outside normal interactions when required effort approaches/exceeds remaining capacity;
-- planner should compare 1/3/7-day available capacity against due/needed work;
-- time workload and long-horizon feasibility matter more than number of tasks or daily completion percentage.
-- Task is the fundamental operational unit; Course/domain layers are contextual/classification layers;
-- course-level importance is not a primary planner input; importance and requiredness live on Tasks;
-- deadline does not imply requiredness;
-- difficulty dimensions use a 1–5 scale at task level with TaskType defaults;
-- parent Task + stage/subtask daily presentation is accepted;
-- Course Progress Axis is required to attach preview/lecture/note/homework/review and exam coverage;
-- Exam is an independent event/object; preparation is generated as Tasks/Goals;
-- dormant review/catch-up templates may activate under predefined conditions;
-- risk vocabulary is SAFE / DANGER / EMERGENCY;
-- weekly historical evaluation is allowed, but material learned rules require user confirmation before affecting Planner;
-- historical pattern discovery is separated into LEARNING_PLAN rather than hidden inside Planner.
-- Task importance uses 1–5; requiredness uses REQUIRED / OPTIONAL / EXPIRING with explicit expiration;
-- no generic lead-time field: SAFE unused capacity advances future REQUIRED work;
-- TaskType defaults inherit automatically to concrete Tasks unless overridden;
-- Course Progress Axis units are course-defined and track teaching progress plus task-family progress;
-- default academic dependency flow may be templated (preview → class → notes → homework);
-- three consecutive missing post-class note tasks and exam-preparation phase are initial review activation triggers;
-- 1/3/7-day risks are all reported and overall mode uses the worst horizon;
-- normal review sessions should clear the whole pending confirmation queue;
-- confirmation prompts may provide recommended answers;
-- Daily Brief baseline template is stored at `formats/output/DAILY_BRIEF_TEMPLATE.md`, with deadlines shown by default within 3 days;
-- numeric effort-prediction models may learn automatically, while behavioral/planning rules require confirmation;
-- two consecutive days without normal interaction triggers a reminder;
-- long-term goal onboarding fields are accepted and generated Tasks enter Planner as ordinary Tasks;
-- automatic analysis/recommendation is allowed, while canonical truth and key policy remain user-reviewed.
+M1 objective:
+- collect the user's current courses and recurring non-course commitments;
+- model one representative course deeply;
+- establish a reusable Course/Activity profile and Course Progress Axis;
+- apply the structure to the remaining courses/activities.
 
-Remaining alignment goals:
-- decide desired conservatism for SAFE vs DANGER thresholds without fixing implementation math prematurely;
-- confirm whether REQUIRED / OPTIONAL / EXPIRING are sufficient for v1;
-- decide whether stage/subtask effort should be shown separately from parent remaining effort;
-- finalize user-facing section labels/wording for the Daily Brief if needed;
-- confirm whether any external completion-evidence class should receive a shortcut in v1;
-- perform one final semantic consistency review before closing A0
-
-The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
+Important:
+- do not silently import old-chat course facts as current-semester truth;
+- confirm current-semester information with the user;
+- Task remains the eventual planning unit even though M1 models Course/Activity context.
 
 ---
 
@@ -130,109 +112,112 @@ The course model will be used as the first detailed worked example, but current-
 
 Execute in this order:
 
-1. Continue A0 follow-up using unresolved items in `A0_USER_INTENT.md`.
-2. Refine morning/evening interaction and uncertainty-batch behavior.
-3. Discuss module information granularity, beginning with Course.
-4. Confirm how course information affects Task, Planner, Goal, Input, Output, and historical estimation.
-5. Refine task-decomposition and partial-progress semantics.
-6. Identify information categories needed now versus details intentionally deferred.
-7. Confirm the semantic-contract vs adapter-contract rule.
-8. Complete Alignment Gate A0.
-9. Update `PROGRESS.md` to enter M1.
-10. Only then collect the full current course/activity list.
+1. Collect and confirm all current courses.
+2. Collect recurring exercise/training and recurring life/other commitments.
+3. Select one representative course for detailed modeling.
+4. Define its Course Progress Axis and planning-relevant course semantics.
+5. Validate the profile structure with the user.
+6. Apply the structure to the remaining courses/activities.
+7. Complete M1 acceptance criteria.
+8. Move to M1B for per-course/task-type decomposition presets.
+9. Then move to M2 Task and I/O contracts.
+10. Only after those semantic contracts stabilize, begin persistence/infrastructure work.
 
 ---
 
 ## 5. Pending User Information
 
-Needed now for A0:
-- short final answers on the narrow remaining items in `A0_USER_INTENT.md`
-- preferred conservatism of risk thresholds
-- whether the three requiredness classes are sufficient for v1
-- stage/subtask effort display preference
-- any desired external-completion shortcut policy
-- final consistency confirmation
+Needed now for M1:
+- current semester course list
+- recurring exercise/training
+- recurring life/administrative/other commitments
+- one representative course to model first
+- per-course task patterns and progress-unit meaning as M1 proceeds
 
-Needed after A0 for M1:
-- Current semester course list
-- Recurring sports/training schedule or categories
-- Recurring life/other commitments
-- Course-specific workload/difficulty/task patterns
+Needed later for M1B:
+- representative task types for each course/activity
+- decomposition templates
+- difficulty defaults
+- minimum useful session
+- fragmentability
+- hard vs soft dependency exceptions
 
 Needed later for M2:
-- Real task examples
-- Natural-language examples of task creation/correction/completion
-- Daily output preferences
+- concrete task creation/update/completion examples
+- exact machine-facing Task schema decisions
+- input/output examples and remaining edge cases
 
 Needed later:
-- Timetable and Calendar rules
-- Email-source rules
-- Learning-platform details
-- Planning preferences
-- Model-cost policy
+- timetable and real Calendar integration details
+- email-source rules
+- learning-platform access/details
+- model-cost policy
 
-Do not request later-stage information prematurely unless it becomes necessary to resolve a current design dependency.
+Do not request later-stage information prematurely unless it becomes necessary to resolve a current dependency.
 
 ---
 
 ## 6. Blockers
 
-No technical blocker is currently known.
+No technical blocker is known.
 
-Primary dependency:
-- A0 requires enough user-AI discussion to confirm the interaction model and semantic granularity philosophy.
-- M1 starts only after A0 is accepted.
+Current dependency:
+- M1 requires confirmed current-semester user/course/activity information.
 
 ---
 
 ## 7. Deferred Work
 
 Do not start these yet:
-- Exact PostgreSQL tables/migrations
+- exact PostgreSQL tables/migrations
 - n8n deployment/workflows
-- Calendar API integration
+- Calendar API adapter mapping
 - Email connector
 - Learning-platform scraper
-- Priority formula
-- Scheduling algorithm
+- exact Planner scoring formula
+- exact scheduling algorithm
 - AI Router implementation
-- Cloud/VPS selection
-- Historical-learning implementation
+- cloud/VPS selection
+- historical-learning implementation
 
 Reason:
-- These depend on Phase 1 contracts and would create avoidable rework if started now.
+- these depend on M1/M1B/M2 contracts and would create avoidable rework if started now.
 
 ---
 
 ## 8. Verification Status
 
 Verified:
-- Planning files and format directories exist in the GitHub repository.
-- n8n-only decision has been incorporated into planning.
+- planning files and format directories exist in the GitHub repository;
+- A0 requirements are consolidated into repository planning documents;
+- A0 cross-file consistency audit completed for the final rule changes;
+- A0 is accepted as complete;
+- M1 is the next/current milestone.
 
 Not yet verified:
-- Any runtime behavior
-- Any connector
-- Any database
-- Any scheduling behavior
-- Any automatic daily plan generation
+- any runtime behavior
+- any connector
+- any database
+- any scheduling behavior
+- any automatic Daily Brief generation
+- any learning algorithm
 
 ---
 
 ## 9. Progress Update Protocol
 
 After each meaningful session, update at least:
-- Last updated date if material progress occurred
-- Current milestone/phase
-- Completed items
-- Current work
-- Immediate next actions
-- Pending user information
-- Blockers
-- Verification status
+- last updated date if material progress occurred
+- current milestone/phase
+- completed items
+- current work
+- immediate next actions
+- pending user information
+- blockers
+- verification status
 
 When a milestone is completed:
-1. Mark it complete here.
-2. Move Current milestone to the next milestone.
-3. Check whether `DEVELOPMENT_PLAN.md` acceptance criteria are actually satisfied.
-4. Do not advance based on intent alone.
+1. mark it complete here;
+2. move Current milestone to the next milestone;
+3. check `DEVELOPMENT_PLAN.md` acceptance criteria;
+4. do not advance based on intent alone.
