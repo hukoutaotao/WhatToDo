@@ -42,6 +42,10 @@ Normalized source record/change
 ↓
 Validation/deduplication
 ↓
+Candidate / pending-review layer
+↓
+User review for new task-like canonical content
+↓
 State Store
 ↓
 Planner
@@ -159,6 +163,15 @@ Completion-specific rule:
 - external evidence may suggest a task is complete;
 - unless the evidence is governed by a future explicitly accepted auto-confirmation rule, create a pending confirmation;
 - normal user confirmation, usually in the evening review, changes canonical completion state.
+
+New-task rule:
+- even apparently clear assignment/task discoveries should enter as candidates first;
+- morning/evening review confirms or corrects them before canonical task creation;
+- raw source records may still be stored automatically.
+
+Urgent-notification rule:
+- integrations may deliver notifications, but feasibility/risk determination belongs to Planner/risk logic;
+- connector code should not independently invent urgency.
 
 ---
 
