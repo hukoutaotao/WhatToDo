@@ -118,6 +118,9 @@ Minimum future signals:
 - database health
 - daily plan generated/not generated
 - reconciliation status
+- pending user-confirmation backlog
+- deadline feasibility/risk alerts
+- missed-user-update reminder state
 
 Prefer actionable logs over verbose raw dumps.
 
@@ -133,6 +136,8 @@ Examples:
 - AI provider fails → fall back or defer; do not corrupt state.
 - Database unavailable → stop mutations and surface failure.
 - n8n workflow partially fails → retry idempotently.
+
+Notification channels and exact thresholds are deferred, but operations must support proactive alerts for deadline-feasibility risk and prolonged missing user updates.
 
 ---
 
