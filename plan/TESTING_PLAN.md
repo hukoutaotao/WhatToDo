@@ -123,6 +123,12 @@ Once PostgreSQL exists:
 - Integration-specific unknowns are explicitly deferred instead of guessed.
 
 Additional A0 behavioral acceptance:
+- Task is documented as the fundamental planning unit;
+- course-level importance is not used as a primary Planner variable;
+- importance and requiredness are distinct and deadline does not imply requiredness;
+- three difficulty dimensions use 1–5 task-level scales with TaskType defaults;
+- Course Progress Axis and Exam coverage semantics are documented;
+- learned behavioral rules require confirmation before materially changing Planner;
 - morning and evening interaction semantics are recorded;
 - uncertainty does not silently mutate trusted state;
 - task difficulty can represent the three accepted dimensions;
@@ -170,6 +176,10 @@ Additional A0 behavioral acceptance:
 ### Phase 7
 - multi-day inactivity recovery succeeds on realistic fixture.
 - historical calibration changes estimates without corrupting history.
+- weekly analyzer can reproduce candidate learned patterns from historical fixtures.
+- rejected learned rules do not affect Planner.
+- accepted learned rules do affect Planner.
+- capacity-driven delay is not automatically classified as procrastination.
 
 ---
 
