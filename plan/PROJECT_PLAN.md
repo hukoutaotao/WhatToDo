@@ -882,71 +882,28 @@ These should be decided after module boundaries and data contracts are clearer.
 
 ---
 
-## 23. Near-Term Planning Sequence
+## 23. Development Order
 
-Before implementation, proceed in this order:
+The authoritative implementation order is maintained in:
 
-### Phase A — Architecture definition
+`plan/DEVELOPMENT_PLAN.md`
 
-Define:
+This architecture document defines **what the system is and why it is designed this way**.  
+The development plan defines **what to build first, what depends on what, what information the user must provide, and when each capability is considered complete**.
 
-- Module boundaries
-- Data flow
-- Ownership of each type of state
-- Trust boundaries
-- Input/output contracts
+When the two documents appear to differ on implementation order, `DEVELOPMENT_PLAN.md` takes precedence for sequencing. Architectural constraints in this document still apply unless explicitly superseded.
 
-### Phase B — Domain model
+The high-level order is:
 
-Define entities such as:
+1. Define the user's domain model, task model, input contract, and output contract.
+2. Build structured memory and canonical state storage.
+3. Integrate calendar/time availability.
+4. Add automatic external information collection.
+5. Build deterministic planning and daily-plan generation.
+6. Add AI routing, validation, and premium/manual AI execution.
+7. Add recovery, weekly planning, and historical self-correction.
 
-- Course
-- Task
-- TaskTemplate
-- Goal
-- Milestone
-- Event
-- Constraint
-- Routine
-- SourceRecord
-- StateRecord
-- AIJob
-- Plan
-- WorkSession
-
-### Phase C — State transitions
-
-Define:
-
-- Task lifecycle
-- Verification lifecycle
-- Source ingestion lifecycle
-- Stale-state lifecycle
-- AI patch lifecycle
-
-### Phase D — Minimal vertical prototype
-
-Implement a narrow end-to-end flow, likely:
-
-```text
-manual course/task input
-+ Google Calendar read
-+ PostgreSQL
-+ simple deterministic planner
-+ daily brief
-```
-
-Do not start with every connector.
-
-### Phase E — Add automation
-
-Introduce n8n and scheduled workflows.
-
-### Phase F — Add email and learning-platform connectors
-
-### Phase G — Add AI routing and model cost optimization
-
-### Phase H — Add weekly planning, historical learning, and advanced replanning
+Do not begin later phases merely because their technologies are available. A phase should start only when the data contracts and prerequisites it depends on are stable enough to test end-to-end.
 
 ---
 
