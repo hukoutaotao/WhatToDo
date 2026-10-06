@@ -1,7 +1,7 @@
 # WhatToDo — User / Course Model Plan
 
 > Purpose: Define how WhatToDo learns the user's stable working context before task/database implementation.
-> Current relevance: This becomes the active modeling document after Alignment Gate A0 is accepted. The project is currently still in A0.
+> Current relevance: Alignment Gate A0 is complete. This is the active modeling document for current milestone M1.
 
 ## 1. Scope
 
