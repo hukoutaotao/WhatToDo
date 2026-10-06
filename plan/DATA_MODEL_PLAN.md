@@ -84,8 +84,9 @@ Must eventually support:
 - minimum useful continuous session
 - fragmentability
 - dependencies / parent-stage relation where needed
-- requiredness (separate from deadline)
-- importance (separate from requiredness)
+- requiredness: REQUIRED / OPTIONAL / EXPIRING
+- expiration point for EXPIRING tasks
+- importance: integer 1–5
 - status
 - verification/confidence
 
@@ -97,6 +98,7 @@ A normal task type should generally map to a stable decomposition template.
 Template concepts may include:
 - stage/subtask structure
 - default 1–5 thinking depth / repetitive volume / new-learning load
+- default importance/requiredness where appropriate
 - inherited difficulty dimensions
 - default total-effort range
 - minimum useful session
@@ -124,6 +126,12 @@ Kinds:
 
 ### CourseProgressPosition / CourseProgressRange
 Semantic position on a course's instructional axis.
+
+Each course may define what one progress unit means (lecture, chapter, experiment, topic, etc.).
+
+Separate:
+- teaching progress on the axis;
+- per-task-family completion progress along the same axis.
 
 Examples:
 - before lesson 5
@@ -246,6 +254,8 @@ COMPLETE
 ```
 
 A task may have substantial work already invested and still remain INCOMPLETE.
+
+For EXPIRING tasks, expiration may end the task's usefulness without implying successful completion.
 
 Represent "has started" through execution/history facts such as:
 - WorkSession records
