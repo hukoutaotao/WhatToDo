@@ -80,7 +80,6 @@ Must eventually support:
 - thinking depth
 - repetitive volume
 - new-learning load
-- importance
 - minimum useful continuous session
 - fragmentability
 - dependencies / parent-stage relation where needed
@@ -127,6 +126,8 @@ Kinds:
 ### CourseProgressPosition / CourseProgressRange
 Semantic position on a course's instructional axis.
 
+Derived backlog logic should be able to detect older Unit-linked Tasks that remain incomplete after teaching/task-family progress moves ahead.
+
 Each course may define what one progress unit means (lecture, chapter, experiment, topic, etc.).
 
 Separate:
@@ -166,6 +167,9 @@ Examples:
 - class cannot move
 - no high-cognitive work after a certain hour
 - lab task needs at least 90 minutes
+- today-only user Task lock that expires at end of day
+
+Temporary overrides should carry an expiry/scope so one-day instructions do not silently become persistent preferences.
 
 ### SourceRecord
 Immutable or append-oriented provenance for raw/normalized facts.
@@ -212,6 +216,13 @@ Must support batching into the next normal user interaction.
 
 ### EffortHistory / EstimationObservation
 Historical evidence for improving future duration estimates and feeding `LEARNING_PLAN.md`.
+
+Estimate provenance should distinguish at least:
+- user-confirmed/canonical remaining-effort estimate;
+- model-derived advisory prediction;
+- timestamp/version of the observation.
+
+Model disagreement may create risk information but does not overwrite the user's canonical estimate.
 
 Should distinguish:
 - estimated effort
@@ -265,11 +276,14 @@ Represent "has started" through execution/history facts such as:
 
 Do not require an IN_PROGRESS completion state for the parent task.
 
-Other lifecycle concepts such as:
-- cancelled
-- expired / no longer relevant
-- overdue
-may exist as orthogonal task disposition/risk metadata and will be finalized during Task-model design.
+Other lifecycle/disposition concepts include:
+- CANCELLED
+- EXPIRED / no longer relevant
+- OVERDUE risk metadata
+
+Child stages/subtasks may transition from completed back to incomplete/reopened when rework is discovered.
+
+Historical outcomes and state transitions must be retained. Normal COMPLETE/CANCELLED/EXPIRED history should not be hard-deleted; deletion/merge is mainly for erroneous records, duplicates, or explicit policy/privacy removal.
 
 ---
 
@@ -333,7 +347,14 @@ Historical calibration should use actual work sessions rather than only self-rep
 
 User evening review is the primary routine point for confirming actual completion and actual effort.
 
-Externally inferred completion should normally create a pending confirmation rather than directly changing the Task to COMPLETED.
+For every INCOMPLETE Task that remains relevant to future planning, evening review must obtain a user-provided estimated remaining effort. If omitted, continue requesting it.
+
+Externally inferred completion must create a pending confirmation rather than directly changing the Task to COMPLETE in v1.
+
+When model and user remaining-effort estimates disagree:
+- user estimate remains canonical;
+- model estimate remains derived/advisory;
+- disagreement may produce an estimation-risk signal.
 
 ---
 
