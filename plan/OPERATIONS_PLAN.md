@@ -121,6 +121,7 @@ Minimum future signals:
 - pending user-confirmation backlog
 - deadline feasibility/risk alerts
 - missed-user-update reminder state
+- consecutive days without normal user interaction
 
 Prefer actionable logs over verbose raw dumps.
 
@@ -138,6 +139,9 @@ Examples:
 - n8n workflow partially fails → retry idempotently.
 
 Notification channels and exact thresholds are deferred, but operations must support proactive alerts for deadline-feasibility risk and prolonged missing user updates.
+
+Current semantic reminder rule:
+- after two consecutive days without a normal user interaction, proactively request a state update/reconciliation.
 
 ---
 
