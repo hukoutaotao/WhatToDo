@@ -1,6 +1,6 @@
 # WhatToDo — A0 User Intent and Interaction Model
 
-> Status: AUTHORITATIVE USER-INTENT RECORD FOR A0
+> Status: A0 COMPLETE — AUTHORITATIVE USER-INTENT RECORD
 > Source: Direct user answers during Alignment Gate A0.
 > Audience: AI agents and maintainers.
 > Purpose: Preserve the intended user experience and semantic requirements in a compact form that future AI agents can use without relying on chat history.
@@ -537,25 +537,26 @@ Exact inference methodology is deferred until sufficient real history exists.
 
 ---
 
-## 21. Daily Capacity Buffer
+## 21. Daily Safety Reserve and Small-Gap Policy
 
-Planning should prioritize deadline safety first, then use available capacity efficiently.
+The normal SAFE threshold uses a target of **1 hour of unallocated capacity per day** after REQUIRED work is accounted for.
 
-Normal preference:
-- preserve approximately **40–60 minutes of unallocated/rest buffer per day** rather than planning every available minute.
+This hour serves as:
+- rest space;
+- contingency for estimate error;
+- protection against unexpected events.
 
-This is both:
-- genuine rest space;
-- contingency capacity when estimates or events change.
+When the reserve falls below the target but REQUIRED work can still fit, the relevant horizon becomes DANGER.
 
-The buffer is not a hard invariant.
+When even all usable capacity is insufficient for REQUIRED work, the relevant horizon becomes EMERGENCY.
 
-During explicitly recognized intensive periods such as exam sprint/review phases, planned study load may intentionally increase and the buffer may shrink.
+This is a planning safety threshold, not a guarantee that exactly one continuous hour must appear on the calendar.
 
-Planner policy must therefore be:
-- deadline and critical-goal safety first;
-- reasonable daily buffer under normal conditions;
-- dynamic higher load when justified by a recognized high-intensity phase.
+Small-gap rule:
+- when overall state is SAFE and the remaining free gap is only about **40 minutes or less**, do not schedule extra work merely to maximize utilization;
+- in DANGER or EMERGENCY, such time may be used when an eligible task can productively fit.
+
+During high-intensity periods, DANGER/EMERGENCY logic may consume part or all of the normal reserve.
 
 ---
 
@@ -936,18 +937,29 @@ The user prefers these conditions to be configured ahead of time rather than the
 
 ## 37. Risk State Vocabulary
 
-Use three high-level feasibility states:
+Use three high-level feasibility states for each planning horizon.
+
+Let:
+- `C` = usable capacity in the horizon;
+- `R` = expected effort of REQUIRED work that must be completed in the horizon;
+- `S` = safety reserve target, approximately **1 hour per day represented in the horizon**.
 
 ### SAFE
-Current/planned workload is comfortably feasible within available capacity.
+`C - R >= S`
+
+Required work is feasible while preserving the normal safety reserve.
 
 ### DANGER
-Capacity margin is low enough that the user should be warned and work may need to be advanced or intensified.
+`0 <= C - R < S`
+
+Required work is still mathematically feasible, but the normal safety reserve has been consumed.
 
 ### EMERGENCY
-Projected required work exceeds, or is effectively at risk of exceeding, feasible remaining capacity before one or more hard deadlines.
+`C - R < 0`
 
-Exact numeric thresholds are deferred.
+Even using all usable capacity, REQUIRED work is projected not to fit.
+
+For the 1/3/7-day forecasts, the safety reserve scales with the number of days in the horizon. Exact handling of partial days and implementation rounding may be finalized during Planner implementation.
 
 ---
 
@@ -1087,29 +1099,30 @@ Examples:
 
 ---
 
-## 43. No Separate Lead-Time Rule: Always Advance Required Work When Capacity Is Safe
+## 43. No Separate Lead-Time Rule: Protect Feasibility, Then Use Importance
 
-Do **not** introduce a separate "start this task type N days early" planning field as a core mechanism.
+Do **not** introduce a generic "start this task type N days early" property as a core mechanism.
 
 Preferred principle:
 
 ```text
-protect required work first
+first make all REQUIRED work feasible
 ↓
-check future capacity/risk
+preserve the SAFE reserve when possible
 ↓
-if SAFE and usable time remains
+if discretionary capacity remains
 ↓
-advance future required work
+rank eligible work mainly by Task importance
 ↓
-continue building slack/buffer
+advance the most valuable work
 ```
 
-The planner should continuously pull future required work forward whenever doing so uses otherwise available capacity and improves long-term feasibility.
+Therefore:
+- future REQUIRED work may be advanced;
+- high-importance OPTIONAL/EXPIRING work may also be chosen once REQUIRED feasibility is protected;
+- the Planner should not blindly pull REQUIRED work from arbitrarily far in the future while ignoring importance and rest.
 
-If required work cannot fit, risk state escalates and emergency/danger handling applies.
-
-This replaces a manually configured generic lead-time rule.
+No generic lead-time field is needed.
 
 ---
 
@@ -1170,9 +1183,7 @@ This allows the system to detect structured lag rather than relying on a single 
 
 ## 47. Default Academic Task Dependency Flow
 
-Course/task templates may predefine dependencies.
-
-A common pattern may be:
+Course/task templates may predefine a normal learning sequence such as:
 
 ```text
 preview
@@ -1181,9 +1192,20 @@ preview
 → exercise/homework
 ```
 
-Specific courses may override this structure.
+Dependency semantics must distinguish:
 
-Concrete tasks inherit the template dependency structure unless an exception is explicitly needed.
+### Hard dependency
+The downstream task is genuinely impossible or invalid before the prerequisite.
+
+### Default/soft sequence
+The order is educationally preferred but may be bypassed when capacity is tight and a REQUIRED downstream task must be protected.
+
+If the Planner bypasses a normal sequence, it should surface the exception rather than silently pretending the prerequisite was completed.
+
+### Backlog detection
+If teaching/task-family progress moves ahead while older Unit-linked tasks remain incomplete (for example, teaching reaches Unit 6 while Unit 5 work remains open), the system should report a backlog/accumulation warning.
+
+Specific courses may override their default dependency structure.
 
 ---
 
@@ -1407,18 +1429,98 @@ Core principle:
 
 ---
 
-## 58. A0 Items Still Requiring Follow-Up
+## 58. Final A0 Decisions
 
-After the first four rounds, most major semantics are aligned.
+### Parent/stage effort display
+Normal Daily Brief display should show:
+- parent Task remaining total effort;
+- today's selected stage/subtask;
+- today's stage/subtask estimated effort.
 
-Remaining A0 questions are now narrow:
+Do not expand every child-stage estimate unless requested.
 
-- exact numeric/relative philosophy for SAFE vs DANGER threshold (implementation can remain deferred, but desired conservatism may still need discussion);
-- whether `OPTIONAL` and `EXPIRING` ever need subtypes or whether three requiredness classes are sufficient for v1;
-- exact user-facing labels/wording for Daily Brief sections;
-- whether stage/subtask estimated effort is shown separately from parent remaining effort;
-- exact presentation of the weekly learned-pattern review;
-- whether external completion-evidence classes need any special confirmation shortcuts in v1;
-- any remaining semantic gaps discovered during one final consistency review.
+### Reopening child stages
+A completed child stage/subtask may be reopened when later work reveals rework is necessary.
 
-These are suitable for a short final A0 round rather than another broad redesign.
+Historical state changes must remain auditable.
+
+### Today-only user lock
+If the user explicitly says a Task must be completed/advanced today, create a temporary highest-priority daily override.
+
+The Planner must replan around it.
+
+If the request is physically incompatible with other hard obligations, surface the conflict rather than silently ignoring the user's instruction.
+
+The override expires automatically at the end of the day unless the user explicitly converts it into a persistent rule.
+
+### External completion evidence
+For v1, **no external completion signal bypasses confirmation**.
+
+Even a strong source such as "submitted at 21:35" produces:
+- candidate evidence;
+- recommended completion confirmation;
+- no canonical completion change until the user approves.
+
+### Remaining-effort requirement
+For every INCOMPLETE Task that will remain relevant to future planning, evening review must obtain a user-provided remaining-effort estimate.
+
+If it is omitted, continue asking until the user supplies an estimate.
+
+The system may offer a model estimate as assistance, but it must not silently substitute it for the user's canonical estimate.
+
+### User estimate vs model estimate
+When user and model estimates conflict:
+- preserve the user's estimate as canonical personal state;
+- retain the model prediction separately as advisory/derived information;
+- allow the model disagreement to create an estimation-risk warning;
+- do not overwrite the user estimate automatically.
+
+### SAFE-state discretionary ordering
+Once REQUIRED feasibility and the safety reserve are protected, Task importance (1–5) becomes a primary criterion for using additional capacity.
+
+There is no invariant that future REQUIRED work always outranks higher-importance OPTIONAL/EXPIRING work once REQUIRED feasibility is already secured.
+
+### Planning horizons
+Use three coordinated planner layers:
+
+- **Daily Planner**: today's actionable work + 1/3/7-day feasibility.
+- **Weekly Planner**: next roughly 2–4 weeks, workload distribution, backlog, upcoming bottlenecks, and forward risk preview.
+- **Long-Term Planner**: whole Goal/Exam/project horizon, phases, milestones, and long-run workload generation.
+
+These layers share the same canonical Task model rather than maintaining separate task worlds.
+
+### Weekly forward-risk preview
+Weekly review should explicitly surface future risk, including:
+- unusually tight future days;
+- large work that should start before it becomes urgent;
+- Course Progress Axis backlog;
+- long-term Goal pacing deficits.
+
+### History retention
+Preserve historical records for:
+- COMPLETE;
+- CANCELLED;
+- EXPIRED;
+- reopened stages;
+- previous estimates and state transitions.
+
+Do not hard-delete normal historical outcomes.
+
+Deletion/merge is reserved mainly for:
+- erroneous records;
+- duplicates;
+- data that must be removed for explicit policy/privacy reasons.
+
+---
+
+## 59. A0 Closure
+
+The user considers the current information/interaction alignment sufficient to begin M1.
+
+A0 is therefore **COMPLETE**.
+
+The purpose of A0 was to align semantics, authority, interaction, and planning philosophy—not to freeze every future implementation detail.
+
+Remaining implementation-specific choices, including exact database schema, connector mappings, numerical tuning, UI wording refinements, and provider-specific APIs, are intentionally deferred to their appropriate milestones.
+
+If later development reveals a genuine semantic conflict, return to the A0 principles and update the authoritative documents rather than silently diverging.
