@@ -325,8 +325,9 @@ Unless explicitly changed by the user:
 - AI output should normally be a structured proposal validated before state mutation.
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
-- The project is currently in pre-development interaction/information-model alignment, not infrastructure implementation.
-- Alignment Gate A0 must be completed before M1 domain collection and before any implementation.
+- Alignment Gate A0 is complete.
+- The project is currently in M1 user/course modeling, not infrastructure implementation.
+- Broad A0 questioning should not be reopened unless later work reveals a genuine semantic contradiction.
 - Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
 For rationale, read `DECISIONS.md` and `PROJECT_PLAN.md`.
