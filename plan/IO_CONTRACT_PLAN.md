@@ -193,6 +193,10 @@ New task-like content discovered externally must be reviewed by the user before 
 
 More generally, consequential canonical personal task-state mutations require user confirmation by default. Automated ingestion updates evidence/candidates, not accepted operational truth.
 
+Normal morning/evening review should attempt to clear the entire pending confirmation queue in that interaction.
+
+Where responsible, present a recommended interpretation/template so the user can confirm or modify rather than rebuild the record manually.
+
 Example:
 "This homework is actually due Friday, not Thursday."
 
@@ -238,15 +242,19 @@ Potential sections:
 
 Do not require exact clock assignment for every task in the normal output.
 
-Risk output may summarize 1/3/7-day capacity versus required work when useful.
+Risk output should report 1-day, 3-day, and 7-day states separately. Overall mode uses the most severe horizon.
 
 Urgent feasibility-risk notifications are allowed outside the normal morning/evening interaction; exact channel and threshold are deferred.
 
-The user will define exact brevity/order during M2.
+The current A0-approved human template is stored at `../formats/output/DAILY_BRIEF_TEMPLATE.md`.
+
+M2 may refine exact wording without silently changing its accepted semantics.
 
 Default explanation policy:
 - concise during normal operation;
 - expand for abnormal/risky/uncertain/surprising recommendations or when explicitly requested.
+
+Show an explicit deadline by default when it is within 3 days, when the task is risky, or when the user requests detail.
 
 ---
 
