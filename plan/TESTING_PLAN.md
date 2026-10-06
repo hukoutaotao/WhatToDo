@@ -150,6 +150,7 @@ Additional A0 behavioral acceptance:
 - connectors ingest without duplicates.
 - failures preserve prior trusted state.
 - newly discovered task-like content remains candidate until user confirmation.
+- deadline/progress/completion candidates do not mutate accepted task state without confirmation.
 - repeated polling does not bypass the confirmation boundary.
 
 ### Phase 5
