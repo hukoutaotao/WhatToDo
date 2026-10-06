@@ -753,6 +753,8 @@ Completion authority:
 
 ### M1 — User and course model
 
+This milestone is intentionally information-rich. Detailed per-course modeling is expected to be one of the largest user-input activities in the project.
+
 Need from user:
 - All current courses
 - Recurring exercise/training
@@ -762,6 +764,29 @@ Need from user:
 Deliverables:
 - Domain taxonomy
 - Course/activity profiles
+- Planning-relevant course semantics
+
+### M1B — Course / task-type decomposition presets
+
+Purpose:
+- define task granularity separately for each course/task class instead of forcing one universal decomposition rule.
+
+Need from user:
+- representative tasks from each course/task class
+- preferred decomposition depth
+- meaningful stages/subtasks
+- thinking-depth, repetitive-volume, and new-learning-load characteristics
+- total-time tendencies
+- minimum useful continuous session
+- fragmentability
+- recurring stage/dependency patterns
+
+Deliverables:
+- per-course/task-type decomposition presets
+- extensible task-type taxonomy
+- rules for when to split and when not to split
+- multi-dimensional difficulty representation
+- effort/session defaults that task instances may inherit
 
 ### M2 — Task and I/O contracts
 
@@ -769,6 +794,9 @@ Need from user:
 - Real task examples
 - Natural-language task/change examples
 - Desired daily output
+- partial-progress/update examples
+- uncertainty/confirmation examples
+- examples of externally detected possible completion
 
 Deliverables:
 - Task schema
@@ -807,6 +835,25 @@ Deliverables:
 - Email connector
 - Learning-platform connector
 - Provenance and deduplication
+
+### M5B — Long-term goal onboarding model
+
+Purpose:
+- define the dedicated setup interaction that runs whenever the user creates a new long-term goal.
+
+Need from user:
+- example long-term goals
+- overall target/outcome
+- total workload or measurable target
+- desired daily/recurring work
+- target date
+- milestone/phase preferences
+- progress measurement
+
+Deliverables:
+- goal onboarding interaction contract
+- goal/milestone/task-generation semantics
+- rules for integrating configured goal work into daily planning automatically
 
 ### M6 — Planning MVP
 
@@ -858,13 +905,15 @@ Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping,
 
 Recommended immediate sequence:
 
-1. Confirm the user-AI development interaction model.
-2. Discuss what "enough detail" means for each major module.
-3. Use Course as the first worked example of information granularity and downstream effects.
-4. Confirm the semantic-contract vs adapter-contract boundary.
-5. Mark Calendar/Gmail/learning-platform provider-specific interface questions as deferred until their integration phases.
-6. Complete Alignment Gate A0.
-7. Then list current courses and recurring commitments and enter M1.
-8. After M1, proceed to Task and I/O contracts before persistence.
+1. Continue A0 using the unresolved items recorded in `A0_USER_INTENT.md`.
+2. Refine the morning/evening interaction sequences and pending-confirmation behavior.
+3. Discuss what "enough detail" means for each major module.
+4. Use Course as the first worked example of information granularity and downstream effects.
+5. Confirm the semantic-contract vs adapter-contract boundary.
+6. Mark Calendar/Gmail/learning-platform provider-specific interface questions as deferred until their integration phases.
+7. Complete Alignment Gate A0.
+8. Enter M1 and model all current courses/activities.
+9. Complete M1B per-course/task-type decomposition presets.
+10. Proceed to M2 Task and I/O contracts before persistence.
 
 This order minimizes rework by aligning meaning before either collecting large amounts of project data or implementing technical interfaces.
