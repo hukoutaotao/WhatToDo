@@ -31,10 +31,13 @@ Expected conceptual inputs:
 - active tasks
 - deadlines
 - progress/remaining effort
+- thinking depth / repetitive volume / new-learning load
+- minimum useful continuous session
+- fragmentability
 - course/activity profiles
 - goal/milestone state
 - fixed events
-- available windows
+- total usable free time and available-window characteristics
 - user constraints
 - historical calibration
 - optional risk signals
@@ -62,7 +65,25 @@ Soft constraints should influence scoring, not masquerade as impossibility.
 
 ---
 
-## 5. Planning Horizons
+## 6. Planning Horizons
+
+## 5. Daily Output Philosophy
+
+The normal planner output is recommendation-oriented, not a rigid timetable.
+
+It should:
+- estimate approximately how much usable free time exists today;
+- allocate a realistic amount of work to that capacity;
+- avoid chronic overfilling and unnecessary underfilling;
+- identify which tasks require large uninterrupted blocks;
+- identify which tasks are suitable for fragmented time;
+- protect deadlines and long-term workload.
+
+It should not, by default, assign exact clock times to every task.
+
+Internal availability reasoning may use real time windows even when the user-facing output does not expose a minute-by-minute schedule.
+
+---
 
 ### Daily
 Concrete executable plan.
@@ -77,7 +98,7 @@ The same data model should support all horizons; do not build three unrelated pl
 
 ---
 
-## 6. Priority vs Scheduling
+## 7. Priority vs Scheduling
 
 Keep distinct:
 
@@ -91,7 +112,7 @@ A task may have high priority but still need a later focus window because the ne
 
 ---
 
-## 7. Task Splitting
+## 8. Task Splitting
 
 Planner should eventually support:
 - total remaining effort
@@ -105,7 +126,7 @@ Avoid scheduling vague "work on assignment" blocks when a more concrete sub-goal
 
 ---
 
-## 8. Goal Integration
+## 9. Goal Integration
 
 Long-term goals must inject workload before urgency becomes extreme.
 
@@ -120,7 +141,7 @@ Goal workload should compete for real capacity alongside coursework.
 
 ---
 
-## 9. Daily Plan Output
+## 10. Daily Plan Output
 
 Structured result should support:
 - must do
@@ -136,9 +157,11 @@ Human rendering is governed by IO_CONTRACT_PLAN and formats/output.
 
 ---
 
-## 10. Explainability
+## 11. Explainability
 
-For material choices, planner should be able to give compact reasons such as:
+Default user-facing explanations should be minimal.
+
+For abnormal, risky, uncertain, surprising, or major-replanning choices, planner should be able to give compact reasons such as:
 - deadline approaching
 - large remaining effort
 - only suitable focus window today
@@ -149,7 +172,7 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 11. Failure Modes to Guard Against
+## 12. Failure Modes to Guard Against
 
 - Overfilling the day
 - Scheduling impossible overlaps
@@ -159,10 +182,13 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 - Treating all courses/tasks as equal
 - Making a plan dependent on one model call
 - Silently planning from stale state
+- Marking uncertain state as fact instead of surfacing confirmation
+- Overusing short fragments for tasks that need deep continuity
+- Ignoring historical underestimation patterns
 
 ---
 
-## 12. User Inputs Needed Before Implementation
+## 13. User Inputs Needed Before Implementation
 
 - desired daily load
 - buffer preference
@@ -175,7 +201,7 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 13. Dependencies
+## 14. Dependencies
 
 Requires:
 - DATA_MODEL_PLAN
