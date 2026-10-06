@@ -111,6 +111,13 @@ Once PostgreSQL exists:
 
 ## 7. Phase Acceptance Gates
 
+### Alignment Gate A0
+- User-AI interaction model is documented and accepted.
+- Module information categories and granularity are sufficiently understood for near-term work.
+- Cross-module effects are documented.
+- Semantic contracts are distinguished from provider adapter contracts.
+- Integration-specific unknowns are explicitly deferred instead of guessed.
+
 ### Phase 1
 - Real courses/tasks fit schemas.
 - Input examples normalize without ad hoc hacks.
