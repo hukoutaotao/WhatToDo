@@ -42,6 +42,7 @@ This is intentional. The approved roadmap requires semantic/data contracts befor
 - Specialized plans now exist for alignment, user/course modeling, data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
 - `plan/ALIGNMENT_PLAN.md` defines the required pre-development interaction/information alignment gate A0.
 - `plan/A0_USER_INTENT.md` stores the canonical interpretation of the user's first A0 answers and feeds downstream planning documents.
+- `plan/LEARNING_PLAN.md` defines historical estimation calibration, behavior-pattern discovery, weekly analysis, and user-confirmed learned rules.
 
 ### Accepted major decisions
 - Project goal is a long-lived personal task/schedule operating system, not a simple to-do list.
