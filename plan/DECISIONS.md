@@ -615,3 +615,160 @@ Affected:
 - IO_CONTRACT_PLAN
 - INTEGRATION_PLAN
 - TESTING_PLAN
+
+
+---
+
+## D-034 — Task is the fundamental planning unit
+
+Status: Accepted
+
+Decision:
+Task is the fundamental operational/planning unit.
+
+Course, study/exercise/life domains, and similar layers are contextual classifications for understanding, grouping, defaults, and generation.
+
+Planning-relevant difficulty, effort, importance, requiredness, and completion are primarily Task properties or TaskType defaults.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-035 — Course importance is not a primary planning variable
+
+Status: Accepted
+
+Decision:
+Do not use Course importance as a primary Planner input.
+
+Importance and requiredness should be expressed on Tasks, Goals, Exams, or generated work.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-036 — Importance and requiredness are separate
+
+Status: Accepted
+
+Decision:
+Task importance and whether the task must ultimately be completed are separate dimensions.
+
+A deadline does not imply requiredness.
+
+Examples include optional exercises that expire after class.
+
+Affected:
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- USER_MODEL_PLAN
+
+---
+
+## D-037 — Three-dimensional difficulty uses 1–5 task-level scales
+
+Status: Accepted
+
+Decision:
+Thinking depth, repetitive volume, and new-learning load each use a 1–5 scale.
+
+TaskType templates define defaults; concrete Tasks inherit and may override them.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-038 — Course Progress Axis
+
+Status: Accepted
+
+Decision:
+Each academic course should support an instructional progress axis.
+
+Tasks and exams may attach to semantic positions/ranges such as:
+- before lesson N;
+- during lesson N;
+- after lesson N;
+- lessons A–B.
+
+The axis supports prerequisites, review generation, backlog tracking, and exam coverage.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-039 — Exam is an independent event/object
+
+Status: Accepted
+
+Decision:
+An exam is not a normal Task.
+
+It is an independent course-linked event/object with coverage on the Course Progress Axis. Exam preparation is generated as Tasks/Goals.
+
+Affected:
+- DATA_MODEL_PLAN
+- USER_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-040 — Three risk states
+
+Status: Accepted
+
+Decision:
+Use SAFE, DANGER, and EMERGENCY as the high-level feasibility/risk vocabulary.
+
+Exact thresholds are deferred.
+
+Affected:
+- PLANNER_PLAN
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-041 — Weekly learned-pattern review with user confirmation
+
+Status: Accepted
+
+Decision:
+Historical behavior/estimation analysis may run automatically on a weekly cadence and may also be invoked manually.
+
+Material learned rules that change Planner behavior should be presented to the user for confirmation before becoming accepted.
+
+Planner consumes accepted learned rules; pattern discovery belongs to a separate learning/analyzer module.
+
+Affected:
+- LEARNING_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-042 — Explicit user rule wins over unconfirmed learned behavior
+
+Status: Accepted
+
+Decision:
+When historical behavior appears to conflict with an explicit user rule/preference, present the evidence and recommend a change, but do not silently override the user rule.
+
+Affected:
+- LEARNING_PLAN
+- PLANNER_PLAN
