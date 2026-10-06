@@ -1,5 +1,9 @@
 # WhatToDo — Ordered Development Plan
 
+> Planning control center: `plan/README.md`  
+> Live project state: `plan/PROGRESS.md`  
+> Active M1 modeling specification: `plan/USER_MODEL_PLAN.md`
+
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
 > Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
