@@ -69,6 +69,10 @@ Authority:
 
 ### Specialized planning files
 
+#### `USER_MODEL_PLAN.md`
+- Active M1 specification for collecting courses, recurring activities, and planning-relevant preferences.
+- Defines what may become stable declarative user/course profiles.
+
 #### `DATA_MODEL_PLAN.md`
 - Conceptual entities, ownership, state lifecycles, source-of-truth rules, Git-vs-PostgreSQL split.
 - Does not freeze SQL table definitions before Phase 2.
@@ -126,7 +130,9 @@ DECISIONS.md
     │                    ↓
     │       ┌────────────┼────────────┐
     │       ↓            ↓            ↓
-    │ DATA_MODEL     IO_CONTRACT   INTEGRATION
+    │ USER_MODEL → DATA_MODEL     IO_CONTRACT
+    │                    ↓            ↓
+    │                 INTEGRATION ←───┘
     │       │            │            │
     │       └──────┬─────┘            │
     │              ↓                  │
@@ -177,6 +183,15 @@ Update:
 2. `PROJECT_PLAN.md` only if its high-level order becomes inconsistent
 3. `PROGRESS.md`
 4. `README.md` only if document dependencies/authority change
+
+### If the user/course profile model changes
+Update:
+1. `USER_MODEL_PLAN.md`
+2. `DATA_MODEL_PLAN.md`
+3. `PLANNER_PLAN.md`
+4. `IO_CONTRACT_PLAN.md` if profile fields are exposed through input/output
+5. `TESTING_PLAN.md` after implementation exists
+6. `PROGRESS.md`
 
 ### If an entity or state model changes
 Update:
