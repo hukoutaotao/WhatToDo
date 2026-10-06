@@ -25,6 +25,14 @@ Business/domain logic that needs testing and reuse should live in application co
 Connectors collect and normalize.
 They do not decide the daily plan.
 
+### Semantic contract first, adapter contract later
+
+Before a connector is implemented, the internal semantic output it must produce should already be understood.
+
+The provider-specific adapter mapping is intentionally finalized only when the real service/API/n8n connector is inspected.
+
+Do not invent exact external field mappings during early planning. If a real integration reveals a semantic requirement that the internal model lacks, update the relevant semantic plans and propagate the change.
+
 ```text
 External source
 ↓
@@ -49,7 +57,7 @@ Preferred backend:
 User-facing client may remain:
 - Apple Calendar
 
-Required capabilities:
+Semantic capabilities required:
 - read recurring events
 - read one-off events
 - detect updates/cancellations
@@ -60,6 +68,14 @@ Required capabilities:
 Do not:
 - treat every task deadline as a calendar event by definition
 - overwrite external events without clear ownership
+
+Deferred until actual Google Calendar integration:
+- exact field mapping
+- calendar/event IDs and ownership mapping
+- sync token/cursor strategy
+- push/watch behavior
+- recurrence-instance edge cases
+- n8n node-specific payload behavior
 
 ---
 
