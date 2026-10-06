@@ -57,9 +57,13 @@ source/input
 
 Create scenarios with expected invariants:
 - no overlap with fixed event
-- urgent large task starts before deadline
+- urgent large task is advanced before deadline
 - minimum session length respected
 - daily capacity not exceeded
+- normal-day buffer is preserved when feasible
+- 1/3/7-day capacity deficits are detected
+- emergency mode triggers when required effort exceeds/approaches feasible capacity
+- task count does not substitute for workload-time calculation
 - long-term goal not permanently starved
 - stale state blocks false precision
 
@@ -145,12 +149,17 @@ Additional A0 behavioral acceptance:
 ### Phase 4
 - connectors ingest without duplicates.
 - failures preserve prior trusted state.
+- newly discovered task-like content remains candidate until user confirmation.
+- repeated polling does not bypass the confirmation boundary.
 
 ### Phase 5
 - planner respects hard constraints and capacity.
 - daily output usable without premium AI.
 - planner avoids impossible overfill on representative scenarios;
 - planner can distinguish deep-block tasks from fragmentable tasks;
+- planner compares 1/3/7-day required effort against available capacity;
+- planner triggers risk/emergency behavior on infeasible horizons;
+- planner optimizes workload time rather than task count;
 - normal output remains concise while risk/exception scenarios expose useful explanation.
 
 ### Phase 6
