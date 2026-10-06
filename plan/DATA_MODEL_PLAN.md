@@ -45,18 +45,17 @@ WhatToDo stores normalized representations plus provenance.
 Top-level category: study, exercise, life administration, other.
 
 ### Course / ActivityProfile
-Describes stable characteristics used in planning:
+Describes semantic/grouping context and stable defaults:
 - name
 - domain
-- importance
 - typical task types
-- cognitive load
-- workload
+- instructional/course progress axis where applicable
 - duration tendencies
-- preferred session length
-- fragmentability
-- timing preference
+- timing patterns
 - recurring patterns
+- review/task-generation rules
+
+Course-level planner importance is intentionally not primary; priority lives on Tasks/Goals/Exams/generated work.
 
 ### Task
 Concrete actionable obligation.
@@ -85,8 +84,8 @@ Must eventually support:
 - minimum useful continuous session
 - fragmentability
 - dependencies / parent-stage relation where needed
-- necessity / requiredness concept
-- importance concept
+- requiredness (separate from deadline)
+- importance (separate from requiredness)
 - status
 - verification/confidence
 
@@ -97,6 +96,7 @@ A normal task type should generally map to a stable decomposition template.
 
 Template concepts may include:
 - stage/subtask structure
+- default 1–5 thinking depth / repetitive volume / new-learning load
 - inherited difficulty dimensions
 - default total-effort range
 - minimum useful session
@@ -121,6 +121,32 @@ Kinds:
 - fixed external event
 - flexible planned work block
 - optional reminder representation
+
+### CourseProgressPosition / CourseProgressRange
+Semantic position on a course's instructional axis.
+
+Examples:
+- before lesson 5
+- lesson 5
+- after lesson 5
+- lessons 1–8
+
+Used by:
+- preview/note/homework tasks
+- task prerequisites
+- conditional review activation
+- exam coverage
+
+### Exam
+Independent fixed academic event/object, not a normal Task.
+
+May reference:
+- course
+- date/time
+- CourseProgressRange coverage
+- later exam metadata
+
+Review work is generated as Tasks/Goals related to the Exam.
 
 ### Routine
 Recurring expected activity not necessarily a task instance.
@@ -177,7 +203,7 @@ Examples:
 Must support batching into the next normal user interaction.
 
 ### EffortHistory / EstimationObservation
-Historical evidence for improving future duration estimates.
+Historical evidence for improving future duration estimates and feeding `LEARNING_PLAN.md`.
 
 Should distinguish:
 - estimated effort
