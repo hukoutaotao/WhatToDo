@@ -102,6 +102,11 @@ Examples:
 ### Task decomposition preset
 Each course should eventually define how its typical task classes are decomposed.
 
+Preferred policy:
+- each normal task type has a stable default decomposition template;
+- special workflows that differ materially should normally become a new task type with a new template;
+- avoid arbitrary per-instance template mutation as the default model.
+
 Potential information:
 - common task classes
 - normal decomposition depth
