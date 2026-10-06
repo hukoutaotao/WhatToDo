@@ -772,3 +772,282 @@ When historical behavior appears to conflict with an explicit user rule/preferen
 Affected:
 - LEARNING_PLAN
 - PLANNER_PLAN
+
+
+---
+
+## D-043 — Task importance uses a 1–5 scale
+
+Status: Accepted
+
+Decision:
+Task importance is an integer from 1 to 5.
+
+Importance is separate from requiredness and influences ordering/protection/sacrifice decisions.
+
+Affected:
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- USER_MODEL_PLAN
+
+---
+
+## D-044 — Requiredness has REQUIRED / OPTIONAL / EXPIRING
+
+Status: Accepted
+
+Decision:
+Use:
+- REQUIRED
+- OPTIONAL
+- EXPIRING
+
+EXPIRING must carry an expiration point/condition. Deadline and expiration are distinct.
+
+Affected:
+- DATA_MODEL_PLAN
+- USER_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-045 — No generic lead-time field; use safe-capacity advancement
+
+Status: Accepted
+
+Decision:
+Do not rely on a generic "start this task N days early" property.
+
+After protecting required work, if the plan remains SAFE and usable capacity remains, advance future REQUIRED work to build slack.
+
+Affected:
+- PLANNER_PLAN
+- DATA_MODEL_PLAN
+
+---
+
+## D-046 — TaskType defaults inherit automatically
+
+Status: Accepted
+
+Decision:
+TaskType configuration stores default planning properties such as three-dimensional difficulty.
+
+Concrete Tasks inherit defaults without per-task reconfirmation; exceptional tasks may override them.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+
+---
+
+## D-047 — Course progress units are course-defined
+
+Status: Accepted
+
+Decision:
+A Course Progress Axis uses course-defined units such as lecture, chapter, experiment, topic, or another suitable unit.
+
+Track both teaching progress and task-family progress along the axis.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+
+---
+
+## D-048 — Default academic dependency templates
+
+Status: Accepted
+
+Decision:
+Course/task templates may predefine dependency flows such as:
+preview → class → note organization → homework/exercise.
+
+Concrete tasks inherit the template unless explicitly overridden.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+
+---
+
+## D-049 — Initial conditional review triggers
+
+Status: Accepted
+
+Decision:
+Initial review/catch-up activation includes:
+- three consecutive incomplete post-class note-organization tasks;
+- entry into an exam-preparation/sprint phase.
+
+Additional course-specific triggers may be configured later.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-050 — Worst-horizon risk aggregation
+
+Status: Accepted
+
+Decision:
+Report 1-day, 3-day, and 7-day risk separately.
+
+Overall mode equals the most severe horizon:
+EMERGENCY > DANGER > SAFE.
+
+Any DANGER horizon places the overall plan in DANGER unless another horizon is EMERGENCY.
+
+Affected:
+- PLANNER_PLAN
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-051 — Normal confirmation sessions clear the whole queue
+
+Status: Accepted
+
+Decision:
+Morning/evening reviews should attempt to resolve all pending confirmation items in that interaction.
+
+Items may be ordered by impact for readability, but lower-impact confirmations should not normally be left for later.
+
+Affected:
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-052 — Confirmation prompts may include recommended answers
+
+Status: Accepted
+
+Decision:
+Where responsible, present a recommended interpretation/template so the user can confirm or modify it rather than manually reconstructing the record.
+
+Affected:
+- IO_CONTRACT_PLAN
+- formats/output
+
+---
+
+## D-053 — Daily Brief baseline structure
+
+Status: Accepted
+
+Decision:
+Daily Brief includes usable free time, 1/3/7-day risk, overall mode, required work, future work to advance, concrete stages/subtasks, estimated effort, block/fragment guidance, and concise abnormal notes.
+
+Show deadlines by default when within 3 days, risky, or requested.
+
+Concrete template:
+- formats/output/DAILY_BRIEF_TEMPLATE.md
+
+Affected:
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
+- TESTING_PLAN
+
+---
+
+## D-054 — Numeric prediction models may learn automatically
+
+Status: Accepted
+
+Decision:
+Internal numeric effort-estimation models may update automatically from historical data if they remain testable, inspectable when needed, and correctable.
+
+Behavioral/planning rules still require user confirmation before adoption.
+
+Affected:
+- LEARNING_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-055 — Two-day missed-interaction reminder
+
+Status: Accepted
+
+Decision:
+After two consecutive days without a normal user interaction, proactively remind the user to perform state reconciliation/update.
+
+Urgent deadline-feasibility alerts remain separate and may trigger earlier.
+
+Affected:
+- OPERATIONS_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-056 — Long-term goal onboarding minimum fields
+
+Status: Accepted
+
+Decision:
+Long-term goal onboarding includes:
+- goal definition;
+- target/end date;
+- total workload/measurable quantity;
+- desired outcome/quality;
+- phases/milestones where useful;
+- preferred recurring/daily allocation;
+- required vs adjustable components.
+
+The system proposes decomposition; the user reviews it before activation.
+
+Affected:
+- DEVELOPMENT_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-057 — Goal-generated tasks are ordinary Planner tasks
+
+Status: Accepted
+
+Decision:
+After approved generation, Tasks originating from long-term goals enter Planner on equal footing with other Tasks. Source does not give special scheduling privilege.
+
+Affected:
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-058 — Automatic analysis vs reviewed truth/policy boundary
+
+Status: Accepted
+
+Decision:
+Automatic:
+- raw evidence ingestion;
+- candidate generation;
+- risk/capacity calculation;
+- numeric effort prediction and internal model learning;
+- historical pattern calculation;
+- daily plan proposals;
+- recommended confirmation templates.
+
+User review required:
+- canonical Task facts;
+- completion/progress/remaining-effort facts;
+- explicit preferences;
+- behavioral/planning rules;
+- consequential long-term planning activation.
+
+Affected:
+- A0_USER_INTENT
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- LEARNING_PLAN
+- PLANNER_PLAN
