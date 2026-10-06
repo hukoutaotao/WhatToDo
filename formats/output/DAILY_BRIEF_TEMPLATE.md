@@ -1,5 +1,8 @@
 # WhatToDo — Daily Brief Template
 
+> Execution: [detailed development plan](../../plan/DEVELOPMENT_PLAN.md) · [live progress](../../plan/PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](../../plan/tasks/M2_CONTRACTS.md) · [M6_PLANNER_DAILY_MVP](../../plan/tasks/M6_PLANNER_DAILY_MVP.md).
+
 > Status: A0-approved conceptual template.
 > This is the default human-facing daily output structure.
 > Exact wording may evolve during M2, but semantic sections should remain stable unless the user changes them.
@@ -118,3 +121,9 @@ After the user answers, regenerate the final emergency-day plan and recompute ev
 - Use concise relation notes only when meaningful: “generated from Task X”, “must finish before Task Y”, or “blocked by prerequisite”. Completion order alone does not imply a start block.
 - Inform the user of confirmed expiration before recording EXPIRED, without adding an unrequested acknowledgement step. Pending notification is not already recorded expiration or completion.
 - Evening output can list worked-on Tasks for individual updates and untouched/unchanged Tasks in one “keep previous estimates” batch. No silent acceptance of missing answers.
+
+---
+
+## Detailed Execution Mapping
+
+Preserve this human baseline in M2-10 and M6-16–19. Render from versioned machine Plan, not independently recomputed totals; fixture/live evidence are separate.

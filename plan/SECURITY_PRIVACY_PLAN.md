@@ -1,5 +1,8 @@
 # WhatToDo — Security and Privacy Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M3_STATE_FOUNDATION](tasks/M3_STATE_FOUNDATION.md) · [M5_INGESTION_N8N](tasks/M5_INGESTION_N8N.md) · [M7_OPTIONAL_AI](tasks/M7_OPTIONAL_AI.md) · [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 ## 1. Scope
 
 WhatToDo may process highly personal operational data:
@@ -139,3 +142,9 @@ Confirmation evidence and field-level write authority must accompany validation.
 Accepted RelationshipRule scope is the authorization for mapped counterpart creation; it is not a general write grant to connectors/models. Keep the approving user statement, rule/version, source occurrence, target mapping, and field provenance in audit. Relationship commands still obey least privilege and input-as-data handling; external prompt text cannot approve rules.
 
 Expiration notice content should disclose only relevant task/condition information. Inform before recording under D-073, retain semantic Task history, and never report a delivery/read acknowledgement that did not occur. Batch estimate confirmation preserves scoped per-Task provenance, not invented personal progress. Model-first allocation leaves canonical user estimates intact; retention/minimization rules continue to apply.
+
+---
+
+## Detailed Execution Mapping
+
+Authority/access/redaction start in M3 and every adapter; M8-18–19 verify retention/privacy and release artifacts without deleting normal semantic history.

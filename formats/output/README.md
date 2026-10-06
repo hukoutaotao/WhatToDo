@@ -1,5 +1,8 @@
 # Output Format Specifications
 
+> Execution: [detailed development plan](../../plan/DEVELOPMENT_PLAN.md) · [live progress](../../plan/PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](../../plan/tasks/M2_CONTRACTS.md) · [M6_PLANNER_DAILY_MVP](../../plan/tasks/M6_PLANNER_DAILY_MVP.md) · [M8_LEARNING_RELEASE_OPERATIONS](../../plan/tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 This directory stores specifications, examples, schemas, and conventions for information produced by WhatToDo.
 
 Current artifacts:
@@ -13,3 +16,9 @@ The exact machine schema is not finalized yet. M2 will refine concrete structure
 ---
 
 Follow-up output semantics: model-first effective parent/stage estimates with canonical user estimate retained separately; concise relationship origin/blocking notes; Beijing timestamps and date-only 23:59; aggregate-day <=40-minute SAFE remainder; notice-before-record expiration; batch unchanged-estimate evening review. The 1/3/7-day forecasts use natural days including today, with Beijing-time 23:59 cutoffs on today / today+2 / today+6 (D-078). No original experience question remains pending.
+
+---
+
+## Detailed Execution Mapping
+
+Concrete Plan schema is M2-10; Daily renderer and two-round emergency are M6-16–19; weekly/long-term formats are M8-08–09.

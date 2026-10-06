@@ -1,5 +1,8 @@
 # WhatToDo — Planner Design Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M6_PLANNER_DAILY_MVP](tasks/M6_PLANNER_DAILY_MVP.md) · [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 ## 1. Planner Mission
 
 Given trusted current state, goals, and available time, produce a realistic actionable plan.
@@ -409,3 +412,9 @@ Today is included, not followed by an extra 1/3/7 days. The windows share a snap
 For intraday planning, clip availability to the snapshot and each cutoff before calculating remaining C. Never use elapsed morning hours to make an afternoon/evening forecast appear SAFE. Use current effective remaining-work budgets B; neither a date boundary nor elapsed time mechanically changes canonical user effort or completion. The accepted daily reserve still targets one hour per represented day, hence 1/3/7 hours by default; this horizon choice does not authorize proportional reserve reduction. Numerical rounding/day-end precision must preserve the stated cutoffs and constraints.
 
 Required-work projection, deadline-prefix/relationship/minimum-session feasibility, longer-horizon early work, and worst-horizon mode remain as specified in Sections 12/21/22. Preserve explicit Task deadline instants; forecast-window dates neither overwrite deadlines nor imply work outside the window is irrelevant. Persist snapshot instant, timezone, mode, and local-date/cutoff bounds for traceable output.
+
+---
+
+## Detailed Execution Mapping
+
+M6 separates snapshots/budgets/oracle/solver/feasibility/risk/allocation/output; M8 extends weekly/long-term views through the same Task interfaces.

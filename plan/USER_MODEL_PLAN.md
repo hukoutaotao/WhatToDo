@@ -1,7 +1,10 @@
 # WhatToDo — User / Course Model Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M1_USER_COURSE_MODEL](tasks/M1_USER_COURSE_MODEL.md) · [M1B_TASKTYPE_PRESETS](tasks/M1B_TASKTYPE_PRESETS.md) · [M5B_GOALS_GENERATION](tasks/M5B_GOALS_GENERATION.md).
+
 > Purpose: Define how WhatToDo learns the user's stable working context before task/database implementation.
-> Current relevance: A0 is complete. This is the modeling specification for the next incomplete semantic milestone M1; the immediate handoff is detailed project planning after the consistency audit (PROGRESS.md).
+> Current relevance: A0 is complete. This is the modeling specification for the next incomplete semantic milestone M1; the detailed development plan is complete; the next task is M1-01 current-semester inventory (PROGRESS.md).
 
 ## 1. Scope
 
@@ -320,3 +323,9 @@ Confirmed preferences: Beijing time (Asia/Shanghai); date-only deadlines default
 In M1/M1B collect course/TaskType patterns for counterpart generation and required completion/start order. Ask about the actual workflow and relevant target fields, not graph terminology. Task 1 creation → Task 2 generation does not imply Task 1 executes first. Pre-lab preparation may be generated after its lab Task is created but must finish before the lab under its separate order relation.
 
 Stable generation/order templates belong with versioned profile/rule knowledge; concrete Task links/runtime generation and user review state belong in PostgreSQL. Confirmed rule execution needs no repeated per-instance acceptance within its exact mapping/scope. Course-specific differences refine these rules without assigning primary Course importance.
+
+---
+
+## Detailed Execution Mapping
+
+Profiles/presets are one reviewed course/activity/family per repeated task; M1-01 is next. Do not claim current profiles exist.

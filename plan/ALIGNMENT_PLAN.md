@@ -1,5 +1,8 @@
 # WhatToDo — Interaction and Information-Model Alignment Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M1_USER_COURSE_MODEL](tasks/M1_USER_COURSE_MODEL.md) · [M1B_TASKTYPE_PRESETS](tasks/M1B_TASKTYPE_PRESETS.md) · [M2_CONTRACTS](tasks/M2_CONTRACTS.md).
+
 > Status: COMPLETE
 > Purpose: Complete human-AI alignment before implementation begins.
 > This is the authoritative plan for the pre-development alignment gate.
@@ -403,7 +406,7 @@ It is a shared mental model represented in:
 - relevant decisions
 - PROGRESS
 
-A0 is accepted. M1 remains the next incomplete semantic milestone. Follow the current handoff in PROGRESS.md: complete the requested post-audit detailed planning first, then collect actual course/activity information under M1.
+A0 is accepted. M1 remains the next incomplete semantic milestone. The detailed plan and linked task catalogs are now complete. Follow PROGRESS.md and start M1-01 current-semester inventory before concrete course/activity modeling.
 
 ---
 
@@ -433,4 +436,10 @@ A0 remains complete. The user's six answers refine runtime semantics and explici
 
 Generation and temporal ordering are distinct, typed cross-module concepts. Accepted rules authorize exact counterpart creation; ordinary external discoveries/completion still require review. Model predictions now drive allocation while user estimates remain canonical; expiration informs before recording; Beijing/date-only 23:59, aggregate <=40-minute SAFE remainder, and batch unchanged-estimate review are accepted.
 
-The user subsequently chose option A: natural-day 1/3/7-day horizons including today, ending at Beijing-time 23:59 on today / today+2 / today+6 (D-078). All original experience questions are resolved. Continue detailed project planning without reopening these choices or broad A0.
+The user subsequently chose option A: natural-day 1/3/7-day horizons including today, ending at Beijing-time 23:59 on today / today+2 / today+6 (D-078). All original experience questions are resolved. Follow the completed detailed plan and M1/M1B/M2 tasks without reopening these choices or broad A0.
+
+---
+
+## Detailed Execution Mapping
+
+A0 is complete; use this alignment method for concrete profiles/contracts and genuinely new conflicts, not repeated broad questioning.

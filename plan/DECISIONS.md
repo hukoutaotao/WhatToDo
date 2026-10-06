@@ -1,11 +1,14 @@
 # WhatToDo — Accepted Decisions Register
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md).
+
 > Canonical record of user-approved product and architecture decisions.
 > Do not silently reverse these decisions. If the user changes one, mark the old decision superseded and record the new decision.
 
 ## Reading and Refinement Rules
 
-Decision IDs are historical identifiers, not competing policies. An accepted later refinement narrows an earlier decision; use both together. D-028 and D-045 remain historical and superseded. A0 intent and this register must agree: neither may conceal an unresolved conflict in the other. `CONSISTENCY_AUDIT.md` records repairs and genuinely open boundaries without turning proposals into user-approved decisions.
+Decision IDs are historical identifiers, not competing policies. An accepted later refinement narrows an earlier decision; use both together. D-028 and D-045 remain historical and superseded. A0 intent and this register must agree: neither may conceal an unresolved conflict in the other. DEVELOPMENT_PLAN Sections 2/13 preserve resolved repairs and boundary traceability; genuinely new conflicts are recorded as affected-task blockers in PROGRESS without turning proposals into accepted policy.
 
 ## Decision Format
 
@@ -1315,7 +1318,7 @@ Status: Accepted; horizon scope completed by D-078
 
 Decision: use Asia/Shanghai / Beijing time for daily planning and date-only deadlines; date-only due dates default to local 23:59. Preserve explicit timestamps/timezones. Day-end override expiration remains next local midnight. D-078 records the subsequent explicit selection of natural-day 1/3/7-day windows including today, with cutoffs on today / today+2 / today+6 at local 23:59.
 
-Affected: A0_USER_INTENT, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, OPERATIONS, TESTING, formats, CONSISTENCY_AUDIT.
+Affected: A0_USER_INTENT, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, OPERATIONS, TESTING, formats, DEVELOPMENT_PLAN and PROGRESS.
 
 ## D-076 — 40-minute rule is whole-day discretionary remainder
 
@@ -1343,6 +1346,24 @@ Decision: the user explicitly chose option A, natural days. Include today in all
 
 Count only remaining usable capacity after the calculation snapshot, preserve the accepted one-hour-per-represented-day reserve, explicit Task deadlines, overlapping forecast accounting, and worst-horizon mode. Date rollover recomputes the local anchor and all window bounds. Numerical endpoint precision is an implementation choice within these semantics.
 
-Completes D-075/O05. All original audit boundaries are resolved; detailed project planning is next.
+Completes D-075/O05. All original audit boundaries are resolved; the natural-day semantics are not an unanswered preference.
 
-Affected: A0_USER_INTENT §60/61, USER_MODEL, DATA_MODEL, PLANNER, IO_CONTRACT, PROJECT, DEVELOPMENT, OPERATIONS, TESTING, ALIGNMENT, CONSISTENCY_AUDIT, PROGRESS, README files, input/output formats.
+Affected: A0_USER_INTENT §60/61, USER_MODEL, DATA_MODEL, PLANNER, IO_CONTRACT, PROJECT, DEVELOPMENT, OPERATIONS, TESTING, ALIGNMENT, DEVELOPMENT_PLAN, PROGRESS, README files, input/output formats.
+
+---
+
+## D-079 — Detailed bounded development plan with early reliability and extension gates
+
+Status: Accepted development requirement
+
+Decision: following the user's explicit request, replace the coarse roadmap with a complete detailed plan and linked bounded task catalogs. Each task is suitable for one AI execution or one explicitly repeated instance and includes dependency, deliverable and acceptance/failure/extension criteria. Require authority, audit, versioning, idempotency, recovery and degraded behavior from early prototypes; prove extensibility with versioned contracts/ports and conformance probes.
+
+The completed audit working file is retired after preserving its operational invariants and C/O traceability. Accepted source specifications, decision IDs and intent sections are retained. This decision approves the planning requirements, not a language/provider/hosting purchase or an implemented runtime. Technical ADRs and scoped input checkpoints remain in their execution tasks.
+
+Affected: DEVELOPMENT_PLAN, plan/tasks, README, PROGRESS, all module specifications and formats; A0_USER_INTENT §62.
+
+---
+
+## Detailed Execution Mapping
+
+D-079 governs the new planning requirement; technical proposals do not become user policy merely by appearing in a task.

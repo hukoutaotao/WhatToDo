@@ -1,10 +1,13 @@
 # WhatToDo — A0 User Intent and Interaction Model
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md).
+
 > Status: A0 COMPLETE — AUTHORITATIVE USER-INTENT RECORD
 > Source: Direct user answers during Alignment Gate A0.
 > Audience: AI agents and maintainers.
 > Purpose: Preserve the intended user experience and semantic requirements in a compact form that future AI agents can use without relying on chat history.
-> Reading rule: Sections summarize successive A0 rounds; the text is reconciled to the final accepted decisions, not a list of alternative policies. For unresolved interpretation boundaries see `CONSISTENCY_AUDIT.md`.
+> Reading rule: Sections summarize successive A0 rounds; the text is reconciled to the final accepted decisions, not a list of alternative policies. The resolved cross-document invariants and C/O traceability are preserved in DEVELOPMENT_PLAN Sections 2/13. New genuine semantic conflicts are recorded as affected-task blockers in PROGRESS before resolution.
 > Rule: Do not reinterpret these requirements as implementation details. If later discussion changes them, update this file and all dependent plans listed in plan/README.md.
 
 ---
@@ -1564,4 +1567,20 @@ Use Asia/Shanghai local dates, including today as day 1. The 1-day window ends t
 
 An intraday forecast counts only usable capacity remaining after its calculation snapshot; elapsed portions of today are not future capacity. Keep the accepted one-hour reserve per represented day (1/3/7-hour default targets), model-first remaining-work budget, real deadline/window feasibility checks, and worst-horizon aggregation. This choice does not authorize proportional reserve reduction, shifting explicit source deadlines, or shortening a Task's actual deadline to the forecast boundary. Numerical rounding and machine endpoint precision are later engineering work consistent with the accepted 23:59 cutoff.
 
-All original O01–O08 boundaries are resolved. Detailed project planning is the next requested work; M1/M1B/M2 and runtime implementation remain incomplete.
+All original O01–O08 boundaries are resolved. The detailed development plan is now complete; M1/M1B/M2 and runtime implementation remain incomplete. PROGRESS and task catalogs determine the next work, not this historical clarification.
+
+---
+
+## 62. Detailed Development Planning Requirement — 2026-10-06
+
+The user requested a detailed complete development plan in plan/, decomposed into tasks small enough for one AI development execution, with particular emphasis on robustness and extensibility. Link it into the complete documentation system and replace unnecessary files while preserving the project's documented information.
+
+DEVELOPMENT_PLAN and plan/tasks catalogs implement this planning requirement. Each task identifies prerequisites, bounded outcome, acceptance and failure/extension checks; real courses/providers/patterns use explicit repeated instances. Reliability begins with persistence/ingestion, not a final polish stage. Semantic source documents remain authoritative; this request does not change accepted task/authority/planning rules or claim runtime implementation.
+
+The coarse roadmap is replaced at DEVELOPMENT_PLAN.md; the completed audit working report is retired after its invariants and C/O traceability are migrated into the new plan. Current status/evidence remains PROGRESS. Routine technical choices are made at their bounded tasks; unknown current-semester facts are collected without importing old-chat assumptions.
+
+---
+
+## Detailed Execution Mapping
+
+All task catalogs preserve these accepted semantics; engineering tasks cannot silently alter them.

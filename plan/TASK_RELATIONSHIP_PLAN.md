@@ -1,5 +1,8 @@
 # WhatToDo — Task Relationship System
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M1B_TASKTYPE_PRESETS](tasks/M1B_TASKTYPE_PRESETS.md) · [M2_CONTRACTS](tasks/M2_CONTRACTS.md) · [M3_RELATIONSHIPS_REVIEWS](tasks/M3_RELATIONSHIPS_REVIEWS.md) · [M6_PLANNER_DAILY_MVP](tasks/M6_PLANNER_DAILY_MVP.md).
+
 > Status: accepted product direction; conceptual specification only, not implemented.
 > Source: user's 2026-10-06 answer to experience question 1.
 > Authority: A0_USER_INTENT.md §60 and DECISIONS D-071/D-072.
@@ -90,3 +93,9 @@ Normal Daily Brief stays concise. Show relationship details only when they expla
 Planned acceptance examples: Task 1 creation produces exactly one Task 2 across retries; unaccepted external evidence triggers no canonical cascade; generated counterparts use approved field/default mappings; missing essential facts remain pending; generation/ordering direction differ without false cycle detection; true recursion/ordering conflicts are reported; completion-before-start and completion-before-completion behave differently; stage vs separate Task effort is not double-counted; confirmed real violations are recorded honestly; cancellation does not silently propagate.
 
 No relationship code, database, workflow, or runtime behavior is implemented by this document update.
+
+---
+
+## Detailed Execution Mapping
+
+Typed contracts M2-06; persistence/validation/generation M3B-01–07; Planner order M6-09; retries/reverse graphs/violations are acceptance cases.

@@ -1,5 +1,8 @@
 # WhatToDo — Input / Output Contract Planning
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md) · [M3_STATE_FOUNDATION](tasks/M3_STATE_FOUNDATION.md) · [M3_RELATIONSHIPS_REVIEWS](tasks/M3_RELATIONSHIPS_REVIEWS.md) · [M6_PLANNER_DAILY_MVP](tasks/M6_PLANNER_DAILY_MVP.md).
+
 > Conceptual contract authority. Concrete schemas/examples belong under `../formats/` once agreed.
 
 ## 1. Core Principle
@@ -353,3 +356,9 @@ Planning uses the valid model remaining-effort prediction as the operative estim
 Worked-on Tasks report completion/actual effort/updated remaining effort; untouched Tasks may share a listed “keep previous estimates” confirmation. The batch must identify covered Tasks, exclude missing initial/changed/uncertain estimates, and retain per-Task provenance. Silence or a skipped interaction supplies no confirmation.
 
 Render daily dates and date-only 23:59 deadlines in Beijing time. Preserve explicit deadline times. The SAFE 40-minute rule applies to the whole day's discretionary remainder after reserve, not each fragment. A materially blocking/violated hard relationship may be shown as a short reason; routine output does not need a graph or implementation field names.
+
+---
+
+## Detailed Execution Mapping
+
+M3A-21–22 provide bounded natural/guided input and target resolution; M3B reviews/batches and M6 normal/emergency loops consume the same authorized commands.

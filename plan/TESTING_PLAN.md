@@ -1,5 +1,8 @@
 # WhatToDo — Testing and Quality Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md) · [M3_STATE_FOUNDATION](tasks/M3_STATE_FOUNDATION.md) · [M3_RELATIONSHIPS_REVIEWS](tasks/M3_RELATIONSHIPS_REVIEWS.md) · [M6_PLANNER_DAILY_MVP](tasks/M6_PLANNER_DAILY_MVP.md) · [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 ## 1. Goal
 
 Testing must verify not only code correctness but also state safety and planning realism.
@@ -241,7 +244,7 @@ Update PROGRESS.md with the strongest actually demonstrated state.
 - Time passing a deadline does not automatically cancel/expire REQUIRED work. EXPIRING follows notify-before-record under its confirmed condition, without a new acknowledgement; raw source deletion does not delete Tasks.
 - Completed/cancelled/expired/reopened outcomes retain relevant history; raw-content minimization can coexist with retained semantic audit records.
 
-These are planned acceptance cases, not executed runtime tests. Unresolved edges in CONSISTENCY_AUDIT.md must be settled before pinning an exact expected behavior. The current audit verifies documents/references and requirement propagation only.
+These are planned acceptance cases, not executed runtime tests. Original audit boundaries are resolved and preserved in DEVELOPMENT_PLAN Sections 2/13. New genuine semantic conflicts must be resolved for the affected fixture. The current planning deliverable verifies document/task-plan consistency only; the per-task catalogs define later executable checks.
 
 ---
 
@@ -279,3 +282,9 @@ These are planned conceptual acceptance cases. No runtime tests ran, because thi
 - Windows overlap and are not summed. Preserve deadline-prefix feasibility, necessary early work for deadlines beyond day 7, and worst-horizon mode. O05 is resolved; do not label these fixtures as awaiting user approval.
 
 These are conceptual acceptance cases, not executed runtime tests.
+
+---
+
+## Detailed Execution Mapping
+
+Each card defines focused acceptance. M3A-20 adds isolated CI; PostgreSQL/fault/oracle/offline/live/restore evidence remain distinct, not inferred from document presence.

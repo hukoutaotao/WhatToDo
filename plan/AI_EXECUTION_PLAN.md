@@ -1,5 +1,8 @@
 # WhatToDo — AI Execution and Cost Strategy
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M7_OPTIONAL_AI](tasks/M7_OPTIONAL_AI.md) · [M2_CONTRACTS](tasks/M2_CONTRACTS.md).
+
 ## 1. Principle
 
 AI is optional infrastructure around a deterministic core.
@@ -196,3 +199,9 @@ D-072 authorizes creation only through explicit accepted generation relationship
 D-074 makes a valid model remaining-effort prediction the effective Planner budget without rewriting the user's estimate. Stored/calibrated numerical prediction is sufficient; no live LLM call is required for each plan. Keep prediction validity/source/version, fallback reason, canonical user value, and selected budget separate. Never confuse total effort prediction with remaining work, and never automatically use max(user, model) contrary to the chosen policy.
 
 Expiration follows the accepted notify-before-record contract, not an AI's inferred lifecycle change. Batch unchanged-estimate confirmation must be an explicit user statement with resolved membership; an AI-generated suggested answer or user silence cannot establish it.
+
+---
+
+## Detailed Execution Mapping
+
+M7 is an optional gate with provider/cost checkpoints and deterministic fallback. Validation/authority already exist in M3, rather than first appearing in the AI phase.

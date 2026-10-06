@@ -1,5 +1,8 @@
 # WhatToDo — Integration and n8n Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M4_CALENDAR_CAPACITY](tasks/M4_CALENDAR_CAPACITY.md) · [M5_INGESTION_N8N](tasks/M5_INGESTION_N8N.md).
+
 ## 1. Platform Decision
 
 n8n is the sole workflow/orchestration platform.
@@ -273,3 +276,9 @@ Approved rules produce fully mapped canonical counterparts without redundant rev
 For a confirmed expiration condition: notify first, then record EXPIRED only after successful user-facing dispatch, latest-state validation, and deduplication. This is not a requirement to wait for a read receipt or extra acknowledgement. Failed notices remain pending/retryable; uncertain conditions require clarification. Exact delivery channel remains unselected.
 
 Normalize date-only deadlines to 23:59 Asia/Shanghai while retaining source date/default provenance. Explicit timestamps/source zones are preserved and only converted for display. Server-timezone defaults must not affect user dates or next-midnight override expiry.
+
+---
+
+## Detailed Execution Mapping
+
+One provider/account/layout per explicit task instance; common port/dedup/replay behavior is validated before live scoped evidence. No connector bypasses personal-state authority.

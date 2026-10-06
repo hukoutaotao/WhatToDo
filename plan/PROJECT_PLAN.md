@@ -1,5 +1,8 @@
 # WhatToDo — Project Planning Document
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md) · [M6_PLANNER_DAILY_MVP](tasks/M6_PLANNER_DAILY_MVP.md) · [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 > Planning control center: read `plan/README.md` first in a new AI session.  
 > Current state: read `plan/PROGRESS.md`.  
 > Accepted decisions: read `plan/DECISIONS.md`.
@@ -992,7 +995,7 @@ In overall EMERGENCY, show a visibly provisional normal baseline, collect the us
 
 Goal/recurring/conditional work can instantiate mapped canonical Tasks through explicitly accepted automatic-generation relationships (D-071/D-072). Templates/defaults alone do not grant blanket authority; unmapped/uncertain discoveries remain candidates. Source Calendar updates may refresh occupancy automatically within configured scope without becoming Task progress/completion.
 
-Minimum confirmation, provenance, audit, versioning, staleness, and recovery safeguards belong to persistence/ingestion and the first MVP. Advanced catch-up/weekly learning in Phase 7 extends those foundations. See `CONSISTENCY_AUDIT.md` for unresolved edges and planning inputs.
+Minimum confirmation, provenance, audit, versioning, staleness, and recovery safeguards belong to persistence/ingestion and the first MVP. Advanced catch-up/weekly learning in Phase 7 extends those foundations. See DEVELOPMENT_PLAN Sections 2/8/13 for preserved invariants, reliability tasks and traceability, and its catalogs for executable scope.
 
 ---
 
@@ -1002,4 +1005,10 @@ The user's six answers add the Task Relationship System and scoped rule-authoriz
 
 Canonical personal-state protection remains: external completion needs review, model estimates do not overwrite user estimates, and generation uses accepted rule mappings rather than confidence. Explicit model-first planning is not an automatic max(user, model). Prediction can come from stored numerical calibration, so the deterministic/no-live-LLM path remains intact.
 
-Relationship completion order is not automatically a start prerequisite, and generation edges must not be mistaken for temporal ordering or stages. Externally published concrete times retain their meaning. D-078 fixes all risk windows to natural days including today, ending at 23:59 Asia/Shanghai on today / today+2 / today+6. Capacity snapshots include only remaining usable time. All original audit boundaries are resolved; detailed project planning is next.
+Relationship completion order is not automatically a start prerequisite, and generation edges must not be mistaken for temporal ordering or stages. Externally published concrete times retain their meaning. D-078 fixes all risk windows to natural days including today, ending at 23:59 Asia/Shanghai on today / today+2 / today+6. Capacity snapshots include only remaining usable time. All original audit boundaries are resolved; the detailed development plan is complete and M1-01 is the next scoped information task. Implementation remains incomplete.
+
+---
+
+## Detailed Execution Mapping
+
+Architecture remains semantic authority; DEVELOPMENT_PLAN controls 195 task definitions, exact dependencies and incremental reliability/extension gates. Proposed paths/toolchain are frozen in M2-16.

@@ -1,5 +1,8 @@
 # WhatToDo — Historical Learning and Behavior Analysis Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md) · [M7_OPTIONAL_AI](tasks/M7_OPTIONAL_AI.md).
+
 > Purpose: Define how historical execution data is converted into candidate learned patterns and estimation improvements.
 > This module supports, but is separate from, Planner.
 
@@ -263,3 +266,9 @@ Retain estimate-at-planning-time snapshots so future model updates do not rewrit
 Predict remaining unfinished work, not blindly the original total task duration. Retain context, valid model version, uncertainty, and applicability to the current Task/stages. Planner uses this prediction under D-074; it is not automatically max(user, model) and may be smaller than user-reported effort. Numeric calibration remains automatic; behavioral/preference changes still require approval.
 
 Bulk unchanged-estimate confirmation is a verification observation, not a new numerical estimate or evidence that a task was worked on. Preserve original estimate time, batch verification time, membership, and any explicit no-work statement. Rule-generated Task origin and typed dependencies provide context; generations and notifications are not execution/completion signals.
+
+---
+
+## Detailed Execution Mapping
+
+M8-01–11 separate immutable observations, numeric calibration, reviewed behavioral rules and catch-up/weekly output; no live LLM is required.

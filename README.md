@@ -1,13 +1,11 @@
 # WhatToDo
 
-A long-lived personal task and schedule system that reduces the effort of tracking obligations and choosing realistic daily work.
+A personal task/schedule system that reduces daily planning effort through trusted Tasks, available-capacity reasoning, concise recommendations and short morning/evening reviews.
 
-## AI handoff
+Start at the [plan control center](plan/README.md), then read [live progress](plan/PROGRESS.md) and the [detailed development plan](plan/DEVELOPMENT_PLAN.md). The plan contains **195 bounded tasks in 11 catalogs**, with dependencies, deliverables, failure checks, robustness, extensibility and acceptance gates.
 
-Start with [plan/README.md](plan/README.md), then [current progress](plan/PROGRESS.md), [accepted user intent](plan/A0_USER_INTENT.md), and [decisions](plan/DECISIONS.md). Use the [full-document consistency audit](plan/CONSISTENCY_AUDIT.md) for corrections, unresolved boundaries, and planning inputs.
+Accepted meaning lives in [A0 intent](plan/A0_USER_INTENT.md), [decisions](plan/DECISIONS.md) and linked module specifications. Task relationships, model-first planning, reviewed personal state, Beijing natural-day forecasts and daily reserve rules are already aligned.
 
-A0 interaction alignment is complete. Current-semester course/activity modeling, TaskType presets, and concrete Task/I/O schemas are not complete. This repository currently contains documentation only; no runtime capability is implemented or verified.
+Current state: documentation only. M0/A0 and detailed planning are complete; M1/M1B/M2 and runtime implementation are not. Next task is [M1-01 — current-semester inventory](plan/tasks/M1_USER_COURSE_MODEL.md#m1-01).
 
-The consistency audit is complete. The six follow-up answers are synchronized, including a new [Task relationship system](plan/TASK_RELATIONSHIP_PLAN.md), model-first planning, Beijing-time defaults, and lighter unchanged-estimate review. The user subsequently selected natural-day risk windows including today, ending at Beijing-time 23:59 (D-078). All original audit boundaries are resolved; detailed project planning is next before the prerequisite modeling milestones. Existing [development roadmap](plan/DEVELOPMENT_PLAN.md) describes milestone order, not a finished detailed execution plan. See the audit's updated boundary register and PROGRESS.md.
-
-Accepted direction: n8n only; PostgreSQL dynamic state; versioned stable profiles/config; Calendar for occupancy; deterministic-first planning; replaceable AI; user-authorized canonical Task facts through reviewed inputs or explicitly accepted automation scope. Normal operation targets short morning/evening reviews and a concise daily recommendation, with 1/3/7-day feasibility reporting.
+Architecture: n8n-only orchestration; PostgreSQL dynamic state; versioned declarative profiles/config; Calendar occupancy; deterministic-first core and replaceable optional AI. Reliability starts with the first persistent-state prototype. The former coarse roadmap and completed audit working file have been consolidated into the new plan's rules and traceability map.

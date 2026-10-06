@@ -1,5 +1,8 @@
 # WhatToDo — Data Model Planning
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M2_CONTRACTS](tasks/M2_CONTRACTS.md) · [M3_STATE_FOUNDATION](tasks/M3_STATE_FOUNDATION.md) · [M3_RELATIONSHIPS_REVIEWS](tasks/M3_RELATIONSHIPS_REVIEWS.md) · [M5B_GOALS_GENERATION](tasks/M5B_GOALS_GENERATION.md).
+
 > Conceptual model only. Exact PostgreSQL DDL is intentionally deferred until Phase 2.
 > Prerequisite: Alignment Gate A0 establishes information-granularity and semantic-boundary rules before this model is frozen.
 
@@ -442,7 +445,7 @@ When resolved, propagate changes to:
 - WorkSession actual observations and planned allocations remain separate, even if implemented in one table. Optional time-of-day data must not be fabricated when only total effort was reported.
 - Effective-state/version checks and audit records are required for confirmed writes, including batch writes. Reject stale proposals rather than overwriting intervening user updates.
 
-Open cross-file edges are tracked in CONSISTENCY_AUDIT.md; exact SQL tables remain deferred until Phase 2.
+Resolved cross-file invariants are preserved in DEVELOPMENT_PLAN Sections 2/13. Concrete contracts and PostgreSQL design are M2-01–14; small migrations/repositories are M3A/M3B. New genuine conflicts block the affected task in PROGRESS, not unrelated work.
 
 ---
 
@@ -470,3 +473,9 @@ For expiration retain detected condition, notice delivery evidence/time, actual 
 An unchanged-estimate batch records membership and per-Task verification provenance. Keep the original estimate's observation time; record the review confirmation time separately. Unreported work/session details remain unknown.
 
 Time-normalized fields use Asia/Shanghai for user-day semantics and explicit default 23:59 for date-only deadlines. Exact provider timestamps retain their timezone and may be converted for display without changing the instant. D-078 fixes the horizon mode to natural days including today, with 1/3/7-day cutoffs today / today+2 / today+6 at 23:59. A versioned forecast snapshot retains calculation instant, Asia/Shanghai anchor date, covered date range, and cutoff for each window. Remaining usable capacity starts at the snapshot, not midnight in the past. Preserve absolute source deadlines and distinguish forecast-window bounds from Task deadlines and override expiry.
+
+---
+
+## Detailed Execution Mapping
+
+Concrete schema design precedes small PostgreSQL migration/repository tasks; authority/audit/version/replay are early requirements.

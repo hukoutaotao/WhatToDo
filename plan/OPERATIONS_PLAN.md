@@ -1,5 +1,8 @@
 # WhatToDo — Operations and Deployment Plan
 
+> Execution: [detailed development plan](DEVELOPMENT_PLAN.md) · [live progress](PROGRESS.md).
+> Bounded work: [M3_STATE_FOUNDATION](tasks/M3_STATE_FOUNDATION.md) · [M3_RELATIONSHIPS_REVIEWS](tasks/M3_RELATIONSHIPS_REVIEWS.md) · [M4_CALENDAR_CAPACITY](tasks/M4_CALENDAR_CAPACITY.md) · [M5_INGESTION_N8N](tasks/M5_INGESTION_N8N.md) · [M8_LEARNING_RELEASE_OPERATIONS](tasks/M8_LEARNING_RELEASE_OPERATIONS.md).
+
 ## 1. Target Topology
 
 ```text
@@ -188,3 +191,9 @@ Observe accepted generation rule versions, canonical source events, deduplicatio
 Notify-before-record expiration requires explicit process state: detected confirmed condition → dispatch user-facing notice → revalidate current Task/version/condition → commit EXPIRED/history. “Informed” means successful dispatch through the chosen user-facing channel, not merely writing a log/unsent queue item; no read receipt/acknowledgement is required. Failed dispatch stays pending/retryable. Record notification and transition IDs to avoid duplicate notices/writes and audit any state change between them.
 
 Runtime, channel, service code, and workflows do not yet exist. Preserve stale-state handling and safe fallback while model predictions or notification services are unavailable.
+
+---
+
+## Detailed Execution Mapping
+
+Early atomicity, backups, outbox/checkpoints and degradation feed later full restore/upgrade/drills. Runtime targets are chosen from measured prototype data in M6-27.
