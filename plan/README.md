@@ -1,0 +1,296 @@
+# WhatToDo Plan Control Center
+
+> This directory is the canonical planning and handoff context for AI agents, Codex, and future maintainers.
+> A new AI conversation should start here.
+
+## 1. Bootstrap Instructions for a New AI
+
+When taking over this repository:
+
+1. Read this file completely.
+2. Read `PROGRESS.md` to learn the current project state and immediate next action.
+3. Read `DECISIONS.md` to learn accepted decisions that must not be silently reversed.
+4. Read `PROJECT_PLAN.md` for architecture and system boundaries.
+5. Read `DEVELOPMENT_PLAN.md` for implementation order and prerequisites.
+6. Read only the specialized planning documents relevant to the current task.
+7. If the task touches input/output formats, also inspect `../formats/input/` and/or `../formats/output/`.
+8. Before making a material change, use the dependency/update rules in this file.
+9. After completing work, update `PROGRESS.md` and any affected source-of-truth planning documents.
+
+Do not treat prior chat history as the canonical project state when repository planning documents are available.
+
+---
+
+## 2. Planning File Map
+
+### Core authority files
+
+#### `README.md`
+Role:
+- Entry point and document map
+- Dependency graph
+- Change-propagation rules
+- New-AI handoff protocol
+
+Authority:
+- Highest authority for how planning documents interact and how updates propagate.
+
+#### `DECISIONS.md`
+Role:
+- Records accepted architectural/product decisions and their status.
+- Prevents future agents from casually re-litigating settled choices.
+
+Authority:
+- Highest authority for accepted decisions unless the user explicitly reverses one.
+
+#### `PROGRESS.md`
+Role:
+- Live operational status.
+- Current milestone, completed work, active work, next actions, blockers, and pending user input.
+
+Authority:
+- Highest authority for "where the project is now."
+
+#### `PROJECT_PLAN.md`
+Role:
+- System architecture and rationale.
+- Defines major modules, boundaries, storage philosophy, reliability principles, and end-state architecture.
+
+Authority:
+- Highest authority for architecture unless superseded by a recorded decision.
+
+#### `DEVELOPMENT_PLAN.md`
+Role:
+- Ordered implementation roadmap.
+- Defines phases, dependencies, user inputs, completion criteria, and milestone order.
+
+Authority:
+- Highest authority for development sequence.
+
+### Specialized planning files
+
+#### `DATA_MODEL_PLAN.md`
+- Conceptual entities, ownership, state lifecycles, source-of-truth rules, Git-vs-PostgreSQL split.
+- Does not freeze SQL table definitions before Phase 2.
+
+#### `IO_CONTRACT_PLAN.md`
+- Human and machine input/output strategy.
+- Governs how the conceptual contracts relate to concrete specifications under `../formats/`.
+
+#### `INTEGRATION_PLAN.md`
+- n8n orchestration, Calendar, email, learning-platform connectors, provenance, synchronization, deduplication, source precedence.
+
+#### `PLANNER_PLAN.md`
+- Deterministic planner responsibilities, constraints, scheduling flow, daily/weekly horizons, goal integration, explainability.
+
+#### `AI_EXECUTION_PLAN.md`
+- AI Router, model tiers, ChatGPT Work/Codex roles, structured proposals, validation boundary, cost policy.
+
+#### `OPERATIONS_PLAN.md`
+- Deployment topology, configuration, secrets, backups, observability, failure recovery, environments.
+
+#### `SECURITY_PRIVACY_PLAN.md`
+- Personal-data boundaries, credential handling, least privilege, retention, logging restrictions, external model data exposure.
+
+#### `TESTING_PLAN.md`
+- Quality gates, fixtures, connector testing, schema validation, planner regression tests, phase-level acceptance tests.
+
+---
+
+## 3. Authority and Conflict Resolution
+
+When documents conflict, use this order:
+
+1. Explicit latest user instruction
+2. `DECISIONS.md` for accepted decisions
+3. `PROGRESS.md` for current status
+4. `DEVELOPMENT_PLAN.md` for sequencing
+5. `PROJECT_PLAN.md` for architecture
+6. Specialized planning documents for domain details
+7. Concrete format/schema files under `../formats/` for implemented I/O contracts
+8. Older comments, issues, or chat context
+
+Do not silently resolve a meaningful contradiction. Update the conflicting documents so the repository returns to a consistent state.
+
+---
+
+## 4. Dependency Graph
+
+```text
+User decisions
+    ↓
+DECISIONS.md
+    ├──────────────→ PROJECT_PLAN.md
+    │                    ↓
+    │              DEVELOPMENT_PLAN.md
+    │                    ↓
+    │       ┌────────────┼────────────┐
+    │       ↓            ↓            ↓
+    │ DATA_MODEL     IO_CONTRACT   INTEGRATION
+    │       │            │            │
+    │       └──────┬─────┘            │
+    │              ↓                  │
+    │         PLANNER_PLAN ←──────────┘
+    │              ↓
+    │      AI_EXECUTION_PLAN
+    │              │
+    ├──────────────┼──────────────┐
+    ↓              ↓              ↓
+OPERATIONS     SECURITY        TESTING
+    ______________|______________/
+                   ↓
+              implementation
+                   ↓
+              PROGRESS.md
+
+IO_CONTRACT_PLAN.md
+    ↓
+../formats/input/
+../formats/output/
+```
+
+Interpretation:
+- Architecture determines module boundaries.
+- Development order determines when modules may be implemented.
+- Data and I/O definitions are prerequisites for reliable persistence and connectors.
+- Integrations feed normalized state; they do not own planning logic.
+- Planner depends on stable state and time availability.
+- AI augments planner/ingestion but must not become canonical state.
+- Operations, security, and testing apply across all implementation phases.
+- Progress reflects actual repository state, not intended future state.
+
+---
+
+## 5. Mandatory Change-Propagation Rules
+
+### If a product/architecture decision changes
+Update:
+1. `DECISIONS.md`
+2. `PROJECT_PLAN.md`
+3. `DEVELOPMENT_PLAN.md` if sequencing changes
+4. Any affected specialized plans
+5. `PROGRESS.md` if current/next work changes
+
+### If development order changes
+Update:
+1. `DEVELOPMENT_PLAN.md`
+2. `PROJECT_PLAN.md` only if its high-level order becomes inconsistent
+3. `PROGRESS.md`
+4. `README.md` only if document dependencies/authority change
+
+### If an entity or state model changes
+Update:
+1. `DATA_MODEL_PLAN.md`
+2. `IO_CONTRACT_PLAN.md` when inputs/outputs expose it
+3. `PLANNER_PLAN.md` if planner consumes it
+4. `INTEGRATION_PLAN.md` if connectors produce it
+5. `../formats/` concrete specs after those specs exist
+6. `TESTING_PLAN.md`
+7. `PROGRESS.md`
+
+### If an input/output contract changes
+Update:
+1. `IO_CONTRACT_PLAN.md`
+2. Corresponding `../formats/input/` or `../formats/output/` files
+3. `DATA_MODEL_PLAN.md` if semantics change
+4. `INTEGRATION_PLAN.md` for affected sources
+5. `PLANNER_PLAN.md` for affected planner output
+6. `TESTING_PLAN.md`
+7. `PROGRESS.md`
+
+### If a connector changes
+Update:
+1. `INTEGRATION_PLAN.md`
+2. `SECURITY_PRIVACY_PLAN.md` if permissions/data exposure change
+3. `OPERATIONS_PLAN.md` if deployment/configuration changes
+4. `TESTING_PLAN.md`
+5. `PROGRESS.md`
+
+### If AI usage changes
+Update:
+1. `AI_EXECUTION_PLAN.md`
+2. `DECISIONS.md` for material policy changes
+3. `SECURITY_PRIVACY_PLAN.md` if data sent to models changes
+4. `OPERATIONS_PLAN.md` if new credentials/services are required
+5. `TESTING_PLAN.md`
+6. `PROGRESS.md`
+
+### After any implementation work
+Always inspect/update:
+- `PROGRESS.md`
+- The plan file governing the changed component
+- Tests/acceptance criteria if behavior changed
+
+---
+
+## 6. Planning vs Implemented Truth
+
+Planning documents may describe future intent.
+
+Use these conventions:
+
+- **Accepted**: user-approved direction.
+- **Planned**: intended but not implemented.
+- **In progress**: implementation has begun.
+- **Implemented**: code/config exists.
+- **Verified**: tested in the intended environment.
+- **Deferred**: intentionally postponed.
+- **Superseded**: kept only for historical context; no longer authoritative.
+
+Never label a planned capability as implemented simply because it is described here.
+
+`PROGRESS.md` must distinguish these states explicitly.
+
+---
+
+## 7. Relationship to the Rest of the Repository
+
+`plan/`:
+- Why, what, sequencing, constraints, dependencies, and current status.
+
+`formats/`:
+- Concrete input/output specifications and examples once defined.
+- Conceptual rules originate in `IO_CONTRACT_PLAN.md`; concrete schemas live in `formats/`.
+
+Future implementation directories:
+- Must follow plans but become the truth for what code actually exists.
+- When implementation exposes a planning mismatch, update the plans instead of leaving them stale.
+
+---
+
+## 8. Current Architectural Invariants
+
+Unless explicitly changed by the user:
+
+- n8n is the only workflow/orchestration platform; Dify is out of scope.
+- PostgreSQL is the intended canonical dynamic state store.
+- Git-versioned YAML/JSON/config is intended for stable declarative knowledge.
+- Calendar represents time occupancy, not canonical task truth.
+- Google Calendar is the preferred automation backend; Apple Calendar may remain the user-facing client.
+- AI is replaceable and must not be the database.
+- ChatGPT Plus is not treated as an API backend.
+- Premium ChatGPT Work/Codex usage is human-triggered.
+- AI output should normally be a structured proposal validated before state mutation.
+- GitHub is the canonical source repository.
+- Final runtime should not depend on the user's personal computer being powered on.
+- The project is currently still in planning/domain-model definition, not infrastructure implementation.
+
+For rationale, read `DECISIONS.md` and `PROJECT_PLAN.md`.
+
+---
+
+## 9. Maintenance Checklist for Any AI Agent
+
+Before editing:
+- [ ] Read `PROGRESS.md`.
+- [ ] Read relevant accepted decisions.
+- [ ] Identify authoritative plan file(s).
+- [ ] Identify downstream dependent documents from Section 5.
+
+After editing:
+- [ ] Remove contradictions introduced by the change.
+- [ ] Update dependent planning documents.
+- [ ] Update concrete format specs if already implemented.
+- [ ] Update tests/acceptance plan if behavior changed.
+- [ ] Update `PROGRESS.md`.
+- [ ] Do not claim verification that was not actually performed.
