@@ -263,9 +263,9 @@ Emergency behavior may:
 - increase today's recommended workload;
 - reduce normal buffer when justified.
 
-Most deadline-bearing required tasks should not be treated as casually deferrable.
+REQUIRED tasks should not be treated as casually deferrable.
 
-Exact risk thresholds and terminology remain to be aligned.
+The A0 semantic thresholds are now fixed by Section 12. Implementation may still tune partial-day handling and numerical rounding without changing those semantics.
 
 ---
 
