@@ -733,22 +733,346 @@ A daily plan is good when it contributes to long-horizon success, not merely whe
 
 ---
 
-## 29. A0 Items Still Requiring Follow-Up
+## 29. Task-Centric System Model
 
-After the first two rounds, the following still require alignment before A0 can close:
+The fundamental operational unit of WhatToDo is the **Task**.
 
-- exact presentation/prioritization of confirmation questions in morning/evening review;
-- exact semantics/scales for the three difficulty dimensions;
-- exact information model for importance vs necessity/requiredness;
-- detailed Course fields and how each affects downstream modules;
-- exact task-type template representation;
-- exact handling of subtasks/stages in user-facing daily plans;
-- daily plan output layout;
-- risk-level terminology and thresholds for comfortable/tight/emergency states;
-- how the 40–60 minute buffer interacts with days containing little or no discretionary time;
-- how to infer procrastination without falsely blaming capacity shortages;
-- exact stale-user-interaction reminder policy;
-- per-goal onboarding fields;
-- external completion evidence classes to support later.
+Courses, study, exercise, life administration, and other groupings are contextual/classification layers around tasks. They help humans and AI understand provenance, meaning, grouping, and defaults, but the planner ultimately reasons about concrete tasks.
+
+Planning-relevant properties such as:
+- importance;
+- requiredness;
+- three-dimensional difficulty;
+- effort;
+- remaining effort;
+- minimum useful continuous session;
+- fragmentability;
+- completion state;
+
+belong primarily to individual Task instances or to TaskType templates that provide defaults for Task instances.
+
+Course-level importance is **not** a primary planning variable. If a course matters, that importance should ultimately be expressed through the importance/requiredness of its tasks, goals, exams, or generated review work.
+
+---
+
+## 30. Importance vs Requiredness
+
+Keep two distinct Task dimensions:
+
+### Requiredness
+Whether the task must ultimately be completed.
+
+A task with a deadline is not automatically required.
+
+Examples:
+- mandatory submitted homework → required;
+- optional exercise with an expiry/deadline → optional;
+- preparation task that becomes irrelevant after the class occurs → may expire without completion.
+
+### Importance
+How strongly the task should influence planning among available/required work.
+
+Importance affects:
+- earlier/later placement;
+- emergency-mode removal recommendations;
+- allocation under scarcity.
+
+Planner invariant:
+- required work must be protected sufficiently to remain feasible;
+- importance helps choose ordering and sacrifices when not everything can fit.
+
+Exact importance scale is still to be aligned.
+
+---
+
+## 31. Three-Dimensional Difficulty Scale
+
+The accepted three dimensions are:
+1. thinking depth;
+2. repetitive volume;
+3. new-learning load.
+
+Each uses a **1–5 scale**.
+
+These dimensions apply primarily to Task instances.
+
+Normal creation flow:
+- a TaskType template provides default 1–5 values;
+- when a concrete task is created, its task-level values are initialized from the template;
+- task values may later be overridden when the specific instance materially differs.
+
+The user is not expected to manually maintain hidden derived statistics used only for prediction quality.
+
+---
+
+## 32. Estimation Accuracy Is an Internal Learning Problem
+
+The user does not require a visible "estimate reliability" field.
+
+Instead, the system should maintain whatever historical/calibration data is necessary to make future effort estimates increasingly accurate.
+
+The optimization objective is prediction quality, not exposing every statistical intermediate to the user.
+
+Possible internal techniques may later include:
+- per-course/task-type rolling averages;
+- robust medians/quantiles;
+- difficulty-conditioned estimates;
+- recency weighting;
+- user-specific estimation bias;
+- uncertainty intervals.
+
+The exact algorithm is an implementation/design problem to solve later, provided its outputs remain inspectable and correctable.
+
+---
+
+## 33. Daily Display of Parent Tasks and Stages
+
+The normal daily plan should show:
+
+```text
+Parent Task
+→ specific stage/subtask to advance today
+```
+
+Example:
+```text
+DSA LAB2
+Today: finish implementation + start debugging
+```
+
+Subtasks/stages may have independent completion states.
+
+The parent task remains INCOMPLETE until the overall obligation is complete.
+
+This allows:
+- overall deadline tracking at parent level;
+- precise daily execution at stage level;
+- resuming from the correct stage the next day.
+
+---
+
+## 34. Course Progress Axis
+
+Add a course-level **progress axis** that provides a semantic location for instructional progress and task attachment.
+
+Purpose:
+- represent where the course currently is;
+- attach preview/lecture/note/homework/review tasks to instructional progress;
+- represent prerequisite order;
+- define exam coverage;
+- generate review work over a range of course progress.
+
+The axis should support at least lesson/session-granularity positions and ranges.
+
+For lesson N, useful semantic positions include:
+- before lesson N;
+- during lesson N;
+- after lesson N.
+
+Useful ranges include:
+- lesson 1 through lesson N;
+- lesson A through lesson B.
+
+Examples:
+- preview task → attached before lesson 5;
+- lecture event → lesson 5;
+- note organization → after lesson 5;
+- exercise task → after lesson 5 or after notes for lesson 5;
+- exam coverage → lessons 1–8.
+
+Tasks may declare prerequisites through this structure.
+
+Example:
+```text
+notes_for_lesson_5
+    ↓ prerequisite
+exercise_for_lesson_5
+```
+
+The progress axis is a semantic model; exact storage and UI are deferred.
+
+---
+
+## 35. Exam Modeling
+
+An exam should be modeled as an independent event/object rather than a normal Task.
+
+The exam should carry:
+- time/date;
+- course association;
+- coverage expressed using the course progress axis;
+- optional importance/weight metadata later.
+
+Exam preparation is generated as one or more Tasks/Goals derived from:
+- exam date;
+- coverage range;
+- review policy;
+- current course progress;
+- backlog/review state.
+
+This enables exam review to use the same Task-based planner while preserving the fact that the exam itself is an event.
+
+---
+
+## 36. Conditional Review / Catch-Up Tasks
+
+The system may support dormant/conditional task templates for:
+- note catch-up;
+- review;
+- backlog cleanup;
+- exam-preparation cleanup.
+
+These tasks are not always active.
+
+They may activate when predefined conditions are met, for example:
+- course progress advances beyond a threshold while notes lag;
+- a configured review interval is reached;
+- exam sprint/review phase begins;
+- backlog crosses an accepted threshold.
+
+The user prefers these conditions to be configured ahead of time rather than the system spontaneously inventing arbitrary review work.
+
+---
+
+## 37. Risk State Vocabulary
+
+Use three high-level feasibility states:
+
+### SAFE
+Current/planned workload is comfortably feasible within available capacity.
+
+### DANGER
+Capacity margin is low enough that the user should be warned and work may need to be advanced or intensified.
+
+### EMERGENCY
+Projected required work exceeds, or is effectively at risk of exceeding, feasible remaining capacity before one or more hard deadlines.
+
+Exact numeric thresholds are deferred.
+
+---
+
+## 38. Emergency-Mode Daily Interaction
+
+When the day is classified as EMERGENCY, daily planning becomes a two-round interaction.
+
+### Round 1
+The system should still present the **normal plan produced under normal planning rules**, so the user can see the baseline obligations and recommendations.
+
+Then the system should:
+- identify the feasibility problem;
+- suggest which lower-importance/non-required tasks are candidates for removal;
+- explain the principle behind those suggested removals;
+- ask the user which items they are willing to remove;
+- ask how much additional time they can realistically squeeze out today.
+
+### Round 2
+Using:
+- user-selected removals;
+- extra time the user can provide;
+
+the system recalculates and returns the final emergency-day plan.
+
+The system may recommend sacrifices, but the user retains final authority over what is removed.
+
+---
+
+## 39. Weekly Re-Evaluation of Learned Defaults
+
+The system may autonomously perform a weekly evaluation of historical planning/execution data.
+
+Potential outputs:
+- revised effort estimates;
+- observed task-type duration patterns;
+- procrastination/resistance patterns;
+- time-of-day performance patterns;
+- recurring underestimation;
+- task-template parameter suggestions.
+
+The user must be able to intervene at any time.
+
+A learned behavioral rule that would materially change Planner behavior should be presented to the user for confirmation before becoming an accepted planning rule.
+
+---
+
+## 40. Historical Learning Architecture
+
+Pattern discovery should not be treated as a hidden responsibility of the Planner itself.
+
+Use a conceptual separation:
+
+```text
+Execution / WorkSession / plan history
+        ↓
+Historical Learning / Behavior Analyzer
+        ↓
+Candidate learned pattern
+        ↓
+User review
+        ↓
+Accepted learned parameter/rule
+        ↓
+Planner
+```
+
+The Planner consumes accepted learned parameters.
+
+The analyzer discovers candidate patterns.
+
+Required data foundations are already conceptually planned, but must be extended to include:
+- planned task/session;
+- actual completion;
+- actual effort;
+- estimated remaining effort snapshots;
+- release time;
+- first meaningful work time when available;
+- completion time;
+- daily available capacity;
+- reasons/categories for non-completion when available;
+- time-of-day/session context;
+- task type/course;
+- difficulty dimensions;
+- postponement history.
+
+This is sufficient in principle to support the user's examples:
+- "DSA LAB takes ~40% longer than expected";
+- "this task type is repeatedly postponed";
+- "high-thinking tasks perform poorly at certain times".
+
+Exact persisted schemas are deferred until Phase 2.
+
+---
+
+## 41. User Authority Over Learned Rules
+
+If a learned pattern conflicts with an explicit user rule or preference:
+
+1. do not silently override the user's rule;
+2. show the observed evidence/pattern in a concise form;
+3. suggest the possible rule change;
+4. let the user accept, reject, or modify it;
+5. only then update the accepted planning rule.
+
+Historical evidence informs the user; it does not automatically outrank explicit user intent.
+
+---
+
+## 42. A0 Items Still Requiring Follow-Up
+
+After the first three rounds, the following still require alignment before A0 can close:
+
+- clarify the exact meaning of "start early" / lead-time policy for task types (Question 10 from round three);
+- clarify whether any persistent cross-course/task priorities are needed beyond task-level importance (Question 13 from round three);
+- exact importance scale;
+- exact requiredness representation beyond required/optional/expiring cases;
+- exact handling of task-type default difficulty versus per-task override during creation;
+- exact confirmation-question presentation/prioritization;
+- exact SAFE/DANGER/EMERGENCY threshold philosophy;
+- details of course progress-axis identifiers and how unusual course structures map onto it;
+- exact conditional activation rules for review/catch-up templates;
+- exact weekly learned-pattern review presentation;
+- exact daily plan output layout;
+- stale-user-interaction reminder policy;
+- long-term-goal onboarding fields;
+- external completion-evidence classes.
 
 Resolve these through subsequent A0 conversation before dependent semantic models are frozen.
