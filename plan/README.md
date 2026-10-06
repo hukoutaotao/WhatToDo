@@ -330,7 +330,7 @@ Unless explicitly changed by the user:
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
 - Alignment Gate A0 is complete.
-- A0 is complete; M1 is the next incomplete semantic milestone. Current handoff is post-audit detailed planning, then M1/M1B/M2 as prerequisites; see PROGRESS.md. No infrastructure implementation has begun.
+- A0 is complete; M1 is the next incomplete semantic milestone. Current handoff is six remaining experience choices (two internal boundaries resolved), then post-audit detailed planning and M1/M1B/M2 prerequisites; see PROGRESS.md. No infrastructure implementation has begun.
 - Broad A0 questioning should not be reopened unless later work reveals a genuine semantic contradiction.
 - Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
@@ -353,4 +353,3 @@ After editing:
 - [ ] Update tests/acceptance plan if behavior changed.
 - [ ] Update `PROGRESS.md`.
 - [ ] Do not claim verification that was not actually performed.
-

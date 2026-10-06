@@ -6,7 +6,7 @@
 > M1 modeling specification after A0: `plan/USER_MODEL_PLAN.md`
 
 > Status: Existing milestone roadmap; detailed execution plan not yet prepared.
-> Current requested sequence: consistency audit → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
+> Current requested sequence: consistency audit → resolve remaining experience choices (internal O03/O06 resolved) → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
 > Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
@@ -932,7 +932,7 @@ A0 is closed. Do not reopen broad alignment questioning unless M1 or later work 
 
 Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
-After the completed consistency audit, prepare the detailed project plan before beginning further user-information collection. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
+After the completed consistency audit, obtain the six remaining user-experience answers before detailed planning. Internal O03/O06 are resolved specifications. Then prepare the detailed project plan before beginning course/activity collection. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
 
 Subsequent semantic sequence:
 

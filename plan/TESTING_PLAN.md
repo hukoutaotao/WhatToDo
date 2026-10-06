@@ -227,12 +227,12 @@ Update PROGRESS.md with the strongest actually demonstrated state.
 - A clear user command commits only its resolved authorized update; no duplicate confirmation is required. Ambiguous references remain pending.
 - High-confidence published deadlines and strong submission evidence update source/candidate records without automatically mutating canonical Task facts.
 - Internal numeric calibration changes derived predictions without rule approval; it does not rewrite user estimates, TaskType defaults, past snapshots, or explicit preferences.
-- Parent 4 h remaining + selected 1 h stage consumes 1 h of today's allocation and represents 4 h total remaining, not 5 h. Conflicting parent/stage estimates are resolved under the M2 contract.
+- Parent 4 h remaining + selected 1 h stage consumes 1 h of today's allocation and represents 4 h total remaining, not 5 h. Conflicting parent/stage estimates follow DATA_MODEL_PLAN Section 12: parent budget controls totals, derived stage budgets are separate, and accepted contradictions that affect planning are surfaced.
 - Each risk inequality is checked at its boundary: C - R = S is SAFE; C - R = 0 is DANGER for positive S; negative is EMERGENCY. Report all three horizons and the worst mode.
 - 1-day SAFE + 3-day EMERGENCY enters overall EMERGENCY and the two-round interaction. The baseline is provisional, and the final plan reports any unresolved deficit.
 - Removing only OPTIONAL work cannot mathematically fix a negative C - R for REQUIRED work. Daily removal never silently cancels/deletes canonical Tasks.
 - S is not subtracted twice. Discretionary allocation respects the reserve; the small-gap policy does not grant authority to fill reserved rest capacity.
-- Aggregate hours are sufficient but an early deadline/release/hard dependency/minimum block prevents completion: expose the bottleneck rather than certify a feasible plan. Exact mode aggregation is finalized before the scenario becomes executable.
+- Aggregate hours are sufficient but an early deadline/release/hard dependency/minimum block prevents completion: expose the bottleneck rather than certify a feasible plan. A proven hard placement deficit is EMERGENCY; a heuristic/solver timeout is incomplete verification rather than proof of infeasibility (PLANNER_PLAN Section 21).
 - Required work beyond 7 days can be advanced to prevent a later bottleneck; importance governs discretionary work once feasibility is protected.
 - Review presents the whole confirmation queue, keeps unanswered items pending, and follows up for missing future-relevant remaining effort. A missing interaction never fabricates progress.
 - Today-only override respects configured local day boundaries and preserves the distinction between “complete” and “advance”. No server-timezone assumption.
@@ -242,3 +242,11 @@ Update PROGRESS.md with the strongest actually demonstrated state.
 - Completed/cancelled/expired/reopened outcomes retain relevant history; raw-content minimization can coexist with retained semantic audit records.
 
 These are planned acceptance cases, not executed runtime tests. Unresolved edges in CONSISTENCY_AUDIT.md must be settled before pinning an exact expected behavior. The current audit verifies documents/references and requirement propagation only.
+
+---
+
+## 10. Resolved Internal-Boundary Acceptance Cases
+
+O03: parent budget 4 h with derived stage weights 1:3 produces budgets 1 h and 3 h, not 8 h total. A confirmed new parent budget changes derived allocations while preserving old estimates. User-confirmed stage rework updates the stage and same parent consistently in one audit transaction; ambiguous follow-up meaning stays pending. Conflicting user estimates are preserved and reconciled when material, never silently overwritten.
+
+O06: a 7-day total-capacity surplus cannot hide an impossible first-day deadline or minimum-session constraint. Confirm feasible placement before applying reserve margins. Early required allocation for a distant deadline is derived once from the longer projection. An exact infeasibility result differs from a heuristic failure/timeout. These are specification acceptance cases; no executable Planner exists yet.

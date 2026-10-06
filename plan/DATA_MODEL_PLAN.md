@@ -426,8 +426,8 @@ When resolved, propagate changes to:
 
 - Keep separate dimensions: candidate acceptance, INCOMPLETE/COMPLETE, lifecycle/disposition (active/cancelled/expired), and derived overdue/stale/conflicted metadata. Their exact encoding is open; a single undifferentiated status enum is insufficient. An overdue REQUIRED Task is not automatically complete, optional, expired, or deleted.
 - User-confirmed remaining effort, template/default initial estimates, internal numeric predictions, and selected daily stage/session estimates are different quantities with provenance/version. Completing a Task sets its remaining effort to zero after authorized validation; time spent alone never proves completion or mechanically determines remaining effort.
-- Parent and child stages describe the same obligation. Forecasts must count its work once; daily selected stage effort is part of parent effort, not an extra workload. Parent-versus-stage reconciliation when estimates differ is an M2 decision, not an implicit sum rule.
-- A child-stage completion does not independently confirm the final parent obligation. Reopening a stage preserves history and requires the accepted personal-state authorization path; propose any parent-state effect rather than inventing it.
+- Parent and child stages describe the same obligation. Forecasts must count its work once; daily selected stage effort is part of parent effort, not an extra workload. Parent-versus-stage accounting is resolved in Section 12: parent effort is the canonical budget, stage estimates are derived planning allocations, not additional workload.
+- A child-stage completion does not independently confirm the final parent obligation. Reopening a stage preserves history and requires the accepted personal-state authorization path; apply the consistent parent effect under Section 12 when the user explicitly confirms genuine rework of that same obligation.
 - TaskType defaults may be copied automatically into a proposed/authorized Task; automatic inheritance does not authorize canonical creation. New template versions must not silently rewrite existing accepted Tasks.
 - Accepted Goal configuration is distinct from generated Task instances and Goal progress. Generators must be idempotent; activation authority remains open in CONSISTENCY_AUDIT.md.
 - Expiration time/condition is distinct from deadline. Time crossing that condition may be detected automatically, but canonical EXPIRED-transition authority still needs explicit resolution. Preserve evidence and history in the meantime.
@@ -436,3 +436,18 @@ When resolved, propagate changes to:
 - Effective-state/version checks and audit records are required for confirmed writes, including batch writes. Reject stale proposals rather than overwriting intervening user updates.
 
 Open cross-file edges are tracked in CONSISTENCY_AUDIT.md; exact SQL tables remain deferred until Phase 2.
+
+---
+
+## 12. O03 Resolved — Parent/Stage Accounting
+
+Resolution type: internal engineering rule under existing A0 semantics; no new user field or repeated review is introduced. The user authorized resolution of non-experience implementation questions on 2026-10-06.
+
+1. A parent obligation has one user-confirmed remaining-effort budget. Selected stages/sessions consume that budget for forecast accounting; they are never added to it as separate Tasks' workloads. Preserve any original stage estimate and its provenance separately.
+2. Stage planning budgets are derived. Allocate the parent budget across its unfinished stages using accepted template proportions or stage prediction weights. If valid weights sum to W and the parent budget is P, a provisional stage allocation is P*w_i/W. Exact allocation heuristics may change without changing canonical estimates. With no reliable weights, plan against the parent budget and report stage-estimate uncertainty rather than fabricate user-supplied detail.
+3. Preserve separately user-provided stage estimates if available. A contradictory accepted stage estimate is not silently scaled away or used to overwrite the parent. Surface one reconciliation question, with both interpretations, only when the contradiction affects actionable planning. Otherwise the parent budget controls overall accounting and the mismatch remains visible metadata.
+4. Reporting time spent never mechanically reduces canonical remaining effort. Evening confirmation supplies the new parent estimate; derived stage allocations are then regenerated. Existing history retains the earlier budget and predictions.
+5. If the user explicitly says an existing obligation's completed stage genuinely needs rework, the resolved command authorizes reopening that stage and keeping/reopening its parent as INCOMPLETE in the same audited transaction. This is a consistent effect of the user's command, not external evidence or automatic inference. Obtain a user-confirmed remaining estimate when needed. Distinguish correcting an erroneous old completion record from a new independent follow-up obligation; ambiguous intent stays pending.
+6. Child stages alone do not prove final parent completion. Final COMPLETE remains user-confirmed, with remaining effort zero. Keep stage/parent rework history and do not re-ask the same resolved instruction.
+
+This uses the existing normal brief (parent remaining effort + today's stage estimate) and the existing rework/confirmation rules. Physical storage, rounding precision, and optimization-library choice remain later engineering details.

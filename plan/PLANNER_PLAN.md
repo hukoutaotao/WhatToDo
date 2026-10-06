@@ -236,6 +236,8 @@ Then:
 - DANGER when 0 <= C - R < S
 - EMERGENCY when C - R < 0
 
+These margin labels assume REQUIRED work can be placed before its deadlines under the hard constraints. Section 21 checks that prerequisite; a proven placement deficit is EMERGENCY even when unrelated free hours make the aggregate margin positive.
+
 Evaluate 1-day, 3-day, and 7-day horizons separately.
 
 Overall mode uses the worst horizon:
@@ -353,10 +355,26 @@ Never silently cancel REQUIRED work or treat removal from a daily list as cancel
 - A positive aggregate C - R is not by itself proof of feasibility. Deadline-prefix bottlenecks, release times, hard prerequisites, and minimum useful windows can make work impossible even with sufficient total hours. The accepted feasibility rules must be implemented with suitable checks, not weakened to calendar-date labels.
 - Required work due beyond 7 days may need effort today to preserve long-run feasibility. Daily/weekly/long-term layers coordinate; R must not blindly omit necessary early allocations or count every future Task's full effort as due today.
 - Overdue REQUIRED work remains visible until the user confirms its disposition. EXPIRING work is distinct; detect time/condition crossings without inventing canonical transition permission.
-- User remaining effort is canonical; numeric predictions are advisory and disagreement may add an estimation-risk warning. Exact forecast estimate selection, parent/stage reconciliation, and aggregation of window infeasibility into reported modes are unresolved design details in CONSISTENCY_AUDIT.md.
+- User remaining effort is canonical; numeric predictions are advisory and disagreement may add an estimation-risk warning. Forecast estimate selection still needs the user-experience answer O04. Parent/stage accounting is resolved in DATA_MODEL_PLAN Section 12, and window-infeasibility handling is resolved in Section 21.
 - Preserve the reserve when allocating discretionary work; do not fill it merely to improve utilization. The ~40-minute residual-gap rule is separate from the one-hour reserve; exact fragmentation/accounting is still open.
 - Use a configured user planning timezone, not the server timezone, for “today”, override expiry, date-only deadlines, and missed-interaction days. The actual user profile timezone and rolling-vs-calendar horizon boundaries still need confirmation/design in M2/M4.
 
 ## 20. Failures and Missing Information
 
 Unknown/stale capacity or missing task facts cannot produce falsely precise SAFE claims. Retain the last trusted facts, expose data quality/blocked review, and recompute after confirmation. Three feasibility states remain accepted; missing knowledge is separate metadata, not a new invented risk state. Minimal missed-interaction handling is required for the MVP; Phase 7 adds broader recovery/weekly analysis.
+
+---
+
+## 21. O06 Resolved — Feasibility Checks and Horizon Accounting
+
+Resolution type: internal engineering specification to preserve accepted deadline safety, three risk states, and long-horizon advancement. It does not introduce an additional user choice or an implemented scheduling algorithm.
+
+- Build a versioned availability/required-work snapshot using the selected estimate policy (O04 still awaits the user). Normalize usable windows, release dates, deadlines, hard prerequisites, task continuity/minimum session constraints, and confirmed today-only locks. Count parent obligations once under DATA_MODEL_PLAN Section 12.
+- Evaluate actual required-work placement feasibility within those windows, not just aggregate free hours. Every deadline prefix is a constraint. Include dependencies' required work; a task unavailable until late cannot consume earlier free time. Soft academic sequences may be bypassed under the accepted policy with an exception note; hard dependencies remain binding.
+- Use one coordinated longer-horizon workload projection for required work beyond day 7. Determine necessary early allocations from release/deadline/window restrictions and remaining later capacity, then feed those derived allocations into shorter-horizon workload accounting. Do not count a distant Task's entire budget as due today, and do not add its parent/stage representations twice. Preserve provenance for the projected early allocation and do not mutate the Task's accepted deadline.
+- Compute each horizon's C, counted REQUIRED workload R, and reserve target S separately. Horizon snapshots overlap and are not summed. C excludes configured occupancy/no-work/buffers, but not S. Report the accepted C-R margin alongside any placement bottleneck.
+- A proven required-work placement deficit before a relevant deadline is EMERGENCY even if total hours elsewhere in the horizon look adequate: those hours are not usable for that obligation. If required placement is feasible, apply the accepted reserve inequalities: SAFE when C-R >= S, DANGER when 0 <= C-R < S. Overall mode remains the worst 1/3/7-day result. Longer-horizon bottlenecks also appear in the weekly/long-term forward preview, with their necessary early workload propagated into the daily projection.
+- Solve hard-constraint placement independently of importance-based discretionary selection. Choose optional/additional work only after required feasibility/reserve are protected. A heuristic failing to find a placement is not proof that none exists; run an exact constraint check or report incomplete verification/data quality rather than invent an EMERGENCY proof or SAFE guarantee.
+- Keep the implementation interchangeable (e.g. a deterministic constraint solver with a small exact fixture oracle). No provider/language/library is selected here. Respect task-specific indivisibility and minimum sessions; an overly relaxed hour-sum calculation cannot certify executable feasibility.
+
+Acceptance cases: abundant total hours but an early deadline has too few usable hours; several short windows cannot fit one continuous stage; hard dependency pushes work beyond a deadline; far-future work must start today because later capacity is full; parent/stage work is counted once; known feasible fixtures remain feasible; solver timeout is not confused with proven infeasibility.

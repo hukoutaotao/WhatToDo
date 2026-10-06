@@ -7,7 +7,7 @@
 
 Last updated: 2026-10-06
 
-Overall status: **DOCUMENT CONSISTENCY AUDIT COMPLETE; DETAILED PLANNING NEXT**
+Overall status: **AUDIT COMPLETE; TWO INTERNAL BOUNDARIES RESOLVED; SIX EXPERIENCE CHOICES AWAIT USER ANSWERS**
 
 Current milestone: **M0 COMPLETE → A0 COMPLETE → M1 NEXT / INCOMPLETE**
 
@@ -93,7 +93,7 @@ Authority:
 
 ## 3. Current Work
 
-The completed work is the requested full-document consistency audit. The immediate next work is **detailed project planning**, per the user's latest instruction. M1 remains the next incomplete semantic milestone; no course/activity profiles were collected or approved in this audit.
+The completed work is the requested full-document consistency audit. The immediate next work is **resolve six user-experience choices**, per the user's follow-up instruction, then detailed project planning. M1 remains the next incomplete semantic milestone; no course/activity profiles were collected or approved in this audit.
 
 No implementation task is active.
 
@@ -112,7 +112,7 @@ Important:
 
 ## 4. Immediate Next Actions
 
-First prepare a detailed project plan using the reconciled documents and CONSISTENCY_AUDIT.md. Do not implement or restart broad A0 questioning. Distinguish accepted requirements, missing user facts, open semantic edges, proposed technical choices, and runtime acceptance gates.
+First collect answers to O01/O02/O04/O05/O07/O08 and propagate the accepted choices. O03/O06 are resolved internal specifications. Then prepare a detailed project plan using the reconciled documents and CONSISTENCY_AUDIT.md. Do not implement or restart broad A0 questioning. Distinguish accepted requirements, missing user facts, open semantic edges, proposed technical choices, and runtime acceptance gates.
 
 After that planning work, the semantic prerequisite sequence remains:
 
@@ -234,6 +234,12 @@ When a milestone is completed:
 
 Read CONSISTENCY_AUDIT.md for the exact findings, affected files, and open questions. Repairs cover A0/register internal conflicts, old architectural shortcuts, course/template semantics, Task lifecycle/trust separation, learning permissions, emergency review, workload accounting, roadmap prerequisites, tests, and format placeholders.
 
-Remaining planning dependencies include Goal/recurring/conditional activation authority, canonical expiration authority, parent/stage effort reconciliation, forecast estimate choice, local horizon conventions, window-bottleneck aggregation, reserve/small-gap accounting, and full-queue review UX. None is silently treated as user-approved.
+Six experience questions remain: Goal/recurring/conditional activation authority, canonical expiration authority, forecast estimate choice, local horizon/timezone conventions, reserve/small-gap meaning, and full-queue review UX. O03 parent/stage accounting and O06 window/horizon feasibility handling are resolved engineering specifications; no user-policy exception was invented.
 
 No database, workflow, connector, Planner, model path, profile schema, or machine I/O schema was implemented. A0 stays complete; M1/M1B/M2 stay incomplete. The user need not review long AI-oriented documents; provide a concise user summary and use the repository for future detailed planning.
+
+---
+
+## 11. Boundary Follow-Up — 2026-10-06
+
+The user authorized autonomous resolution of internal matters and requested questions about final user experience. Resolved O03 in DATA_MODEL_PLAN §12 and O06 in PLANNER_PLAN §21, with acceptance scenarios in TESTING_PLAN §10. Updated the audit register and handoff. No runtime was implemented. Six product/interaction choices remain pending; O05 includes the user's actual planning timezone and day-boundary convention.
