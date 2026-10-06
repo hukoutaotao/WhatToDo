@@ -45,10 +45,10 @@ Recommended fields:
 - term
 - active/inactive
 
-### Importance
-- subjective importance
-- credit/exam significance if useful
-- whether failure/late work has unusually high cost
+### Course-level priority
+Do not assign a primary planner importance score to the Course itself.
+
+Course is mainly a semantic/grouping context. Importance and requiredness belong to concrete Tasks, Goals, Exams, or generated review work.
 
 ### Typical task types
 Examples:
@@ -67,10 +67,12 @@ Examples:
 ### Work characteristics
 Do not use one generic difficulty dimension by default.
 
-At minimum consider:
+At minimum use 1–5 task-level dimensions:
 - thinking depth
 - repetitive volume
 - new-learning load
+
+TaskType templates provide defaults; concrete Task instances inherit and may override them when needed.
 
 Also capture where useful:
 - typical total duration by task type
@@ -91,6 +93,18 @@ Also capture where useful:
 - whether regular review is needed
 - how far before midterm/final review should begin
 - whether knowledge accumulates strongly across weeks
+
+### Course progress axis
+Each course should define an instructional progress axis.
+
+At minimum support:
+- lesson/session identifiers;
+- before lesson N;
+- during lesson N;
+- after lesson N;
+- ranges such as lessons 1–N or A–B.
+
+Tasks, prerequisites, review conditions, and exam coverage may attach to this axis.
 
 ### Dependencies
 Examples:
