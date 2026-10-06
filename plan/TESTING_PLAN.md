@@ -118,6 +118,15 @@ Once PostgreSQL exists:
 - Semantic contracts are distinguished from provider adapter contracts.
 - Integration-specific unknowns are explicitly deferred instead of guessed.
 
+Additional A0 behavioral acceptance:
+- morning and evening interaction semantics are recorded;
+- uncertainty does not silently mutate trusted state;
+- task difficulty can represent the three accepted dimensions;
+- task granularity may vary by course/task type;
+- planner output does not require exact clock scheduling by default;
+- historical actual effort can feed future estimation;
+- goal onboarding and completion-confirmation behavior are explicitly represented.
+
 ### Phase 1
 - Real courses/tasks fit schemas.
 - Input examples normalize without ad hoc hacks.
@@ -140,6 +149,9 @@ Once PostgreSQL exists:
 ### Phase 5
 - planner respects hard constraints and capacity.
 - daily output usable without premium AI.
+- planner avoids impossible overfill on representative scenarios;
+- planner can distinguish deep-block tasks from fragmentable tasks;
+- normal output remains concise while risk/exception scenarios expose useful explanation.
 
 ### Phase 6
 - model swap/failure does not break canonical system.
