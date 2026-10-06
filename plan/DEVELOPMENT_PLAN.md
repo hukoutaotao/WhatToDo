@@ -1,70 +1,66 @@
 # WhatToDo — Ordered Development Plan
 
 > Status: Planning phase  
-> Audience: AI agents, Codex, maintainers  
-> Authority: This file is the authoritative source for **development order and dependencies**.  
+> Audience: AI agents, Codex, future maintainers  
+> Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
 > Architecture reference: `plan/PROJECT_PLAN.md`  
-> Rule: If development sequencing here conflicts with older sequencing elsewhere, this file takes precedence. Architectural principles in `PROJECT_PLAN.md` remain valid unless explicitly superseded.
+> Rule: If an older document differs on implementation order, this file takes precedence. Architectural principles in `PROJECT_PLAN.md` remain valid unless explicitly superseded.
 
 ---
 
-## 1. Purpose
+## 1. Development Principle
 
-This plan converts the WhatToDo architecture into an executable development sequence.
+Do not start by building infrastructure, scraping, or AI.
 
-The project should not be built by starting with infrastructure, scraping, or AI. The correct order is:
+Build in this dependency order:
 
 ```text
-Understand the user and define data
+Define what the system must understand
         ↓
 Persist trusted state
         ↓
-Understand available time
+Understand the user's available time
         ↓
 Collect external changes automatically
         ↓
 Plan tasks deterministically
         ↓
-Add AI where useful
+Add AI selectively
         ↓
-Learn and recover over time
+Recover and improve from real usage
 ```
 
-The project currently contains twelve core functional capabilities. They are grouped into seven ordered phases below.
+The project has **12 core functional capabilities**. In addition, several design artifacts such as the Task schema and input/output contracts must be defined early because later functions depend on them.
 
 ---
 
-## 2. Core Functional Capabilities
+## 2. The 12 Core Functional Capabilities
 
 ### F1 — Personal Domain Classification
 
-Purpose:
-- Represent the user's work using the top-level domains:
+Goal:
+- Represent the user's life using the agreed top-level domains:
   - Study / academics
   - Exercise / sports
   - Life administration
   - Other
 
-User information required:
+User must provide:
 - Confirmation of categories
-- Optional subcategories
-- Examples of common recurring responsibilities
-
-Output:
-- Stable domain taxonomy
+- Common recurring responsibilities
+- Optional subcategories if useful
 
 Depends on:
 - Nothing
 
 ---
 
-### F2 — Course / Activity Profiles
+### F2 — Course / Activity Model
 
-Purpose:
-- Model each course or recurring activity differently instead of treating every task as identical.
+Goal:
+- Model each course and recurring activity according to its real characteristics.
 
-The profile may contain:
-- Name
+Possible properties:
 - Importance
 - Typical task types
 - Cognitive difficulty
@@ -75,28 +71,337 @@ The profile may contain:
 - Preferred time of day
 - Deadline patterns
 - Exam relevance
-- Recurrent preparation/review needs
 
-User information required:
-- Current courses and recurring activities
-- Per-course description of workload and difficulty
-- Typical task patterns
-- Personal experience about how the work feels and how long it takes
-
-Output:
-- Version-controlled course/activity profiles
+User must provide:
+- Current courses
+- Recurring activities such as training
+- Per-course workload and difficulty
+- Typical task types
+- Personal experience about duration and working style
 
 Depends on:
 - F1
 
 ---
 
-### F3 — Task Model and Lifecycle
+### F3 — Task Input System
 
-Purpose:
-- Define exactly what the system means by a Task.
+Goal:
+- Let new tasks, corrections, completions, cancellations, and schedule changes enter WhatToDo conveniently.
 
-Likely task fields include:
+Initial input sources:
+1. Direct natural-language user input
+2. Calendar
+3. Email
+4. Learning platform
+5. Internally generated system/history events
+
+The user should not need to manually write JSON.
+
+User must provide:
+- Real examples of how they naturally describe tasks and changes
+- Which sources should be treated as authoritative
+- Which ambiguous changes may be auto-accepted
+
+Depends on:
+- F2
+- Foundational Task model
+
+---
+
+### F4 — Task State Database
+
+Goal:
+- Maintain the canonical answer to: "What is currently true?"
+
+Dynamic state includes:
+- Tasks
+- Status
+- Progress
+- Deadlines
+- Estimated remaining effort
+- Events
+- Goal progress
+- Source records
+- Sync metadata
+- Plan history
+
+Storage direction:
+- PostgreSQL for dynamic operational state
+- Git/YAML/JSON for stable declarative knowledge
+
+User must provide:
+- Mainly review and confirmation that the model matches real use
+- No database expertise is required
+
+Depends on:
+- F2
+- F3
+- Task schema
+- Input contract
+
+---
+
+### F5 — Long-Term Goal System
+
+Goal:
+- Represent long-term outcomes separately from immediate tasks.
+
+Hierarchy:
+
+```text
+Goal
+↓
+Milestone
+↓
+Task generation rule
+↓
+Concrete task
+↓
+Work session
+```
+
+Examples:
+- English exam in three months
+- Midterm preparation
+- Final exam preparation
+- Long-running project
+
+User must provide:
+- Goal
+- Target date
+- Desired outcome
+- Major phases if known
+- Acceptable pacing and hard constraints
+
+Depends on:
+- F4
+
+---
+
+### F6 — Calendar / Time System
+
+Goal:
+- Let the system know when the user is occupied and when usable work time exists.
+
+Current direction:
+- Google Calendar as automation backend
+- Apple Calendar may remain the user's everyday client
+
+User must provide:
+- Current class timetable
+- Training schedule
+- Recurring fixed commitments
+- Which events are immovable
+- Which blocks may move
+- Calendar habits
+- Relevant no-work / sleep boundaries
+
+Depends on:
+- F4
+
+---
+
+### F7 — External Information Collection
+
+Goal:
+- Automatically discover new or changed obligations.
+
+Initial sources:
+- Email
+- Learning platform
+
+Email should support:
+- Classification
+- Fact extraction
+- Course mapping
+- Deduplication
+- Provenance
+
+Learning-platform connector should detect:
+- New assignments
+- Deadline changes
+- Announcements
+- Exam information
+- Relevant files/materials
+
+User must provide:
+- Relevant email accounts/categories
+- Examples of useful vs irrelevant messages
+- Learning-platform page structure and access constraints
+- Which pages and information matter
+
+Depends on:
+- F3
+- F4
+
+---
+
+### F8 — State Reconciliation / Recovery
+
+Goal:
+- Recover trustworthy state after several days of inactivity, missed events, or contradictory information.
+
+Flow:
+
+```text
+Last trusted state
+↓
+Detect stale interval
+↓
+Re-read calendar
+↓
+Fetch missed email
+↓
+Fetch learning-platform changes
+↓
+Re-evaluate deadlines
+↓
+Detect ambiguous / overdue tasks
+↓
+Ask user only for unresolved high-impact facts
+↓
+Restore trusted state
+↓
+Replan next 7–14 days
+```
+
+User must provide:
+- Which unknowns may be inferred
+- Which changes require confirmation
+- How aggressively tasks may be marked obsolete/completed
+
+Depends on:
+- F4
+- F6
+- F7
+- F9
+
+---
+
+### F9 — Planner Core
+
+Goal:
+- Decide what should be done, in what order, and how work should fit available time.
+
+The planner should be deterministic-first.
+
+Inputs include:
+- Deadline
+- Remaining effort
+- Progress
+- Available calendar capacity
+- Fixed events
+- Dependencies
+- Minimum session length
+- Cognitive load
+- Importance
+- Exam proximity
+- Long-term milestone requirements
+
+User must provide:
+- Maximum desired daily load
+- Preferred study periods
+- Minimum focus blocks
+- Exam preparation rules
+- Rules for large assignments
+- Desired amount of schedule buffer
+- Other planning preferences
+
+Depends on:
+- F4
+- F5
+- F6
+
+---
+
+### F10 — AI Router / AI Job System
+
+Goal:
+- Decide whether a job needs no AI, a cheap model, or premium manual reasoning.
+
+Execution levels:
+
+- Level 0: deterministic code
+- Level 1: cheap / normal API or local model
+- Level 2: premium manual ChatGPT Work / Codex where appropriate
+
+AI should normally emit structured proposals rather than directly mutating canonical state.
+
+User must provide:
+- Rough API cost tolerance
+- Which tasks deserve premium reasoning
+- When manual ChatGPT processing is acceptable
+
+Depends on:
+- Stable schemas
+- F4
+- F9
+
+---
+
+### F11 — Daily Output System
+
+Goal:
+- Produce the main user-facing answer: "What should I do today?"
+
+Potential sections:
+- Must do today
+- Should do today
+- Optional / if time remains
+- Fixed events
+- Estimated duration
+- Concrete completion target
+- Risk warnings
+- Weekly / long-term progress
+
+User must provide:
+- Preferred detail level
+- Whether exact time blocks should be shown
+- Whether priority reasoning should be shown
+- Whether deadlines should be visible
+- Desired ordering and brevity
+
+Depends on:
+- Output contract
+- F9
+
+---
+
+### F12 — Historical Learning and Self-Correction
+
+Goal:
+- Improve planning estimates using observed behavior.
+
+Examples:
+- Estimated vs actual duration
+- Planned vs completed work
+- Course-specific underestimation
+- Time-of-day completion patterns
+- Repeated postponements
+
+User must provide:
+- Actual completion status
+- Actual duration where practical
+- Corrections when inferred history is wrong
+
+Depends on:
+- Stable task types
+- F4
+- F9
+- Real usage history
+
+---
+
+## 3. Foundational Design Artifacts
+
+These are not separate end-user functions, but they must be completed early.
+
+### A. Task Model and Lifecycle
+
+Define what one Task contains.
+
+Likely fields:
 - Identity
 - Domain / course
 - Type
@@ -115,749 +420,314 @@ Likely task fields include:
 - Status
 - Confidence / verification metadata
 
-Lifecycle must define states such as:
+Lifecycle should cover at least:
 - Candidate
 - Confirmed
 - In progress
 - Completed
 - Cancelled
 - Overdue
-- Stale / uncertain where appropriate
+- Stale / uncertain where needed
 
-User information required:
-- Which properties the user actually cares about when deciding what to do
-- Real examples of tasks from current courses
-- How the user reports partial completion, cancellation, deadline changes, etc.
-
-Output:
-- Canonical Task schema and lifecycle
-
-Depends on:
-- F1
-- F2
-
----
-
-### F4 — Input Contract
-
-Purpose:
-- Define how information enters WhatToDo and how all sources normalize into machine-readable records.
-
-Human-facing inputs should remain convenient. The user should not need to manually write JSON.
-
-Initial source classes:
-1. Direct natural-language user input
-2. Calendar
-3. Email
-4. Learning platform
-5. Internally generated history / system events
-
-For each input source define:
-- Raw input form
-- Required fields
-- Optional fields
-- Provenance
-- Normalized internal object
-- Confidence rules
-- Deduplication strategy
-- Update / correction semantics
-
-User information required:
-- 10–20 realistic examples of how the user would describe new tasks, corrections, completions, schedule changes, goals, etc.
-- Which sources are authoritative in conflicts
-- Which ambiguous changes may be auto-accepted and which require confirmation
+### B. Input Contract
 
 Repository location:
 - `formats/input/`
 
-Output:
-- Input specification
-- Example payloads
-- Machine schema(s), later
+Define for each source:
+- Raw form
+- Required fields
+- Optional fields
+- Provenance
+- Normalized object
+- Confidence
+- Deduplication
+- Correction/update semantics
 
-Depends on:
-- F3
-
----
-
-### F5 — Output Contract
-
-Purpose:
-- Define exactly what the system should produce for the user every day and what structured representation sits behind it.
-
-Potential daily output sections:
-- Must do today
-- Should do today
-- Optional / if time remains
-- Fixed schedule
-- Estimated duration per task
-- Concrete completion target
-- Deadline / urgency indicator
-- Risk warnings
-- Weekly / long-term progress
-
-User information required:
-- Preferred level of detail
-- Whether exact time blocks should be shown
-- Whether reasons for prioritization should be shown
-- Whether deadlines should be visible
-- Whether long-term-goal progress should be shown
-- Preferred ordering and brevity
+### C. Output Contract
 
 Repository location:
 - `formats/output/`
 
-Output:
-- Human daily-brief template
-- Structured daily-plan schema
+Define:
+- Structured daily-plan representation
+- Human-readable daily brief
+- Required vs optional sections
+- Rendering rules
 
-Depends on:
-- F3
-- Can proceed in parallel with F4
+These three artifacts should be stable before database and connector implementation.
 
 ---
 
-## 3. Phase 1 — Define the System's Language
+## 4. Phase 1 — Define What the System Understands
 
-### Objective
-
-Before implementing infrastructure, make the system capable of representing the user's real life correctly.
-
-### Work to complete
+### Build
 
 1. F1 Personal Domain Classification
-2. F2 Course / Activity Profiles
-3. F3 Task Model and Lifecycle
-4. F4 Input Contract
-5. F5 Output Contract
-6. Define Goal / Milestone concepts sufficiently to support later work
+2. F2 Course / Activity Model
+3. Task Model and Lifecycle
+4. F3 manual natural-language task input design
+5. Input Contract
+6. Output Contract
+7. Initial Goal / Milestone concepts
 
 ### User participation
 
 High.
 
-The user primarily provides domain knowledge:
+The user provides:
 - Courses
+- Recurring activities
 - Workload characteristics
 - Real task examples
-- Natural-language examples
-- Output preferences
-
-AI / developer responsibility:
-- Normalize the information
-- Design schemas
-- Remove redundancy
-- Identify missing fields
-- Write the resulting specifications to the repository
+- Natural-language input examples
+- Desired daily-output style
 
 ### Completion criteria
 
 Phase 1 is complete when:
-- At least the current semester's major courses can be represented.
-- A realistic task can be represented without ad hoc fields.
-- Common user statements can be mapped into structured candidate changes.
-- A structured daily plan can be rendered into an acceptable human daily brief.
-- The input/output contracts are stable enough for a prototype.
+- Current courses can be represented.
+- Real current tasks fit the Task model without ad hoc fields.
+- Common user statements map into structured candidate changes.
+- A structured daily plan can be rendered into an acceptable daily brief.
 
-### Do not implement yet
+### Do not build yet
 
-- Full database
+- Full PostgreSQL implementation
 - Learning-platform scraper
 - Advanced planner
 - AI Router
-- Historical learning
 
 ---
 
-## 4. F6 — Long-Term Goals and Milestones
+## 5. Phase 2 — Build Persistent Memory and State
 
-Purpose:
-- Represent long-horizon objectives separately from immediate tasks.
+### Build
 
-Hierarchy:
-
-```text
-Goal
-↓
-Milestone
-↓
-Task generation rule
-↓
-Concrete Task
-↓
-Work session
-```
-
-Examples:
-- English exam in three months
-- Midterm preparation
-- Final exam preparation
-- Long-running project
-
-User information required:
-- Goal
-- Target date
-- Desired outcome
-- Major phases if known
-- Acceptable pacing
-- Any hard constraints
-
-Output:
-- Goal and milestone model
-- Task-generation rules
-
-Initial design occurs in Phase 1.
-Full persistence and automation occur later.
-
----
-
-## 5. F7 — Structured Memory and Canonical State
-
-Purpose:
-- Ensure the system does not depend on ChatGPT conversation memory.
-
-Storage split:
-
-### Git / YAML / JSON
-
-Use for relatively stable declarative knowledge:
-- Course profiles
-- User preferences
-- Routines
-- Goal templates
-- Planning rules
-- Configuration
-
-### PostgreSQL
-
-Use for dynamic operational state:
-- Tasks
-- Task status
-- Deadlines
-- Progress
-- Events
-- Current goal progress
-- Source records
-- Sync metadata
-- AI jobs
-- Plan history
-- Work sessions
-
-User information required:
-- Primarily review/approval rather than technical input
-- Confirmation that the represented objects match real usage
-
-Developer responsibility:
-- Design schema from Phase 1 contracts
-- Migrations
-- Validation
-- Provenance
-- Audit history
-
-Depends on:
-- F3
-- F4
-- F5
-- F6 basic model
-
----
-
-## 6. Phase 2 — Build the Memory Foundation
-
-### Objective
-
-Create a persistent source of truth before adding external automation.
-
-### Work to complete
-
-1. Finalize core entity model:
-   - Course
-   - Task
-   - TaskTemplate
-   - Goal
-   - Milestone
-   - Event
-   - Routine
-   - Constraint
-   - SourceRecord
-   - WorkSession
-   - Plan
-2. Implement PostgreSQL schema.
-3. Implement version-controlled long-term profile files.
-4. Implement read/write service or repository layer.
-5. Implement validation and audit logging.
-6. Implement manual creation/update of tasks.
+1. F4 Task State Database
+2. PostgreSQL schema
+3. Git/YAML/JSON long-term profiles
+4. Manual task create/update/complete/cancel flows
+5. Provenance
+6. Audit history
+7. Initial F5 Goal persistence
 
 ### Minimal vertical prototype
-
-At the end of this phase, the system should already be able to:
 
 ```text
 Manual user input
 ↓
 Normalize to Task
 ↓
-Persist in PostgreSQL
+Persist
 ↓
 Read current tasks
 ↓
 Produce a simple daily brief
 ```
 
-No automatic email or learning-platform collection is required yet.
+### User participation
+
+Low to medium.
+
+The user mainly reviews whether the stored concepts match real use.
 
 ### Completion criteria
 
-- State survives chat sessions and machine restarts.
-- Tasks can be created, edited, completed, cancelled, and queried.
-- Provenance is preserved.
-- Long-term configuration and dynamic state are clearly separated.
-- A basic daily brief can be generated from stored state.
+- State survives chat sessions and restarts.
+- Tasks can be created, edited, completed, and queried.
+- Stable knowledge and dynamic state are separated.
+- A basic daily brief can be produced from stored state.
 
 ---
 
-## 7. F8 — Calendar and Time Availability
+## 6. Phase 3 — Add Real Time Availability
 
-Purpose:
-- Let the system understand when the user is busy and when work can be scheduled.
+### Build
 
-Current direction:
-- Google Calendar as automation backend
-- Apple Calendar may remain the user's daily client
+1. F6 Calendar / Time System
+2. Google Calendar integration
+3. Import recurring classes and training
+4. Normalize calendar events
+5. Free/busy calculation
+6. One-off changes
+7. Calendar conflict detection
 
-Calendar concepts:
-- Fixed event
-- Flexible planned work block
-- Deadline metadata
-- Optional reminder
+### User must provide
 
-User information required:
-- Current semester timetable
+- Timetable
 - Training schedule
-- Recurrent fixed events
-- Existing calendar usage habits
-- Which events are immutable
-- Which events can be moved
-- Preferred sleep / no-work boundaries if relevant
-
-System responsibilities:
-- Read calendar
-- Normalize events
-- Detect conflicts
-- Compute available time windows
-- Later write optional flexible study blocks
-
-Depends on:
-- Phase 2 state model
-
----
-
-## 8. Phase 3 — Make Time Real
-
-### Objective
-
-Combine task state with actual available time.
-
-### Work to complete
-
-1. Connect Google Calendar.
-2. Import recurring classes and training.
-3. Normalize calendar events into internal Event objects.
-4. Compute free/busy windows.
-5. Support one-off changes.
-6. Detect task/calendar conflicts.
-7. Produce a daily brief that includes both tasks and fixed events.
+- Fixed commitments
+- Event flexibility rules
+- Calendar preferences
 
 ### Completion criteria
 
-Given a date, the system can answer:
-- What fixed events exist?
-- How much usable time is available?
-- Which windows can hold focused work?
-- Which tasks cannot realistically fit today?
-
-At this stage planning may still be simple and rule-based.
+For any day, the system can determine:
+- Fixed events
+- Usable time windows
+- Focus-capable windows
+- Whether proposed work can realistically fit
 
 ---
 
-## 9. F9 — Automatic External Information Collection
+## 7. Phase 4 — Automate Information Collection with n8n
 
-Purpose:
-- Automatically discover changes without requiring the user to manually enter everything.
+### Build
 
-Initial connectors:
-- Email
-- Learning platform
+1. Deploy/configure n8n
+2. F7 External Information Collection
+3. Email ingestion workflow
+4. Learning-platform connector
+5. Calendar sync workflow as needed
+6. Deduplication
+7. Confidence handling
+8. Retry/error logging
 
-Email pipeline:
+### User must provide
 
-```text
-Fetch
-→ classify
-→ extract candidate facts
-→ map to known course/domain
-→ deduplicate
-→ validate confidence
-→ create/update candidate state
-```
+For email:
+- Relevant accounts/categories
+- Important senders/types
+- Examples of useful and irrelevant mail
 
-Learning-platform pipeline:
-
-```text
-Fetch / scrape
-→ detect changes
-→ normalize
-→ identify assignments / announcements / exam information
-→ create candidate updates
-```
-
-User information required for email:
-- Relevant accounts
-- Which categories of mail matter
-- Which senders/domains are important
-- Examples of useful and irrelevant messages
-
-User information required for learning platform:
+For learning platform:
 - Relevant pages
-- Where assignments appear
-- Where announcements appear
-- Where deadlines appear
-- Whether attachments matter
-- Login constraints
-
-Depends on:
-- F4 input contract
-- F7 state store
-- F8 may be independent for some sources
-
----
-
-## 10. Phase 4 — Automate Collection with n8n
-
-### Objective
-
-Move from manual state maintenance to continuously refreshed state.
-
-### Work to complete
-
-1. Deploy or configure n8n.
-2. Create scheduled sync workflows.
-3. Add email ingestion.
-4. Add learning-platform connector.
-5. Add calendar sync workflow if not already orchestrated through n8n.
-6. Add deduplication.
-7. Add provenance and confidence handling.
-8. Add error logging and retries.
+- Assignment locations
+- Announcement locations
+- Deadline locations
+- Attachment requirements
+- Login/access constraints
 
 ### Completion criteria
 
-The system can automatically discover common new tasks and changes and store them as trusted or candidate updates without losing source traceability.
+Common new obligations and changes can be discovered automatically and stored with source traceability.
 
-### Important constraint
+### Constraint
 
-Do not let connectors directly contain planner logic.
-
-Connectors produce normalized state changes; planning remains separate.
+Connectors must not own planner logic. They normalize information; planning remains separate.
 
 ---
 
-## 11. F10 — Planner Core
+## 8. Phase 5 — Build the Planning MVP
 
-Purpose:
-- Decide what should be done and when.
+### Build
 
-The first planner must be deterministic-first.
+1. F5 Long-Term Goal System
+2. F9 Planner Core
+3. Priority calculation
+4. Capacity calculation
+5. Task/session splitting
+6. Goal-generated recurring work
+7. F11 Daily Output System
+8. Daily n8n trigger
+9. Optional calendar writing for flexible work blocks
 
-Inputs:
-- Deadline
-- Remaining effort
-- Progress
-- Available calendar capacity
-- Fixed events
-- Dependencies
-- Minimum session length
-- Cognitive load
-- Importance
-- Exam proximity
-- Long-term milestone requirements
+### User must provide
 
-Examples of rules:
-- Shorter deadline increases urgency.
-- Large remaining workload forces earlier allocation.
-- High-cognitive tasks prefer sufficiently long focus windows.
-- Fragmentable tasks may fill short gaps.
-- Long-term goals generate recurring workload before they become urgent.
-
-User information required:
 - Planning preferences
-- Maximum desired daily load
-- Preferred study periods
-- Minimum focus blocks
-- Rules for exams
+- Daily load preference
+- Buffer preference
+- Focus-block preference
+- Exam review timing
 - Rules for large assignments
-- Tolerance for schedule density
-- How much buffer to preserve
-
-Depends on:
-- Phase 2 state
-- Phase 3 calendar
-- Phase 1 output contract
-
----
-
-## 12. F11 — Daily Plan and User-Facing Output
-
-Purpose:
-- Deliver the main product experience: a clear answer to "What should I do today?"
-
-The structured plan should be separable from rendering.
-
-Possible categories:
-- Must do
-- Should do
-- Optional
-- Fixed events
-- Fragment tasks
-- Risk warnings
-- Weekly / goal progress
-
-User information required:
-- Final approval of the daily brief format
-- Feedback after using real plans
-
-Depends on:
-- F5
-- F10
-
----
-
-## 13. Phase 5 — Build the Planning Product
-
-### Objective
-
-Deliver the first genuinely useful end-to-end version.
-
-### Work to complete
-
-1. Implement deterministic prioritization.
-2. Implement capacity calculation.
-3. Implement task splitting / session allocation.
-4. Incorporate goals and milestones.
-5. Generate structured daily plans.
-6. Render user-facing daily briefs.
-7. Optionally write flexible work blocks to calendar.
-8. Add daily n8n trigger.
+- Final daily-output preferences
 
 ### Completion criteria
 
 Without premium AI, the system can:
-- Refresh state,
-- read the calendar,
-- prioritize current work,
-- produce a realistic daily plan,
-- explain major risk conditions.
+- Refresh current state
+- read available time
+- prioritize current work
+- generate a realistic daily plan
+- identify major risks
 
-This is the first major MVP.
-
----
-
-## 14. F12 — AI Router, Validator, and Premium AI Jobs
-
-Purpose:
-- Use models selectively without making the system dependent on any one model.
-
-Execution levels:
-
-### Level 0
-No AI.
-
-### Level 1
-Cheap / normal API or local model for:
-- Classification
-- Extraction
-- Simple normalization
-- Basic decomposition
-
-### Level 2
-Premium manual ChatGPT Work / Codex for:
-- Weekly strategic replanning
-- Multi-week conflict resolution
-- Complex course modeling
-- Architecture changes
-- Difficult reconciliation
-
-AI outputs should normally be structured proposals, not direct database mutations.
-
-Pipeline:
-
-```text
-AI Job
-↓
-Executor
-↓
-Structured proposal
-↓
-Validator
-↓
-Accepted state change
-```
-
-User information required:
-- Rough API cost tolerance
-- Which operations deserve premium reasoning
-- When manual ChatGPT execution is acceptable
-
-Depends on:
-- Stable schemas
-- Planner
-- State store
+This is the first major usable MVP.
 
 ---
 
-## 15. Phase 6 — Add AI Selectively
+## 9. Phase 6 — Add AI Selectively
 
-### Objective
+### Build
 
-Improve quality without turning AI into a hidden dependency.
+1. F10 AI Router / AI Job System
+2. No-AI / cheap-AI / premium-manual routing
+3. One low-cost automated model path
+4. Structured AI output schemas
+5. Validator before canonical state changes
+6. Manual premium-job workflow for ChatGPT Work
+7. Cost/token logging for automated APIs
 
-### Work to complete
+### User must provide
 
-1. Define AI Job schema.
-2. Implement AI Router.
-3. Connect one low-cost model path.
-4. Add structured output validation.
-5. Add manual premium-job export/import path for ChatGPT Work.
-6. Use Codex for system development rather than normal life planning.
-7. Add token/cost logs where automated APIs are used.
+- Cost tolerance
+- Premium vs cheap decision preferences
+- Which operations may wait for manual ChatGPT execution
 
 ### Completion criteria
 
-- Swapping a model does not require redesigning the database.
-- AI failure does not corrupt canonical state.
-- Basic daily planning still works when all AI services are unavailable.
+- Swapping model providers does not redesign the system.
+- AI failures cannot corrupt trusted state.
+- Daily planning still works when all AI providers are unavailable.
 
 ---
 
-## 16. F13 — State Reconciliation / Recovery
+## 10. Phase 7 — Make the System Resilient and Self-Correcting
 
-Although the project has twelve main user-facing capability groups, recovery is treated as a cross-cutting operational feature and must be implemented explicitly.
+### Build
 
-Purpose:
-- Recover after several days of inactivity or missed updates.
+1. F8 State Reconciliation / Recovery
+2. TRUSTED / STALE / UNKNOWN / CONFLICTED state handling
+3. Periodic full synchronization
+4. Weekly review
+5. F12 Historical Learning and Self-Correction
+6. Estimated-vs-actual calibration
+7. Backlog detection
+8. Planning-parameter adjustment from history
 
-Flow:
+### User must provide
 
-```text
-Last trusted state
-↓
-Detect stale interval
-↓
-Re-read calendar
-↓
-Fetch missed email
-↓
-Fetch learning-platform changes
-↓
-Re-evaluate deadlines
-↓
-Detect ambiguous or overdue tasks
-↓
-Ask user only for unresolved high-impact facts
-↓
-Restore trusted state
-↓
-Replan next 7–14 days
-```
-
-User information required:
-- Which unknowns may be inferred
-- Which changes require confirmation
-- How aggressively the system may mark tasks completed/obsolete
-
-Depends on:
-- All relevant connectors
-- State confidence metadata
-- Planner
-
----
-
-## 17. F14 — History and Self-Correction
-
-This is another cross-cutting later-stage capability rather than a separate initial product requirement.
-
-Purpose:
-- Improve estimates based on observed behavior.
-
-Examples:
-- Estimated vs actual duration
-- Planned vs completed sessions
-- Course-specific underestimation
-- Time-of-day completion patterns
-- Repeated postponements
-
-User information required:
-- Actual completion status
-- Actual duration when available
-- Corrections when inferred history is wrong
-
-Depends on:
-- WorkSession history
-- Stable task types
-- Planner
-
----
-
-## 18. Phase 7 — Reliability and Long-Term Learning
-
-### Objective
-
-Make the system resilient and increasingly personalized.
-
-### Work to complete
-
-1. Implement reconciliation after inactivity.
-2. Add stale / trusted / unknown / conflicted state.
-3. Add periodic full synchronization in addition to event-driven updates.
-4. Implement weekly review.
-5. Record estimated vs actual work.
-6. Calibrate duration estimates.
-7. Detect chronic backlog and unrealistic plans.
-8. Improve planner parameters from history.
+Mostly real-world usage feedback:
+- What was actually completed
+- How long work actually took
+- Whether generated plans felt realistic
+- Corrections when system inferences were wrong
 
 ### Completion criteria
 
-The system can be ignored for several days, recover, and generate a trustworthy new plan without requiring a full manual rebuild.
+The system can be ignored for several days, recover trustworthy state, and produce a useful new plan without rebuilding everything manually.
 
 ---
 
-## 19. Ordered Milestones
+## 11. Ordered Milestones
 
-### M0 — Planning repository prepared
+### M0 — Planning repository prepared — COMPLETE
 
-Already complete:
-- Architecture plan exists.
-- `formats/input/` exists.
-- `formats/output/` exists.
-- n8n-only workflow decision is recorded.
+Already available:
+- `plan/PROJECT_PLAN.md`
+- `plan/DEVELOPMENT_PLAN.md`
+- `formats/input/`
+- `formats/output/`
+- n8n-only orchestration decision
 
-### M1 — User model complete
+### M1 — User and course model
 
-Need:
-- Current courses
-- Recurring exercise
-- Life/other recurring obligations
-- Per-course task characteristics
+Need from user:
+- All current courses
+- Recurring exercise/training
+- Recurring life/other obligations
+- Per-course characteristics
 
 Deliverables:
 - Domain taxonomy
 - Course/activity profiles
 
-### M2 — Task and I/O contracts complete
+### M2 — Task and I/O contracts
 
-Need:
+Need from user:
 - Real task examples
-- Natural-language input examples
-- Desired daily output examples
+- Natural-language task/change examples
+- Desired daily output
 
 Deliverables:
 - Task schema
@@ -869,13 +739,13 @@ Deliverables:
 
 Deliverables:
 - PostgreSQL
-- Long-term config files
-- Manual CRUD
+- Long-term config
+- Manual task CRUD
 - Basic daily brief
 
 ### M4 — Calendar-aware prototype
 
-Need:
+Need from user:
 - Timetable
 - Training
 - Calendar preferences
@@ -887,42 +757,41 @@ Deliverables:
 
 ### M5 — Automated collection
 
-Need:
+Need from user:
 - Email rules
-- Learning-platform access / page structure
+- Learning-platform details
 
 Deliverables:
 - n8n workflows
 - Email connector
 - Learning-platform connector
-- Deduplication and provenance
+- Provenance and deduplication
 
 ### M6 — Planning MVP
 
-Need:
-- Personal scheduling rules
-- Daily-load preferences
+Need from user:
+- Scheduling preferences
 
 Deliverables:
-- Deterministic Planner
+- Planner
 - Daily plan
-- Scheduled daily generation
+- Daily scheduled generation
 
-### M7 — AI-enhanced planner
+### M7 — AI-enhanced planning
 
-Need:
+Need from user:
 - Cost policy
-- Premium-vs-cheap task policy
+- Premium-vs-cheap policy
 
 Deliverables:
 - AI Router
 - Validator
-- Manual ChatGPT premium-job workflow
+- Manual ChatGPT premium-job path
 
-### M8 — Resilient long-term system
+### M8 — Long-term resilient system
 
-Need:
-- Real-world usage feedback
+Need from user:
+- Usage feedback
 
 Deliverables:
 - Reconciliation
@@ -932,21 +801,27 @@ Deliverables:
 
 ---
 
-## 20. Current Next Action
+## 12. Current Project Position and Next Action
 
-The project is currently at **M0 → M1**.
+Current position:
 
-Do not begin PostgreSQL, n8n workflow construction, scraping, or planner coding yet.
+```text
+M0 complete
+↓
+M1 next
+```
 
-The next work session should collect and model the user's current semester courses and recurring activities.
+Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, or planner coding yet.
 
 Recommended immediate sequence:
 
 1. List all current courses and recurring non-course commitments.
-2. Model one representative course in detail.
-3. Use that course to refine the course-profile schema.
-4. Apply the schema to the remaining courses.
-5. Collect several real tasks and use them to design the Task model.
-6. Then finalize the input and output formats.
+2. Choose one representative course and model it in detail.
+3. Refine the course-profile format using that example.
+4. Apply the format to the remaining courses.
+5. Collect several real tasks.
+6. Define the Task model and lifecycle.
+7. Finalize input and output contracts.
+8. Only then begin the persistent-state prototype.
 
-This is the shortest path to a stable foundation and minimizes later rework.
+This order minimizes rework because every later technical component depends on the semantic model defined here.
