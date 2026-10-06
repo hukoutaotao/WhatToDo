@@ -7,11 +7,11 @@
 
 Last updated: 2026-10-06
 
-Overall status: **FOLLOW-UP ANSWERS SYNCHRONIZED; TASK RELATIONSHIP SYSTEM SPECIFIED; ONE HORIZON-SCOPE SUBQUESTION PENDING**
+Overall status: **AUDIT BOUNDARIES RESOLVED; FOLLOW-UP ANSWERS SYNCHRONIZED; DETAILED PLANNING NEXT**
 
 Current milestone: **M0 COMPLETE → A0 COMPLETE → M1 NEXT / INCOMPLETE**
 
-Current session result: six follow-up answers propagated; Task Relationship System and D-071–D-077 added. Detailed project planning is next after the remaining horizon-scope subquestion.
+Current session result: natural-day horizon selection propagated as D-078 and A0 Section 61; all original audit boundaries are resolved. Earlier Task Relationship System and D-071–D-077 remain accepted. Detailed project planning is next.
 
 Current phase: **Phase 1 — Define What the System Understands**
 
@@ -63,7 +63,7 @@ Accepted semantics include:
 - TaskType templates provide defaults; concrete Tasks inherit and may override.
 - Add first-class counterpart-generation and hard completion/start-order relationships; accepted mapped generation rules authorize automatic instances (D-071/D-072).
 - EXPIRING informs the user before recording EXPIRED, without extra acknowledgement (D-073).
-- Planning uses Beijing time (Asia/Shanghai); date-only deadlines default to 23:59, explicit times are preserved (D-075).
+- Planning uses Beijing time (Asia/Shanghai); date-only deadlines default to 23:59, explicit times are preserved (D-075). The 1/3/7-day risk windows are natural days including today, with cutoffs today / today+2 / today+6 at 23:59 (D-078).
 - Parent deadline + child stage/subtask planning is accepted.
 - Course Progress Axis uses course-defined units and tracks teaching progress plus task-family progress.
 - Default academic sequences may be soft or hard; soft sequences may be bypassed to protect REQUIRED feasibility.
@@ -96,7 +96,7 @@ Authority:
 
 ## 3. Current Work
 
-The completed work is the requested full-document consistency audit. The six answers are now synchronized. Immediate next: **clarify natural-day vs rolling 1/3/7-day horizon scope**, then detailed project planning. Do not re-ask the accepted timezone/cutoff or other five experience choices. M1 remains the next incomplete semantic milestone; no course/activity profiles were collected or approved in this audit.
+The full-document consistency audit and answer synchronization are complete, including natural-day horizon selection. Immediate next: **detailed project planning**. Do not re-ask the accepted horizon, timezone/cutoff, or other experience choices. M1 remains the next incomplete semantic milestone; no course/activity profiles were collected or approved in this audit.
 
 No implementation task is active.
 
@@ -115,7 +115,7 @@ Important:
 
 ## 4. Immediate Next Actions
 
-O01/O02/O04/O07/O08 and O05 timezone/cutoff are accepted and propagated; O03/O06 remain internally resolved. Ask only whether 1/3/7 days means natural days including today or rolling 24/72/168 hours; the user omitted that part of question 4. Then prepare a detailed project plan using the reconciled documents and CONSISTENCY_AUDIT.md. Do not implement or restart broad A0 questioning. Distinguish accepted requirements, missing user facts, open semantic edges, proposed technical choices, and runtime acceptance gates.
+All O01–O08 boundaries are resolved; D-078 closes O05 with natural-day 1/3/7-day windows including today. Prepare a detailed project plan using the reconciled documents and CONSISTENCY_AUDIT.md. Do not implement or restart broad A0 questioning. Distinguish accepted requirements, missing user facts, open semantic edges, proposed technical choices, and runtime acceptance gates.
 
 After that planning work, the semantic prerequisite sequence remains:
 
@@ -202,7 +202,7 @@ Verified:
 - M1 is the next incomplete semantic milestone, after the requested detailed planning work.
 - The initial audit inspected all 21 original Markdown documents at base commit `c1ce632e26c2a7b497e1a87074dc39bacd7af04f`, reconciled their policies, and added CONSISTENCY_AUDIT.md. The later answer synchronization updates the resulting 22 documents and adds TASK_RELATIONSHIP_PLAN.md, for 23 total.
 - Local document checks cover links, decision IDs, stale rule phrases, and dependent requirement propagation. This is document-level verification only.
-- Follow-up checks passed for all 23 Markdown files, 14 local links, 77 decision IDs, 60 A0 sections, preserved audit findings, dependent requirements, and whitespace. The relationship test cases are specifications, not executed runtime tests.
+- Earlier six-answer checks passed for all 23 Markdown files, 14 local links, 77 decision IDs, 60 A0 sections, preserved audit findings, dependent requirements, and whitespace. The relationship test cases are specifications, not executed runtime tests.
 
 Not yet verified:
 - any runtime behavior
@@ -238,7 +238,7 @@ When a milestone is completed:
 
 Read CONSISTENCY_AUDIT.md for the exact findings, affected files, and open questions. Repairs cover A0/register internal conflicts, old architectural shortcuts, course/template semantics, Task lifecycle/trust separation, learning permissions, emergency review, workload accounting, roadmap prerequisites, tests, and format placeholders.
 
-Original six experience answers are now recorded as D-071–D-077; only the natural-day versus rolling-hour part of O05 remains unanswered. O03 allocation now uses effective B under D-074 with canonical U separate; O06 consumes that budget and typed relationships. The scoped generation/expiration permissions are user-approved, not inferred exceptions.
+Original six experience answers are recorded as D-071–D-077; the subsequent natural-day horizon clarification is D-078, closing O05 and all original boundaries. O03 allocation now uses effective B under D-074 with canonical U separate; O06 consumes that budget and typed relationships. The scoped generation/expiration permissions are user-approved, not inferred exceptions.
 
 No database, workflow, connector, Planner, model path, profile schema, or machine I/O schema was implemented. A0 stays complete; M1/M1B/M2 stay incomplete. The user need not review long AI-oriented documents; provide a concise user summary and use the repository for future detailed planning.
 
@@ -256,4 +256,14 @@ Accepted and propagated: task relationships including canonical-creation counter
 
 New specification: TASK_RELATIONSHIP_PLAN.md. Decision IDs D-071–D-077 extend the original D-001–D-070; A0 Section 60 extends preserved Sections 1–59. Updated the remaining 22 documents for dependent semantics, formats, test scenarios, authority, and roadmap. No runtime implementation or current course profiles were created.
 
-Pending original experience subquestion: natural-day horizon (today / today+2 / today+6) vs rolling-hour horizon (24 / 72 / 168 hours). The user specified timezone/cutoff but not this choice; keep it visibly pending and do not broadly reopen A0. Exact horizon-dependent partial-day handling follows that choice. Detailed project planning and later M1/M1B/M2 continue under the established order.
+Subsequent clarification: the user chose natural-day horizons including today, ending today / today+2 / today+6 at Beijing-time 23:59 (D-078; Section 13). All original experience questions are resolved. Detailed project planning and later M1/M1B/M2 continue under the established order; do not broadly reopen A0.
+
+---
+
+## 13. Natural-Day Horizon Closure — 2026-10-06
+
+The user selected “A。自然日”. Added D-078 and A0 Section 61, propagated natural-day windows through dependent documents, and closed O05. All original O01–O08 boundaries are resolved. Windows include today and end today / today+2 / today+6 at Beijing-time 23:59; intraday calculations use remaining-only capacity and preserve the accepted daily reserve.
+
+Next requested work: detailed project planning, then the existing semantic modeling sequence. No code, infrastructure, workflow, current-semester profile, or machine schema was implemented; M1/M1B/M2 remain incomplete.
+
+Local document checks passed for all 23 files, 18 affected-document updates, 14 local links, 78 decision IDs, 61 A0 sections, preserved audit findings/boundaries, accepted natural-day propagation, obsolete-status scans, and whitespace. Planned calendar-edge scenarios are specifications, not executed Planner tests.

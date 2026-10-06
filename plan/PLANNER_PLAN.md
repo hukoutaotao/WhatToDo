@@ -246,7 +246,7 @@ Overall mode uses the worst horizon:
 - else any DANGER → overall DANGER;
 - else SAFE.
 
-Exact handling of partial days and numerical rounding is deferred to implementation.
+Section 23 fixes natural-day windows and remaining-only usable capacity; numerical rounding and endpoint precision are later implementation details. Keep the accepted one-hour-per-represented-day reserve.
 
 ## 13. Emergency / Risk Mode
 
@@ -268,7 +268,7 @@ Emergency behavior may:
 
 REQUIRED tasks should not be treated as casually deferrable.
 
-The A0 semantic thresholds are now fixed by Section 12. Implementation may still tune partial-day handling and numerical rounding without changing those semantics.
+The A0 semantic thresholds are now fixed by Section 12. Implementation may tune numerical rounding and endpoint precision while preserving natural-day scope, remaining-only capacity, and the accepted daily reserve; it cannot silently replace these with rolling-hour or proportional-reserve policies.
 
 ---
 
@@ -358,7 +358,7 @@ Never silently cancel REQUIRED work or treat removal from a daily list as cancel
 - Overdue REQUIRED work remains visible until the user confirms its disposition. EXPIRING work is distinct; detect time/condition crossings without inventing canonical transition permission.
 - User-reported remaining effort stays canonical; under D-074 use a valid model remaining-effort prediction as B for allocation/forecasting, with user-estimate fallback if unavailable. This is not max(user, model). Parent/stage accounting uses B once (DATA_MODEL_PLAN §12); window-infeasibility handling is in §21.
 - Preserve reserve before discretionary work. D-076 fixes the small-gap scope: aggregate whole-day discretionary remainder at most 40 minutes stays free in SAFE; it is not a per-window restriction. Do not subtract the reserve twice.
-- Use Asia/Shanghai (Beijing time), not server locale, for “today”, override expiry, and missed-interaction days. Date-only deadlines default to local 23:59; preserve explicit times. Natural-day vs rolling-hour 1/3/7-day horizon mode remains O05; do not claim the user selected it.
+- Use Asia/Shanghai (Beijing time), not server locale, for “today”, override expiry, and missed-interaction days. Date-only deadlines default to local 23:59; preserve explicit times. D-078 selects natural-day 1/3/7-day windows including today, ending today / today+2 / today+6 at local 23:59. See Section 23; O05 is resolved.
 
 ## 20. Failures and Missing Information
 
@@ -390,4 +390,22 @@ Effective planning budget B is the valid model prediction of unfinished effort, 
 
 For SAFE discretionary capacity, protect required workload and reserve first, then sum the day's remaining usable discretionary windows. If total is <=40 minutes, leave it free. If total is greater, fragmentable tasks may use short individual windows when their own minimum session constraints permit. The 40-minute rule changes discretionary allocation, not the C-R risk inequalities.
 
-At a confirmed expiration condition, a pending notify-before-record process can expose derived no-longer-useful status for recommendations, but cannot claim canonical EXPIRED before the notice step. Preserve discrepancy/process visibility; never infer task completion. Exact 1/3/7-day boundary selection still awaits one user choice; core constraints/model estimates remain preparable meanwhile.
+At a confirmed expiration condition, a pending notify-before-record process can expose derived no-longer-useful status for recommendations, but cannot claim canonical EXPIRED before the notice step. Preserve discrepancy/process visibility; never infer task completion. D-078 resolves exact date coverage for 1/3/7-day windows in Section 23; no original experience question remains pending.
+
+---
+
+## 23. Accepted Natural-Day Window Contract
+
+Authority: A0_USER_INTENT §61 and D-078. Let d be the calculation snapshot's local date in Asia/Shanghai.
+
+| Forecast | Covered local dates | Accepted cutoff |
+| --- | --- | --- |
+| 1 day | d | d at 23:59 |
+| 3 days | d through d+2, inclusive | d+2 at 23:59 |
+| 7 days | d through d+6, inclusive | d+6 at 23:59 |
+
+Today is included, not followed by an extra 1/3/7 days. The windows share a snapshot and overlap; their C/R/S values are evaluated separately, never added. They are not rolling 24/72/168-hour durations. Recompute local dates at Beijing midnight.
+
+For intraday planning, clip availability to the snapshot and each cutoff before calculating remaining C. Never use elapsed morning hours to make an afternoon/evening forecast appear SAFE. Use current effective remaining-work budgets B; neither a date boundary nor elapsed time mechanically changes canonical user effort or completion. The accepted daily reserve still targets one hour per represented day, hence 1/3/7 hours by default; this horizon choice does not authorize proportional reserve reduction. Numerical rounding/day-end precision must preserve the stated cutoffs and constraints.
+
+Required-work projection, deadline-prefix/relationship/minimum-session feasibility, longer-horizon early work, and worst-horizon mode remain as specified in Sections 12/21/22. Preserve explicit Task deadline instants; forecast-window dates neither overwrite deadlines nor imply work outside the window is irrelevant. Persist snapshot instant, timezone, mode, and local-date/cutoff bounds for traceable output.

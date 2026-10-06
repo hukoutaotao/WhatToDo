@@ -738,7 +738,7 @@ Status: Accepted
 Decision:
 Use SAFE, DANGER, and EMERGENCY as the high-level feasibility/risk vocabulary.
 
-Refined by D-059: SAFE when C - R >= S, DANGER when 0 <= C - R < S, EMERGENCY when C - R < 0; S is approximately one hour per represented day. Partial-day rounding remains deferred.
+Refined by D-059: SAFE when C - R >= S, DANGER when 0 <= C - R < S, EMERGENCY when C - R < 0; S is approximately one hour per represented day. D-078 fixes natural-day scope and remaining-only capacity; numerical rounding remains deferred without changing the daily reserve.
 
 Affected:
 - PLANNER_PLAN
@@ -1311,9 +1311,9 @@ Affected: A0_USER_INTENT, DATA_MODEL, PLANNER, LEARNING, IO_CONTRACT, AI_EXECUTI
 
 ## D-075 — Beijing planning timezone and 23:59 date cutoff
 
-Status: Accepted (horizon scope remains open)
+Status: Accepted; horizon scope completed by D-078
 
-Decision: use Asia/Shanghai / Beijing time for daily planning and date-only deadlines; date-only due dates default to local 23:59. Preserve explicit timestamps/timezones. Day-end override expiration remains next local midnight. The user did not choose natural-day versus rolling-hour 1/3/7-day horizon boundaries; do not claim that choice is accepted.
+Decision: use Asia/Shanghai / Beijing time for daily planning and date-only deadlines; date-only due dates default to local 23:59. Preserve explicit timestamps/timezones. Day-end override expiration remains next local midnight. D-078 records the subsequent explicit selection of natural-day 1/3/7-day windows including today, with cutoffs on today / today+2 / today+6 at local 23:59.
 
 Affected: A0_USER_INTENT, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, OPERATIONS, TESTING, formats, CONSISTENCY_AUDIT.
 
@@ -1332,3 +1332,17 @@ Status: Accepted
 Decision: worked-on Tasks are updated individually; untouched Tasks with existing unchanged user estimates may be listed and confirmed together with “keep previous estimates.” Record per-Task confirmation without duplicate numeric input. Silence, missing initial estimates, worked-on Tasks, and unresolved facts are not covered by implicit carry-forward.
 
 Refines D-065. Affects A0_USER_INTENT, DATA_MODEL, IO_CONTRACT, LEARNING, OPERATIONS, TESTING, input/output formats.
+
+---
+
+## D-078 — Natural-day 1/3/7-day forecast windows
+
+Status: Accepted
+
+Decision: the user explicitly chose option A, natural days. Include today in all windows using Asia/Shanghai. Cutoffs are today / today+2 / today+6 at 23:59 for 1/3/7 days. Do not use rolling 24/72/168-hour windows.
+
+Count only remaining usable capacity after the calculation snapshot, preserve the accepted one-hour-per-represented-day reserve, explicit Task deadlines, overlapping forecast accounting, and worst-horizon mode. Date rollover recomputes the local anchor and all window bounds. Numerical endpoint precision is an implementation choice within these semantics.
+
+Completes D-075/O05. All original audit boundaries are resolved; detailed project planning is next.
+
+Affected: A0_USER_INTENT §60/61, USER_MODEL, DATA_MODEL, PLANNER, IO_CONTRACT, PROJECT, DEVELOPMENT, OPERATIONS, TESTING, ALIGNMENT, CONSISTENCY_AUDIT, PROGRESS, README files, input/output formats.

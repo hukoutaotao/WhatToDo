@@ -6,7 +6,7 @@
 > M1 modeling specification after A0: `plan/USER_MODEL_PLAN.md`
 
 > Status: Existing milestone roadmap; detailed execution plan not yet prepared.
-> Current requested sequence: consistency audit → synchronize accepted follow-up answers / clarify remaining horizon scope → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
+> Current requested sequence: consistency audit → synchronize accepted follow-up answers (complete, including natural-day horizons) → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
 > Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
@@ -840,7 +840,7 @@ Deliverables:
 - generic Goal onboarding/approval/generation contract before Goal persistence; M5B later validates real Goal examples
 - typed Task relationship/generation-rule contracts and bounded instance authorization
 - model-first effective planning budget vs canonical user estimate, expiration notice-before-record, Beijing-time cutoff, aggregate-gap and batch-review contracts
-- one remaining horizon-mode choice and its partial-day conventions resolved before implementing exact risk windows
+- accepted natural-day window contract (D-078), snapshot time, local-date/cutoff bounds, remaining-only capacity, and unchanged daily reserve before exact risk-window implementation
 
 ### M3 — Persistent-state prototype
 
@@ -951,7 +951,7 @@ A0 is closed. Do not reopen broad alignment questioning unless M1 or later work 
 
 Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
-The six experience answers are now synchronized, including the new Task Relationship System. O03/O06 are resolved internal specifications. Clarify only the unanswered natural-day vs rolling-hour horizon subquestion when needed, then prepare the detailed project plan before course/activity collection; do not re-ask accepted choices. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
+The six experience answers are now synchronized, including the new Task Relationship System. O03/O06 are resolved internal specifications. D-078 now also resolves natural-day horizons including today. Prepare the detailed project plan before course/activity collection; do not re-ask accepted choices. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
 
 Subsequent semantic sequence:
 
@@ -985,4 +985,4 @@ Build the newly accepted relationship system as a domain capability across M1B/M
 
 The user approved notice-before-record expiration without another confirmation click. Persist delivery attempts/state/version and do not claim a notice succeeded when delivery failed. Keep hard completion evidence review unchanged. The user chose model prediction for planning, not overwriting personal effort facts; parent/stage allocation uses one operative model-first budget.
 
-Asia/Shanghai and date-only 23:59 are fixed. The SAFE discretionary remainder rule is aggregate <=40 minutes. Untouched unchanged estimates are explicitly confirmed in a scoped batch. These are accepted contracts, not new questions or implemented capabilities. Natural-day vs rolling-hour horizon scope remains the only unanswered original experience subquestion; concrete schemas/libraries/provider adapters remain normal later engineering work.
+Asia/Shanghai and date-only 23:59 are fixed. The SAFE discretionary remainder rule is aggregate <=40 minutes. Untouched unchanged estimates are explicitly confirmed in a scoped batch. These are accepted contracts, not new questions or implemented capabilities. D-078 also fixes natural-day risk windows including today, ending today / today+2 / today+6 at Beijing-time 23:59. All original experience choices are resolved; concrete schemas/libraries/provider adapters remain normal later engineering work.

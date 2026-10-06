@@ -334,7 +334,7 @@ Unless explicitly changed by the user:
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
 - Alignment Gate A0 is complete.
-- A0 is complete; M1 is the next incomplete semantic milestone. The six follow-up answers are synchronized, including Task relationships and model-first planning. Only natural-day vs rolling-hour risk-window scope remains unanswered; then detailed planning and M1/M1B/M2 prerequisites follow. No infrastructure implementation has begun.
+- A0 is complete; M1 is the next incomplete semantic milestone. The six follow-up answers are synchronized, including Task relationships and model-first planning. Natural-day risk windows including today are also accepted under D-078; all original boundaries are resolved. Detailed planning and M1/M1B/M2 prerequisites follow. No infrastructure implementation has begun.
 - Broad A0 questioning should not be reopened unless later work reveals a genuine semantic contradiction.
 - Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
@@ -366,4 +366,4 @@ Read A0_USER_INTENT §60 and DECISIONS D-071–D-077 for the latest accepted ans
 
 If relationship semantics/rules change, inspect/update TASK_RELATIONSHIP_PLAN, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, DEVELOPMENT, AI_EXECUTION, OPERATIONS, SECURITY_PRIVACY, TESTING, formats, accepted intent/decision records as appropriate, and PROGRESS. Configuration/schema representation may remain later engineering work; accepted meaning must not be lost.
 
-Original O01/O02/O04/O07/O08 are now resolved, O03/O06 remain internally resolved, and O05 is partial: Beijing timezone/date-only cutoff are accepted, natural-day versus rolling 24/72/168-hour horizons is not. Do not silently choose that product meaning or reopen already answered preferences.
+All original O01–O08 boundaries are resolved. D-078 closes O05 with natural-day windows including today, ending today / today+2 / today+6 at Beijing-time 23:59. Read A0_USER_INTENT §61 and PLANNER_PLAN §23 for the boundary contract. Do not reopen already answered preferences; detailed project planning is next.

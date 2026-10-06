@@ -106,14 +106,14 @@ After the user answers, regenerate the final emergency-day plan and recompute ev
 - “Protect today”, “advance”, and “optional if capacity remains” are daily plan roles, not replacements for REQUIRED / OPTIONAL / EXPIRING. A REQUIRED Task can appear as optional additional advancement only after its required feasibility is protected.
 - SAFE discretionary selection uses importance after feasibility/reserve, so high-importance OPTIONAL/EXPIRING work is not automatically excluded because future REQUIRED work exists.
 - Count a Task/stage allocation once. Fragmentability is preferably a label; repeated references are navigation aids, not extra workload.
-- The one-hour reserve is separate from aggregate whole-day <=40-minute discretionary remainder (D-076). Beijing time and date-only 23:59 are fixed; natural-day vs rolling horizon scope alone remains O05, and the renderer cannot invent it.
+- The one-hour reserve is separate from aggregate whole-day <=40-minute discretionary remainder (D-076). Beijing time and date-only 23:59 are fixed; D-078 fixes natural-day windows including today, ending today / today+2 / today+6 at Beijing-time 23:59.
 - Unresolved confirmations or stale capacity are visible data-quality exceptions; do not present uncertain input as a precise safe guarantee. Confirmation review is a prerequisite workflow, not a footnote that authorizes using unconfirmed facts.
 
 ---
 
 # Follow-Up Display Rules
 
-- Display dates/deadlines in Beijing time (Asia/Shanghai). For date-only deadlines use accepted 23:59; preserve explicitly specified times. Do not label 1/3/7-day window endpoints as approved until the horizon-mode subquestion is answered.
+- Display dates/deadlines in Beijing time (Asia/Shanghai). For date-only deadlines use accepted 23:59; preserve explicitly specified times. Label the accepted 1/3/7-day natural-day windows with cutoffs today / today+2 / today+6 at 23:59; include today and count only its remaining usable capacity, not elapsed hours.
 - A valid model remaining-effort prediction supplies B for daily allocation/risk; fallback source is the user estimate when unavailable. The selected stage estimate is part of B, not an extra obligation. The original user estimate remains accessible and is shown when material to understanding a discrepancy.
 - Use concise relation notes only when meaningful: “generated from Task X”, “must finish before Task Y”, or “blocked by prerequisite”. Completion order alone does not imply a start block.
 - Inform the user of confirmed expiration before recording EXPIRED, without adding an unrequested acknowledgement step. Pending notification is not already recorded expiration or completion.

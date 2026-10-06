@@ -587,7 +587,7 @@ Emergency behavior may include:
 - recommending that the user reclaim, compress, or reprioritize other time;
 - increasing planned workload during critical periods where necessary.
 
-The SAFE/DANGER/EMERGENCY thresholds are fixed by Section 37. Notification delivery, repeat suppression, partial-day handling, and numerical rounding remain implementation details.
+The SAFE/DANGER/EMERGENCY thresholds are fixed by Section 37. Notification delivery, repeat suppression, numerical rounding, and endpoint precision remain implementation details. Section 61 fixes natural-day scope and remaining-only capacity; these are not deferred choices.
 
 ---
 
@@ -957,7 +957,7 @@ Required work is still mathematically feasible, but the normal safety reserve ha
 
 Even using all usable capacity, REQUIRED work is projected not to fit.
 
-For the 1/3/7-day forecasts, the safety reserve scales with the number of days in the horizon. Exact handling of partial days and implementation rounding may be finalized during Planner implementation.
+For the 1/3/7-day forecasts, the safety reserve scales with the number of days in the horizon. D-078 fixes natural-day horizons including today; usable capacity counts only remaining time. The accepted one-hour-per-represented-day reserve remains unchanged. Numerical rounding and endpoint precision are implementation details, not permission to change the horizon or silently reduce the reserve.
 
 ---
 
@@ -1542,7 +1542,7 @@ Parent user-reported effort, parent effective planning budget, and today's model
 
 Planning timezone: Asia/Shanghai (Beijing time, UTC+08:00). For a deadline that only names a date, apply that date's 23:59 Beijing-time cutoff and retain the original date-only evidence/default provenance. Preserve explicitly specified source/user times and source timezones; do not replace a supplied specific time with the default. Day-end override expiry is the next local midnight, a separate concept.
 
-The user did not choose between natural-day horizons and rolling 24/72/168-hour horizons. That subquestion remains open (O05); do not report either interpretation as user-approved. Exact partial-day reserve conventions remain technical design pending that scope.
+The user subsequently selected option A: natural-day horizons including today, with 23:59 Beijing-time cutoffs on today / today+2 / today+6. Section 61 and D-078 record that accepted clarification; O05 is resolved.
 
 ### Whole-day small-gap rule (question 5, option A)
 
@@ -1553,3 +1553,15 @@ After REQUIRED feasibility and the one-hour reserve are protected, if the aggreg
 Update worked-on Tasks individually. For Tasks not worked on and whose estimate remains unchanged, present a clearly scoped batch and let the user confirm “keep the previous estimates.” Record per-Task confirmation provenance while preserving the original numeric estimate and observation time; review verification time may advance. Do not require duplicate per-Task numeric entry.
 
 Silence is not confirmation. New Tasks lacking a previous user estimate, changed/uncertain estimates, Tasks actually worked on, and unresolved completion candidates still need their appropriate review. Do not infer zero time spent for an untouched Task unless the user's statement actually covers it.
+
+---
+
+## 61. Accepted Natural-Day Forecast Windows — 2026-10-06
+
+Source: the user's explicit answer “A。自然日” to the final O05 subquestion. This completes the horizon scope without reopening any other accepted preference.
+
+Use Asia/Shanghai local dates, including today as day 1. The 1-day window ends today at 23:59; 3-day ends today+2 at 23:59; 7-day ends today+6 at 23:59. These are calendar-date windows, not rolling 24/72/168 hours from the calculation instant.
+
+An intraday forecast counts only usable capacity remaining after its calculation snapshot; elapsed portions of today are not future capacity. Keep the accepted one-hour reserve per represented day (1/3/7-hour default targets), model-first remaining-work budget, real deadline/window feasibility checks, and worst-horizon aggregation. This choice does not authorize proportional reserve reduction, shifting explicit source deadlines, or shortening a Task's actual deadline to the forecast boundary. Numerical rounding and machine endpoint precision are later engineering work consistent with the accepted 23:59 cutoff.
+
+All original O01–O08 boundaries are resolved. Detailed project planning is the next requested work; M1/M1B/M2 and runtime implementation remain incomplete.

@@ -433,4 +433,4 @@ A0 remains complete. The user's six answers refine runtime semantics and explici
 
 Generation and temporal ordering are distinct, typed cross-module concepts. Accepted rules authorize exact counterpart creation; ordinary external discoveries/completion still require review. Model predictions now drive allocation while user estimates remain canonical; expiration informs before recording; Beijing/date-only 23:59, aggregate <=40-minute SAFE remainder, and batch unchanged-estimate review are accepted.
 
-The user answered the timezone/cutoff part of question 4 but not natural-day vs rolling-hour horizon scope. Retain only that subquestion, then continue detailed project planning; do not reopen all six questions or broad A0.
+The user subsequently chose option A: natural-day 1/3/7-day horizons including today, ending at Beijing-time 23:59 on today / today+2 / today+6 (D-078). All original experience questions are resolved. Continue detailed project planning without reopening these choices or broad A0.

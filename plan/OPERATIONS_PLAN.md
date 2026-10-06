@@ -138,7 +138,7 @@ Examples:
 - Database unavailable → stop mutations and surface failure.
 - n8n workflow partially fails → retry idempotently.
 
-Risk-state inequalities, the one-hour/day reserve, and the two-day inactivity trigger are accepted. Delivery channels, alert repeat suppression/escalation, and partial-day conventions remain deferred. Operations must support proactive risk alerts and missing-update reminders.
+Risk-state inequalities, the one-hour/day reserve, and the two-day inactivity trigger are accepted. Delivery channels, alert repeat suppression/escalation, and numerical rounding remain deferred; D-078 fixes natural-day windows, and elapsed time must not be counted as usable capacity. Operations must support proactive risk alerts and missing-update reminders.
 
 Current semantic reminder rule:
 - after two consecutive days without a normal user interaction, proactively request a state update/reconciliation.
@@ -173,7 +173,7 @@ Do not finalize deployment vendor before requirements are known.
 
 ## 11. Runtime Time and State Safety
 
-The accepted planning timezone is Asia/Shanghai (Beijing time). Normal-interaction day tracking, next-local-midnight override expiry, and daily dates use it, not server locale. Date-only deadlines default to local 23:59; supplied explicit times remain intact. Natural-day vs rolling-hour horizon scope is still pending; provider edge fixtures are later work.
+The accepted planning timezone is Asia/Shanghai (Beijing time). Normal-interaction day tracking, next-local-midnight override expiry, and daily dates use it, not server locale. Date-only deadlines default to local 23:59; supplied explicit times remain intact. D-078 fixes natural-day forecast windows including today, ending today / today+2 / today+6 at local 23:59. Recompute the anchor date and all windows at Beijing midnight; intraday recalculation counts only remaining usable time. Provider edge fixtures and numerical precision are later implementation work.
 
 Treat pending review, source sync health, and last trusted state as different observability dimensions. A connector success does not prove user reconciliation succeeded. A partial evening response must not be recorded as a fully completed review while required fields remain missing; D-077 permits explicit bulk confirmation of untouched unchanged estimates; missing or uncovered facts still keep review incomplete.
 

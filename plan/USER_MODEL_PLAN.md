@@ -315,7 +315,7 @@ Conditional triggers can detect conditions automatically; mapped Tasks may be in
 
 ## 12. Fixed Follow-Up Preferences and Relationship Collection
 
-Confirmed preferences: Beijing time (Asia/Shanghai); date-only deadlines default to 23:59; valid model remaining-effort predictions drive planning; SAFE leaves aggregate whole-day discretionary remainder <=40 minutes free; evening review may batch-confirm untouched unchanged estimates. Do not re-ask these defaults. Natural-day vs rolling-hour horizon scope remains one unanswered subquestion.
+Confirmed preferences: Beijing time (Asia/Shanghai); date-only deadlines default to 23:59; valid model remaining-effort predictions drive planning; SAFE leaves aggregate whole-day discretionary remainder <=40 minutes free; evening review may batch-confirm untouched unchanged estimates. Do not re-ask these defaults. The user selected natural-day 1/3/7-day horizons including today, ending today / today+2 / today+6 at 23:59 Asia/Shanghai (D-078). This is a confirmed preference, not an onboarding question.
 
 In M1/M1B collect course/TaskType patterns for counterpart generation and required completion/start order. Ask about the actual workflow and relevant target fields, not graph terminology. Task 1 creation → Task 2 generation does not imply Task 1 executes first. Pre-lab preparation may be generated after its lab Task is created but must finish before the lab under its separate order relation.
 

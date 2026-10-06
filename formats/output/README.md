@@ -12,4 +12,4 @@ The exact machine schema is not finalized yet. M2 will refine concrete structure
 
 ---
 
-Follow-up output semantics: model-first effective parent/stage estimates with canonical user estimate retained separately; concise relationship origin/blocking notes; Beijing timestamps and date-only 23:59; aggregate-day <=40-minute SAFE remainder; notice-before-record expiration; batch unchanged-estimate evening review. The only pending original experience subquestion is natural-day vs rolling-hour 1/3/7-day horizon scope.
+Follow-up output semantics: model-first effective parent/stage estimates with canonical user estimate retained separately; concise relationship origin/blocking notes; Beijing timestamps and date-only 23:59; aggregate-day <=40-minute SAFE remainder; notice-before-record expiration; batch unchanged-estimate evening review. The 1/3/7-day forecasts use natural days including today, with Beijing-time 23:59 cutoffs on today / today+2 / today+6 (D-078). No original experience question remains pending.

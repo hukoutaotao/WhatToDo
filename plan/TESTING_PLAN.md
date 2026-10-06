@@ -264,6 +264,18 @@ O06: a 7-day total-capacity surplus cannot hide an impossible first-day deadline
 - Asia/Shanghai is the user planning timezone regardless of server locale. Date-only deadline maps to local 23:59 with default provenance; explicit 18:00 stays 18:00; explicit other-zone instant is preserved. Today-only override expires at next Beijing midnight, not default task cutoff.
 - After required work/reserve, discretionary aggregate 40 minutes in SAFE stays free; aggregate 60 minutes in three 20-minute windows may use fragmentable work. A single 30-minute window is not automatically excluded when day's aggregate is larger. Reserve is subtracted once.
 - Evening batch “keep previous estimates” confirms only the listed untouched unchanged Tasks, with per-Task provenance and retained original estimate time. Worked-on/new/missing/changed estimates and ambiguous completion remain individual review; silence confirms nothing.
-- Original unanswered natural-day versus rolling-hour horizon scope stays explicitly pending; fixtures cannot pretend either convention has user approval. Schema/library choice remains engineering work rather than an unanswered experience decision.
+- D-078 selects natural-day windows including today; fixtures enforce today / today+2 / today+6 at 23:59 Asia/Shanghai, remaining-only capacity, and the existing reserve. Schema/library choice remains engineering work rather than an unanswered experience decision.
 
 These are planned conceptual acceptance cases. No runtime tests ran, because this repository remains documentation only.
+
+---
+
+## 12. Natural-Day Window Acceptance Cases
+
+- At a Beijing-time snapshot of 2026-10-06 15:00, the 1/3/7-day cutoffs are 2026-10-06 / 2026-10-08 / 2026-10-12 at 23:59. They are not 2026-10-07 / 09 / 13 at 15:00. Today counts as day 1.
+- Intraday C excludes elapsed portions of today, past sessions, and occupied windows; numerical model remaining-work budget B and user effort U retain their separate provenance. The reserve defaults remain 1/3/7 hours per represented-day policy, with no silent proportional discount.
+- At 2026-10-06 16:01 UTC, the Beijing anchor date is 2026-10-07; 1/3/7-day cutoffs become October 7 / 9 / 13 at 23:59 regardless of server timezone. At a Beijing anchor of 2026-12-31, the cutoffs are 2026-12-31 / 2027-01-02 / 2027-01-06 at 23:59; month/year rollover uses local calendar arithmetic.
+- A date-only Task deadline follows the accepted 23:59 default; explicit 18:00 and explicit other-zone instants stay intact. Forecast boundaries do not rewrite actual Task deadlines or today-lock expiry.
+- Windows overlap and are not summed. Preserve deadline-prefix feasibility, necessary early work for deadlines beyond day 7, and worst-horizon mode. O05 is resolved; do not label these fixtures as awaiting user approval.
+
+These are conceptual acceptance cases, not executed runtime tests.

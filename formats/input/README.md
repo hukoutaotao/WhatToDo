@@ -18,4 +18,4 @@ The [Task relationship specification](../../plan/TASK_RELATIONSHIP_PLAN.md) cove
 
 Review inputs include explicit batch confirmation of listed untouched Tasks' unchanged estimates. Worked-on/changed/missing estimates require their own updates. Time parsing uses Asia/Shanghai and date-only 23:59 while preserving explicit times. Canonical user effort is separate from model-first planning predictions; expiration informs before recording, without an extra acknowledgement requirement.
 
-The natural-day vs rolling-hour 1/3/7-day horizon subquestion remains pending; no other answered choice should be treated as undecided.
+D-078 fixes 1/3/7-day forecasts to natural days including today in Asia/Shanghai, with 23:59 cutoffs on today / today+2 / today+6. No original experience question remains pending; do not ask for this choice again.
