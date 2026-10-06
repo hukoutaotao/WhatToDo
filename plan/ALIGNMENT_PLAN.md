@@ -1,6 +1,6 @@
 # WhatToDo — Interaction and Information-Model Alignment Plan
 
-> Status: ACTIVE
+> Status: COMPLETE
 > Purpose: Complete human-AI alignment before implementation begins.
 > This is the authoritative plan for the pre-development alignment gate.
 > User-specific accepted/working intent from A0 is stored in `A0_USER_INTENT.md` and must be read together with this file.
@@ -340,79 +340,54 @@ Do not freeze adapter details before the provider is actually inspected.
 
 ## 8. Alignment Gate A0
 
-No implementation phase may begin until A0 is complete.
+Alignment Gate A0 is **COMPLETE**.
 
-Current status:
-- Initial 12-question A0 round completed.
-- Second follow-up A0 round completed.
-- Third A0 round on task-centric modeling, Course Progress Axis, Exam semantics, risk states, and historical learning completed.
-- Fourth A0 round on importance/requiredness, safe-capacity advancement, output template, automatic numeric learning, reminder policy, and authority boundaries completed.
-- The consolidated results are captured in `A0_USER_INTENT.md`.
-- A0 is **near completion**; only a narrow final consistency/threshold/display review remains.
+The user explicitly accepted the current level of information/interaction alignment after the final A0 round.
 
-A0 requires:
+Completed alignment includes:
+- twice-daily normal interaction and missed-interaction recovery;
+- conservative canonical-state authority and confirmation boundaries;
+- Task-centric model, TaskType defaults, parent/stage semantics, and remaining-effort tracking;
+- importance 1–5 and REQUIRED / OPTIONAL / EXPIRING semantics;
+- three-dimensional difficulty;
+- Course Progress Axis, teaching/task-family progress, dependency/backlog semantics, and Exam model;
+- one-hour-per-day SAFE reserve and SAFE / DANGER / EMERGENCY feasibility rules;
+- daily / weekly / long-term Planner horizons;
+- today-only user overrides;
+- Daily Brief semantics;
+- historical numeric learning vs reviewed behavioral rules;
+- long-term Goal onboarding and Task parity;
+- semantic-contract vs provider-adapter separation.
 
-- [x] Initial user-AI daily interaction model captured
-- [x] Normal morning/evening cadence captured
-- [x] Uncertainty must be queued for user confirmation rather than silently resolved
-- [x] Planner is recommendation-oriented rather than exact clock scheduling by default
-- [x] Multi-dimensional task difficulty concept captured
-- [x] Historical actual-time memory requirement captured
-- [x] Dedicated course/task decomposition modeling requirement captured
-- [x] Dedicated long-term-goal onboarding requirement captured
-- [x] Morning guided interaction order accepted
-- [x] Evening one-batch review pattern accepted
-- [x] Binary parent-task completion + remaining-effort tracking accepted
-- [x] Parent-task + stage/subtask structure accepted
-- [x] Fixed default decomposition template per normal task type accepted
-- [x] History-derived procrastination signal accepted conceptually
-- [x] Normal 40–60 minute daily buffer target accepted
-- [x] Emergency/capacity-risk reminder concept accepted
-- [x] New canonical task requires user review
-- [x] 1/3/7-day capacity forecasting accepted
-- [x] Long-horizon feasibility is the planner objective
-- [x] Task established as the fundamental planning unit
-- [x] Course-level importance removed from primary Planner semantics
-- [x] Importance and requiredness separated
-- [x] 1–5 task-level difficulty scales accepted
-- [x] Course Progress Axis accepted
-- [x] Exam modeled independently from preparation Tasks
-- [x] SAFE / DANGER / EMERGENCY vocabulary accepted
-- [x] Historical learning separated from Planner with user-confirmed rule adoption
-- [x] Task importance 1–5 accepted
-- [x] REQUIRED / OPTIONAL / EXPIRING accepted
-- [x] No generic lead-time field; safe-capacity advancement accepted
-- [x] Course-defined progress units + teaching/task-family progress accepted
-- [x] Default academic dependency templates accepted
-- [x] Conditional note-review and exam-review triggers accepted
-- [x] Worst-horizon SAFE/DANGER/EMERGENCY aggregation accepted
-- [x] Full confirmation queue + recommended-answer prompts accepted
-- [x] Daily Brief baseline structure/template accepted
-- [x] Automatic numeric learning vs reviewed behavioral rules accepted
-- [x] Two-day missed-interaction reminder accepted
-- [x] Long-term goal onboarding fields and equal Planner treatment accepted
-- [x] Overall automatic-analysis vs reviewed-truth/policy boundary accepted
-- [ ] Final narrow threshold/display consistency items accepted
-- [ ] Major modules identified
-- [ ] For each near-term module, required information categories are understood
-- [ ] Information granularity is discussed enough to avoid obvious ambiguity
-- [ ] Cross-module effects are documented
-- [ ] Stable vs dynamic vs derived information is distinguished
-- [ ] Semantic contracts are separated from provider-specific adapter contracts
-- [ ] Deferred questions are explicitly marked rather than guessed
-- [ ] Course/user modeling approach is accepted
-- [ ] Task modeling approach is ready to begin
-- [ ] Input/output alignment process is accepted
+A0 completion checklist:
 
-A0 does not require:
+- [x] User-AI development interaction model accepted
+- [x] Major modules identified
+- [x] Required information categories are understood for near-term work
+- [x] Information granularity is sufficient to begin M1
+- [x] Cross-module effects are documented
+- [x] Stable vs dynamic vs derived information is distinguished conceptually
+- [x] Semantic contracts are separated from provider-specific adapter contracts
+- [x] Deferred implementation/provider questions are explicitly marked
+- [x] Course/user modeling approach is accepted
+- [x] Task modeling approach is ready for M1/M1B/M2 refinement
+- [x] Input/output alignment process is accepted
+- [x] Planner risk/priority/authority philosophy is accepted
+- [x] Historical-learning authority boundary is accepted
+
+A0 does **not** freeze:
 - real Calendar API field names
 - n8n workflow node configuration
 - PostgreSQL table definitions
 - learning-platform selectors
-- exact planner formula
+- exact planner scoring formula
+- exact statistical estimation algorithm
 - exact model provider
+- implementation/UI details that do not alter accepted semantics
 
 Those belong to later milestones.
+
+If later work reveals a semantic contradiction, update A0/decisions deliberately; do not silently diverge.
 
 ---
 
@@ -428,7 +403,7 @@ It is a shared mental model represented in:
 - relevant decisions
 - PROGRESS
 
-Once A0 is accepted, proceed to M1 and collect actual course/activity information.
+A0 is accepted. Proceed to M1 and collect actual course/activity information.
 
 ---
 
