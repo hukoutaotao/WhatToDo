@@ -811,6 +811,7 @@ Deliverables:
 - Task lifecycle
 - Input specification
 - Output specification
+- concrete Daily Brief contract based on `formats/output/DAILY_BRIEF_TEMPLATE.md`
 
 ### M3 — Persistent-state prototype
 
@@ -862,6 +863,7 @@ Deliverables:
 - goal onboarding interaction contract
 - goal/milestone/task-generation semantics
 - rules for integrating configured goal work into daily planning automatically
+- generated Tasks must enter Planner through the same Task interface as other work
 
 ### M6 — Planning MVP
 
