@@ -60,11 +60,19 @@ Create scenarios with expected invariants:
 - urgent large task is advanced before deadline
 - minimum session length respected
 - daily capacity not exceeded
-- normal-day buffer is preserved when feasible
+- SAFE uses approximately one hour of reserve per represented day
+- DANGER triggers when REQUIRED work fits but the safety reserve is breached
+- EMERGENCY triggers when REQUIRED work exceeds total usable capacity
+- in SAFE mode, a ~40-minute-or-smaller residual gap is normally left unscheduled
 - 1/3/7-day capacity deficits are detected
 - emergency mode triggers when required effort exceeds/approaches feasible capacity
 - task count does not substitute for workload-time calculation
 - long-term goal not permanently starved
+- SAFE discretionary work uses Task importance after REQUIRED feasibility is protected
+- today-only user Task lock affects only the current day
+- soft academic prerequisites can be bypassed under REQUIRED-feasibility pressure while hard prerequisites remain enforced
+- Course Progress Axis backlog is surfaced
+- reopened child stages retain audit history
 - stale state blocks false precision
 
 Do not overfit tests to one exact schedule when multiple schedules are acceptable.
@@ -161,6 +169,7 @@ Additional A0 behavioral acceptance:
 - failures preserve prior trusted state.
 - newly discovered task-like content remains candidate until user confirmation.
 - deadline/progress/completion candidates do not mutate accepted task state without confirmation.
+- even strong external submission evidence does not auto-complete a Task in v1.
 - repeated polling does not bypass the confirmation boundary.
 
 ### Phase 5
@@ -174,6 +183,8 @@ Additional A0 behavioral acceptance:
 - SAFE spare capacity advances future REQUIRED work without needing a generic lead-time rule;
 - overall risk equals the worst 1/3/7-day horizon;
 - normal output follows the Daily Brief semantic template and shows deadlines within 3 days;
+- parent remaining effort and today's stage estimate are represented;
+- weekly output can surface forward risk and backlog;
 - normal output remains concise while risk/exception scenarios expose useful explanation.
 
 ### Phase 6
@@ -187,6 +198,8 @@ Additional A0 behavioral acceptance:
 - rejected learned rules do not affect Planner.
 - accepted learned rules do affect Planner.
 - internal numeric estimation can adapt without requiring behavioral-rule approval.
+- model prediction disagreement does not overwrite the user-confirmed remaining estimate.
+- COMPLETE/CANCELLED/EXPIRED and reopened-stage history remain available for learning.
 - capacity-driven delay is not automatically classified as procrastination.
 - two-day missed-interaction state can trigger the configured reminder workflow.
 
