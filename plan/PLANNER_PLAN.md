@@ -31,7 +31,7 @@ Expected conceptual inputs:
 - active tasks
 - deadlines
 - progress/remaining effort
-- thinking depth / repetitive volume / new-learning load
+- task-level 1–5 thinking depth / repetitive volume / new-learning load
 - minimum useful continuous session
 - fragmentability
 - course/activity profiles
@@ -194,7 +194,16 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 12. Emergency / Risk Mode
+## 12. Risk States
+
+Use three high-level states:
+- SAFE
+- DANGER
+- EMERGENCY
+
+Exact thresholds are deferred.
+
+## 13. Emergency / Risk Mode
 
 A risk mode is required when remaining required effort approaches or exceeds remaining usable capacity before one or more deadlines.
 
@@ -218,7 +227,11 @@ Exact risk thresholds and terminology remain to be aligned.
 
 ---
 
-## 13. Historical Procrastination Signal
+## 14. Historical Procrastination Signal
+
+Pattern discovery belongs to `LEARNING_PLAN.md`, not to the Planner itself.
+
+Planner may consume accepted learned signals.
 
 Do not require a manual psychological-resistance score.
 
@@ -232,7 +245,7 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 
 ---
 
-## 14. Failure Modes to Guard Against
+## 15. Failure Modes to Guard Against
 
 - Overfilling the day
 - Scheduling impossible overlaps
@@ -248,7 +261,7 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 
 ---
 
-## 15. User Inputs Needed Before Implementation
+## 16. User Inputs Needed Before Implementation
 
 - desired daily load
 - buffer preference
@@ -261,13 +274,14 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 
 ---
 
-## 16. Dependencies
+## 17. Dependencies
 
 Requires:
 - DATA_MODEL_PLAN
 - Calendar integration
 - Goal model
 - Output contract
+- accepted learned parameters from LEARNING_PLAN where available
 
 Feeds:
 - Daily plan
