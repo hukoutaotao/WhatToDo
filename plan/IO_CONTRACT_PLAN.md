@@ -54,12 +54,14 @@ Do not guess provider-specific details merely to make an early schema look compl
 ### Morning interaction
 Expected normal duration: roughly 5–10 minutes.
 
-Semantic flow:
+Accepted semantic flow:
 ```text
-refresh external evidence
-→ reconcile state
-→ batch/present pending uncertainty questions
-→ accept user corrections / special constraints
+refresh/reconcile external evidence
+→ batch/present items requiring user review
+→ ask a guided special-circumstances question
+  ("Is there anything special today that needs to be arranged?")
+→ accept corrections / special constraints
+→ estimate usable free time
 → generate today's concise plan
 ```
 
@@ -68,15 +70,21 @@ The user should not need to restate normal planning rules every morning.
 ### Evening interaction
 Expected normal duration: roughly 5–10 minutes.
 
+Interaction rule:
+- present the full normal review questionnaire once;
+- let the user answer in one message;
+- ask follow-up only for missing/ambiguous information.
+
 Semantic flow:
 ```text
-review today's planned items
-→ confirm completed / incomplete
-→ capture actual effort where useful
+show/report requirements for all relevant items
+→ confirm COMPLETE / INCOMPLETE
+→ capture cumulative/new actual effort
+→ for every incomplete task, capture latest estimated remaining effort
 → confirm externally detected completion candidates
 → update state
 → update historical estimation data
-→ carry forward/replan as needed
+→ replan rather than mechanically roll unfinished tasks forward
 ```
 
 If a normal interaction is skipped, external collection may continue; unresolved personal state is reconciled at the next interaction.
@@ -163,9 +171,11 @@ Externally detected possible completion is specifically advisory until confirmed
 ## 4. Update Semantics
 
 Input must distinguish:
-- create
+- candidate create
+- confirmed create
 - update/correct
 - complete
+- incomplete with updated remaining effort
 - cancel
 - delete/withdraw source fact
 - merge duplicate
@@ -177,7 +187,9 @@ Avoid treating all incoming text as "create new task."
 
 ## 5. Direct User Authority
 
-Explicit user corrections are usually authoritative for personal state.
+Explicit user corrections are authoritative for personal task state.
+
+New task-like content discovered externally must be reviewed by the user before canonical task creation.
 
 Example:
 "This homework is actually due Friday, not Thursday."
@@ -212,6 +224,7 @@ Must be easy to scan.
 
 Potential sections:
 - approximate usable free time today
+- overall near-term capacity/risk status
 - Today must do
 - Today should do
 - If time remains
@@ -222,6 +235,10 @@ Potential sections:
 - Weekly progress
 
 Do not require exact clock assignment for every task in the normal output.
+
+Risk output may summarize 1/3/7-day capacity versus required work when useful.
+
+Urgent feasibility-risk notifications are allowed outside the normal morning/evening interaction; exact channel and threshold are deferred.
 
 The user will define exact brevity/order during M2.
 
