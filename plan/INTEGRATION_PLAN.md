@@ -155,6 +155,11 @@ When conflicting credible sources exist:
 - resolve automatically only with a defined rule
 - otherwise ask the user
 
+Completion-specific rule:
+- external evidence may suggest a task is complete;
+- unless the evidence is governed by a future explicitly accepted auto-confirmation rule, create a pending confirmation;
+- normal user confirmation, usually in the evening review, changes canonical completion state.
+
 ---
 
 ## 7. Idempotency and Deduplication
