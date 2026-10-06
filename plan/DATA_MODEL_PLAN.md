@@ -89,8 +89,11 @@ Must eventually support:
 - status
 - verification/confidence
 
-### TaskTemplate
-Reusable pattern that generates or describes recurring tasks.
+### TaskType / TaskTemplate
+
+TaskType classifies a workflow and supplies defaults. TaskTemplate describes its decomposition/generation pattern. They may share a physical representation later, but neither is a concrete accepted Task.
+
+Templates generate or describe recurring task patterns.
 
 A normal task type should generally map to a stable decomposition template.
 
@@ -195,7 +198,7 @@ Useful for:
 - evidence about when work started relative to release/deadline
 
 ### Plan
-Structured daily/weekly plan snapshot.
+Structured daily/weekly/long-term plan snapshot. Record source-state version, forecast inputs, recommendations, and provisional/final status where needed. A planned session is not evidence that work occurred.
 
 ### AIJob
 Structured unit of AI-assisted work.
@@ -204,7 +207,7 @@ Structured unit of AI-assisted work.
 Records meaningful changes and their actor/source.
 
 ### PendingConfirmation / UncertainCandidate
-Represents information that may be useful but is not trusted enough to mutate canonical state.
+Represents proposed facts/changes awaiting acceptance. Even high-confidence external Task discoveries and completion signals belong here: pending acceptance is an authority boundary, not merely low confidence.
 
 Examples:
 - ambiguous deadline extraction
@@ -402,8 +405,8 @@ Do not add provider-specific fields to the conceptual model merely because an ex
 
 - Exact Task fields required vs optional
 - Exact status/state machine
-- How user-reported progress is represented
-- How task decomposition is modeled: parent/child vs dependency graph
+- Exact encoding of effort/stage-based progress (binary parent completion and user-canonical remaining effort are already accepted)
+- Exact representation of accepted parent/stage structure and hard/soft dependency edges; both semantics are required
 - Whether Course and generic Activity share one profile type
 - How recurring tasks are instantiated
 - Which preferences are global vs course-specific
@@ -416,3 +419,20 @@ When resolved, propagate changes to:
 - PLANNER_PLAN
 - formats/
 - TESTING_PLAN
+
+---
+
+## 11. Cross-Entity Invariants to Carry into M2
+
+- Keep separate dimensions: candidate acceptance, INCOMPLETE/COMPLETE, lifecycle/disposition (active/cancelled/expired), and derived overdue/stale/conflicted metadata. Their exact encoding is open; a single undifferentiated status enum is insufficient. An overdue REQUIRED Task is not automatically complete, optional, expired, or deleted.
+- User-confirmed remaining effort, template/default initial estimates, internal numeric predictions, and selected daily stage/session estimates are different quantities with provenance/version. Completing a Task sets its remaining effort to zero after authorized validation; time spent alone never proves completion or mechanically determines remaining effort.
+- Parent and child stages describe the same obligation. Forecasts must count its work once; daily selected stage effort is part of parent effort, not an extra workload. Parent-versus-stage reconciliation when estimates differ is an M2 decision, not an implicit sum rule.
+- A child-stage completion does not independently confirm the final parent obligation. Reopening a stage preserves history and requires the accepted personal-state authorization path; propose any parent-state effect rather than inventing it.
+- TaskType defaults may be copied automatically into a proposed/authorized Task; automatic inheritance does not authorize canonical creation. New template versions must not silently rewrite existing accepted Tasks.
+- Accepted Goal configuration is distinct from generated Task instances and Goal progress. Generators must be idempotent; activation authority remains open in CONSISTENCY_AUDIT.md.
+- Expiration time/condition is distinct from deadline. Time crossing that condition may be detected automatically, but canonical EXPIRED-transition authority still needs explicit resolution. Preserve evidence and history in the meantime.
+- Course teaching/task-family progress values are dynamic; axis/unit definitions are stable. A maximum completed unit must not hide holes in older units when reporting backlog.
+- WorkSession actual observations and planned allocations remain separate, even if implemented in one table. Optional time-of-day data must not be fabricated when only total effort was reported.
+- Effective-state/version checks and audit records are required for confirmed writes, including batch writes. Reject stale proposals rather than overwriting intervening user updates.
+
+Open cross-file edges are tracked in CONSISTENCY_AUDIT.md; exact SQL tables remain deferred until Phase 2.

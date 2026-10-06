@@ -45,6 +45,11 @@ Role:
 Authority:
 - Highest authority for accepted decisions unless the user explicitly reverses one.
 
+#### `CONSISTENCY_AUDIT.md`
+Role:
+- Records the 2026-10-06 full-document audit, corrections, requirement-to-document coverage, and unresolved boundaries.
+- Provides planning input; it is not a new user-policy authority.
+
 #### `PROGRESS.md`
 Role:
 - Live operational status.
@@ -119,18 +124,17 @@ Authority:
 
 ## 3. Authority and Conflict Resolution
 
-When documents conflict, use this order:
+Use authority by subject, not a rule that an architecture/status file may override accepted user intent.
 
-1. Explicit latest user instruction
-2. `DECISIONS.md` for accepted decisions
-3. `PROGRESS.md` for current status
-4. `DEVELOPMENT_PLAN.md` for sequencing
-5. `PROJECT_PLAN.md` for architecture
-6. Specialized planning documents for domain details
-7. Concrete format/schema files under `../formats/` for implemented I/O contracts
-8. Older comments, issues, or chat context
+1. Latest explicit user instruction controls the requested work and any stated product changes.
+2. `A0_USER_INTENT.md` preserves accepted product semantics; `DECISIONS.md` indexes accepted decisions and later refinements. These two must agree. Later explicit accepted refinements supersede earlier wording; numbering or a file's timestamp alone does not authorize a new policy.
+3. `PROGRESS.md` controls actual work status and the immediate next action, not product policy.
+4. `DEVELOPMENT_PLAN.md` controls provisional milestone order/prerequisites, not accepted semantics. The detailed execution plan is still to be prepared after this audit.
+5. `PROJECT_PLAN.md` controls architecture within accepted decisions; specialized documents define their domain details.
+6. `../formats/` implements the semantic I/O requirements. Its current Daily Brief is a conceptual template; no machine schema is implemented.
+7. Earlier issues/comments/chat may supply provenance but cannot silently replace repository truth.
 
-Do not silently resolve a meaningful contradiction. Update the conflicting documents so the repository returns to a consistent state.
+If intent/register conflict without an identifiable accepted refinement, retain both evidence and record the unresolved boundary in `CONSISTENCY_AUDIT.md`. Do not guess a user decision. Technical choices consistent with accepted semantics may be proposed and later tested without pretending they were already user-approved.
 
 ---
 
@@ -178,7 +182,7 @@ Interpretation:
 - User/course, data, and I/O semantics must stabilize before persistence and connectors.
 - Provider-specific adapter details are defined only when real integrations are examined.
 - Integrations feed normalized state; they do not own planning logic.
-- Planner depends on stable state and time availability.
+- Planner depends on stable state and time availability. Candidate review, audit history, staleness, and minimal recovery begin with persistence/ingestion; Phase 7 extends them rather than introducing safety for the first time.
 - AI augments planning/ingestion but must not become canonical state.
 - Operations, security, and testing apply across implementation phases.
 - Progress reflects actual repository state, not intended future state.
@@ -218,7 +222,7 @@ Update:
 2. `DATA_MODEL_PLAN.md`
 3. `PLANNER_PLAN.md`
 4. `IO_CONTRACT_PLAN.md` if profile fields are exposed through input/output
-5. `TESTING_PLAN.md` after implementation exists
+5. `TESTING_PLAN.md` conceptual acceptance scenarios now; executable fixtures once implementation exists
 6. `PROGRESS.md`
 
 ### If an entity or state model changes
@@ -283,7 +287,7 @@ Use these conventions:
 
 - **Accepted**: user-approved direction.
 - **Planned**: intended but not implemented.
-- **In progress**: implementation has begun.
+- **In progress**: work has begun in the named scope (planning, modeling, or implementation); specify the scope so planning activity is not mistaken for implemented code.
 - **Implemented**: code/config exists.
 - **Verified**: tested in the intended environment.
 - **Deferred**: intentionally postponed.
@@ -326,7 +330,7 @@ Unless explicitly changed by the user:
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
 - Alignment Gate A0 is complete.
-- The project is currently in M1 user/course modeling, not infrastructure implementation.
+- A0 is complete; M1 is the next incomplete semantic milestone. Current handoff is post-audit detailed planning, then M1/M1B/M2 as prerequisites; see PROGRESS.md. No infrastructure implementation has begun.
 - Broad A0 questioning should not be reopened unless later work reveals a genuine semantic contradiction.
 - Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
@@ -349,3 +353,4 @@ After editing:
 - [ ] Update tests/acceptance plan if behavior changed.
 - [ ] Update `PROGRESS.md`.
 - [ ] Do not claim verification that was not actually performed.
+

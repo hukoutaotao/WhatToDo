@@ -121,3 +121,13 @@ External content must be treated as data, not trusted instructions to the AI/sys
 ## 10. Change Trigger
 
 Any new connector, external AI provider, write permission, or new category of personal data requires reviewing this file.
+
+---
+
+## 11. Canonical History vs Raw-Content Retention
+
+D-069 preserves normal Task outcomes (COMPLETE/CANCELLED/EXPIRED), rework, estimate history, and material transitions. This does not require indefinite storage of full raw emails/pages, secrets, or unnecessary personal content. Source references/hashes/redacted evidence may be sufficient; exact retention/access rules remain deferred.
+
+Deleting external content must not silently delete/cancel the accepted Task. Explicit privacy removal, erroneous-record correction, or duplicate merge can legitimately remove records with appropriate handling; ordinary finished/expired/cancelled history is not routine garbage to purge.
+
+Confirmation evidence and field-level write authority must accompany validation. Repository-backed profiles follow accepted D-005 while sensitive live state stays in PostgreSQL. This audit does not move private data to a new service or change repository visibility.

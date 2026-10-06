@@ -1,7 +1,7 @@
 # WhatToDo — User / Course Model Plan
 
 > Purpose: Define how WhatToDo learns the user's stable working context before task/database implementation.
-> Current relevance: Alignment Gate A0 is complete. This is the active modeling document for current milestone M1.
+> Current relevance: A0 is complete. This is the modeling specification for the next incomplete semantic milestone M1; the immediate handoff is detailed project planning after the consistency audit (PROGRESS.md).
 
 ## 1. Scope
 
@@ -76,7 +76,7 @@ TaskType templates provide defaults; concrete Task instances inherit and may ove
 
 Also capture where useful:
 - typical total duration by task type
-- estimation uncertainty
+- derived estimation uncertainty from history (not a required user reliability score)
 - minimum useful continuous session
 - fragmentability
 - need for uninterrupted focus
@@ -87,7 +87,7 @@ Also capture where useful:
 - avoid times if any
 - recurring release pattern
 - recurring deadline pattern
-- lead time desirable for large tasks
+- workload distribution and meaningful stages for large tasks; no generic start-N-days-early field
 
 ### Learning/review characteristics
 - whether regular review is needed
@@ -196,7 +196,7 @@ Potential categories:
 - which tasks require long uninterrupted blocks
 
 ### Deadline behavior
-- desired lead time
+- feasibility-driven advancement and distribution of large work; no generic lead-time field
 - whether large tasks should be spread across days
 - how much emergency buffer to preserve
 
@@ -230,7 +230,7 @@ Recommended conversational sequence:
    - what work it creates
    - what is hard about it
    - typical duration
-   - how early work should start
+   - release/deadline patterns and how large work should be distributed; do not require a generic lead-time parameter
    - whether work can be fragmented
 4. Draft a structured profile.
 5. Let the user correct it.
@@ -297,6 +297,16 @@ M1 is complete when:
 - at least one representative course has a detailed profile
 - the profile structure works for the remaining courses without major ad hoc exceptions
 - planning-relevant user preferences needed for task modeling are captured
-- information is sufficiently structured to begin M2 Task/I-O contract work
+- information is sufficiently structured to begin M1B decomposition presets, then M2 Task/I-O contract work
 
 Do not mark M1 complete merely because a course list exists.
+
+---
+
+## 11. Already Accepted Defaults vs Missing User Facts
+
+Do not re-ask A0's accepted domains, three 1–5 difficulty dimensions, Task importance 1–5, three requiredness values, one-hour/day reserve, ~40-minute SAFE small-gap policy, or recommendation-oriented output as if undecided. Collect course-specific defaults and explicit exceptions only.
+
+Time-of-day preferences are user-confirmed profile rules; learned alternatives require approval. Exam review phases/cadence may be configured explicitly, but are not a generic lead-time field for every TaskType. Teaching progress and task-family progress values are dynamic state; the definition of their common axis is stable profile/config.
+
+Conditional triggers (three missed note units, exam phase) can automatically detect the condition and propose work. Their canonical Task activation permission remains open; see CONSISTENCY_AUDIT.md. M1 is not complete: no current-semester profiles have been collected in this repository.

@@ -5,6 +5,8 @@
 > Active pre-development alignment specification: `plan/ALIGNMENT_PLAN.md`  
 > M1 modeling specification after A0: `plan/USER_MODEL_PLAN.md`
 
+> Status: Existing milestone roadmap; detailed execution plan not yet prepared.
+> Current requested sequence: consistency audit → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
 > Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
@@ -86,9 +88,9 @@ Goal:
 - Model each course and recurring activity according to its real characteristics.
 
 Possible properties:
-- Importance
+- TaskType defaults (Task importance/requiredness; no primary Course importance score)
 - Typical task types
-- Cognitive difficulty
+- Thinking depth / repetitive volume / new-learning load, each 1–5
 - Workload
 - Typical duration
 - Minimum useful session length
@@ -126,7 +128,7 @@ The user should not need to manually write JSON.
 User must provide:
 - Real examples of how they naturally describe tasks and changes
 - Which sources should be treated as authoritative
-- Which ambiguous changes may be auto-accepted
+- Examples requiring clarification; v1 does not auto-accept external canonical Task changes
 
 Depends on:
 - F2
@@ -284,7 +286,7 @@ Re-evaluate deadlines
 ↓
 Detect ambiguous / overdue tasks
 ↓
-Ask user only for unresolved high-impact facts
+Present all unresolved confirmations, high-impact first, and resolve the full queue where possible
 ↓
 Restore trusted state
 ↓
@@ -292,9 +294,9 @@ Replan next 7–14 days
 ```
 
 User must provide:
-- Which unknowns may be inferred
-- Which changes require confirmation
-- How aggressively tasks may be marked obsolete/completed
+- Missing factual completion/progress/remaining-effort information during catch-up
+- Explicit user confirmations under accepted A0 rules
+- Task-specific cancellation/expiration clarification where needed; do not infer completion
 
 Depends on:
 - F4
@@ -380,12 +382,15 @@ Potential sections:
 - Risk warnings
 - Weekly / long-term progress
 
-User must provide:
-- Preferred detail level
-- Whether exact time blocks should be shown
-- Whether priority reasoning should be shown
-- Whether deadlines should be visible
-- Desired ordering and brevity
+Already accepted:
+- concise recommendation-oriented output, without exact clock blocks by default
+- parent remaining effort, selected stage effort, and work style
+- all 1/3/7-day risks plus worst-horizon mode
+- deadlines shown within 3 days, for risky work, or on request
+- exception-driven explanation and two-round overall-EMERGENCY output
+
+User input later:
+- real examples and any explicit rendering refinements beyond the accepted template
 
 Depends on:
 - Output contract
@@ -445,14 +450,14 @@ Likely fields:
 - Status
 - Confidence / verification metadata
 
-Lifecycle should cover at least:
-- Candidate
-- Confirmed
-- In progress
-- Completed
-- Cancelled
-- Overdue
-- Stale / uncertain where needed
+Keep distinct conceptual dimensions (exact encoding in M2):
+- Candidate acceptance: pending / confirmed / rejected / conflicted
+- Canonical parent completion: INCOMPLETE / COMPLETE
+- Lifecycle/disposition: active / CANCELLED / EXPIRED
+- Derived risk/trust: OVERDUE, STALE / UNKNOWN / CONFLICTED
+- Partial work: actual invested effort, user-confirmed remaining effort, child-stage status
+
+Do not introduce IN_PROGRESS as a third parent completion state or automatically mark overdue work expired.
 
 ### B. Input Contract
 
@@ -494,7 +499,7 @@ These three artifacts should be stable before database and connector implementat
 4. F3 manual natural-language task input design
 5. Input Contract
 6. Output Contract
-7. Initial Goal / Milestone concepts
+7. Initial Goal / Milestone concepts and generic onboarding contract (A0 minimum fields, approval boundary, Task generation semantics)
 
 ### User participation
 
@@ -534,17 +539,19 @@ Phase 1 is complete when:
 3. Git/YAML/JSON long-term profiles
 4. Manual task create/update/complete/cancel flows
 5. Provenance
-6. Audit history
-7. Initial F5 Goal persistence
+6. Audit history, confirmed-write authority, state version checks, pending-confirmation persistence, effort history, and staleness/minimal reconciliation
+7. Initial F5 Goal persistence (configuration only; runtime generation is later)
 
 ### Minimal vertical prototype
 
 ```text
 Manual user input
 ↓
-Normalize to Task
+Normalize/resolve proposed Task or explicit user instruction
 ↓
-Persist
+User acceptance when not already authorized + validation
+↓
+Persist canonical state + audit
 ↓
 Read current tasks
 ↓
@@ -626,7 +633,7 @@ For learning platform:
 
 ### Completion criteria
 
-Common new obligations and changes can be discovered automatically and stored with source traceability.
+Common new obligations and changes can be discovered automatically and stored as evidence/candidates with source traceability. Canonical Task changes still require user review; high confidence does not bypass it.
 
 ### Constraint
 
@@ -646,7 +653,8 @@ Connectors must not own planner logic. They normalize information; planning rema
 6. Goal-generated recurring work
 7. F11 Daily Output System
 8. Daily n8n trigger
-9. Optional calendar writing for flexible work blocks
+9. Optional calendar writing for flexible work blocks (only after ownership/write scope is agreed)
+10. Morning/evening review, missed-interaction reconciliation, proactive risk alerts, and two-round overall-EMERGENCY planning using the safety foundations already built
 
 ### User must provide
 
@@ -679,7 +687,7 @@ This is the first major usable MVP.
 2. No-AI / cheap-AI / premium-manual routing
 3. One low-cost automated model path
 4. Structured AI output schemas
-5. Validator before canonical state changes
+5. Extend the existing confirmed-write validator with AI schemas/provider results; validation never substitutes for user authorization
 6. Manual premium-job workflow for ChatGPT Work
 7. Cost/token logging for automated APIs
 
@@ -701,8 +709,8 @@ This is the first major usable MVP.
 
 ### Build
 
-1. F8 State Reconciliation / Recovery
-2. TRUSTED / STALE / UNKNOWN / CONFLICTED state handling
+1. Extend F8 to comprehensive multi-source inactivity recovery and weekly/long-term review
+2. Extend existing TRUSTED / STALE / UNKNOWN / CONFLICTED handling; these safety foundations already exist in earlier prototypes
 3. Periodic full synchronization
 4. Weekly review
 5. F12 Historical Learning and Self-Correction
@@ -736,7 +744,7 @@ Already available:
 
 ### A0 — Interaction and information-model alignment — COMPLETE
 
-Need from user:
+Historically obtained from user (do not re-request as a new gate):
 - confirmation/correction of the intended user-AI development interaction
 - discussion of expected semantic granularity for modules
 - confirmation that semantic contracts may be fixed before provider-specific adapter contracts
@@ -751,7 +759,7 @@ Deliverables:
 Completion authority:
 - `plan/ALIGNMENT_PLAN.md`
 
-### M1 — User and course model — CURRENT
+### M1 — User and course model — NEXT INCOMPLETE SEMANTIC MILESTONE
 
 This milestone is intentionally information-rich. Detailed per-course modeling is expected to be one of the largest user-input activities in the project.
 
@@ -812,6 +820,8 @@ Deliverables:
 - Input specification
 - Output specification
 - concrete Daily Brief contract based on `formats/output/DAILY_BRIEF_TEMPLATE.md`
+- generic Goal onboarding/approval/generation contract before Goal persistence; M5B later validates real Goal examples
+- resolved or explicitly gated cross-module boundaries from CONSISTENCY_AUDIT.md
 
 ### M3 — Persistent-state prototype
 
@@ -845,10 +855,10 @@ Deliverables:
 - Learning-platform connector
 - Provenance and deduplication
 
-### M5B — Long-term goal onboarding model
+### M5B — Long-term goal onboarding refinement and activation
 
 Purpose:
-- define the dedicated setup interaction that runs whenever the user creates a new long-term goal.
+- refine/test the generic M2 onboarding contract using real Goal examples and make runtime generation ready for M6. M5B does not postpone basic Goal semantics until after database design.
 
 Need from user:
 - example long-term goals
@@ -862,7 +872,7 @@ Need from user:
 Deliverables:
 - goal onboarding interaction contract
 - goal/milestone/task-generation semantics
-- rules for integrating configured goal work into daily planning automatically
+- rules for proposing configured Goal work automatically; canonical activation follows the reviewed authority contract resolved in M2
 - generated Tasks must enter Planner through the same Task interface as other work
 
 ### M6 — Planning MVP
@@ -900,7 +910,7 @@ Deliverables:
 - Historical calibration
 - Behavior/estimation analyzer
 - Candidate learned-rule review
-- Self-correction through user-approved learned parameters
+- Self-correction through automatic internal numeric calibration and user-approved behavioral rules; neither silently overwrites canonical user estimates
 
 ---
 
@@ -913,14 +923,18 @@ M0 complete
 ↓
 A0 interaction + information-model alignment COMPLETE
 ↓
-M1 user/course modeling CURRENT
+Post-audit detailed project planning requested
+↓
+M1 user/course modeling NEXT / INCOMPLETE
 ```
 
 A0 is closed. Do not reopen broad alignment questioning unless M1 or later work exposes a genuine semantic contradiction.
 
 Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
-Recommended immediate sequence:
+After the completed consistency audit, prepare the detailed project plan before beginning further user-information collection. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
+
+Subsequent semantic sequence:
 
 1. Collect and confirm the user's current courses and recurring non-course commitments.
 2. Choose one representative course and build its Course Profile and Course Progress Axis.
@@ -931,3 +945,15 @@ Recommended immediate sequence:
 7. Proceed to M2 Task and I/O contracts before persistence.
 
 Provider-specific Calendar/Gmail/learning-platform details remain deferred until their integration phases.
+
+---
+
+## 13. Cross-Phase Safeguards and Remaining Planning Work
+
+This file remains an ordered roadmap, not the detailed implementation plan requested next. The next planning session should map milestones to concrete deliverables, module interfaces, dependencies, user-input checkpoints, acceptance criteria, and rollout steps without pretending missing profiles/schemas are already complete.
+
+Safety is incremental: Phase 2 owns minimal confirmation/audit/versioning/staleness/history; Phase 4 owns safe connector replay/checkpoints; Phase 5 owns usable recovery and normal/emergency review. Phase 7 adds comprehensive recovery, weekly/long-term review, and historical learning. Full AI Router work in Phase 6 must not be a prerequisite for earlier basic validation or deterministic ingestion/planning.
+
+Known A0 policies are defaults, not new questions: no primary Course importance, no generic TaskType lead time, binary parent completion, three requiredness values, one-hour reserve, worst-horizon risk, advisory external completion, user-canonical remaining effort, and automatic numeric learning vs reviewed behavioral rules. Collect concrete course/TaskType values and explicit exceptions at their milestones.
+
+Before activating a behavior touched by an unresolved item in CONSISTENCY_AUDIT.md, resolve its semantics at the listed milestone. Conservative evidence/candidate storage permits useful preparatory work; it is not permission to invent missing personal facts.

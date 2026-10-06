@@ -4,6 +4,7 @@
 > Source: Direct user answers during Alignment Gate A0.
 > Audience: AI agents and maintainers.
 > Purpose: Preserve the intended user experience and semantic requirements in a compact form that future AI agents can use without relying on chat history.
+> Reading rule: Sections summarize successive A0 rounds; the text is reconciled to the final accepted decisions, not a list of alternative policies. For unresolved interpretation boundaries see `CONSISTENCY_AUDIT.md`.
 > Rule: Do not reinterpret these requirements as implementation details. If later discussion changes them, update this file and all dependent plans listed in plan/README.md.
 
 ---
@@ -190,7 +191,7 @@ How much unfamiliar material must first be learned/understood before or during e
 
 These dimensions should not be collapsed into one generic "difficulty" number unless a derived score is needed internally.
 
-Exact scales and representation are deferred to the Task/Course modeling stage.
+Each dimension uses the accepted 1–5 scale (Section 31 / D-037). Exact field representation is deferred to M1B/M2.
 
 ---
 
@@ -281,7 +282,7 @@ Examples may eventually include:
 
 Policy:
 - if external evidence suggests completion but the user has not confirmed it, create a confirmation question;
-- do not silently mark the Task completed solely from ambiguous auxiliary evidence;
+- in v1, do not mark the Task completed from any external evidence, including an unambiguous submission record, without user confirmation;
 - after user confirmation, update trusted state and relevant history.
 
 External evidence is an assistant to confirmation, not an unrestricted replacement for it.
@@ -362,8 +363,8 @@ Exact UX and message format remain to be specified later.
 ### Trusted user statement
 Can directly establish/correct personal state after validation.
 
-### External confirmed source fact
-Can establish facts that source is authoritative for, such as a published assignment deadline when unambiguous.
+### External source fact
+Can establish what the source published, such as its assignment deadline. It updates evidence/provenance automatically, but does not establish or change an accepted personal Task deadline until user review (Sections 23, 25, 57–58 / D-033, D-064).
 
 ### System inference / detector
 May create a candidate, suggestion, or confirmation request.
@@ -566,10 +567,7 @@ An explicit emergency/risk mode is required.
 
 The system should not assume tasks with real deadlines can simply be postponed.
 
-Tasks should eventually carry a concept such as:
-- required / necessary;
-- optional / deferrable;
-with richer importance semantics developed later.
+Tasks use REQUIRED / OPTIONAL / EXPIRING and a separate importance score of 1–5 (Section 42). A deadline alone does not imply REQUIRED.
 
 A major risk signal is **required effort versus remaining usable capacity before deadline**.
 
@@ -589,7 +587,7 @@ Emergency behavior may include:
 - recommending that the user reclaim, compress, or reprioritize other time;
 - increasing planned workload during critical periods where necessary.
 
-Exact notification channel and thresholds are deferred, but the semantic condition is required.
+The SAFE/DANGER/EMERGENCY thresholds are fixed by Section 37. Notification delivery, repeat suppression, partial-day handling, and numerical rounding remain implementation details.
 
 ---
 
@@ -641,7 +639,7 @@ The reminder should be actionable, e.g.:
 
 Separately, if the system has gone too long without receiving user state updates, it may proactively remind the user to perform a reconciliation/update.
 
-Exact inactivity threshold and notification channels (email, etc.) will be decided later.
+The inactivity trigger is two consecutive days without normal interaction (Section 55 / D-055). Notification channel and repeat-delivery details remain deferred.
 
 ---
 
@@ -782,7 +780,7 @@ Planner invariant:
 - required work must be protected sufficiently to remain feasible;
 - importance helps choose ordering and sacrifices when not everything can fit.
 
-Exact importance scale is still to be aligned.
+Task importance uses the accepted integer 1–5 scale (Section 42 / D-043).
 
 ---
 
@@ -863,7 +861,7 @@ Purpose:
 - define exam coverage;
 - generate review work over a range of course progress.
 
-The axis should support at least lesson/session-granularity positions and ranges.
+The axis supports positions and ranges in course-defined units (Section 45); lesson/session is one example, not a required universal unit.
 
 For lesson N, useful semantic positions include:
 - before lesson N;
@@ -965,7 +963,7 @@ For the 1/3/7-day forecasts, the safety reserve scales with the number of days i
 
 ## 38. Emergency-Mode Daily Interaction
 
-When the day is classified as EMERGENCY, daily planning becomes a two-round interaction.
+When the overall mode is EMERGENCY (including an EMERGENCY 3-day or 7-day horizon), daily planning becomes a two-round interaction. The final result must recompute every affected horizon.
 
 ### Round 1
 The system should still present the **normal plan produced under normal planning rules**, so the user can see the baseline obligations and recommendations.
@@ -1017,18 +1015,11 @@ Execution / WorkSession / plan history
         ↓
 Historical Learning / Behavior Analyzer
         ↓
-Candidate learned pattern
-        ↓
-User review
-        ↓
-Accepted learned parameter/rule
-        ↓
-Planner
+Internal numeric calibration → advisory prediction → Planner
+Behavioral pattern → candidate rule → user review → accepted rule → Planner
 ```
 
-The Planner consumes accepted learned parameters.
-
-The analyzer discovers candidate patterns.
+The Planner consumes automatically calibrated numeric predictions and user-accepted behavioral rules. The analyzer computes numeric models and discovers candidate behavioral patterns. Numeric learning does not overwrite user-confirmed estimates or template defaults (Sections 54, 58).
 
 Required data foundations are already conceptually planned, but must be extended to include:
 - planned task/session;
@@ -1242,7 +1233,7 @@ Interpretation:
 - small margin where ordinary uncertainty could cause failure → DANGER;
 - expected infeasibility → EMERGENCY.
 
-Exact numerical thresholds are deferred until planner calibration.
+The category thresholds are fixed by Section 37 / D-059. Calibration may improve effort predictions; it must not silently change the accepted one-hour-per-day reserve or category inequalities.
 
 ### Multi-horizon reporting
 

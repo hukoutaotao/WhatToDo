@@ -14,13 +14,9 @@ Historical execution/state data
         ↓
 Behavior / Estimation Analyzer
         ↓
-Candidate learned pattern
-        ↓
-User review
-        ↓
-Accepted parameter/rule
-        ↓
-Planner
+Numeric calibration → derived prediction → Planner
+        +
+Candidate behavioral rule → user review → accepted rule → Planner
 ```
 
 This preserves explainability and user authority.
@@ -165,11 +161,16 @@ Examples:
 OBSERVED:
 - median actual/estimated ratio = 1.42
 
+AUTOMATIC_NUMERIC_MODEL:
+- calibrate an internal prediction multiplier for this task type, retaining model version and supporting observations; no per-update behavioral-rule approval is needed
+
 CANDIDATE_RULE:
-- multiply future default estimate for this task type by 1.35
+- prefer daytime for this task type despite a different standing preference
 
 ACCEPTED:
-- Planner may use this multiplier
+- Planner may use the approved behavioral preference
+
+Changing a user-defined TaskType default is a configuration/policy change requiring review; it is not an internal numeric-model update.
 
 This distinction allows estimation models to improve without silently rewriting user preferences.
 
@@ -190,7 +191,7 @@ Require user confirmation before:
 - overriding a user-stated time-of-day preference
 - adopting a new recurring rule
 
-Exact boundary may be refined later.
+This authority distinction is fixed by D-054/D-058/D-066. Algorithms, model versioning, and presentation details remain deferred; do not reopen the permission boundary implicitly.
 
 ---
 
@@ -198,7 +199,7 @@ Exact boundary may be refined later.
 
 Planner consumes:
 - current effort prediction
-- accepted calibration parameters
+- automatically calibrated internal numeric parameters/predictions with provenance
 - accepted behavioral rules
 - historical risk signals
 
@@ -246,3 +247,11 @@ Exact algorithms and schemas are deferred until:
 - enough real usage data is available.
 
 Do not over-engineer the statistical model before real data exists.
+
+---
+
+## 13. Historical Interpretation Limits
+
+Aggregate actual effort without inventing unreported session times. Planned work is not actual execution. Preserve cancelled/expired/reopened history, but distinguish outcome types when estimating completed-task effort: an abandoned task's invested time is not its full completion duration.
+
+Retain estimate-at-planning-time snapshots so future model updates do not rewrite past prediction errors. An updated numeric model may generate estimation-risk warnings; the accepted canonical user estimate remains separate. Exact Planner treatment of disagreement is an open design choice in CONSISTENCY_AUDIT.md.

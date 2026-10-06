@@ -65,7 +65,7 @@ Create scenarios with expected invariants:
 - EMERGENCY triggers when REQUIRED work exceeds total usable capacity
 - in SAFE mode, a ~40-minute-or-smaller residual gap is normally left unscheduled
 - 1/3/7-day capacity deficits are detected
-- emergency mode triggers when required effort exceeds/approaches feasible capacity
+- DANGER signals reserve breach; overall EMERGENCY triggers only on an infeasible horizon, not merely an approaching deadline
 - task count does not substitute for workload-time calculation
 - long-term goal not permanently starved
 - SAFE discretionary work uses Task importance after REQUIRED feasibility is protected
@@ -158,6 +158,8 @@ Additional A0 behavioral acceptance:
 - State persists.
 - CRUD/state transitions work.
 - provenance/audit works.
+- confirmation/authority checks prevent unauthorized canonical Task changes.
+- pending state, versioned writes, effort snapshots, and minimal staleness/reconciliation persist across restarts.
 - simple daily brief generated.
 
 ### Phase 3
@@ -180,11 +182,11 @@ Additional A0 behavioral acceptance:
 - planner compares 1/3/7-day required effort against available capacity;
 - planner triggers risk/emergency behavior on infeasible horizons;
 - planner optimizes workload time rather than task count;
-- SAFE spare capacity advances future REQUIRED work without needing a generic lead-time rule;
+- SAFE discretionary work is chosen primarily by Task importance after REQUIRED feasibility/reserve are protected; higher-importance OPTIONAL/EXPIRING work may outrank additional future REQUIRED work;
 - overall risk equals the worst 1/3/7-day horizon;
 - normal output follows the Daily Brief semantic template and shows deadlines within 3 days;
 - parent remaining effort and today's stage estimate are represented;
-- weekly output can surface forward risk and backlog;
+- history/structured outputs retain the inputs needed for later weekly forward-risk/backlog review; full Weekly Planner output is accepted at Phase 7, not claimed implemented in the daily MVP;
 - normal output remains concise while risk/exception scenarios expose useful explanation.
 
 ### Phase 6
@@ -217,3 +219,26 @@ Use:
 Do not collapse these into "done."
 
 Update PROGRESS.md with the strongest actually demonstrated state.
+
+---
+
+## 9. Cross-Document Regression Scenarios to Define Before Code
+
+- A clear user command commits only its resolved authorized update; no duplicate confirmation is required. Ambiguous references remain pending.
+- High-confidence published deadlines and strong submission evidence update source/candidate records without automatically mutating canonical Task facts.
+- Internal numeric calibration changes derived predictions without rule approval; it does not rewrite user estimates, TaskType defaults, past snapshots, or explicit preferences.
+- Parent 4 h remaining + selected 1 h stage consumes 1 h of today's allocation and represents 4 h total remaining, not 5 h. Conflicting parent/stage estimates are resolved under the M2 contract.
+- Each risk inequality is checked at its boundary: C - R = S is SAFE; C - R = 0 is DANGER for positive S; negative is EMERGENCY. Report all three horizons and the worst mode.
+- 1-day SAFE + 3-day EMERGENCY enters overall EMERGENCY and the two-round interaction. The baseline is provisional, and the final plan reports any unresolved deficit.
+- Removing only OPTIONAL work cannot mathematically fix a negative C - R for REQUIRED work. Daily removal never silently cancels/deletes canonical Tasks.
+- S is not subtracted twice. Discretionary allocation respects the reserve; the small-gap policy does not grant authority to fill reserved rest capacity.
+- Aggregate hours are sufficient but an early deadline/release/hard dependency/minimum block prevents completion: expose the bottleneck rather than certify a feasible plan. Exact mode aggregation is finalized before the scenario becomes executable.
+- Required work beyond 7 days can be advanced to prevent a later bottleneck; importance governs discretionary work once feasibility is protected.
+- Review presents the whole confirmation queue, keeps unanswered items pending, and follows up for missing future-relevant remaining effort. A missing interaction never fabricates progress.
+- Today-only override respects configured local day boundaries and preserves the distinction between “complete” and “advance”. No server-timezone assumption.
+- Course progress with holes in older units produces backlog warnings; latest/max unit alone cannot erase the holes.
+- Repeated conditional/Goal generation is idempotent and follows the authority contract resolved in M2. Trigger detection itself does not constitute acceptance.
+- Time passing a deadline does not automatically cancel/expire REQUIRED work. Expiration handling follows the explicit permission contract; raw source deletion does not delete Tasks.
+- Completed/cancelled/expired/reopened outcomes retain relevant history; raw-content minimization can coexist with retained semantic audit records.
+
+These are planned acceptance cases, not executed runtime tests. Unresolved edges in CONSISTENCY_AUDIT.md must be settled before pinning an exact expected behavior. The current audit verifies documents/references and requirement propagation only.

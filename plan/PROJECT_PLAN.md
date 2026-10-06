@@ -109,7 +109,7 @@ Collectors / Connectors
 │
 ▼
 Automation / Orchestration Layer
-(n8n preferred)
+(n8n only)
 │
 ▼
 PostgreSQL
@@ -321,10 +321,13 @@ The system should then:
 2. Check referenced objects.
 3. Check hard constraints.
 4. Reject unsafe / contradictory changes.
-5. Apply accepted changes.
-6. Log the change and source.
+5. Require user acceptance for canonical Task facts or policy changes unless the resolved explicit user instruction already authorizes that exact change.
+6. Apply authorized changes atomically with state-version checks.
+7. Log the change and source.
 
 This design is necessary for model portability and reliability.
+
+The numeric priority example is a derived recommendation score, not the Task's user-defined 1–5 importance. Updating a derived score must not silently change canonical importance or remaining effort.
 
 ---
 
@@ -483,8 +486,10 @@ Email
 → extract candidate facts
 → map to course / domain
 → deduplicate
-→ verify / auto-accept depending on confidence
-→ update state
+→ preserve candidate / recommend interpretation
+→ user confirmation
+→ validate authorized change
+→ update canonical Task state
 ```
 
 ### Learning Platform / Web Learning
@@ -541,7 +546,7 @@ Detect overdue / ambiguous tasks
 ↓
 Compare against historical task state
 ↓
-Ask user only for unresolved facts that materially matter
+Present all pending confirmations, high-impact first; resolve the full queue where possible
 ↓
 Rebuild trusted current state
 ↓
@@ -611,7 +616,7 @@ Goal state and task state must remain separate.
 
 ## 14. Planner Responsibilities
 
-The planner should combine deterministic rules with LLM judgment.
+The planner is deterministic-first and must produce a usable Daily Brief without AI. AI may propose interpretations/decomposition or strategic advice through validation and the accepted confirmation boundary; it is not a required serial step in every planning pass.
 
 ### Deterministic planning inputs
 
@@ -622,19 +627,18 @@ The planner should combine deterministic rules with LLM judgment.
 - Fixed events
 - Task dependencies
 - Minimum session length
-- Course / task importance
+- Task importance (1–5) and REQUIRED / OPTIONAL / EXPIRING; Course is context/defaults
 - Exam proximity
 - Overdue state
 - Long-term milestone requirements
 
-### LLM-assisted planning inputs
+### Optional LLM assistance
 
-- Cognitive difficulty
-- Whether tasks should be grouped
-- Whether a task is suitable for fragmented time
-- Whether current daily load is realistic
-- Ambiguous importance
-- Human-friendly task decomposition
+- Interpret ambiguous input into candidates for confirmation.
+- Propose task decomposition and strategic adjustments.
+- Explain exceptional risks concisely.
+
+Difficulty (three 1–5 dimensions), importance, fragmentability, and session defaults are already structured Task/TaskType inputs. AI must not silently infer and overwrite them. Calendar arithmetic, capacity checks, and hard constraints remain deterministic.
 
 ### Output should distinguish
 
@@ -676,7 +680,7 @@ Generate Daily Brief
 Optionally write flexible study blocks to calendar
 ```
 
-Daily output format will be defined later by the user.
+The accepted conceptual Daily Brief is in `formats/output/DAILY_BRIEF_TEMPLATE.md`; M2 defines the machine schema and refines wording while preserving A0 semantics.
 
 ---
 
@@ -868,7 +872,7 @@ Current planning preference:
 - Database: PostgreSQL
 - Calendar backend: Google Calendar
 - Calendar UI: Apple Calendar may remain the user's daily interface
-- Email: Gmail connector initially where practical
+- Email: account/provider selection remains deferred until the user confirms relevant accounts; Gmail is a possible adapter, not a selected mandatory backend
 - Learning platform: custom connector / scraper
 - Planner: custom service, likely Python or TypeScript; not yet finalized
 - AI integration: custom AI Router
@@ -888,7 +892,7 @@ Do not prematurely lock down the following:
 - Exact cloud/VPS provider
 - Exact cheap model provider
 - Exact notification channel
-- Exact daily report format
+- Exact machine Daily Plan schema and rendering details (the human semantic template is already accepted)
 - Exact scraping method for the learning platform
 - Exact priority formula
 - Exact scheduling algorithm
@@ -931,7 +935,6 @@ Do not begin later phases merely because their technologies are available. A pha
 The following decisions are currently considered accepted unless the user later changes them:
 
 - The project is a personal task/schedule operating system, not a basic to-do app.
-- n8n is preferred as the main workflow orchestration layer.
 - n8n is the sole workflow / orchestration platform; Dify is not part of the planned architecture.
 - PostgreSQL is the canonical dynamic state store.
 - Long-term declarative knowledge should be version-controlled, likely YAML/JSON.
@@ -964,4 +967,18 @@ When the user reviews a human-readable summary and requests changes:
 5. Avoid allowing stale contradictory decisions to remain silently in different sections.
 6. Record major architectural reversals explicitly.
 
-This document should remain the primary AI-oriented planning context until the architecture becomes stable enough to split into dedicated design documents.
+`plan/README.md` is the entry point and authority map. This file is the architecture view; specialized design documents already exist and must be updated together.
+
+---
+
+## 26. Reconciled Runtime Boundaries
+
+The diagram in Section 4 is a module inventory, not a mandatory serial call chain. Canonical personal Task mutations follow evidence/input → candidate/authorized user instruction → review when needed → validator → atomic state/audit update. A clear direct user command can itself provide confirmation; do not ask the same decision twice. Schema validity or high model confidence alone cannot authorize a write.
+
+Planner reads accepted Tasks, accepted rules, derived numeric predictions, and a current availability snapshot. It emits recommendations/plan snapshots without changing completion facts. All three planner horizons share one Task model. Learner is optional: internal numeric model updates may be automatic; behavioral rules require review; canonical user estimates remain separate.
+
+In overall EMERGENCY, show a visibly provisional normal baseline, collect the user's sacrifices/additional capacity, then recompute and return the final plan. Optional removal alone cannot mathematically erase a REQUIRED-work deficit; preserve the residual deficit if it remains.
+
+Goal/recurring/conditional generators emit proposed instances under approved templates. Per-instance canonical activation authority is still open; until settled, the conservative review path applies. Source Calendar updates may refresh occupancy automatically within configured scope without becoming Task progress/completion.
+
+Minimum confirmation, provenance, audit, versioning, staleness, and recovery safeguards belong to persistence/ingestion and the first MVP. Advanced catch-up/weekly learning in Phase 7 extends those foundations. See `CONSISTENCY_AUDIT.md` for unresolved edges and planning inputs.

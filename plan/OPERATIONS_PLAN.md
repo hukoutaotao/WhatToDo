@@ -138,7 +138,7 @@ Examples:
 - Database unavailable → stop mutations and surface failure.
 - n8n workflow partially fails → retry idempotently.
 
-Notification channels and exact thresholds are deferred, but operations must support proactive alerts for deadline-feasibility risk and prolonged missing user updates.
+Risk-state inequalities, the one-hour/day reserve, and the two-day inactivity trigger are accepted. Delivery channels, alert repeat suppression/escalation, and partial-day conventions remain deferred. Operations must support proactive risk alerts and missing-update reminders.
 
 Current semantic reminder rule:
 - after two consecutive days without a normal user interaction, proactively request a state update/reconciliation.
@@ -168,3 +168,13 @@ Affected by:
 - SECURITY_PRIVACY_PLAN
 
 Do not finalize deployment vendor before requirements are known.
+
+---
+
+## 11. Runtime Time and State Safety
+
+Configure the user's planning timezone explicitly; do not assume the server locale. Normal-interaction day tracking, today-only override expiry, and daily generation must use that configuration. DST/date-only/horizon edge conventions are later M2/M4 work.
+
+Treat pending review, source sync health, and last trusted state as different observability dimensions. A connector success does not prove user reconciliation succeeded. A partial evening response must not be recorded as a fully completed review while required fields remain missing; exact interaction tracking UX remains open.
+
+Minimum backup/audit/state-version/staleness/confirmation protection begins with persistent-state prototypes, and safe replay begins with the first connector. Phase 7 extends resilience; it cannot be the first time these protections exist.

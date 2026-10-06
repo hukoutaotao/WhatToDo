@@ -3,6 +3,10 @@
 > Canonical record of user-approved product and architecture decisions.
 > Do not silently reverse these decisions. If the user changes one, mark the old decision superseded and record the new decision.
 
+## Reading and Refinement Rules
+
+Decision IDs are historical identifiers, not competing policies. An accepted later refinement narrows an earlier decision; use both together. D-028 and D-045 remain historical and superseded. A0 intent and this register must agree: neither may conceal an unresolved conflict in the other. `CONSISTENCY_AUDIT.md` records repairs and genuinely open boundaries without turning proposals into user-approved decisions.
+
 ## Decision Format
 
 Each decision contains:
@@ -214,7 +218,7 @@ Decision:
 Define semantic/domain and I/O contracts before database implementation, connectors, planner, or AI infrastructure.
 
 Implications:
-- Alignment Gate A0 is the current prerequisite before user/course modeling.
+- Alignment Gate A0 was the prerequisite before user/course modeling and is now complete (D-070).
 - After A0, M1 user/course modeling begins.
 - Starting n8n/PostgreSQL/scraping before Phase 1 completion is intentionally deferred.
 
@@ -329,7 +333,7 @@ At minimum, task difficulty conceptually distinguishes:
 
 Do not collapse these into one generic user-facing difficulty field by default.
 
-Exact scales are deferred to detailed task/course modeling.
+Refined by D-037: each dimension uses 1–5. Only exact field/schema representation remains deferred.
 
 Affected:
 - USER_MODEL_PLAN
@@ -546,7 +550,7 @@ Status: Accepted
 Decision:
 The system may proactively notify the user outside morning/evening interactions when projected remaining required effort is close to or exceeds remaining usable capacity before a deadline.
 
-Exact channels and thresholds are deferred.
+Risk-state thresholds are fixed by D-059; channels and operational alert delivery details remain deferred.
 
 Affected:
 - PLANNER_PLAN
@@ -734,7 +738,7 @@ Status: Accepted
 Decision:
 Use SAFE, DANGER, and EMERGENCY as the high-level feasibility/risk vocabulary.
 
-Exact thresholds are deferred.
+Refined by D-059: SAFE when C - R >= S, DANGER when 0 <= C - R < S, EMERGENCY when C - R < 0; S is approximately one hour per represented day. Partial-day rounding remains deferred.
 
 Affected:
 - PLANNER_PLAN
@@ -750,7 +754,7 @@ Status: Accepted
 Decision:
 Historical behavior/estimation analysis may run automatically on a weekly cadence and may also be invoked manually.
 
-Material learned rules that change Planner behavior should be presented to the user for confirmation before becoming accepted.
+Material behavioral/planning rules require user confirmation before adoption. D-054 permits automatic internal numeric calibration; D-066 prevents it from overwriting user-confirmed remaining effort.
 
 Planner consumes accepted learned rules; pattern discovery belongs to a separate learning/analyzer module.
 
@@ -1153,7 +1157,7 @@ Affected:
 Status: Accepted
 
 Decision:
-All Task-state changes require user review in v1, including strong external completion evidence such as a submission record.
+Canonical personal Task-fact changes require user review in v1, including strong external completion evidence such as a submission record. Derived risk/staleness, raw source updates, numeric prediction updates, and the accepted day-end expiry of a temporary override are not completion/progress mutations. Automatic Task expiration and template-instantiation authority remain explicitly unresolved in CONSISTENCY_AUDIT.md.
 
 External evidence produces a candidate/recommended confirmation, not an automatic canonical completion mutation.
 
@@ -1266,3 +1270,4 @@ Affected:
 - DEVELOPMENT_PLAN
 - PROGRESS
 - README
+

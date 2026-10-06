@@ -7,9 +7,11 @@
 
 Last updated: 2026-10-06
 
-Overall status: **DOMAIN MODELING / M1**
+Overall status: **DOCUMENT CONSISTENCY AUDIT COMPLETE; DETAILED PLANNING NEXT**
 
-Current milestone: **M0 COMPLETE → A0 COMPLETE → M1 CURRENT**
+Current milestone: **M0 COMPLETE → A0 COMPLETE → M1 NEXT / INCOMPLETE**
+
+Current session result: full-document consistency correction, before the newly requested detailed project plan.
 
 Current phase: **Phase 1 — Define What the System Understands**
 
@@ -91,7 +93,7 @@ Authority:
 
 ## 3. Current Work
 
-The active work is **M1 — User and Course Model**.
+The completed work is the requested full-document consistency audit. The immediate next work is **detailed project planning**, per the user's latest instruction. M1 remains the next incomplete semantic milestone; no course/activity profiles were collected or approved in this audit.
 
 No implementation task is active.
 
@@ -110,7 +112,9 @@ Important:
 
 ## 4. Immediate Next Actions
 
-Execute in this order:
+First prepare a detailed project plan using the reconciled documents and CONSISTENCY_AUDIT.md. Do not implement or restart broad A0 questioning. Distinguish accepted requirements, missing user facts, open semantic edges, proposed technical choices, and runtime acceptance gates.
+
+After that planning work, the semantic prerequisite sequence remains:
 
 1. Collect and confirm all current courses.
 2. Collect recurring exercise/training and recurring life/other commitments.
@@ -127,7 +131,7 @@ Execute in this order:
 
 ## 5. Pending User Information
 
-Needed now for M1:
+Needed when M1 begins (not collected in this audit):
 - current semester course list
 - recurring exercise/training
 - recurring life/administrative/other commitments
@@ -192,7 +196,9 @@ Verified:
 - A0 requirements are consolidated into repository planning documents;
 - A0 cross-file consistency audit completed for the final rule changes;
 - A0 is accepted as complete;
-- M1 is the next/current milestone.
+- M1 is the next incomplete semantic milestone, after the requested detailed planning work.
+- This session inspected all 21 existing Markdown documents at base commit `c1ce632e26c2a7b497e1a87074dc39bacd7af04f`, reconciled their policies, and added CONSISTENCY_AUDIT.md.
+- Local document checks cover links, decision IDs, stale rule phrases, and dependent requirement propagation. This is document-level verification only.
 
 Not yet verified:
 - any runtime behavior
@@ -221,3 +227,13 @@ When a milestone is completed:
 2. move Current milestone to the next milestone;
 3. check `DEVELOPMENT_PLAN.md` acceptance criteria;
 4. do not advance based on intent alone.
+
+---
+
+## 10. Consistency Audit Handoff — 2026-10-06
+
+Read CONSISTENCY_AUDIT.md for the exact findings, affected files, and open questions. Repairs cover A0/register internal conflicts, old architectural shortcuts, course/template semantics, Task lifecycle/trust separation, learning permissions, emergency review, workload accounting, roadmap prerequisites, tests, and format placeholders.
+
+Remaining planning dependencies include Goal/recurring/conditional activation authority, canonical expiration authority, parent/stage effort reconciliation, forecast estimate choice, local horizon conventions, window-bottleneck aggregation, reserve/small-gap accounting, and full-queue review UX. None is silently treated as user-approved.
+
+No database, workflow, connector, Planner, model path, profile schema, or machine I/O schema was implemented. A0 stays complete; M1/M1B/M2 stay incomplete. The user need not review long AI-oriented documents; provide a concise user summary and use the repository for future detailed planning.

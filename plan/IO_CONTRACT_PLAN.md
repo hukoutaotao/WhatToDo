@@ -12,11 +12,13 @@ Human/raw source
 ↓
 parse/normalize
 ↓
-structured candidate
+structured candidate / resolved explicit user instruction
 ↓
-validate
+user review when not already authorized
 ↓
-trusted state
+validate schema, references, authority, and state version
+↓
+trusted state + audit
 ```
 
 For output:
@@ -161,7 +163,7 @@ Every normalized external input should be able to carry:
 
 A normalized input is not automatically trusted state.
 
-If confidence is insufficient for a consequential change:
+For every external proposal that changes canonical personal Task facts, regardless of confidence:
 - keep it as a candidate/pending-confirmation object;
 - do not silently mutate trusted state;
 - batch it into the next normal interaction.
@@ -250,7 +252,7 @@ Do not require exact clock assignment for every task in the normal output.
 
 Risk output should report 1-day, 3-day, and 7-day states separately. Overall mode uses the most severe horizon.
 
-Urgent feasibility-risk notifications are allowed outside the normal morning/evening interaction; exact channel and threshold are deferred.
+Urgent feasibility-risk notifications are allowed outside the normal morning/evening interaction. Risk-state thresholds are accepted; delivery channel, repeat suppression, and notification timing details remain deferred.
 
 The current A0-approved human template is stored at `../formats/output/DAILY_BRIEF_TEMPLATE.md`.
 
@@ -311,9 +313,23 @@ Need from user:
 - realistic task-creation examples
 - completion/progress/correction examples
 - examples of ambiguous instructions
-- preferred daily brief
-- exact information the user wants visible every day
+- realistic rendering examples using the already accepted Daily Brief template
+- refinements to wording/optional detail while preserving the accepted content and 3-day deadline visibility
 
 These should be solved before Phase 2 database design.
 
 Provider-specific Calendar/email/learning-platform payload details are intentionally not required at this stage; they are resolved during their integration phases unless a discovery changes the internal semantic model.
+
+---
+
+## 10. Review, Generation, and Emergency Boundaries
+
+A clear explicit user statement can authorize the described personal-state update after target resolution and validation. Do not require a redundant second confirmation. Ambiguous references or extra inferred changes still require review. A today-only lock distinguishes “complete today” from “advance this stage today”; do not weaken the requested action.
+
+Normal reviews present the full pending queue, with recommendations and high-impact items first. The 5–10 minute duration is an expectation, not authority to discard lower-priority questions. Missing/unanswerable items remain pending, and any blocked reconciliation/review is visible; no fabricated answer or completion is allowed. D-065 still requires remaining effort for every future-relevant INCOMPLETE Task; efficient carry-forward/explicit reconfirmation UX is open in CONSISTENCY_AUDIT.md.
+
+Recurring/Goal/conditional generated work is a candidate until canonical activation authority is resolved. Template inheritance needs no repeated field-by-field confirmation; that is separate from accepting the Task itself.
+
+Overall EMERGENCY uses two rounds even if only the 3-day or 7-day horizon is infeasible. Round 1 shows a visibly provisional baseline and actual deficit. Round 2 applies user-approved removals/additional capacity, recomputes all horizons, and reports any remaining infeasibility. Removing an item from today's recommendation is not canonical cancellation/deletion of its Task, and optional removal alone does not reduce REQUIRED R. More today-capacity cannot by itself solve every future deadline/window bottleneck.
+
+The machine contract in M2 must distinguish task requiredness from plan role (must/protect today, advance, optional), completion from disposition/trust, parent work from selected stage effort, advisory predictions from user-canonical estimates, and provisional from final emergency output. No implemented machine schema exists yet.

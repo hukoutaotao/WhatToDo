@@ -158,17 +158,17 @@ A Course is not just a name. Its profile exists because course-level differences
 | Course information | Example meaning | Main consumers | Behavioral effect |
 | --- | --- | --- | --- |
 | course identity | "Data Structures and Algorithms" | task model, connectors, output | groups tasks and source mappings |
-| importance | high / medium / contextual | planner | affects allocation when capacity is scarce |
+| TaskType importance / requiredness defaults | importance 1–5; REQUIRED / OPTIONAL / EXPIRING | Task creation, planner | initializes Task-level attributes; no primary Course importance score |
 | typical task types | homework, lab, preview | input normalization, task templates, planner | determines likely structure and handling |
-| cognitive difficulty | high reasoning/debugging load | planner | influences time-of-day and focus-window choice |
+| TaskType difficulty defaults | thinking depth / repetitive volume / new-learning load, each 1–5 | Task creation, estimator, planner | distinguishes reasoning, repetition, and new learning |
 | workload / volume | usually large | planner, estimator | affects early allocation and risk |
 | typical duration | LAB often 3–5 h | estimator, planner | determines how much capacity to reserve |
-| estimation uncertainty | duration is hard to predict | planner, risk logic | adds buffer / avoids deadline compression |
+| derived estimation uncertainty | historical duration variation | estimator, risk logic | flags prediction risk; not a required manual reliability score |
 | minimum useful session | e.g. 90 min | scheduler | prevents placing task into unusably short gaps |
 | fragmentability | low / medium / high | scheduler | determines whether short gaps are usable |
 | preferred time | e.g. daytime for hard coding | planner | soft scheduling preference |
 | deadline pattern | often weekly | task generator, connector matching | supports recurring expectations |
-| dependency pattern | preview → lab → report | task graph, planner | enforces order |
+| dependency pattern | preview → lab → report, with hard/soft edges | task graph, planner | hard edges bind; soft order may be bypassed with an exception note |
 | exam/review pattern | review should start 2 weeks early | goal system, planner | generates future workload |
 | cumulative knowledge | strongly cumulative | planner, weekly review | discourages persistent backlog |
 
@@ -403,7 +403,7 @@ It is a shared mental model represented in:
 - relevant decisions
 - PROGRESS
 
-A0 is accepted. Proceed to M1 and collect actual course/activity information.
+A0 is accepted. M1 remains the next incomplete semantic milestone. Follow the current handoff in PROGRESS.md: complete the requested post-audit detailed planning first, then collect actual course/activity information under M1.
 
 ---
 
@@ -424,3 +424,4 @@ Update:
 If a provider-specific detail is discovered later:
 - update the relevant specialized integration plan
 - update semantic plans only if the discovery changes the internal meaning, not merely field mapping
+

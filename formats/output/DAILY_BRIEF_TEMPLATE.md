@@ -36,16 +36,19 @@ For future required work that should be pulled forward:
   - Parent remaining effort: <duration>
   - Today: <specific stage/subtask>
   - Today's stage estimate: <duration>
+  - Work style: <large uninterrupted block | fragmentable | either>
   - Reason: <brief reason only if useful, e.g. future 3-day capacity is tight>
   - Deadline: <show if within 3 days or risky>
 
 ## Fragmentable / Short-Gap Work
 
-- <Task / stage> — <estimated effort or useful chunk>
+<Prefer work-style labels on items above. If using this section, reference those items without counting them again; for a new recommendation show parent remaining effort + selected stage/chunk estimate.>
+
+- <Parent Task> — remaining <duration>; today <stage/chunk>, <estimate>; <deadline when within 3 days, risky, or requested>
 
 ## Optional if Capacity Remains
 
-- <Task / stage> — <estimated effort>
+- <Parent Task> — remaining <duration>; today <stage/chunk>, <estimate>; <work style>; <deadline when within 3 days, risky, or requested>
 
 ## Risks / Exceptions
 
@@ -59,6 +62,8 @@ Examples:
 ---
 
 # Emergency Mode Extension
+
+Label Round 1 “Provisional baseline — emergency adjustment pending”; do not imply it is feasible/final. Overall mode controls this flow even if only a 3-day or 7-day horizon is EMERGENCY.
 
 When overall mode is EMERGENCY, first show the normal plan above, then add:
 
@@ -75,7 +80,7 @@ Questions for the user:
 1. Which suggested items can be removed or deferred?
 2. How much additional time can you realistically make available today?
 
-After the user answers, regenerate the final emergency-day plan.
+After the user answers, regenerate the final emergency-day plan and recompute every affected horizon. Preserve visible residual deficits. Removing optional recommendations alone does not reduce REQUIRED workload R, and removing a plan item does not cancel its canonical Task.
 
 ---
 
@@ -92,3 +97,14 @@ After the user answers, regenerate the final emergency-day plan.
 - In SAFE mode, do not fill a residual free gap around 40 minutes or less merely to maximize utilization.
 - Prefer actionable recommendations over explanation.
 - Expand explanations only for abnormal/risky/surprising situations or when requested.
+
+---
+
+# Rendering and Accounting Notes
+
+- Empty optional sections may be omitted. Every newly recommended item shows parent remaining effort, today's selected stage/chunk estimate, and work style. For an unsplit Task, today's concrete objective may be the Task itself.
+- “Protect today”, “advance”, and “optional if capacity remains” are daily plan roles, not replacements for REQUIRED / OPTIONAL / EXPIRING. A REQUIRED Task can appear as optional additional advancement only after its required feasibility is protected.
+- SAFE discretionary selection uses importance after feasibility/reserve, so high-importance OPTIONAL/EXPIRING work is not automatically excluded because future REQUIRED work exists.
+- Count a Task/stage allocation once. Fragmentability is preferably a label; repeated references are navigation aids, not extra workload.
+- The one-hour reserve is separate from the ~40-minute small-gap rule. Exact gap/window and horizon conventions remain open in the audit; the renderer cannot invent them.
+- Unresolved confirmations or stale capacity are visible data-quality exceptions; do not present uncertain input as a precise safe guarantee. Confirmation review is a prerequisite workflow, not a footnote that authorizes using unconfirmed facts.

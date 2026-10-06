@@ -99,9 +99,13 @@ map to course/domain
 ↓
 deduplicate
 ↓
-confidence/trust handling
+evidence confidence + recommended interpretation
 ↓
-state update or review queue
+review queue for canonical personal Task changes
+↓
+user confirmation + authorized validation
+↓
+canonical state update + audit
 ```
 
 Need from user later:
@@ -156,12 +160,13 @@ Examples:
 When conflicting credible sources exist:
 - preserve both source records
 - mark state conflicted when material
-- resolve automatically only with a defined rule
-- otherwise ask the user
+- rules may select a recommended source interpretation automatically;
+- canonical personal Task-fact changes still require user review in v1;
+- raw source/Calendar occupancy updates remain distinct from Task truth
 
 Completion-specific rule:
 - external evidence may suggest a task is complete;
-- unless the evidence is governed by a future explicitly accepted auto-confirmation rule, create a pending confirmation;
+- in v1, every external completion signal creates a pending confirmation, including strong submission evidence; no accepted auto-confirmation exception exists;
 - normal user confirmation, usually in the evening review, changes canonical completion state.
 
 New-task rule:
@@ -246,3 +251,13 @@ Security impact:
 
 Testing impact:
 - Add connector fixtures and replay tests in TESTING_PLAN.
+
+---
+
+## 11. Planning Dependencies and Safety Foundations
+
+Email account/provider selection is open; Gmail is an example, not a requirement. Do not infer current accounts from old chat. Calendar's Google preference is accepted, but exact credentials/IDs/mapping are later integration facts.
+
+From the first ingestion prototype, preserve candidates, provenance, deduplication, checkpoints, errors/staleness, and safe replay. Source deletion does not automatically cancel a canonical Task. A Calendar-owned event may refresh occupancy within configured sync scope without confirming a Task or inventing personal progress.
+
+Phase 4 may use deterministic extraction, manual reviewed imports, or a narrowly validated optional extractor. Full AI Router deployment remains Phase 6. Collectors must remain useful when an extraction model is unavailable; uncertain content stays evidence/pending, and no safety boundary waits for the Router.

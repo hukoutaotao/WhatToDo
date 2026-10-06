@@ -49,7 +49,7 @@ Expected conceptual inputs:
 ### Hard constraints
 Examples:
 - class/training cannot overlap work block
-- task cannot be scheduled after a hard deadline
+- required delivery deadlines are hard obligation constraints; a missed deadline creates visible infeasibility/overdue state, not automatic Task cancellation or a ban on all recovery work
 - explicitly hard prerequisite/dependency
 - minimum session length where truly required
 - today-only user lock, unless physically incompatible with another hard obligation
@@ -273,7 +273,7 @@ The A0 semantic thresholds are now fixed by Section 12. Implementation may still
 
 Pattern discovery belongs to `LEARNING_PLAN.md`, not to the Planner itself.
 
-Planner may consume accepted learned signals.
+Planner may consume automatic numeric predictions/descriptive risk signals and user-accepted behavioral planning rules. Unconfirmed behavioral rules must not affect allocation.
 
 Do not require a manual psychological-resistance score.
 
@@ -308,14 +308,14 @@ Avoid falsely labeling capacity-driven delay as procrastination.
 
 ## 16. User Inputs Needed Before Implementation
 
-- desired daily load
-- buffer preference
+- course/task-specific allocation details and explicit daily capacity constraints
+- any explicit exceptions to the already accepted one-hour reserve / ~40-minute SAFE small-gap defaults
 - study-time preferences
 - minimum focus blocks
-- exam-review lead time
+- explicit exam phase/coverage/review cadence configuration, not generic TaskType lead time
 - large-assignment strategy
 - tolerance for fragmented scheduling
-- whether exact time blocks are desired in final output
+- rendering refinements to the accepted recommendation-oriented default; exact clock scheduling is not required
 - course-specific hard vs soft dependency exceptions
 - weekly/long-term planning preferences where they materially differ from defaults
 
@@ -328,10 +328,35 @@ Requires:
 - Calendar integration
 - Goal model
 - Output contract
-- accepted learned parameters from LEARNING_PLAN where available
+- automatic numeric predictions and user-accepted behavioral rules from LEARNING_PLAN where available
 
 Feeds:
 - Daily plan
 - AI jobs for fuzzy/strategic decisions
 - Historical-learning metrics
 - reconciliation replanning
+
+---
+
+## 18. Required Emergency Interaction
+
+Use the overall worst-horizon mode. Overall EMERGENCY requires two rounds (A0 Section 38, Daily Brief template):
+1. Display a visibly provisional normal-rule baseline, affected horizons, at-risk obligations, capacity deficit, and proposed lower-importance/non-required sacrifices. Ask what the user will remove/defer and how much additional time is realistic.
+2. Recompute with the user's choices, then publish the final emergency-day recommendation and the remaining risk/deficit, if any.
+
+Never silently cancel REQUIRED work or treat removal from a daily list as cancellation. Since R measures REQUIRED work, removing OPTIONAL items alone cannot turn C - R from negative to nonnegative. Do not label an infeasible baseline/final result safe or claim a guaranteed feasible schedule when hard constraints conflict. Today-only locks remain highest-priority overrides with visible conflicts; they are not evidence of execution.
+
+## 19. Forecast and Effort Accounting Requirements
+
+- C is usable capacity after configured fixed occupancy, no-work boundaries, and relevant buffers; do not subtract the safety reserve into C and then subtract it again via S.
+- Forecast R counts the same obligation once across parent/stages and across plan sections. Selected daily effort is part of remaining work. Horizon forecasts overlap; their risk labels are reported separately, not added together.
+- A positive aggregate C - R is not by itself proof of feasibility. Deadline-prefix bottlenecks, release times, hard prerequisites, and minimum useful windows can make work impossible even with sufficient total hours. The accepted feasibility rules must be implemented with suitable checks, not weakened to calendar-date labels.
+- Required work due beyond 7 days may need effort today to preserve long-run feasibility. Daily/weekly/long-term layers coordinate; R must not blindly omit necessary early allocations or count every future Task's full effort as due today.
+- Overdue REQUIRED work remains visible until the user confirms its disposition. EXPIRING work is distinct; detect time/condition crossings without inventing canonical transition permission.
+- User remaining effort is canonical; numeric predictions are advisory and disagreement may add an estimation-risk warning. Exact forecast estimate selection, parent/stage reconciliation, and aggregation of window infeasibility into reported modes are unresolved design details in CONSISTENCY_AUDIT.md.
+- Preserve the reserve when allocating discretionary work; do not fill it merely to improve utilization. The ~40-minute residual-gap rule is separate from the one-hour reserve; exact fragmentation/accounting is still open.
+- Use a configured user planning timezone, not the server timezone, for “today”, override expiry, date-only deadlines, and missed-interaction days. The actual user profile timezone and rolling-vs-calendar horizon boundaries still need confirmation/design in M2/M4.
+
+## 20. Failures and Missing Information
+
+Unknown/stale capacity or missing task facts cannot produce falsely precise SAFE claims. Retain the last trusted facts, expose data quality/blocked review, and recompute after confirmation. Three feasibility states remain accepted; missing knowledge is separate metadata, not a new invented risk state. Minimal missed-interaction handling is required for the MVP; Phase 7 adds broader recovery/weekly analysis.

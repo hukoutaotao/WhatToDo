@@ -98,9 +98,11 @@ structured proposal
 ↓
 schema validation
 ↓
-domain constraint validation
+domain/authority/state-version validation
 ↓
-accepted state mutation
+user confirmation if not already explicitly authorized
+↓
+atomic authorized state mutation + audit
 ```
 
 Do not grant models unrestricted direct database mutation for ordinary planning/extraction.
@@ -174,3 +176,13 @@ Testing:
 - hallucinated IDs
 - stale proposals
 - provider failure
+
+---
+
+## 10. Permission and Milestone Clarifications
+
+Validation is necessary but not sufficient authority. High confidence, valid JSON, or a premium model result cannot bypass canonical Task-fact review. A clear resolved direct user command is already authorization for that exact change; extra inferred changes are candidates.
+
+Core write validation, confirmation, version checks, and audit start with Phase 2 persistence. Phase 6 extends them with model-output schemas/provider routing; it does not introduce the first validator. A lightweight reviewed/optional extraction path may precede the full Router; ordinary planning and recovery never require a model call.
+
+Structured proposals may contain derived recommendation scores, but must not confuse them with the user's 1–5 importance or stored remaining effort. Automatic numeric learning updates derived predictions, not canonical user estimates, template defaults, or behavioral rules.
