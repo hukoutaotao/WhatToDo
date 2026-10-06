@@ -649,8 +649,10 @@ Exact inactivity threshold and notification channels (email, etc.) will be decid
 When human interaction is missing, the canonical factual database should remain conservative.
 
 Without user confirmation:
+- do not create a canonical personal task from collected evidence;
+- do not change the accepted task deadline/meaning;
 - do not mark tasks complete;
-- do not infer personal progress as fact;
+- do not change personal progress/remaining-effort facts;
 - do not silently convert probable states into trusted state.
 
 Even strong external evidence may be stored as:
@@ -736,7 +738,6 @@ A daily plan is good when it contributes to long-horizon success, not merely whe
 After the first two rounds, the following still require alignment before A0 can close:
 
 - exact presentation/prioritization of confirmation questions in morning/evening review;
-- whether any canonical state changes besides new tasks/completion may be automatically accepted, or whether all meaningful task facts require confirmation;
 - exact semantics/scales for the three difficulty dimensions;
 - exact information model for importance vs necessity/requiredness;
 - detailed Course fields and how each affects downstream modules;
