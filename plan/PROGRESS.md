@@ -66,7 +66,7 @@ The active work is **A0: Interaction and Information-Model Alignment**.
 No implementation task is active.
 
 Current alignment progress:
-- initial 12-question A0 round is complete and captured in `plan/A0_USER_INTENT.md`;
+- first and second A0 question rounds are complete and consolidated in `plan/A0_USER_INTENT.md`;
 - normal cadence: morning interaction + evening interaction, roughly 5–10 minutes each;
 - missed-day behavior: automated collection continues, then next interaction performs reconciliation;
 - uncertainty policy: uncertain facts wait for user confirmation and are batched into the next interaction;
@@ -77,15 +77,25 @@ Current alignment progress:
 - every new long-term goal needs dedicated onboarding before automatic task generation;
 - external completion evidence is advisory until user confirmation;
 - normal explanations should stay concise and expand mainly for exceptions/risks.
+- morning flow order is accepted: reconcile → confirmations → guided special-circumstance question → capacity → plan;
+- evening review should ask all routine questions in one batch, then follow up only if necessary;
+- incomplete tasks remain INCOMPLETE and store cumulative actual effort plus latest remaining-effort estimate;
+- parent tasks own deadlines; task types normally use fixed decomposition templates;
+- psychological resistance/procrastination should be learned primarily from history, not manually pre-scored;
+- normal plans preserve roughly 40–60 minutes of buffer, with dynamic exceptions for intensive periods;
+- all new task-like content requires user review before canonical task creation;
+- urgent reminders may occur outside normal interactions when required effort approaches/exceeds remaining capacity;
+- planner should compare 1/3/7-day available capacity against due/needed work;
+- time workload and long-horizon feasibility matter more than number of tasks or daily completion percentage.
 
 Remaining alignment goals:
-- refine the exact morning interaction sequence;
-- refine the exact evening review sequence;
-- define how pending uncertainty questions are prioritized/presented;
-- decide whether any urgent uncertainty should notify outside the two normal interactions;
-- refine partial-progress and remaining-effort semantics;
-- refine task decomposition representation and the exact difficulty scales;
-- continue cross-module information-granularity alignment;
+- define how confirmation questions are prioritized/presented;
+- clarify whether any meaningful task-state mutation can ever bypass user confirmation;
+- define exact scales/semantics for the three difficulty dimensions;
+- define importance vs necessity/requiredness;
+- refine task-template/subtask representation;
+- continue cross-module information-granularity alignment, beginning with Course;
+- define risk-state terminology/threshold philosophy;
 - preserve semantic-contract vs adapter-contract separation for later integrations
 
 The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
@@ -112,10 +122,11 @@ Execute in this order:
 ## 5. Pending User Information
 
 Needed now for A0:
-- follow-up answers on unresolved interaction details listed in `A0_USER_INTENT.md`
-- confirmation/refinement of task granularity and partial-progress semantics
-- further module-granularity examples, beginning with Course
-- decision on whether urgent uncertainty can interrupt outside the normal morning/evening cadence
+- follow-up answers on the remaining unresolved items in `A0_USER_INTENT.md`
+- module-granularity alignment beginning with Course
+- importance/necessity semantics
+- difficulty scale semantics
+- confirmation-batch and canonical-state mutation boundaries
 
 Needed after A0 for M1:
 - Current semester course list
