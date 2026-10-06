@@ -89,6 +89,10 @@ Primary load metric:
 Primary optimization objective:
 - long-horizon feasibility and deadline safety, not maximizing daily completion percentage.
 
+Required-work advancement rule:
+- no separate generic "start N days early" field is required;
+- once currently urgent/required obligations remain feasible, use remaining safe capacity to pull future REQUIRED work forward and build slack before deadlines.
+
 ---
 
 ## 6. Planning Horizons
@@ -161,6 +165,8 @@ English exam:
 
 Goal workload should compete for real capacity alongside coursework.
 
+Once generated and accepted, Goal-derived Tasks enter Planner exactly like ordinary Tasks; source does not grant special scheduling privilege.
+
 ---
 
 ## 10. Daily Plan Output
@@ -201,7 +207,16 @@ Use three high-level states:
 - DANGER
 - EMERGENCY
 
-Exact thresholds are deferred.
+Determine them from feasibility margin between usable capacity and required expected effort.
+
+Evaluate 1-day, 3-day, and 7-day horizons separately.
+
+Overall mode uses the worst horizon:
+- any EMERGENCY → overall EMERGENCY;
+- else any DANGER → overall DANGER;
+- else SAFE.
+
+Exact numeric thresholds are deferred.
 
 ## 13. Emergency / Risk Mode
 
