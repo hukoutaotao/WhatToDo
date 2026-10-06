@@ -67,7 +67,7 @@ The active work is **A0: Interaction and Information-Model Alignment**.
 No implementation task is active.
 
 Current alignment progress:
-- first and second A0 question rounds are complete and consolidated in `plan/A0_USER_INTENT.md`;
+- four A0 question rounds are complete and consolidated in `plan/A0_USER_INTENT.md`;
 - normal cadence: morning interaction + evening interaction, roughly 5–10 minutes each;
 - missed-day behavior: automated collection continues, then next interaction performs reconciliation;
 - uncertainty policy: uncertain facts wait for user confirmation and are batched into the next interaction;
@@ -99,19 +99,28 @@ Current alignment progress:
 - risk vocabulary is SAFE / DANGER / EMERGENCY;
 - weekly historical evaluation is allowed, but material learned rules require user confirmation before affecting Planner;
 - historical pattern discovery is separated into LEARNING_PLAN rather than hidden inside Planner.
+- Task importance uses 1–5; requiredness uses REQUIRED / OPTIONAL / EXPIRING with explicit expiration;
+- no generic lead-time field: SAFE unused capacity advances future REQUIRED work;
+- TaskType defaults inherit automatically to concrete Tasks unless overridden;
+- Course Progress Axis units are course-defined and track teaching progress plus task-family progress;
+- default academic dependency flow may be templated (preview → class → notes → homework);
+- three consecutive missing post-class note tasks and exam-preparation phase are initial review activation triggers;
+- 1/3/7-day risks are all reported and overall mode uses the worst horizon;
+- normal review sessions should clear the whole pending confirmation queue;
+- confirmation prompts may provide recommended answers;
+- Daily Brief baseline template is stored at `formats/output/DAILY_BRIEF_TEMPLATE.md`, with deadlines shown by default within 3 days;
+- numeric effort-prediction models may learn automatically, while behavioral/planning rules require confirmation;
+- two consecutive days without normal interaction triggers a reminder;
+- long-term goal onboarding fields are accepted and generated Tasks enter Planner as ordinary Tasks;
+- automatic analysis/recommendation is allowed, while canonical truth and key policy remain user-reviewed.
 
 Remaining alignment goals:
-- clarify task-type lead-time / "start early" policy;
-- clarify whether any persistent cross-course/task priorities are needed beyond task-level importance;
-- choose exact task importance scale;
-- refine requiredness variants (required/optional/expiring);
-- refine candidate-confirmation presentation/prioritization;
-- define SAFE/DANGER/EMERGENCY threshold philosophy;
-- refine Course Progress Axis details for unusual course structures;
-- refine conditional review activation rules;
-- define weekly learned-pattern review presentation;
-- finalize daily output layout;
-- preserve semantic-contract vs adapter-contract separation for later integrations
+- decide desired conservatism for SAFE vs DANGER thresholds without fixing implementation math prematurely;
+- confirm whether REQUIRED / OPTIONAL / EXPIRING are sufficient for v1;
+- decide whether stage/subtask effort should be shown separately from parent remaining effort;
+- finalize user-facing section labels/wording for the Daily Brief if needed;
+- confirm whether any external completion-evidence class should receive a shortcut in v1;
+- perform one final semantic consistency review before closing A0
 
 The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
 
@@ -137,12 +146,12 @@ Execute in this order:
 ## 5. Pending User Information
 
 Needed now for A0:
-- answers to the remaining unresolved items in `A0_USER_INTENT.md`
-- clarification of task lead-time policy and persistent priority concept
-- task importance scale and requiredness variants
-- risk threshold philosophy
-- Course Progress Axis edge cases
-- learned-pattern review/output presentation
+- short final answers on the narrow remaining items in `A0_USER_INTENT.md`
+- preferred conservatism of risk thresholds
+- whether the three requiredness classes are sufficient for v1
+- stage/subtask effort display preference
+- any desired external-completion shortcut policy
+- final consistency confirmation
 
 Needed after A0 for M1:
 - Current semester course list
