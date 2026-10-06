@@ -141,6 +141,12 @@ The exact decomposition schema is developed in milestone M1B after the course pr
 Course templates may also predefine recurring dependency chains such as:
 `preview → class → note organization → homework/exercise`.
 
+Each dependency should be classifiable as:
+- hard: genuinely cannot/should not proceed before prerequisite;
+- soft/default sequence: preferred learning order that may be bypassed when REQUIRED feasibility is at risk.
+
+Progress-axis backlog should be detectable when older Unit-linked tasks remain incomplete after teaching/task-family progress advances.
+
 Initial conditional-review example:
 - three consecutive incomplete post-class note-organization tasks may activate a catch-up/review task;
 - entering exam-preparation phase should activate review work for the exam coverage.
