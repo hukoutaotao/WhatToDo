@@ -274,3 +274,155 @@ Affected:
 - IO_CONTRACT_PLAN
 - INTEGRATION_PLAN
 - DEVELOPMENT_PLAN
+
+
+---
+
+## D-015 — Twice-daily normal interaction cadence
+
+Status: Accepted
+
+Decision:
+Normal operation uses two short user interactions per day:
+- morning: reconcile/update state and generate the daily plan;
+- evening: confirm completion/non-completion, actual effort, and update state/history.
+
+Expected interaction time is roughly 5–10 minutes each.
+
+If interactions are missed, automated collection may continue and the next interaction performs reconciliation.
+
+Affected:
+- A0_USER_INTENT
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
+- DATA_MODEL_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-016 — Uncertainty must wait for confirmation
+
+Status: Accepted
+
+Decision:
+Uncertain information must not be silently committed as trusted state.
+
+Store uncertain evidence as candidate/pending confirmation and batch it into a normal user interaction for resolution.
+
+Affected:
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- INTEGRATION_PLAN
+- TESTING_PLAN
+
+---
+
+## D-017 — Task difficulty is multi-dimensional
+
+Status: Accepted
+
+Decision:
+At minimum, task difficulty conceptually distinguishes:
+- thinking depth;
+- repetitive volume;
+- new-learning load.
+
+Do not collapse these into one generic user-facing difficulty field by default.
+
+Exact scales are deferred to detailed task/course modeling.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-018 — Planner recommends workload, not an exact timetable by default
+
+Status: Accepted
+
+Decision:
+Daily planning should estimate usable free time and recommend a realistic workload, including which work belongs in large uninterrupted blocks versus fragmented time.
+
+The normal user-facing plan should not assign exact clock times to every task.
+
+Affected:
+- PLANNER_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-019 — Historical actual effort informs future estimates
+
+Status: Accepted
+
+Decision:
+Record actual task effort where available and use historical completion data to improve future estimates for similar tasks, course/task types, and user estimation bias.
+
+Affected:
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-020 — Completion evidence is advisory until confirmed
+
+Status: Accepted
+
+Decision:
+The evening user review is the primary completion confirmation mechanism.
+
+External signals may suggest that a task is completed, but if the user has not confirmed it the system should ask for confirmation rather than silently mark completion.
+
+Affected:
+- DATA_MODEL_PLAN
+- INTEGRATION_PLAN
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-021 — Dedicated per-course/task-type decomposition presets
+
+Status: Accepted
+
+Decision:
+Task decomposition depth is not universal. A dedicated modeling milestone must define decomposition presets per course/task class, including stage structure, difficulty dimensions, effort/session characteristics, and extensibility.
+
+Affected:
+- DEVELOPMENT_PLAN
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-022 — Dedicated long-term-goal onboarding
+
+Status: Accepted
+
+Decision:
+Creating a long-term goal triggers a dedicated setup interaction defining target, total workload, recurring/daily work, milestones/phases, progress measurement, and task-generation rules.
+
+Only after setup should goal work be automatically integrated into daily planning.
+
+Affected:
+- DEVELOPMENT_PLAN
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-023 — Exception-driven explanation style
+
+Status: Accepted
+
+Decision:
+Routine user-facing plans should remain concise. Expanded explanation is primarily for abnormal, risky, uncertain, surprising, or major-replanning situations, or when the user explicitly asks why.
+
+Affected:
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
