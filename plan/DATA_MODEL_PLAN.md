@@ -61,6 +61,12 @@ Describes stable characteristics used in planning:
 ### Task
 Concrete actionable obligation.
 
+Primary parent-task completion semantics:
+- COMPLETE
+- INCOMPLETE
+
+Partial work does not require a third completion state; it is represented through accumulated effort, remaining effort, and optional child-stage progress.
+
 Must eventually support:
 - stable ID
 - title
@@ -79,11 +85,25 @@ Must eventually support:
 - minimum useful continuous session
 - fragmentability
 - dependencies / parent-stage relation where needed
+- necessity / requiredness concept
+- importance concept
 - status
 - verification/confidence
 
 ### TaskTemplate
 Reusable pattern that generates or describes recurring tasks.
+
+A normal task type should generally map to a stable decomposition template.
+
+Template concepts may include:
+- stage/subtask structure
+- inherited difficulty dimensions
+- default total-effort range
+- minimum useful session
+- fragmentability
+- dependency/order between stages
+
+If an unusual workflow is substantially different, prefer defining a new task type/template rather than silently altering the ordinary one.
 
 Example:
 - Pre-lab report for Electronic Circuits.
@@ -133,6 +153,8 @@ Useful for:
 - duration calibration
 - schedule history
 - actual-vs-estimated analysis
+- cumulative actual effort
+- evidence about when work started relative to release/deadline
 
 ### Plan
 Structured daily/weekly plan snapshot.
@@ -163,6 +185,10 @@ Should distinguish:
 - course/task type
 - relevant difficulty/session characteristics
 - estimation error
+- release-to-first-work delay
+- release-to-completion delay
+- postponement observations
+- available-capacity context when delay occurred
 
 Exact physical table structure is deferred.
 
@@ -202,10 +228,11 @@ Separate:
 Never discard source identity merely because a fact was normalized.
 
 Potential trust ordering is context-specific:
-- Explicit user correction is usually authoritative for personal state.
-- Calendar provider is authoritative for the external calendar event itself.
-- Learning platform is authoritative for assignment/deadline publication.
+- Explicit user correction is authoritative for personal task state.
+- Calendar provider is authoritative for the raw external calendar event itself.
+- Learning platform may be authoritative for what it publishes, but a newly discovered task/change still enters WhatToDo as a candidate until user review.
 - Email may announce changes but can conflict with older platform data.
+- Raw source evidence may update automatically; canonical task facts should remain conservative according to accepted confirmation policy.
 
 Conflict-resolution rules belong partly in `INTEGRATION_PLAN.md`.
 
@@ -231,10 +258,12 @@ Avoid:
 Keep distinct:
 - estimated total effort
 - estimated remaining effort
-- actual effort
+- cumulative actual effort
 - minimum useful continuous session
 - fragmentability
-- percentage/progress indicator
+- optional subtask/stage progress
+
+A percentage is not required as the user's primary progress input.
 
 Reason:
 A task can be 50% conceptually complete without having exactly half of estimated time remaining.
