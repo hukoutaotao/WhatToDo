@@ -755,6 +755,12 @@ Completion authority:
 
 This milestone is intentionally information-rich. Detailed per-course modeling is expected to be one of the largest user-input activities in the project.
 
+Important modeling principle:
+- Course is primarily context/classification.
+- Task is the fundamental planning unit.
+- Course-level importance is not a primary planner variable; task-level importance/requiredness drives planning.
+- Each course should define an instructional progress axis for attaching tasks and exam coverage.
+
 Need from user:
 - All current courses
 - Recurring exercise/training
@@ -884,12 +890,15 @@ Deliverables:
 
 Need from user:
 - Usage feedback
+- confirmation/rejection of candidate learned behavioral rules
 
 Deliverables:
 - Reconciliation
 - Weekly review
 - Historical calibration
-- Self-correction
+- Behavior/estimation analyzer
+- Candidate learned-rule review
+- Self-correction through user-approved learned parameters
 
 ---
 
