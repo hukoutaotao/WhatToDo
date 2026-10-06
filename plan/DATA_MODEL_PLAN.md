@@ -1,6 +1,7 @@
 # WhatToDo — Data Model Planning
 
 > Conceptual model only. Exact PostgreSQL DDL is intentionally deferred until Phase 2.
+> Prerequisite: Alignment Gate A0 establishes information-granularity and semantic-boundary rules before this model is frozen.
 
 ## 1. Storage Ownership
 
@@ -243,7 +244,19 @@ These can reference each other but must not collapse into one object.
 
 ---
 
-## 9. Open Questions to Resolve in Phase 1
+## 9. Alignment Rule
+
+For each entity/field, be able to state:
+- why it exists
+- where it comes from
+- whether it is stable/dynamic/derived
+- which downstream modules consume it
+- what behavior it changes
+- whether its exact representation can be deferred
+
+Do not add provider-specific fields to the conceptual model merely because an external API exposes them.
+
+## 10. Open Questions to Resolve in Phase 1
 
 - Exact Task fields required vs optional
 - Exact status/state machine
