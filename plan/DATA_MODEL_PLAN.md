@@ -220,27 +220,46 @@ Exact physical table structure is deferred.
 
 ---
 
-## 3. Task Lifecycle
+## 3. Task Acceptance and Completion Semantics
 
-Initial conceptual lifecycle:
+Separate **candidate acceptance** from **task completion**.
+
+Before canonical creation:
 
 ```text
 CANDIDATE
-   ↓ verify/accept
-CONFIRMED
-   ↓ start
-IN_PROGRESS
-   ↓ complete
-COMPLETED
+   ↓ user confirms
+CANONICAL TASK
 ```
 
-Side transitions:
-- CANDIDATE → REJECTED
-- CONFIRMED/IN_PROGRESS → CANCELLED
-- active task past deadline → OVERDUE
-- uncertain source/state → STALE or CONFLICTED metadata/state
+Candidate-side outcomes may include:
+- CONFIRMED / accepted into canonical state
+- REJECTED
+- CONFLICTED / pending clarification
 
-Final exact state machine is to be defined during Phase 1 Task-model work.
+Once a canonical parent Task exists, its primary completion state is:
+
+```text
+INCOMPLETE
+   ↓ final completion
+COMPLETE
+```
+
+A task may have substantial work already invested and still remain INCOMPLETE.
+
+Represent "has started" through execution/history facts such as:
+- WorkSession records
+- cumulative actual effort
+- completed child stages/subtasks
+- first-work timestamp
+
+Do not require an IN_PROGRESS completion state for the parent task.
+
+Other lifecycle concepts such as:
+- cancelled
+- expired / no longer relevant
+- overdue
+may exist as orthogonal task disposition/risk metadata and will be finalized during Task-model design.
 
 ---
 
