@@ -129,6 +129,10 @@ Additional A0 behavioral acceptance:
 - three difficulty dimensions use 1–5 task-level scales with TaskType defaults;
 - Course Progress Axis and Exam coverage semantics are documented;
 - learned behavioral rules require confirmation before materially changing Planner;
+- numeric effort-prediction parameters may adapt automatically and remain testable/correctable;
+- Task importance 1–5 and REQUIRED/OPTIONAL/EXPIRING semantics are represented;
+- worst-horizon risk aggregation reports 1/3/7-day states correctly;
+- Daily Brief template semantics and 3-day deadline visibility rule are represented;
 - morning and evening interaction semantics are recorded;
 - uncertainty does not silently mutate trusted state;
 - task difficulty can represent the three accepted dimensions;
@@ -167,6 +171,9 @@ Additional A0 behavioral acceptance:
 - planner compares 1/3/7-day required effort against available capacity;
 - planner triggers risk/emergency behavior on infeasible horizons;
 - planner optimizes workload time rather than task count;
+- SAFE spare capacity advances future REQUIRED work without needing a generic lead-time rule;
+- overall risk equals the worst 1/3/7-day horizon;
+- normal output follows the Daily Brief semantic template and shows deadlines within 3 days;
 - normal output remains concise while risk/exception scenarios expose useful explanation.
 
 ### Phase 6
@@ -179,7 +186,9 @@ Additional A0 behavioral acceptance:
 - weekly analyzer can reproduce candidate learned patterns from historical fixtures.
 - rejected learned rules do not affect Planner.
 - accepted learned rules do affect Planner.
+- internal numeric estimation can adapt without requiring behavioral-rule approval.
 - capacity-driven delay is not automatically classified as procrastination.
+- two-day missed-interaction state can trigger the configured reminder workflow.
 
 ---
 
