@@ -509,12 +509,12 @@ Affected:
 
 ## D-028 — Normal daily buffer target
 
-Status: Accepted
+Status: Superseded by D-059
 
 Decision:
-Under normal conditions, preserve approximately 40–60 minutes of unallocated/rest capacity per day.
+Earlier approximation: preserve roughly 40–60 minutes of daily buffer.
 
-This is a soft target, not a hard limit. It may shrink during exam sprints or other explicitly high-intensity periods when deadline/goal safety requires more work.
+Superseded because A0 later established an explicit one-hour-per-day SAFE reserve and a separate ~40-minute small-gap rule.
 
 Affected:
 - PLANNER_PLAN
@@ -813,12 +813,12 @@ Affected:
 
 ## D-045 — No generic lead-time field; use safe-capacity advancement
 
-Status: Accepted
+Status: Superseded by D-060
 
 Decision:
-Do not rely on a generic "start this task N days early" property.
+The no-generic-lead-time principle remains accepted, but the earlier rule that spare SAFE capacity should preferentially advance future REQUIRED work was too strong.
 
-After protecting required work, if the plan remains SAFE and usable capacity remains, advance future REQUIRED work to build slack.
+Superseded by a rule that first protects REQUIRED feasibility and safety reserve, then primarily uses Task importance to allocate discretionary capacity.
 
 Affected:
 - PLANNER_PLAN
@@ -1051,3 +1051,218 @@ Affected:
 - IO_CONTRACT_PLAN
 - LEARNING_PLAN
 - PLANNER_PLAN
+
+
+---
+
+## D-059 — One-hour-per-day SAFE reserve
+
+Status: Accepted
+
+Decision:
+For each planning horizon, target approximately one hour of unused capacity per represented day after REQUIRED work.
+
+Let C = usable capacity, R = required expected effort, and S = one-hour-per-day reserve:
+- SAFE when C - R >= S
+- DANGER when 0 <= C - R < S
+- EMERGENCY when C - R < 0
+
+In SAFE mode, a remaining gap around 40 minutes or less is normally left unscheduled rather than filled merely for utilization. In DANGER/EMERGENCY, such time may be used when productive.
+
+Affected:
+- PLANNER_PLAN
+- TESTING_PLAN
+- A0_USER_INTENT
+
+---
+
+## D-060 — SAFE discretionary capacity is allocated mainly by Task importance
+
+Status: Accepted
+
+Decision:
+Do not use a generic lead-time field.
+
+First protect feasibility of REQUIRED work and the normal safety reserve. After that, use Task importance as a primary criterion for allocating additional capacity.
+
+Future REQUIRED work does not automatically outrank higher-importance OPTIONAL/EXPIRING work once REQUIRED feasibility is protected.
+
+Affected:
+- PLANNER_PLAN
+- A0_USER_INTENT
+- TESTING_PLAN
+
+---
+
+## D-061 — Academic template dependencies may be hard or soft
+
+Status: Accepted
+
+Decision:
+Default flows such as preview → class → notes → homework are normally sequencing preferences, not automatically hard impossibility constraints.
+
+Explicit hard dependencies remain binding.
+
+When capacity is tight, Planner may bypass a soft prerequisite to protect a REQUIRED downstream task, while surfacing the exception.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-062 — Course-progress backlog warning
+
+Status: Accepted
+
+Decision:
+If teaching/task-family progress advances while older Unit-linked tasks remain incomplete, report task accumulation/backlog.
+
+Example:
+Teaching reaches Unit 6 while Unit 5 notes/homework remain open.
+
+Affected:
+- USER_MODEL_PLAN
+- PLANNER_PLAN
+- TESTING_PLAN
+
+---
+
+## D-063 — Today-only user task lock
+
+Status: Accepted
+
+Decision:
+If the user explicitly states that a Task must be completed/advanced today, create a temporary highest-priority daily override and replan around it.
+
+The override expires at the end of the day unless explicitly made persistent.
+
+If physically incompatible with other hard obligations, surface the conflict.
+
+Affected:
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
+- TESTING_PLAN
+
+---
+
+## D-064 — No external completion shortcut in v1
+
+Status: Accepted
+
+Decision:
+All Task-state changes require user review in v1, including strong external completion evidence such as a submission record.
+
+External evidence produces a candidate/recommended confirmation, not an automatic canonical completion mutation.
+
+Affected:
+- INTEGRATION_PLAN
+- IO_CONTRACT_PLAN
+- DATA_MODEL_PLAN
+- TESTING_PLAN
+
+---
+
+## D-065 — Remaining-effort estimate is required for incomplete relevant Tasks
+
+Status: Accepted
+
+Decision:
+During evening review, every INCOMPLETE Task that remains relevant to future planning must receive a user-provided remaining-effort estimate.
+
+If omitted, continue asking until supplied.
+
+Model estimates may assist but must not silently replace the user's canonical remaining-effort estimate.
+
+Affected:
+- IO_CONTRACT_PLAN
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-066 — User estimate remains canonical when model disagrees
+
+Status: Accepted
+
+Decision:
+When a user estimate and internal prediction conflict:
+- retain the user estimate as canonical personal state;
+- retain the model estimate as derived/advisory information;
+- allow disagreement to create an estimation-risk warning;
+- never silently overwrite the user estimate.
+
+Affected:
+- DATA_MODEL_PLAN
+- LEARNING_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-067 — Three coordinated Planner horizons
+
+Status: Accepted
+
+Decision:
+Use:
+- Daily Planner: today + 1/3/7-day feasibility
+- Weekly Planner: roughly 2–4 weeks, workload distribution, backlog, and forward risk
+- Long-Term Planner: whole Goal/Exam/project horizon
+
+All layers share the same canonical Task model.
+
+Affected:
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-068 — Weekly forward-risk preview
+
+Status: Accepted
+
+Decision:
+Weekly review should surface future bottlenecks, tight days, large work needing early progress, Course Progress Axis backlog, and long-term Goal pacing deficits.
+
+Affected:
+- PLANNER_PLAN
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-069 — Historical task outcomes are retained
+
+Status: Accepted
+
+Decision:
+Preserve COMPLETE, CANCELLED, EXPIRED, reopened-stage history, estimates, and state transitions.
+
+Normal historical outcomes should not be hard-deleted.
+
+Deletion/merge is mainly for erroneous records, duplicates, or explicit policy/privacy removal.
+
+Affected:
+- DATA_MODEL_PLAN
+- LEARNING_PLAN
+- TESTING_PLAN
+
+---
+
+## D-070 — A0 complete
+
+Status: Accepted
+
+Decision:
+Interaction and information-model alignment is sufficient to begin M1.
+
+Implementation-specific schema/API/tuning details remain intentionally deferred.
+
+Affected:
+- ALIGNMENT_PLAN
+- DEVELOPMENT_PLAN
+- PROGRESS
+- README
