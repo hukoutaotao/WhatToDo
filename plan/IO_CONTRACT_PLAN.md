@@ -80,7 +80,8 @@ Semantic flow:
 show/report requirements for all relevant items
 → confirm COMPLETE / INCOMPLETE
 → capture cumulative/new actual effort
-→ for every incomplete task, capture latest estimated remaining effort
+→ for every incomplete future-relevant task, require a user-provided latest estimated remaining effort
+→ if missing, continue follow-up until supplied
 → confirm externally detected completion candidates
 → update state
 → update historical estimation data
@@ -101,6 +102,7 @@ Examples:
 - New goal
 - Schedule change
 - Effort estimate correction
+- today-only "must do this Task" override
 
 Need:
 - Natural-language interpretation
@@ -193,6 +195,10 @@ New task-like content discovered externally must be reviewed by the user before 
 
 More generally, consequential canonical personal task-state mutations require user confirmation by default. Automated ingestion updates evidence/candidates, not accepted operational truth.
 
+For v1, there is no completion shortcut: even a high-confidence submission record requires user confirmation before canonical completion changes.
+
+If the user explicitly locks a Task for today, treat that as a temporary daily planning constraint and expire it automatically at day end unless the user makes it persistent.
+
 Normal morning/evening review should attempt to clear the entire pending confirmation queue in that interaction.
 
 Where responsible, present a recommended interpretation/template so the user can confirm or modify rather than rebuild the record manually.
@@ -253,6 +259,10 @@ M2 may refine exact wording without silently changing its accepted semantics.
 Default explanation policy:
 - concise during normal operation;
 - expand for abnormal/risky/uncertain/surprising recommendations or when explicitly requested.
+
+Per recommended Task, normal display should show parent remaining effort plus today's selected stage/subtask and that stage's estimated effort. Avoid expanding every child stage unless requested.
+
+Weekly output should include a forward-risk preview covering upcoming bottlenecks, Course Progress Axis backlog, large work needing early progress, and long-term Goal pacing.
 
 Show an explicit deadline by default when it is within 3 days, when the task is risky, or when the user requests detail.
 
