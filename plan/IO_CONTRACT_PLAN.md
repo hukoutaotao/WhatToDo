@@ -226,7 +226,7 @@ Must be easy to scan.
 
 Potential sections:
 - approximate usable free time today
-- overall near-term capacity/risk status
+- overall near-term capacity/risk status: SAFE / DANGER / EMERGENCY
 - Today must do
 - Today should do
 - If time remains
