@@ -64,13 +64,28 @@ The active work is **A0: Interaction and Information-Model Alignment**.
 
 No implementation task is active.
 
-Current alignment goals:
-- make the final user-AI development interaction explicit
-- ensure both sides mean the same thing by each major module
-- agree on the required granularity of information
-- document how fields influence downstream modules
-- separate semantic contracts from provider-specific adapter details
-- deliberately defer Calendar/Gmail/learning-platform implementation fields until actual integration
+Current alignment progress:
+- initial 12-question A0 round is complete and captured in `plan/A0_USER_INTENT.md`;
+- normal cadence: morning interaction + evening interaction, roughly 5–10 minutes each;
+- missed-day behavior: automated collection continues, then next interaction performs reconciliation;
+- uncertainty policy: uncertain facts wait for user confirmation and are batched into the next interaction;
+- task granularity is course/task-type dependent and requires a dedicated modeling stage;
+- task difficulty is conceptually split into thinking depth, repetitive volume, and new-learning load;
+- time model needs total effort, minimum useful continuous session, fragmentability, actual effort, and historical calibration;
+- planner should estimate usable free time and recommend workload/block type, not assign exact clock times by default;
+- every new long-term goal needs dedicated onboarding before automatic task generation;
+- external completion evidence is advisory until user confirmation;
+- normal explanations should stay concise and expand mainly for exceptions/risks.
+
+Remaining alignment goals:
+- refine the exact morning interaction sequence;
+- refine the exact evening review sequence;
+- define how pending uncertainty questions are prioritized/presented;
+- decide whether any urgent uncertainty should notify outside the two normal interactions;
+- refine partial-progress and remaining-effort semantics;
+- refine task decomposition representation and the exact difficulty scales;
+- continue cross-module information-granularity alignment;
+- preserve semantic-contract vs adapter-contract separation for later integrations
 
 The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
 
@@ -80,23 +95,26 @@ The course model will be used as the first detailed worked example, but current-
 
 Execute in this order:
 
-1. Review/discuss the interaction model in `ALIGNMENT_PLAN.md`.
-2. Discuss module information granularity, beginning with Course.
-3. Confirm how course information affects Task, Planner, Goal, Input, Output, and historical estimation modules.
-4. Identify information categories that are necessary now versus details that should be deferred.
-5. Confirm the semantic-contract vs adapter-contract rule.
-6. Complete Alignment Gate A0.
-7. Update `PROGRESS.md` to enter M1.
-8. Only then collect the full current course/activity list and build actual course profiles.
+1. Continue A0 follow-up using unresolved items in `A0_USER_INTENT.md`.
+2. Refine morning/evening interaction and uncertainty-batch behavior.
+3. Discuss module information granularity, beginning with Course.
+4. Confirm how course information affects Task, Planner, Goal, Input, Output, and historical estimation.
+5. Refine task-decomposition and partial-progress semantics.
+6. Identify information categories needed now versus details intentionally deferred.
+7. Confirm the semantic-contract vs adapter-contract rule.
+8. Complete Alignment Gate A0.
+9. Update `PROGRESS.md` to enter M1.
+10. Only then collect the full current course/activity list.
 
 ---
 
 ## 5. Pending User Information
 
 Needed now for A0:
-- User corrections/confirmation about the desired user-AI interaction mode
-- User expectations about information granularity for major modules
-- Examples that reveal whether AI and user mean the same thing by "course information", "task information", "calendar information", etc.
+- follow-up answers on unresolved interaction details listed in `A0_USER_INTENT.md`
+- confirmation/refinement of task granularity and partial-progress semantics
+- further module-granularity examples, beginning with Course
+- decision on whether urgent uncertainty can interrupt outside the normal morning/evening cadence
 
 Needed after A0 for M1:
 - Current semester course list
