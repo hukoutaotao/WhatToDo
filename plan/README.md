@@ -11,12 +11,13 @@ When taking over this repository:
 2. Read `PROGRESS.md` to learn the current project state and immediate next action.
 3. Read `DECISIONS.md` to learn accepted decisions that must not be silently reversed.
 4. Read `ALIGNMENT_PLAN.md` to understand the required user-AI interaction model, information granularity rules, and pre-development alignment gate.
-5. Read `PROJECT_PLAN.md` for architecture and system boundaries.
-6. Read `DEVELOPMENT_PLAN.md` for implementation order and prerequisites.
-7. Read only the specialized planning documents relevant to the current task.
-8. If the task touches input/output formats, also inspect `../formats/input/` and/or `../formats/output/`.
-9. Before making a material change, use the dependency/update rules in this file.
-10. After completing work, update `PROGRESS.md` and any affected source-of-truth planning documents.
+5. Read `A0_USER_INTENT.md` for the authoritative interpretation of the user's A0 answers and product-behavior requirements.
+6. Read `PROJECT_PLAN.md` for architecture and system boundaries.
+7. Read `DEVELOPMENT_PLAN.md` for implementation order and prerequisites.
+8. Read only the specialized planning documents relevant to the current task.
+9. If the task touches input/output formats, also inspect `../formats/input/` and/or `../formats/output/`.
+10. Before making a material change, use the dependency/update rules in this file.
+11. After completing work, update `PROGRESS.md` and any affected source-of-truth planning documents.
 
 Do not treat prior chat history as the canonical project state when repository planning documents are available.
 
@@ -75,6 +76,11 @@ Authority:
 - Separates information that must be agreed before implementation from provider-specific details that should be deferred until real integration.
 - Defines Alignment Gate A0.
 
+#### `A0_USER_INTENT.md`
+- Canonical interpretation of the user's A0 answers.
+- Defines the intended twice-daily interaction cadence, uncertainty policy, task/decomposition expectations, difficulty dimensions, time-estimation memory, planner output philosophy, goal onboarding, completion confirmation, and product success criteria.
+- Feeds USER_MODEL, DATA_MODEL, IO_CONTRACT, PLANNER, DEVELOPMENT, TESTING, and later implementation.
+
 #### `USER_MODEL_PLAN.md`
 - Active M1 specification for collecting courses, recurring activities, and planning-relevant preferences.
 - Defines what may become stable declarative user/course profiles.
@@ -129,6 +135,8 @@ Do not silently resolve a meaningful contradiction. Update the conflicting docum
 ```text
 User intent / corrections
           ↓
+   A0_USER_INTENT.md
+          ↓
      DECISIONS.md
           ↓
     ALIGNMENT_PLAN.md
@@ -176,12 +184,13 @@ Interpretation:
 
 ### If the interaction model, information granularity, or semantic-vs-adapter boundary changes
 Update:
-1. `ALIGNMENT_PLAN.md`
-2. `DECISIONS.md` for accepted policy changes
-3. `DEVELOPMENT_PLAN.md` if the alignment gate/order changes
-4. `USER_MODEL_PLAN.md`, `DATA_MODEL_PLAN.md`, or `IO_CONTRACT_PLAN.md` as affected
-5. Any downstream specialized plan whose inputs/behavior change
-6. `PROGRESS.md`
+1. `A0_USER_INTENT.md` when the change comes from user intent/preferences
+2. `ALIGNMENT_PLAN.md`
+3. `DECISIONS.md` for accepted policy changes
+4. `DEVELOPMENT_PLAN.md` if the alignment gate/order changes
+5. `USER_MODEL_PLAN.md`, `DATA_MODEL_PLAN.md`, or `IO_CONTRACT_PLAN.md` as affected
+6. Any downstream specialized plan whose inputs/behavior change
+7. `PROGRESS.md`
 
 ### If a product/architecture decision changes
 Update:
