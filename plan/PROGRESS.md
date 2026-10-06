@@ -87,15 +87,29 @@ Current alignment progress:
 - urgent reminders may occur outside normal interactions when required effort approaches/exceeds remaining capacity;
 - planner should compare 1/3/7-day available capacity against due/needed work;
 - time workload and long-horizon feasibility matter more than number of tasks or daily completion percentage.
+- Task is the fundamental operational unit; Course/domain layers are contextual/classification layers;
+- course-level importance is not a primary planner input; importance and requiredness live on Tasks;
+- deadline does not imply requiredness;
+- difficulty dimensions use a 1–5 scale at task level with TaskType defaults;
+- parent Task + stage/subtask daily presentation is accepted;
+- Course Progress Axis is required to attach preview/lecture/note/homework/review and exam coverage;
+- Exam is an independent event/object; preparation is generated as Tasks/Goals;
+- dormant review/catch-up templates may activate under predefined conditions;
+- risk vocabulary is SAFE / DANGER / EMERGENCY;
+- weekly historical evaluation is allowed, but material learned rules require user confirmation before affecting Planner;
+- historical pattern discovery is separated into LEARNING_PLAN rather than hidden inside Planner.
 
 Remaining alignment goals:
-- define how confirmation questions are prioritized/presented;
-- clarify whether any meaningful task-state mutation can ever bypass user confirmation;
-- define exact scales/semantics for the three difficulty dimensions;
-- define importance vs necessity/requiredness;
-- refine task-template/subtask representation;
-- continue cross-module information-granularity alignment, beginning with Course;
-- define risk-state terminology/threshold philosophy;
+- clarify task-type lead-time / "start early" policy;
+- clarify whether any persistent cross-course/task priorities are needed beyond task-level importance;
+- choose exact task importance scale;
+- refine requiredness variants (required/optional/expiring);
+- refine candidate-confirmation presentation/prioritization;
+- define SAFE/DANGER/EMERGENCY threshold philosophy;
+- refine Course Progress Axis details for unusual course structures;
+- refine conditional review activation rules;
+- define weekly learned-pattern review presentation;
+- finalize daily output layout;
 - preserve semantic-contract vs adapter-contract separation for later integrations
 
 The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
@@ -122,11 +136,12 @@ Execute in this order:
 ## 5. Pending User Information
 
 Needed now for A0:
-- follow-up answers on the remaining unresolved items in `A0_USER_INTENT.md`
-- module-granularity alignment beginning with Course
-- importance/necessity semantics
-- difficulty scale semantics
-- confirmation-batch and canonical-state mutation boundaries
+- answers to the remaining unresolved items in `A0_USER_INTENT.md`
+- clarification of task lead-time policy and persistent priority concept
+- task importance scale and requiredness variants
+- risk threshold philosophy
+- Course Progress Axis edge cases
+- learned-pattern review/output presentation
 
 Needed after A0 for M1:
 - Current semester course list
