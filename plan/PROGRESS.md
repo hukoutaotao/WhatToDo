@@ -7,11 +7,11 @@
 
 Last updated: 2026-10-06
 
-Overall status: **PLANNING / DOMAIN MODELING**
+Overall status: **PRE-DEVELOPMENT ALIGNMENT**
 
-Current milestone: **M0 complete → M1 next**
+Current milestone: **M0 complete → A0 IN PROGRESS → M1 next**
 
-Current phase: **Phase 1 — Define What the System Understands**
+Current phase: **Phase 0 — Interaction and Information-Model Alignment**
 
 Implementation status:
 - Production system: not started
@@ -39,7 +39,8 @@ This is intentional. The approved roadmap requires semantic/data contracts befor
 - `plan/README.md` now defines file authority, dependency relationships, and mandatory change-propagation rules.
 - `plan/DECISIONS.md` records accepted decisions.
 - `plan/USER_MODEL_PLAN.md` defines the active M1 collection/modeling process.
-- Specialized plans now exist for data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
+- Specialized plans now exist for alignment, user/course modeling, data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
+- `plan/ALIGNMENT_PLAN.md` defines the required pre-development interaction/information alignment gate A0.
 
 ### Accepted major decisions
 - Project goal is a long-lived personal task/schedule operating system, not a simple to-do list.
@@ -59,11 +60,19 @@ This is intentional. The approved roadmap requires semantic/data contracts befor
 
 ## 3. Current Work
 
-No implementation task is currently active.
+The active work is **A0: Interaction and Information-Model Alignment**.
 
-The next active planning work is **M1: User and Course Model**.
+No implementation task is active.
 
-The repository does not yet contain an authoritative current-semester course/activity profile. Do not infer one from old chats and silently write it as project truth. Obtain/confirm it from the user during M1.
+Current alignment goals:
+- make the final user-AI development interaction explicit
+- ensure both sides mean the same thing by each major module
+- agree on the required granularity of information
+- document how fields influence downstream modules
+- separate semantic contracts from provider-specific adapter details
+- deliberately defer Calendar/Gmail/learning-platform implementation fields until actual integration
+
+The course model will be used as the first detailed worked example, but current-semester course data should not yet be collected as if M1 had already begun.
 
 ---
 
@@ -71,29 +80,25 @@ The repository does not yet contain an authoritative current-semester course/act
 
 Execute in this order:
 
-1. Ask/collect the user's complete current course list and recurring non-course commitments.
-2. Choose one representative course.
-3. Model that course in detail:
-   - task types
-   - workload
-   - cognitive difficulty
-   - fragmentation
-   - typical duration
-   - deadline patterns
-   - exam/review behavior
-4. Derive a reusable course-profile format.
-5. Apply it to remaining courses/activities.
-6. Collect several real tasks.
-7. Design Task schema and lifecycle.
-8. Finalize input contract.
-9. Finalize output contract.
-10. Only then begin persistent-state implementation.
+1. Review/discuss the interaction model in `ALIGNMENT_PLAN.md`.
+2. Discuss module information granularity, beginning with Course.
+3. Confirm how course information affects Task, Planner, Goal, Input, Output, and historical estimation modules.
+4. Identify information categories that are necessary now versus details that should be deferred.
+5. Confirm the semantic-contract vs adapter-contract rule.
+6. Complete Alignment Gate A0.
+7. Update `PROGRESS.md` to enter M1.
+8. Only then collect the full current course/activity list and build actual course profiles.
 
 ---
 
 ## 5. Pending User Information
 
-Needed for M1:
+Needed now for A0:
+- User corrections/confirmation about the desired user-AI interaction mode
+- User expectations about information granularity for major modules
+- Examples that reveal whether AI and user mean the same thing by "course information", "task information", "calendar information", etc.
+
+Needed after A0 for M1:
 - Current semester course list
 - Recurring sports/training schedule or categories
 - Recurring life/other commitments
@@ -120,7 +125,8 @@ Do not request later-stage information prematurely unless it becomes necessary t
 No technical blocker is currently known.
 
 Primary dependency:
-- M1 requires current user/domain information before the semantic model can be finalized.
+- A0 requires enough user-AI discussion to confirm the interaction model and semantic granularity philosophy.
+- M1 starts only after A0 is accepted.
 
 ---
 
