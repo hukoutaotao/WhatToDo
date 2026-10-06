@@ -426,3 +426,164 @@ Routine user-facing plans should remain concise. Expanded explanation is primari
 Affected:
 - IO_CONTRACT_PLAN
 - PLANNER_PLAN
+
+
+---
+
+## D-024 — Morning and evening interaction shape
+
+Status: Accepted
+
+Decision:
+Morning interaction order is:
+1. reconcile newly collected information;
+2. present confirmation items;
+3. ask a guided question about today's special circumstances;
+4. apply user corrections/special requirements;
+5. estimate usable free time;
+6. generate the daily plan.
+
+Evening review should present all routine questions in one consolidated prompt and only ask follow-up questions when the response is incomplete or ambiguous.
+
+Affected:
+- A0_USER_INTENT
+- IO_CONTRACT_PLAN
+- TESTING_PLAN
+
+---
+
+## D-025 — Primary task completion is binary
+
+Status: Accepted
+
+Decision:
+At the parent Task level, a task is COMPLETE or INCOMPLETE.
+
+Partial work does not create a third canonical completion state. Instead, incomplete tasks retain:
+- cumulative actual time invested;
+- latest estimated remaining effort.
+
+If the user reports incomplete work without remaining-effort information, the system should request it.
+
+Affected:
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-026 — Parent task owns deadline; task type owns default decomposition
+
+Status: Accepted
+
+Decision:
+The parent Task represents the external obligation and owns the overall deadline.
+
+Detailed execution uses stages/subtasks.
+
+Each normal task type should have a stable decomposition template. If a substantially different workflow is needed, prefer adding a new task type/template rather than mutating the normal template ad hoc.
+
+Affected:
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- DEVELOPMENT_PLAN
+- PLANNER_PLAN
+
+---
+
+## D-027 — Procrastination is primarily learned behavior
+
+Status: Accepted
+
+Decision:
+Do not require the user to pre-score psychological resistance for every task.
+
+Estimate procrastination/resistance mainly from historical behavior, while distinguishing delay caused by insufficient capacity from delay despite available opportunity.
+
+Affected:
+- DATA_MODEL_PLAN
+- PLANNER_PLAN
+- DEVELOPMENT_PLAN
+
+---
+
+## D-028 — Normal daily buffer target
+
+Status: Accepted
+
+Decision:
+Under normal conditions, preserve approximately 40–60 minutes of unallocated/rest capacity per day.
+
+This is a soft target, not a hard limit. It may shrink during exam sprints or other explicitly high-intensity periods when deadline/goal safety requires more work.
+
+Affected:
+- PLANNER_PLAN
+- TESTING_PLAN
+
+---
+
+## D-029 — All new canonical tasks require user review
+
+Status: Accepted
+
+Decision:
+External systems and detectors may create candidate tasks, but newly discovered task-like content must be reviewed by the user before becoming canonical Task state.
+
+This applies even when the source appears clear.
+
+Affected:
+- IO_CONTRACT_PLAN
+- DATA_MODEL_PLAN
+- INTEGRATION_PLAN
+- TESTING_PLAN
+
+---
+
+## D-030 — Urgent notifications may bypass the normal twice-daily cadence
+
+Status: Accepted
+
+Decision:
+The system may proactively notify the user outside morning/evening interactions when projected remaining required effort is close to or exceeds remaining usable capacity before a deadline.
+
+Exact channels and thresholds are deferred.
+
+Affected:
+- PLANNER_PLAN
+- INTEGRATION_PLAN
+- OPERATIONS_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-031 — Multi-horizon capacity forecasting
+
+Status: Accepted
+
+Decision:
+Planner risk analysis should compare expected required work against usable free time over at least:
+- 1 day;
+- 3 days;
+- 7 days.
+
+This comparison should influence early work advancement, risk warnings, and emergency behavior.
+
+Affected:
+- PLANNER_PLAN
+- DATA_MODEL_PLAN
+- TESTING_PLAN
+
+---
+
+## D-032 — Time and long-horizon feasibility are primary optimization criteria
+
+Status: Accepted
+
+Decision:
+Planner load is measured primarily by estimated work time and suitability for available blocks, not by task count.
+
+The optimization target is long-term feasibility and deadline safety, not maximizing daily checklist completion percentage.
+
+Affected:
+- PLANNER_PLAN
+- TESTING_PLAN
