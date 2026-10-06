@@ -22,8 +22,9 @@
 For each item:
 
 - <Parent Task>
+  - Parent remaining effort: <duration>
   - Today: <specific stage/subtask>
-  - Estimated effort: <duration>
+  - Today's stage estimate: <duration>
   - Work style: <large uninterrupted block | fragmentable | either>
   - Deadline: <show if within 3 days or risky>
 
@@ -32,8 +33,9 @@ For each item:
 For future required work that should be pulled forward:
 
 - <Parent Task>
+  - Parent remaining effort: <duration>
   - Today: <specific stage/subtask>
-  - Estimated effort: <duration>
+  - Today's stage estimate: <duration>
   - Reason: <brief reason only if useful, e.g. future 3-day capacity is tight>
   - Deadline: <show if within 3 days or risky>
 
@@ -81,10 +83,12 @@ After the user answers, regenerate the final emergency-day plan.
 
 - Keep routine output concise.
 - Show parent Task plus the concrete stage/subtask to advance.
-- Show estimated effort for recommended work.
+- Show parent remaining effort and today's stage/subtask estimate for recommended work.
 - Do not assign exact clock times by default.
 - Show explicit deadlines by default only when within 3 days, risky, or requested.
 - Show all 1-day / 3-day / 7-day risk states.
 - Overall mode equals the most severe horizon.
+- SAFE conceptually preserves about one hour of reserve per represented day; DANGER means REQUIRED still fits but this reserve is breached; EMERGENCY means REQUIRED no longer fits in total usable capacity.
+- In SAFE mode, do not fill a residual free gap around 40 minutes or less merely to maximize utilization.
 - Prefer actionable recommendations over explanation.
 - Expand explanations only for abnormal/risky/surprising situations or when requested.
