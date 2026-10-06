@@ -1,5 +1,9 @@
 # WhatToDo — Project Planning Document
 
+> Planning control center: read `plan/README.md` first in a new AI session.  
+> Current state: read `plan/PROGRESS.md`.  
+> Accepted decisions: read `plan/DECISIONS.md`.
+
 > Status: Planning phase  
 > Intended audience: AI agents and future maintainers  
 > Repository: `hukoutaotao/WhatToDo`  
