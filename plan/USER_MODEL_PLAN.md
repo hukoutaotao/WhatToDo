@@ -65,11 +65,17 @@ Examples:
 - project
 
 ### Work characteristics
-- cognitive difficulty
-- volume/workload
-- typical duration by task type
+Do not use one generic difficulty dimension by default.
+
+At minimum consider:
+- thinking depth
+- repetitive volume
+- new-learning load
+
+Also capture where useful:
+- typical total duration by task type
 - estimation uncertainty
-- minimum useful session length
+- minimum useful continuous session
 - fragmentability
 - need for uninterrupted focus
 - whether repeated debugging/iteration is common
@@ -92,6 +98,22 @@ Examples:
 - homework after lecture
 - report after experiment
 - notes before exam review
+
+### Task decomposition preset
+Each course should eventually define how its typical task classes are decomposed.
+
+Potential information:
+- common task classes
+- normal decomposition depth
+- meaningful stages/subtasks
+- when the whole assignment should remain one task
+- when stages should become separate actionable units
+- parent/child or stage order
+- inherited difficulty dimensions
+- inherited time/session defaults
+- extensibility for new task types
+
+The exact decomposition schema is developed in milestone M1B after the course profile is established.
 
 ---
 
@@ -220,7 +242,17 @@ If course-profile fields change materially:
 
 ---
 
-## 9. M1 Completion Criteria
+## 10. M1 Completion Criteria
+
+## 9. Relationship to M1B
+
+M1 captures what each course/activity is like.
+
+M1B then uses those profiles plus representative real tasks to define per-course/task-type decomposition presets.
+
+Do not attempt to force all decomposition detail into the first course-listing conversation. The dedicated M1B step exists because this information is expected to be complex and high-volume.
+
+---
 
 M1 is complete when:
 
