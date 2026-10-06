@@ -38,7 +38,7 @@ This is intentional. The approved roadmap requires semantic/data contracts befor
 - The plan control-center documentation has been expanded.
 - `plan/README.md` now defines file authority, dependency relationships, and mandatory change-propagation rules.
 - `plan/DECISIONS.md` records accepted decisions.
-- `plan/USER_MODEL_PLAN.md` defines the active M1 collection/modeling process.
+- `plan/USER_MODEL_PLAN.md` defines the M1 collection/modeling process that becomes active after A0.
 - Specialized plans now exist for alignment, user/course modeling, data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
 - `plan/ALIGNMENT_PLAN.md` defines the required pre-development interaction/information alignment gate A0.
 
