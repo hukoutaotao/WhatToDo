@@ -2,7 +2,8 @@
 
 > Planning control center: `plan/README.md`  
 > Live project state: `plan/PROGRESS.md`  
-> Active M1 modeling specification: `plan/USER_MODEL_PLAN.md`
+> Active pre-development alignment specification: `plan/ALIGNMENT_PLAN.md`  
+> M1 modeling specification after A0: `plan/USER_MODEL_PLAN.md`
 
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
@@ -19,6 +20,8 @@ Do not start by building infrastructure, scraping, or AI.
 Build in this dependency order:
 
 ```text
+Align user-AI interaction and information semantics
+        ↓
 Define what the system must understand
         ↓
 Persist trusted state
@@ -35,6 +38,24 @@ Recover and improve from real usage
 ```
 
 The project has **12 core functional capabilities**. In addition, several design artifacts such as the Task schema and input/output contracts must be defined early because later functions depend on them.
+
+### Phase 0 — Interaction and Information-Model Alignment
+
+Before M1 and before any implementation, complete Alignment Gate A0 defined in `ALIGNMENT_PLAN.md`.
+
+This phase confirms:
+- how the user and AI collaborate during planning and development
+- the information categories and granularity expected for each major module
+- how information in one module changes behavior in downstream modules
+- which information is stable, dynamic, inferred, or derived
+- which questions must be answered now
+- which provider-specific details must wait until real integration
+
+A0 deliberately does **not** require exact Calendar API fields, n8n node parameters, Gmail metadata mappings, learning-platform selectors, PostgreSQL tables, or planner formulas.
+
+Provider-specific interface details are defined later through adapter contracts once the real system is connected and inspected.
+
+No code implementation should begin before A0 is accepted.
 
 ---
 
@@ -708,11 +729,27 @@ The system can be ignored for several days, recover trustworthy state, and produ
 ### M0 — Planning repository prepared — COMPLETE
 
 Already available:
-- `plan/PROJECT_PLAN.md`
-- `plan/DEVELOPMENT_PLAN.md`
-- `formats/input/`
-- `formats/output/`
+- planning control center
+- architecture and ordered development plan
+- input/output planning directories
 - n8n-only orchestration decision
+
+### A0 — Interaction and information-model alignment — CURRENT
+
+Need from user:
+- confirmation/correction of the intended user-AI development interaction
+- discussion of expected semantic granularity for modules
+- confirmation that semantic contracts may be fixed before provider-specific adapter contracts
+- examples/questions needed to expose mismatched interpretations
+
+Deliverables:
+- accepted interaction model
+- module information-alignment method
+- documented cross-module effects
+- explicit deferred integration-specific questions
+
+Completion authority:
+- `plan/ALIGNMENT_PLAN.md`
 
 ### M1 — User and course model
 
@@ -812,20 +849,22 @@ Current position:
 ```text
 M0 complete
 ↓
-M1 next
+A0 interaction + information-model alignment CURRENT
+↓
+M1 user/course modeling
 ```
 
-Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, or planner coding yet.
+Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
 Recommended immediate sequence:
 
-1. List all current courses and recurring non-course commitments.
-2. Choose one representative course and model it in detail.
-3. Refine the course-profile format using that example.
-4. Apply the format to the remaining courses.
-5. Collect several real tasks.
-6. Define the Task model and lifecycle.
-7. Finalize input and output contracts.
-8. Only then begin the persistent-state prototype.
+1. Confirm the user-AI development interaction model.
+2. Discuss what "enough detail" means for each major module.
+3. Use Course as the first worked example of information granularity and downstream effects.
+4. Confirm the semantic-contract vs adapter-contract boundary.
+5. Mark Calendar/Gmail/learning-platform provider-specific interface questions as deferred until their integration phases.
+6. Complete Alignment Gate A0.
+7. Then list current courses and recurring commitments and enter M1.
+8. After M1, proceed to Task and I/O contracts before persistence.
 
-This order minimizes rework because every later technical component depends on the semantic model defined here.
+This order minimizes rework by aligning meaning before either collecting large amounts of project data or implementing technical interfaces.
