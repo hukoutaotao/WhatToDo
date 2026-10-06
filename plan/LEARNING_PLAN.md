@@ -72,7 +72,8 @@ Conceptually collect:
 - first meaningful work time where available
 - completion time
 - incomplete/complete state
-- latest remaining-effort estimate
+- latest user-confirmed remaining-effort estimate
+- contemporaneous model-derived effort prediction where available
 - stage/subtask completion
 
 ### Context
@@ -100,6 +101,12 @@ Potential methods:
 Implementation should favor robustness and interpretability over unnecessary complexity.
 
 The user-facing system does not need to expose all internal statistics.
+
+When the user's current remaining-effort estimate conflicts with the model:
+- keep the user's value as canonical personal state;
+- keep the model prediction as derived/advisory;
+- use disagreement as a possible uncertainty/risk signal;
+- do not silently overwrite the user estimate.
 
 ---
 
@@ -225,6 +232,7 @@ Eventually test:
 - accepted learned rules do affect Planner
 - weekly recomputation is reproducible
 - historical data changes do not rewrite past observations
+- model/user estimate disagreement does not overwrite canonical user state
 
 ---
 
