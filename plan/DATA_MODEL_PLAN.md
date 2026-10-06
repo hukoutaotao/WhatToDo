@@ -72,11 +72,13 @@ Must eventually support:
 - estimated total effort
 - estimated remaining effort
 - progress
-- cognitive load
+- thinking depth
+- repetitive volume
+- new-learning load
 - importance
-- minimum session length
-- fragmentation
-- dependencies
+- minimum useful continuous session
+- fragmentability
+- dependencies / parent-stage relation where needed
 - status
 - verification/confidence
 
@@ -140,6 +142,29 @@ Structured unit of AI-assisted work.
 
 ### StateChange / AuditRecord
 Records meaningful changes and their actor/source.
+
+### PendingConfirmation / UncertainCandidate
+Represents information that may be useful but is not trusted enough to mutate canonical state.
+
+Examples:
+- ambiguous deadline extraction
+- possible completion inferred from an external signal
+- conflicting source facts
+- uncertain task mapping
+
+Must support batching into the next normal user interaction.
+
+### EffortHistory / EstimationObservation
+Historical evidence for improving future duration estimates.
+
+Should distinguish:
+- estimated effort
+- actual effort
+- course/task type
+- relevant difficulty/session characteristics
+- estimation error
+
+Exact physical table structure is deferred.
 
 ---
 
@@ -207,12 +232,18 @@ Keep distinct:
 - estimated total effort
 - estimated remaining effort
 - actual effort
+- minimum useful continuous session
+- fragmentability
 - percentage/progress indicator
 
 Reason:
 A task can be 50% conceptually complete without having exactly half of estimated time remaining.
 
 Historical calibration should use actual work sessions rather than only self-reported percentages when possible.
+
+User evening review is the primary routine point for confirming actual completion and actual effort.
+
+Externally inferred completion should normally create a pending confirmation rather than directly changing the Task to COMPLETED.
 
 ---
 
