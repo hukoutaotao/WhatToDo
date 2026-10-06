@@ -881,6 +881,7 @@ Do not prematurely lock down the following:
 - Exact scheduling algorithm
 - Exact level of automatic calendar writing
 - Exact authentication architecture
+- Exact provider API field mappings, IDs, sync tokens, webhook/watch behavior, and connector-specific edge cases until the relevant real integration is examined
 
 These should be decided after module boundaries and data contracts are clearer.
 
@@ -899,9 +900,10 @@ When the two documents appear to differ on implementation order, `DEVELOPMENT_PL
 
 The high-level order is:
 
+0. Align the user-AI interaction model, module meanings, information granularity, cross-module effects, and semantic-vs-adapter boundaries.
 1. Define the user's domain model, task model, input contract, and output contract.
 2. Build structured memory and canonical state storage.
-3. Integrate calendar/time availability.
+3. Integrate calendar/time availability and define provider-specific adapter details against the real service.
 4. Add automatic external information collection.
 5. Build deterministic planning and daily-plan generation.
 6. Add AI routing, validation, and premium/manual AI execution.
@@ -931,6 +933,8 @@ The following decisions are currently considered accepted unless the user later 
 - GitHub is the canonical code repository.
 - Local development and cloud runtime are complementary, not alternatives.
 - The system should eventually run independently of the user's personal computer.
+- Alignment Gate A0 must establish shared user-AI understanding before M1 domain collection and before implementation.
+- Internal semantic contracts should be aligned before provider-specific adapter mappings; API/node-specific details are deferred until real integration.
 
 ---
 
