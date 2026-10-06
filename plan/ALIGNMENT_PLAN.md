@@ -344,8 +344,9 @@ No implementation phase may begin until A0 is complete.
 
 Current status:
 - Initial 12-question A0 round completed.
-- The results are captured in `A0_USER_INTENT.md`.
-- A0 is **not yet complete**; follow-up alignment is still required on unresolved interaction details, task decomposition semantics, difficulty scales, partial-progress handling, and output/recovery behavior.
+- Second follow-up A0 round completed.
+- The consolidated results are captured in `A0_USER_INTENT.md`.
+- A0 is **not yet complete**; remaining work is concentrated on module information granularity/cross-effects, confirmation boundaries, importance-vs-necessity semantics, difficulty scales, task-template details, and risk-level semantics.
 
 A0 requires:
 
@@ -357,7 +358,18 @@ A0 requires:
 - [x] Historical actual-time memory requirement captured
 - [x] Dedicated course/task decomposition modeling requirement captured
 - [x] Dedicated long-term-goal onboarding requirement captured
-- [ ] Remaining user-AI development interaction details accepted
+- [x] Morning guided interaction order accepted
+- [x] Evening one-batch review pattern accepted
+- [x] Binary parent-task completion + remaining-effort tracking accepted
+- [x] Parent-task + stage/subtask structure accepted
+- [x] Fixed default decomposition template per normal task type accepted
+- [x] History-derived procrastination signal accepted conceptually
+- [x] Normal 40–60 minute daily buffer target accepted
+- [x] Emergency/capacity-risk reminder concept accepted
+- [x] New canonical task requires user review
+- [x] 1/3/7-day capacity forecasting accepted
+- [x] Long-horizon feasibility is the planner objective
+- [ ] Remaining module information-model details accepted
 - [ ] Major modules identified
 - [ ] For each near-term module, required information categories are understood
 - [ ] Information granularity is discussed enough to avoid obvious ambiguity
