@@ -65,8 +65,6 @@ Soft constraints should influence scoring, not masquerade as impossibility.
 
 ---
 
-## 6. Planning Horizons
-
 ## 5. Daily Output Philosophy
 
 The normal planner output is recommendation-oriented, not a rigid timetable.
@@ -75,6 +73,8 @@ It should:
 - estimate approximately how much usable free time exists today;
 - allocate a realistic amount of work to that capacity;
 - avoid chronic overfilling and unnecessary underfilling;
+- preserve roughly 40–60 minutes of normal-day buffer/rest capacity when feasible;
+- relax that buffer during recognized high-intensity periods when deadline/goal safety requires it;
 - identify which tasks require large uninterrupted blocks;
 - identify which tasks are suitable for fragmented time;
 - protect deadlines and long-term workload.
@@ -83,10 +83,25 @@ It should not, by default, assign exact clock times to every task.
 
 Internal availability reasoning may use real time windows even when the user-facing output does not expose a minute-by-minute schedule.
 
+Primary load metric:
+- estimated work time and fit to available windows, not number of checklist items.
+
+Primary optimization objective:
+- long-horizon feasibility and deadline safety, not maximizing daily completion percentage.
+
 ---
 
+## 6. Planning Horizons
+
 ### Daily
-Concrete executable plan.
+Concrete executable recommendation.
+
+### 1 / 3 / 7-day feasibility horizons
+At minimum compare:
+- expected usable free time;
+- expected effort of work that should/must be completed within the horizon.
+
+Use the ratio/difference to identify comfortable, tight, and infeasible periods and to pull future work earlier when needed.
 
 ### Weekly
 Capacity/risk balancing and distribution.
@@ -94,9 +109,11 @@ Capacity/risk balancing and distribution.
 ### Multi-week
 Exam preparation, large projects, milestone pacing.
 
-The same data model should support all horizons; do not build three unrelated planners.
+The same data model should support all horizons; do not build unrelated planners.
 
 ---
+
+
 
 ## 7. Priority vs Scheduling
 
@@ -114,12 +131,17 @@ A task may have high priority but still need a later focus window because the ne
 
 ## 8. Task Splitting
 
+Parent Tasks own overall deadlines. Stages/subtasks support execution detail.
+
+Normal task types should inherit stable decomposition templates.
+
 Planner should eventually support:
 - total remaining effort
 - multiple work sessions
 - minimum session length
 - maximum sensible session length
 - divisible vs non-divisible task
+- task-type decomposition template
 - concrete session objective
 
 Avoid scheduling vague "work on assignment" blocks when a more concrete sub-goal can be generated.
@@ -172,7 +194,45 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 12. Failure Modes to Guard Against
+## 12. Emergency / Risk Mode
+
+A risk mode is required when remaining required effort approaches or exceeds remaining usable capacity before one or more deadlines.
+
+Core conceptual trigger:
+```text
+required remaining effort before deadline
+vs
+usable free time before deadline
+```
+
+Emergency behavior may:
+- warn immediately outside the normal twice-daily cadence;
+- show the feasibility deficit;
+- recommend reclaiming or intensifying time;
+- increase today's recommended workload;
+- reduce normal buffer when justified.
+
+Most deadline-bearing required tasks should not be treated as casually deferrable.
+
+Exact risk thresholds and terminology remain to be aligned.
+
+---
+
+## 13. Historical Procrastination Signal
+
+Do not require a manual psychological-resistance score.
+
+Later historical analysis may infer delay tendency from:
+- release-to-first-work delay;
+- repeated postponement;
+- release-to-completion delay;
+- whether sufficient capacity existed during the delay.
+
+Avoid falsely labeling capacity-driven delay as procrastination.
+
+---
+
+## 14. Failure Modes to Guard Against
 
 - Overfilling the day
 - Scheduling impossible overlaps
@@ -188,7 +248,7 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 13. User Inputs Needed Before Implementation
+## 15. User Inputs Needed Before Implementation
 
 - desired daily load
 - buffer preference
@@ -201,7 +261,7 @@ Do not expose hidden chain-of-thought. Store concise decision factors instead.
 
 ---
 
-## 14. Dependencies
+## 16. Dependencies
 
 Requires:
 - DATA_MODEL_PLAN
