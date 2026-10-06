@@ -399,26 +399,355 @@ These are not optional nice-to-have details. They are prerequisites for a planne
 
 ---
 
-## 17. A0 Items Still Requiring Follow-Up
+## 17. Second-Round Interaction Protocol
 
-The 12 initial questions established strong requirements but did not completely finish A0.
+### Morning sequence
 
-Still to align in later A0 rounds:
-- exact morning interaction sequence and what is shown first;
-- exact evening review sequence;
-- how pending uncertainties are prioritized/presented;
-- exact task decomposition representation;
-- scales/labels for the three difficulty dimensions;
-- whether and how partial progress is entered;
-- how remaining effort is updated after partial completion;
-- rules for automatic vs manual task creation from external sources;
-- what constitutes "enough" free time for different task categories;
-- daily output layout;
-- overload/underload tolerance;
-- exceptions that may warrant urgent notification outside the normal twice-daily interaction;
-- semantics for missed multiple days and backlog recovery;
-- per-course profile details;
+The accepted normal order is:
+
+```text
+1. Refresh/reconcile newly collected information
+2. Present pending items requiring confirmation
+3. Ask a guided question for today's special circumstances
+   ("Is there anything special today that needs to be arranged?")
+4. Incorporate user corrections / special requirements
+5. Estimate today's usable free time
+6. Generate the daily plan
+```
+
+The morning flow should be guided rather than requiring the user to remember what information to volunteer.
+
+### Evening sequence
+
+The system should minimize conversation turns.
+
+Default behavior:
+1. Present all information the user should report in one consolidated prompt.
+2. Include the day's relevant planned tasks/items in that prompt.
+3. Ask for completion status, actual time, and remaining-time estimate for incomplete work.
+4. Let the user answer everything in one message.
+5. If the answer is sufficient, finish the review without unnecessary follow-up.
+6. Only ask additional questions for unresolved/missing information.
+
+---
+
+## 18. Binary Completion State with Effort Tracking
+
+At the primary Task level, completion is conceptually binary:
+
+- COMPLETE
+- INCOMPLETE
+
+A task that is partly worked on but not finished remains INCOMPLETE.
+
+For every incomplete task after work has occurred, retain at least:
+- cumulative actual time already invested;
+- latest estimated remaining time.
+
+Example:
+
+```text
+Original estimate: 4 h
+Worked today: 2 h
+New estimated remaining: 5 h
+
+Canonical meaning:
+- status = INCOMPLETE
+- actual invested = 2 h (plus any earlier sessions)
+- estimated remaining = 5 h
+```
+
+Do not derive remaining effort mechanically as original estimate minus time spent.
+
+If the task is complete:
+- status = COMPLETE;
+- estimated remaining time = 0.
+
+The user's preferred progress report is therefore primarily **remaining effort**, not a required percentage.
+
+If an incomplete task is reported without a remaining-time estimate, the evening interaction should ask for it.
+
+---
+
+## 19. Parent Task and Fixed Task-Type Decomposition Templates
+
+The preferred structural model is:
+
+```text
+Parent Task
+- owns the overall deadline
+- owns the final complete/incomplete status
+- represents the external obligation
+
+    ↓
+
+Stages / Subtasks
+- support more detailed planning and execution
+- may carry their own planning attributes
+- do not replace the parent deadline unless explicitly modeled
+```
+
+For ordinary recurring work, each **task type** should normally have a stable decomposition template.
+
+Example idea:
+
+```text
+Course: DSA
+Task type: Programming LAB
+Template:
+  understand problem
+  design
+  implement
+  debug/test
+  report
+```
+
+If a genuinely special workflow is needed, the preferred model is to define a new task type with its own template rather than arbitrarily changing the normal template for one instance.
+
+Templates must remain extensible because new task types will be added over time.
+
+---
+
+## 20. Behavioral Procrastination / Psychological Resistance
+
+Do not require the user to pre-score "psychological resistance" for every task.
+
+Instead, treat resistance/procrastination as primarily a **learned historical signal**.
+
+Potential observations:
+- time from task release to first meaningful work;
+- time from release to completion;
+- repeated postponement across daily plans;
+- whether delay occurred despite sufficient available capacity;
+- whether delay was plausibly caused by workload pressure instead;
+- course/task-type patterns.
+
+The system should distinguish, as far as evidence permits:
+- "not done because capacity was insufficient"
+from
+- "not done despite reasonable opportunity."
+
+This signal may later influence planning:
+- earlier prompting;
+- more buffer;
+- earlier placement of repeatedly postponed task types;
+- risk warnings.
+
+Exact inference methodology is deferred until sufficient real history exists.
+
+---
+
+## 21. Daily Capacity Buffer
+
+Planning should prioritize deadline safety first, then use available capacity efficiently.
+
+Normal preference:
+- preserve approximately **40–60 minutes of unallocated/rest buffer per day** rather than planning every available minute.
+
+This is both:
+- genuine rest space;
+- contingency capacity when estimates or events change.
+
+The buffer is not a hard invariant.
+
+During explicitly recognized intensive periods such as exam sprint/review phases, planned study load may intentionally increase and the buffer may shrink.
+
+Planner policy must therefore be:
+- deadline and critical-goal safety first;
+- reasonable daily buffer under normal conditions;
+- dynamic higher load when justified by a recognized high-intensity phase.
+
+---
+
+## 22. Emergency / Capacity-Risk Mode
+
+An explicit emergency/risk mode is required.
+
+The system should not assume tasks with real deadlines can simply be postponed.
+
+Tasks should eventually carry a concept such as:
+- required / necessary;
+- optional / deferrable;
+with richer importance semantics developed later.
+
+A major risk signal is **required effort versus remaining usable capacity before deadline**.
+
+Example:
+
+```text
+Task estimated remaining effort = 6 h
+Usable free time before its deadline = 5 h
+→ feasibility deficit
+→ urgent warning / emergency behavior
+```
+
+Emergency behavior may include:
+- alerting the user immediately rather than waiting for the next normal interaction;
+- identifying which obligation is at risk;
+- showing the effort/capacity deficit;
+- recommending that the user reclaim, compress, or reprioritize other time;
+- increasing planned workload during critical periods where necessary.
+
+Exact notification channel and thresholds are deferred, but the semantic condition is required.
+
+---
+
+## 23. Mandatory Human Review for New Canonical Tasks
+
+All newly discovered task-like content must be reviewed by the user before it becomes canonical task state.
+
+Even if an external source appears unambiguous, the normal flow is:
+
+```text
+external source / detector
+↓
+candidate new task or candidate change
+↓
+morning/evening review batch
+↓
+user reviews and confirms/corrects
+↓
+canonical Task/state mutation
+```
+
+Reason:
+Published deadlines and the user's operational interpretation may differ, and task meaning may need correction.
+
+Therefore:
+- automated collection is allowed;
+- automatic candidate creation is allowed;
+- automatic insertion into canonical factual task state is not the default;
+- user confirmation is required for new task content and uncertain changes.
+
+The exact review UI is deferred.
+
+---
+
+## 24. Proactive Notification Policy
+
+The system normally communicates during morning/evening interactions, but urgent reminders outside those windows are allowed and desired.
+
+Important trigger class:
+- projected remaining required effort is approaching or exceeding remaining usable capacity before a deadline.
+
+Other urgent trigger classes may be added later.
+
+The reminder should be actionable, e.g.:
+- deadline at risk;
+- estimated effort remaining;
+- usable time remaining;
+- need to reclaim or intensify time.
+
+Separately, if the system has gone too long without receiving user state updates, it may proactively remind the user to perform a reconciliation/update.
+
+Exact inactivity threshold and notification channels (email, etc.) will be decided later.
+
+---
+
+## 25. Conservative Canonical State Policy
+
+When human interaction is missing, the canonical factual database should remain conservative.
+
+Without user confirmation:
+- do not mark tasks complete;
+- do not infer personal progress as fact;
+- do not silently convert probable states into trusted state.
+
+Even strong external evidence may be stored as:
+- raw evidence;
+- a candidate;
+- "likely completed / pending confirmation."
+
+It should not become trusted completion state unless a future explicit policy exception is separately accepted.
+
+This conservative rule applies especially to personal task-state facts.
+
+---
+
+## 26. Planner Optimization Target: Time and Long-Horizon Feasibility
+
+The primary planning resource is **time**, not number of tasks.
+
+A day containing:
+- two large tasks
+may be fuller than
+- six small tasks.
+
+Therefore daily load should primarily be evaluated by estimated work time and suitability for available blocks, not item count.
+
+For unfinished tasks:
+- do not simply "roll them over" mechanically;
+- keep them INCOMPLETE with updated remaining effort;
+- rerun planning using deadline, remaining effort, importance/necessity, and future capacity.
+
+The system should optimize for **long-term overall feasibility**, not cosmetic daily completion rate.
+
+---
+
+## 27. Multi-Horizon Capacity Forecasting
+
+A core planner/risk concept is to compare future available capacity with work that should be completed within corresponding horizons.
+
+At minimum, support conceptual forecasts for:
+- next 1 day;
+- next 3 days;
+- next 7 days.
+
+For each horizon compute/estimate:
+
+```text
+usable free time
+vs
+expected effort of work that should/must be completed in that horizon
+```
+
+Use the comparison to determine:
+- whether work should be advanced earlier;
+- whether the current plan is comfortable, tight, or infeasible;
+- whether to warn the user;
+- whether to increase today's recommended workload;
+- whether a deadline-risk emergency is emerging.
+
+This is more important than simply labeling a task "must do today" based only on its date.
+
+The planner should deliberately advance future work when later capacity is insufficient.
+
+---
+
+## 28. Long-Term Optimization Principle
+
+The system's objective is not to maximize daily plan completion percentage.
+
+Primary objective:
+- achieve long-term overall feasibility and deadline safety across the user's obligations.
+
+This may mean:
+- doing non-urgent work today because future days are overloaded;
+- increasing effort during exam-sprint phases;
+- preserving buffer on normal days;
+- recommending early progress on large tasks.
+
+A daily plan is good when it contributes to long-horizon success, not merely when every listed item is checked off.
+
+---
+
+## 29. A0 Items Still Requiring Follow-Up
+
+After the first two rounds, the following still require alignment before A0 can close:
+
+- exact presentation/prioritization of confirmation questions in morning/evening review;
+- whether any canonical state changes besides new tasks/completion may be automatically accepted, or whether all meaningful task facts require confirmation;
+- exact semantics/scales for the three difficulty dimensions;
+- exact information model for importance vs necessity/requiredness;
+- detailed Course fields and how each affects downstream modules;
+- exact task-type template representation;
+- exact handling of subtasks/stages in user-facing daily plans;
+- daily plan output layout;
+- risk-level terminology and thresholds for comfortable/tight/emergency states;
+- how the 40–60 minute buffer interacts with days containing little or no discretionary time;
+- how to infer procrastination without falsely blaming capacity shortages;
+- exact stale-user-interaction reminder policy;
 - per-goal onboarding fields;
-- which external completion signals will eventually be supported.
+- external completion evidence classes to support later.
 
-Do not treat these as implementation blockers yet; resolve them through subsequent A0 conversations before the dependent modules are frozen.
+Resolve these through subsequent A0 conversation before dependent semantic models are frozen.
