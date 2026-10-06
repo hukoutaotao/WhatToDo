@@ -214,7 +214,8 @@ Decision:
 Define semantic/domain and I/O contracts before database implementation, connectors, planner, or AI infrastructure.
 
 Implications:
-- Current next milestone is user/course modeling.
+- Alignment Gate A0 is the current prerequisite before user/course modeling.
+- After A0, M1 user/course modeling begins.
 - Starting n8n/PostgreSQL/scraping before Phase 1 completion is intentionally deferred.
 
 Authority:
