@@ -346,8 +346,9 @@ Current status:
 - Initial 12-question A0 round completed.
 - Second follow-up A0 round completed.
 - Third A0 round on task-centric modeling, Course Progress Axis, Exam semantics, risk states, and historical learning completed.
+- Fourth A0 round on importance/requiredness, safe-capacity advancement, output template, automatic numeric learning, reminder policy, and authority boundaries completed.
 - The consolidated results are captured in `A0_USER_INTENT.md`.
-- A0 is **not yet complete**; remaining work is now concentrated on lead-time policy, persistent-priority semantics, importance/requiredness scale details, risk thresholds, progress-axis edge cases, confirmation/output presentation, and learned-pattern review UX.
+- A0 is **near completion**; only a narrow final consistency/threshold/display review remains.
 
 A0 requires:
 
@@ -378,7 +379,20 @@ A0 requires:
 - [x] Exam modeled independently from preparation Tasks
 - [x] SAFE / DANGER / EMERGENCY vocabulary accepted
 - [x] Historical learning separated from Planner with user-confirmed rule adoption
-- [ ] Remaining information-model/output threshold details accepted
+- [x] Task importance 1–5 accepted
+- [x] REQUIRED / OPTIONAL / EXPIRING accepted
+- [x] No generic lead-time field; safe-capacity advancement accepted
+- [x] Course-defined progress units + teaching/task-family progress accepted
+- [x] Default academic dependency templates accepted
+- [x] Conditional note-review and exam-review triggers accepted
+- [x] Worst-horizon SAFE/DANGER/EMERGENCY aggregation accepted
+- [x] Full confirmation queue + recommended-answer prompts accepted
+- [x] Daily Brief baseline structure/template accepted
+- [x] Automatic numeric learning vs reviewed behavioral rules accepted
+- [x] Two-day missed-interaction reminder accepted
+- [x] Long-term goal onboarding fields and equal Planner treatment accepted
+- [x] Overall automatic-analysis vs reviewed-truth/policy boundary accepted
+- [ ] Final narrow threshold/display consistency items accepted
 - [ ] Major modules identified
 - [ ] For each near-term module, required information categories are understood
 - [ ] Information granularity is discussed enough to avoid obvious ambiguity
