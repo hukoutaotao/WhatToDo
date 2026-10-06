@@ -219,3 +219,57 @@ Implications:
 
 Authority:
 - Detailed order is in `DEVELOPMENT_PLAN.md`.
+
+
+---
+
+## D-013 — Pre-development alignment gate
+
+Status: Accepted
+
+Decision:
+Before collecting the full domain model or starting implementation, complete an explicit interaction and information-model alignment stage (Alignment Gate A0).
+
+The user and AI must align on:
+- development interaction mode
+- module meanings
+- information granularity
+- cross-module effects
+- stable vs dynamic vs inferred information
+- which questions must be answered now vs deferred
+
+Implications:
+- M1 does not begin until A0 is accepted.
+- Infrastructure work must not begin before semantic alignment.
+- `ALIGNMENT_PLAN.md` is authoritative for this gate.
+
+Affected:
+- README
+- DEVELOPMENT_PLAN
+- PROGRESS
+- USER_MODEL_PLAN
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+
+---
+
+## D-014 — Semantic contracts before provider adapters
+
+Status: Accepted
+
+Decision:
+Define WhatToDo's internal semantic needs before provider-specific interface mappings, but defer details that can only be known after real integration.
+
+Example:
+For Calendar, define concepts such as fixed/flexible event, busy interval, recurrence, ownership, and availability now; define Google Calendar field mapping, event IDs, sync tokens, webhook behavior, and provider edge cases during actual Calendar integration.
+
+Implications:
+- Do not invent API-specific fields during early planning.
+- Calendar/email/learning-platform adapter contracts are later-phase deliverables.
+- Discoveries during integration should update semantic plans only when they change internal meaning, not merely external field mapping.
+
+Affected:
+- ALIGNMENT_PLAN
+- IO_CONTRACT_PLAN
+- INTEGRATION_PLAN
+- DEVELOPMENT_PLAN
