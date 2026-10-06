@@ -236,6 +236,12 @@ Potential trust ordering is context-specific:
 
 Conflict-resolution rules belong partly in `INTEGRATION_PLAN.md`.
 
+Canonical personal task-state mutation policy:
+- raw external evidence may be ingested automatically;
+- parsed candidates may be generated automatically;
+- meaningful accepted Task-state changes require user confirmation by default;
+- future auto-accept exceptions require an explicit user-approved policy.
+
 ---
 
 ## 5. Time Semantics
