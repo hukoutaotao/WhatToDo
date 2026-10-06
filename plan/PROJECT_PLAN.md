@@ -795,6 +795,19 @@ Responsibilities:
 - Convert current plan to user-facing daily output
 - Use stable formatting
 
+### Historical Learning / Behavior Analyzer
+
+Responsibilities:
+
+- Analyze estimated vs actual effort
+- Detect recurring duration bias
+- Detect repeated postponement patterns
+- Evaluate time-of-day/task-type performance patterns
+- Produce candidate learned parameters/rules
+- Submit material behavioral rule changes for user confirmation before Planner adoption
+
+This module is distinct from Planner. Planner consumes accepted learned parameters; it does not silently invent and apply behavioral rules.
+
 ### Connectors
 
 Initial candidates:
