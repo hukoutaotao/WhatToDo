@@ -49,6 +49,40 @@ Do not guess provider-specific details merely to make an early schema look compl
 
 ## 2. Input Source Classes
 
+## 2A. Normal Human Interaction Contract
+
+### Morning interaction
+Expected normal duration: roughly 5–10 minutes.
+
+Semantic flow:
+```text
+refresh external evidence
+→ reconcile state
+→ batch/present pending uncertainty questions
+→ accept user corrections / special constraints
+→ generate today's concise plan
+```
+
+The user should not need to restate normal planning rules every morning.
+
+### Evening interaction
+Expected normal duration: roughly 5–10 minutes.
+
+Semantic flow:
+```text
+review today's planned items
+→ confirm completed / incomplete
+→ capture actual effort where useful
+→ confirm externally detected completion candidates
+→ update state
+→ update historical estimation data
+→ carry forward/replan as needed
+```
+
+If a normal interaction is skipped, external collection may continue; unresolved personal state is reconciled at the next interaction.
+
+---
+
 ### A. Direct user input
 Examples:
 - New task
@@ -117,6 +151,13 @@ Every normalized external input should be able to carry:
 
 A normalized input is not automatically trusted state.
 
+If confidence is insufficient for a consequential change:
+- keep it as a candidate/pending-confirmation object;
+- do not silently mutate trusted state;
+- batch it into the next normal interaction.
+
+Externally detected possible completion is specifically advisory until confirmed by the user.
+
 ---
 
 ## 4. Update Semantics
@@ -170,15 +211,23 @@ A Daily Plan should eventually include:
 Must be easy to scan.
 
 Potential sections:
+- approximate usable free time today
 - Today must do
 - Today should do
 - If time remains
-- Fixed schedule
-- Fragment tasks
+- tasks best suited to large uninterrupted blocks
+- fragmentable/short-gap tasks
+- fixed commitments if useful
 - Risks
 - Weekly progress
 
+Do not require exact clock assignment for every task in the normal output.
+
 The user will define exact brevity/order during M2.
+
+Default explanation policy:
+- concise during normal operation;
+- expand for abnormal/risky/uncertain/surprising recommendations or when explicitly requested.
 
 ---
 
