@@ -191,6 +191,8 @@ Explicit user corrections are authoritative for personal task state.
 
 New task-like content discovered externally must be reviewed by the user before canonical task creation.
 
+More generally, consequential canonical personal task-state mutations require user confirmation by default. Automated ingestion updates evidence/candidates, not accepted operational truth.
+
 Example:
 "This homework is actually due Friday, not Thursday."
 
