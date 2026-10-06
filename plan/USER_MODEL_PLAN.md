@@ -1,7 +1,7 @@
 # WhatToDo — User / Course Model Plan
 
 > Purpose: Define how WhatToDo learns the user's stable working context before task/database implementation.
-> Current relevance: This is the active planning document for milestone M1.
+> Current relevance: This becomes the active modeling document after Alignment Gate A0 is accepted. The project is currently still in A0.
 
 ## 1. Scope
 
@@ -158,6 +158,10 @@ Only store preferences that materially affect planning.
 
 ## 6. Collection Method for M1
 
+Prerequisite:
+- Alignment Gate A0 in `ALIGNMENT_PLAN.md` is accepted.
+- User and AI have agreed on how information granularity and downstream effects will be discussed.
+
 Do not ask the user to fill a giant technical form.
 
 Recommended conversational sequence:
@@ -176,6 +180,8 @@ Recommended conversational sequence:
 7. Record only confirmed current-semester facts as project truth.
 
 Avoid silently importing old-chat facts as current truth if the user has not confirmed they still apply.
+
+For every proposed Course/Profile field, understand its downstream purpose. A field should not exist merely because it is easy to collect. Typical consumers include Task normalization, Planner scheduling, Goal generation, Daily Output, and historical estimation. Use the worked Course example in `ALIGNMENT_PLAN.md` as the reference style.
 
 ---
 
