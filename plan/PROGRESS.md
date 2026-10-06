@@ -36,6 +36,10 @@ This is intentional. The approved roadmap requires semantic/data contracts befor
 - `formats/input/` exists.
 - `formats/output/` exists.
 - The plan control-center documentation has been expanded.
+- `plan/README.md` now defines file authority, dependency relationships, and mandatory change-propagation rules.
+- `plan/DECISIONS.md` records accepted decisions.
+- `plan/USER_MODEL_PLAN.md` defines the active M1 collection/modeling process.
+- Specialized plans now exist for data model, I/O contracts, integrations, planner, AI execution, operations, security/privacy, and testing.
 
 ### Accepted major decisions
 - Project goal is a long-lived personal task/schedule operating system, not a simple to-do list.
