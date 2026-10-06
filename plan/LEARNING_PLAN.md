@@ -129,6 +129,8 @@ Default cadence:
 
 The analyzer may autonomously compute candidate patterns every week.
 
+The user-facing weekly review should surface only actionable patterns, not all raw statistics. Material rule proposals should support accept / reject / defer.
+
 Examples:
 - "Programming LABs have taken 1.6× the original estimate over the last 5 instances."
 - "High-thinking tasks scheduled late in the evening have lower completion rates."
@@ -168,15 +170,16 @@ This distinction allows estimation models to improve without silently rewriting 
 
 ## 8. Automatic vs Confirmed Adaptation
 
-Potentially safe automatic updates:
+Allowed automatic adaptation:
 - raw statistics
 - descriptive aggregates
-- model prediction outputs used as advisory estimates, if the user can inspect/correct them
+- internal numeric effort-prediction parameters/models
+- numeric prediction outputs, provided they remain testable, inspectable when needed, and correctable
 
 Require user confirmation before:
 - changing an explicit user preference
 - changing a planning policy
-- labeling a persistent behavioral pattern in a way that affects scheduling
+- adopting a behavioral scheduling rule from an observed pattern
 - overriding a user-stated time-of-day preference
 - adopting a new recurring rule
 
