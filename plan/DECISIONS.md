@@ -587,3 +587,31 @@ The optimization target is long-term feasibility and deadline safety, not maximi
 Affected:
 - PLANNER_PLAN
 - TESTING_PLAN
+
+
+---
+
+## D-033 — Canonical personal task-state mutations require user confirmation by default
+
+Status: Accepted
+
+Decision:
+Automated systems may ingest raw evidence and create candidates, but meaningful mutations to canonical personal task state should not be committed without user confirmation.
+
+This includes, by default:
+- creating a task;
+- changing a task's interpreted deadline;
+- changing completion state;
+- changing user progress/remaining-effort facts;
+- other consequential task-state corrections.
+
+Raw external source records may update automatically because they record what the source said, not the user's accepted operational truth.
+
+A future exception may only be introduced through an explicit user-approved policy.
+
+Affected:
+- A0_USER_INTENT
+- DATA_MODEL_PLAN
+- IO_CONTRACT_PLAN
+- INTEGRATION_PLAN
+- TESTING_PLAN
