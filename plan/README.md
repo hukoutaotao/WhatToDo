@@ -99,6 +99,10 @@ Authority:
 #### `PLANNER_PLAN.md`
 - Deterministic planner responsibilities, constraints, scheduling flow, daily/weekly horizons, goal integration, explainability.
 
+#### `LEARNING_PLAN.md`
+- Historical effort calibration and behavioral pattern discovery.
+- Defines weekly analysis, candidate learned rules, user confirmation, and how accepted patterns feed Planner.
+
 #### `AI_EXECUTION_PLAN.md`
 - AI Router, model tiers, ChatGPT Work/Codex roles, structured proposals, validation boundary, cost policy.
 
@@ -153,6 +157,7 @@ DEVELOPMENT_PLAN.md   DATA_MODEL_PLAN.md
       │
       ├────────→ INTEGRATION_PLAN.md
       ├────────→ PLANNER_PLAN.md
+      ├────────→ LEARNING_PLAN.md
       └────────→ AI_EXECUTION_PLAN.md
                        │
          ┌─────────────┼──────────────┐
@@ -243,6 +248,15 @@ Update:
 3. `OPERATIONS_PLAN.md` if deployment/configuration changes
 4. `TESTING_PLAN.md`
 5. `PROGRESS.md`
+
+### If historical learning / estimation behavior changes
+Update:
+1. `LEARNING_PLAN.md`
+2. `DATA_MODEL_PLAN.md`
+3. `PLANNER_PLAN.md` if accepted learned outputs affect planning
+4. `USER_MODEL_PLAN.md` if task/course defaults change
+5. `TESTING_PLAN.md`
+6. `PROGRESS.md`
 
 ### If AI usage changes
 Update:
