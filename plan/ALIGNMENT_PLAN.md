@@ -3,6 +3,7 @@
 > Status: ACTIVE
 > Purpose: Complete human-AI alignment before implementation begins.
 > This is the authoritative plan for the pre-development alignment gate.
+> User-specific accepted/working intent from A0 is stored in `A0_USER_INTENT.md` and must be read together with this file.
 
 ## 1. Why This Stage Exists
 
@@ -341,9 +342,22 @@ Do not freeze adapter details before the provider is actually inspected.
 
 No implementation phase may begin until A0 is complete.
 
+Current status:
+- Initial 12-question A0 round completed.
+- The results are captured in `A0_USER_INTENT.md`.
+- A0 is **not yet complete**; follow-up alignment is still required on unresolved interaction details, task decomposition semantics, difficulty scales, partial-progress handling, and output/recovery behavior.
+
 A0 requires:
 
-- [ ] User-AI development interaction model accepted
+- [x] Initial user-AI daily interaction model captured
+- [x] Normal morning/evening cadence captured
+- [x] Uncertainty must be queued for user confirmation rather than silently resolved
+- [x] Planner is recommendation-oriented rather than exact clock scheduling by default
+- [x] Multi-dimensional task difficulty concept captured
+- [x] Historical actual-time memory requirement captured
+- [x] Dedicated course/task decomposition modeling requirement captured
+- [x] Dedicated long-term-goal onboarding requirement captured
+- [ ] Remaining user-AI development interaction details accepted
 - [ ] Major modules identified
 - [ ] For each near-term module, required information categories are understood
 - [ ] Information granularity is discussed enough to avoid obvious ambiguity
