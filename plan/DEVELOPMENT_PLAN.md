@@ -734,7 +734,7 @@ Already available:
 - input/output planning directories
 - n8n-only orchestration decision
 
-### A0 — Interaction and information-model alignment — CURRENT
+### A0 — Interaction and information-model alignment — COMPLETE
 
 Need from user:
 - confirmation/correction of the intended user-AI development interaction
@@ -751,7 +751,7 @@ Deliverables:
 Completion authority:
 - `plan/ALIGNMENT_PLAN.md`
 
-### M1 — User and course model
+### M1 — User and course model — CURRENT
 
 This milestone is intentionally information-rich. Detailed per-course modeling is expected to be one of the largest user-input activities in the project.
 
@@ -911,24 +911,23 @@ Current position:
 ```text
 M0 complete
 ↓
-A0 interaction + information-model alignment CURRENT
+A0 interaction + information-model alignment COMPLETE
 ↓
-M1 user/course modeling
+M1 user/course modeling CURRENT
 ```
+
+A0 is closed. Do not reopen broad alignment questioning unless M1 or later work exposes a genuine semantic contradiction.
 
 Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
 Recommended immediate sequence:
 
-1. Continue A0 using the unresolved items recorded in `A0_USER_INTENT.md`.
-2. Refine the morning/evening interaction sequences and pending-confirmation behavior.
-3. Discuss what "enough detail" means for each major module.
-4. Use Course as the first worked example of information granularity and downstream effects.
-5. Confirm the semantic-contract vs adapter-contract boundary.
-6. Mark Calendar/Gmail/learning-platform provider-specific interface questions as deferred until their integration phases.
-7. Complete Alignment Gate A0.
-8. Enter M1 and model all current courses/activities.
-9. Complete M1B per-course/task-type decomposition presets.
-10. Proceed to M2 Task and I/O contracts before persistence.
+1. Collect and confirm the user's current courses and recurring non-course commitments.
+2. Choose one representative course and build its Course Profile and Course Progress Axis.
+3. Refine the reusable course-profile structure using that real example.
+4. Apply the structure to all remaining courses/activities.
+5. Complete M1 acceptance criteria.
+6. Complete M1B per-course/task-type decomposition presets.
+7. Proceed to M2 Task and I/O contracts before persistence.
 
-This order minimizes rework by aligning meaning before either collecting large amounts of project data or implementing technical interfaces.
+Provider-specific Calendar/Gmail/learning-platform details remain deferred until their integration phases.
