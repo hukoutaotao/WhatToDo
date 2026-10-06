@@ -97,12 +97,16 @@ Also capture where useful:
 ### Course progress axis
 Each course should define an instructional progress axis.
 
-At minimum support:
-- lesson/session identifiers;
-- before lesson N;
-- during lesson N;
-- after lesson N;
-- ranges such as lessons 1–N or A–B.
+At minimum support a course-defined progress unit:
+- the unit may mean lecture/session, chapter, experiment, topic, etc.;
+- before unit N;
+- during unit N;
+- after unit N;
+- ranges such as units 1–N or A–B.
+
+Also distinguish:
+- teaching progress;
+- each task family's completion progress along the axis.
 
 Tasks, prerequisites, review conditions, and exam coverage may attach to this axis.
 
@@ -133,6 +137,13 @@ Potential information:
 - extensibility for new task types
 
 The exact decomposition schema is developed in milestone M1B after the course profile is established.
+
+Course templates may also predefine recurring dependency chains such as:
+`preview → class → note organization → homework/exercise`.
+
+Initial conditional-review example:
+- three consecutive incomplete post-class note-organization tasks may activate a catch-up/review task;
+- entering exam-preparation phase should activate review work for the exam coverage.
 
 ---
 
