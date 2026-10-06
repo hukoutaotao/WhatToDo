@@ -1056,23 +1056,369 @@ Historical evidence informs the user; it does not automatically outrank explicit
 
 ---
 
-## 42. A0 Items Still Requiring Follow-Up
+## 42. Task Importance and Requiredness
 
-After the first three rounds, the following still require alignment before A0 can close:
+### Importance
 
-- clarify the exact meaning of "start early" / lead-time policy for task types (Question 10 from round three);
-- clarify whether any persistent cross-course/task priorities are needed beyond task-level importance (Question 13 from round three);
-- exact importance scale;
-- exact requiredness representation beyond required/optional/expiring cases;
-- exact handling of task-type default difficulty versus per-task override during creation;
-- exact confirmation-question presentation/prioritization;
-- exact SAFE/DANGER/EMERGENCY threshold philosophy;
-- details of course progress-axis identifiers and how unusual course structures map onto it;
-- exact conditional activation rules for review/catch-up templates;
-- exact weekly learned-pattern review presentation;
-- exact daily plan output layout;
-- stale-user-interaction reminder policy;
-- long-term-goal onboarding fields;
-- external completion-evidence classes.
+Task importance uses a **1–5 scale**.
 
-Resolve these through subsequent A0 conversation before dependent semantic models are frozen.
+Importance affects:
+- ordering among feasible work;
+- sacrifice/removal suggestions during emergency replanning;
+- which optional work is protected;
+- how strongly a task competes for remaining discretionary capacity.
+
+### Requiredness
+
+Use three primary values:
+
+- `REQUIRED`: must ultimately be completed.
+- `OPTIONAL`: beneficial but may be skipped.
+- `EXPIRING`: only useful until a defined expiration point; after that it may become irrelevant without completion.
+
+`EXPIRING` requires an explicit expiration time/condition.
+
+A deadline and an expiration are not the same concept.
+
+Examples:
+- formal homework → REQUIRED + deadline;
+- optional practice → OPTIONAL, possibly with a useful-by date;
+- preview before class → EXPIRING at/around the class event.
+
+---
+
+## 43. No Separate Lead-Time Rule: Always Advance Required Work When Capacity Is Safe
+
+Do **not** introduce a separate "start this task type N days early" planning field as a core mechanism.
+
+Preferred principle:
+
+```text
+protect required work first
+↓
+check future capacity/risk
+↓
+if SAFE and usable time remains
+↓
+advance future required work
+↓
+continue building slack/buffer
+```
+
+The planner should continuously pull future required work forward whenever doing so uses otherwise available capacity and improves long-term feasibility.
+
+If required work cannot fit, risk state escalates and emergency/danger handling applies.
+
+This replaces a manually configured generic lead-time rule.
+
+---
+
+## 44. TaskType Defaults at Creation
+
+When a TaskType is created/configured, the user will define its default planning properties, including default three-dimensional difficulty.
+
+A concrete Task normally inherits the TaskType defaults automatically.
+
+The user should not need to reconfirm default values for every new Task.
+
+A concrete Task may override defaults when the specific instance materially differs.
+
+---
+
+## 45. Flexible Course Progress Units
+
+A Course Progress Axis must not hard-code "lesson number" as the only structure.
+
+Each course may define what one progress `unit` means.
+
+Examples:
+- one lecture/session;
+- one chapter;
+- one experiment;
+- one topic/module;
+- another course-specific instructional unit.
+
+The axis still supports relative semantic positions:
+- before unit N;
+- during unit N;
+- after unit N;
+- range A–B.
+
+This keeps the model reusable across very different courses.
+
+---
+
+## 46. Teaching Progress vs Task Progress
+
+A course should distinguish:
+
+### Teaching progress
+Where instruction itself has reached on the Course Progress Axis.
+
+### Task-family progress
+How far different task families have progressed along that same axis.
+
+Examples:
+- teaching reached unit 8;
+- notes completed through unit 6;
+- exercises completed through unit 5;
+- previews completed through unit 8.
+
+This allows the system to detect structured lag rather than relying on a single vague "course progress" value.
+
+---
+
+## 47. Default Academic Task Dependency Flow
+
+Course/task templates may predefine dependencies.
+
+A common pattern may be:
+
+```text
+preview
+→ class/teaching event
+→ note organization
+→ exercise/homework
+```
+
+Specific courses may override this structure.
+
+Concrete tasks inherit the template dependency structure unless an exception is explicitly needed.
+
+---
+
+## 48. Conditional Review / Catch-Up Activation
+
+Confirmed initial activation examples:
+
+### Repeated missing post-class notes
+If post-class note-organization tasks remain incomplete for **three consecutive relevant units**, activate/generate a review/catch-up task according to the course template.
+
+### Exam-preparation phase
+When a course enters the configured exam-preparation/sprint phase, generate review tasks for the relevant exam coverage.
+
+Additional activation rules may be configured later.
+
+The system should use predefined conditions rather than spontaneously inventing arbitrary review obligations.
+
+---
+
+## 49. Risk Computation and Aggregation
+
+Risk should be based on **feasibility margin**, not merely the calendar date.
+
+For each horizon (at minimum 1 day, 3 days, 7 days), compare:
+
+```text
+usable capacity
+vs
+required expected effort
+```
+
+Interpretation:
+- clear margin → SAFE;
+- small margin where ordinary uncertainty could cause failure → DANGER;
+- expected infeasibility → EMERGENCY.
+
+Exact numerical thresholds are deferred until planner calibration.
+
+### Multi-horizon reporting
+
+Report the 1-day, 3-day, and 7-day state separately.
+
+Overall system mode follows the most severe horizon:
+- any EMERGENCY horizon → overall EMERGENCY;
+- otherwise, any DANGER horizon → overall DANGER;
+- otherwise → SAFE.
+
+Therefore one DANGER horizon is enough to enter DANGER mode even if the other horizons are SAFE.
+
+---
+
+## 50. Confirmation Queue Must Be Fully Cleared in Normal Reviews
+
+Morning/evening reviews should not intentionally leave ordinary pending confirmations unresolved merely because they are lower priority.
+
+All pending confirmation items should normally be presented and resolved during the interaction.
+
+Ordering may still prioritize high-impact items first for readability, but the goal is to clear the full confirmation queue in that review session.
+
+---
+
+## 51. Recommended Answer Templates for Confirmation
+
+When asking for confirmation, the system should provide a proposed interpretation/default answer whenever it can do so responsibly.
+
+Example:
+
+```text
+Detected candidate:
+Assignment 4 — due Oct 12
+
+Recommended:
+- create Task: yes
+- requiredness: REQUIRED
+- task type: normal homework
+- inherited default difficulty: 3 / 3 / 2
+
+Confirm or modify?
+```
+
+This minimizes user effort while preserving the confirmation boundary.
+
+---
+
+## 52. Daily Brief Content
+
+The accepted normal Daily Brief should contain, at minimum:
+
+- approximate usable free time today;
+- 1-day / 3-day / 7-day risk status;
+- overall risk mode;
+- must-complete / required work for today;
+- work that should be advanced today for future feasibility;
+- parent Task + concrete stage/subtask to advance;
+- estimated effort for each recommended item;
+- indication of large-block vs fragmentable work;
+- short abnormal/risk notes only when needed.
+
+The normal Brief should remain concise.
+
+### Deadline visibility
+
+Show explicit deadline information by default when:
+- the deadline is within the next **3 days**;
+- the task is currently risky;
+- the user requests expanded detail.
+
+Do not clutter every normal task with distant deadlines.
+
+A concrete reusable template is maintained under:
+`formats/output/DAILY_BRIEF_TEMPLATE.md`.
+
+---
+
+## 53. Weekly Learned-Pattern Review
+
+The weekly historical-learning report should show only **actionable** patterns, not raw statistics for their own sake.
+
+Examples:
+- repeated effort underestimation large enough to justify changing prediction;
+- repeated postponement despite sufficient capacity;
+- meaningful time-of-day performance pattern;
+- recurring template mismatch.
+
+Each material behavioral/planning recommendation should support:
+- accept;
+- reject;
+- defer / no action yet.
+
+---
+
+## 54. Numeric Prediction Learning vs Behavioral Rule Learning
+
+Use two different permission levels.
+
+### Numeric estimation model
+May automatically learn/update internal predictive parameters from history.
+
+Examples:
+- duration bias;
+- task-type effort distribution;
+- calibration factor;
+- prediction uncertainty.
+
+This automatic adaptation is allowed because it improves numerical estimates rather than rewriting user policy.
+
+It must still be:
+- testable;
+- inspectable when needed;
+- correctable;
+- based on retained history.
+
+### Behavioral / planning rules
+Require user review before adoption.
+
+Examples:
+- "avoid high-thinking tasks at night";
+- "always schedule this task type earlier";
+- "change a standing preference."
+
+This distinction is a hard design requirement.
+
+---
+
+## 55. Missing-Interaction Reminder
+
+If there has been no normal user interaction for **two consecutive days**, proactively remind the user to perform a state update/reconciliation.
+
+This is separate from urgent deadline-feasibility alerts, which may trigger sooner.
+
+Exact notification channel is deferred.
+
+---
+
+## 56. Long-Term Goal Onboarding Contract
+
+A new long-term Goal requires a dedicated onboarding interaction containing at least:
+
+- goal definition;
+- target/end date;
+- total workload or measurable quantity;
+- desired outcome/quality level;
+- milestone/phase structure where useful;
+- preferred recurring/daily allocation;
+- required vs adjustable components.
+
+The system should propose a decomposition/task-generation plan.
+
+The user reviews/approves it before activation.
+
+After activation, tasks generated from the Goal enter Planner as ordinary Tasks with no special scheduling privilege merely because their source is a Goal.
+
+Goal-generated Tasks are first-class peers of manually created/course-generated Tasks.
+
+---
+
+## 57. System Permission Boundary
+
+The accepted default authority boundary is:
+
+### May happen automatically
+- ingest raw external evidence;
+- create candidate tasks/changes;
+- compute risk and capacity forecasts;
+- compute numeric effort predictions;
+- update internal numeric estimation models from history;
+- compute descriptive/actionable historical patterns;
+- generate Daily Plan recommendations;
+- generate proposed interpretations/templates for confirmation.
+
+### Requires user review/confirmation
+- create/change canonical Task facts;
+- change completion/progress/remaining-effort facts;
+- alter explicit user preferences;
+- adopt new behavioral/planning rules;
+- activate important long-term planning structures after onboarding;
+- finalize consequential plan changes where the accepted workflow explicitly requires review.
+
+Core principle:
+**automatic analysis and recommendation are allowed; canonical truth and key planning policy remain user-reviewed.**
+
+---
+
+## 58. A0 Items Still Requiring Follow-Up
+
+After the first four rounds, most major semantics are aligned.
+
+Remaining A0 questions are now narrow:
+
+- exact numeric/relative philosophy for SAFE vs DANGER threshold (implementation can remain deferred, but desired conservatism may still need discussion);
+- whether `OPTIONAL` and `EXPIRING` ever need subtypes or whether three requiredness classes are sufficient for v1;
+- exact user-facing labels/wording for Daily Brief sections;
+- whether stage/subtask estimated effort is shown separately from parent remaining effort;
+- exact presentation of the weekly learned-pattern review;
+- whether external completion-evidence classes need any special confirmation shortcuts in v1;
+- any remaining semantic gaps discovered during one final consistency review.
+
+These are suitable for a short final A0 round rather than another broad redesign.
