@@ -104,6 +104,10 @@ Authority:
 #### `PLANNER_PLAN.md`
 - Deterministic planner responsibilities, constraints, scheduling flow, daily/weekly horizons, goal integration, explainability.
 
+#### `TASK_RELATIONSHIP_PLAN.md`
+- Accepted Task relationship subsystem: creation-trigger generation, hard completion/start order, soft sequencing, graph validation, authorization, idempotency, and stage-vs-counterpart effort accounting.
+- Feeds DATA_MODEL, IO_CONTRACT, USER_MODEL, INTEGRATION, PLANNER, DEVELOPMENT, AI/OPERATIONS/SECURITY, TESTING, and formats.
+
 #### `LEARNING_PLAN.md`
 - Historical effort calibration and behavioral pattern discovery.
 - Defines weekly analysis, candidate learned rules, user confirmation, and how accepted patterns feed Planner.
@@ -330,7 +334,7 @@ Unless explicitly changed by the user:
 - GitHub is the canonical source repository.
 - Final runtime should not depend on the user's personal computer being powered on.
 - Alignment Gate A0 is complete.
-- A0 is complete; M1 is the next incomplete semantic milestone. Current handoff is six remaining experience choices (two internal boundaries resolved), then post-audit detailed planning and M1/M1B/M2 prerequisites; see PROGRESS.md. No infrastructure implementation has begun.
+- A0 is complete; M1 is the next incomplete semantic milestone. The six follow-up answers are synchronized, including Task relationships and model-first planning. Only natural-day vs rolling-hour risk-window scope remains unanswered; then detailed planning and M1/M1B/M2 prerequisites follow. No infrastructure implementation has begun.
 - Broad A0 questioning should not be reopened unless later work reveals a genuine semantic contradiction.
 - Internal semantic contracts should be agreed before provider-specific adapter contracts; API/node-specific details are deferred until the real integration stage.
 
@@ -353,3 +357,13 @@ After editing:
 - [ ] Update tests/acceptance plan if behavior changed.
 - [ ] Update `PROGRESS.md`.
 - [ ] Do not claim verification that was not actually performed.
+
+---
+
+## 10. Follow-Up Authority and Relationship Propagation
+
+Read A0_USER_INTENT §60 and DECISIONS D-071–D-077 for the latest accepted answers. TASK_RELATIONSHIP_PLAN.md is the relationship domain specification; it introduces no extra workflow platform or independent Task world. Relationship generation is authorized by an accepted rule; ordinary external discovery/completion still needs review. Notify-before-record expiration, model-first planning without user-estimate overwrite, Asia/Shanghai + date-only 23:59, aggregate <=40-minute SAFE remainder, and bulk unchanged-estimate confirmation supersede earlier unresolved wording.
+
+If relationship semantics/rules change, inspect/update TASK_RELATIONSHIP_PLAN, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, DEVELOPMENT, AI_EXECUTION, OPERATIONS, SECURITY_PRIVACY, TESTING, formats, accepted intent/decision records as appropriate, and PROGRESS. Configuration/schema representation may remain later engineering work; accepted meaning must not be lost.
+
+Original O01/O02/O04/O07/O08 are now resolved, O03/O06 remain internally resolved, and O05 is partial: Beijing timezone/date-only cutoff are accepted, natural-day versus rolling 24/72/168-hour horizons is not. Do not silently choose that product meaning or reopen already answered preferences.

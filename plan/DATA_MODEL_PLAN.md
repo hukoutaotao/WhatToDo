@@ -11,13 +11,13 @@ Best for relatively stable, human/AI-readable knowledge:
 - Activity profiles
 - Preferences
 - Routines
-- Planning rules
+- Planning rules and accepted RelationshipRule templates
 - Goal templates
 - Configuration
 
 ### PostgreSQL dynamic state
 Best for changing operational truth:
-- Tasks
+- Tasks and concrete typed TaskRelation / GenerationOccurrence records
 - Deadlines
 - Status/progress
 - Events
@@ -111,6 +111,12 @@ If an unusual workflow is substantially different, prefer defining a new task ty
 
 Example:
 - Pre-lab report for Electronic Circuits.
+
+### RelationshipRule / TaskRelation / GenerationOccurrence
+Accepted reusable generation/ordering rules, concrete typed links, and idempotent source-to-target execution records. See TASK_RELATIONSHIP_PLAN.md. Generation links and hard completion/start order use separate graphs; parent/stage links share effort, generated separate Tasks do not.
+
+### ExpirationNotice
+Tracks condition detection, user-facing notice delivery, state version, and subsequent EXPIRED transition. Pending delivery is evidence/process state, not completed notification or Task completion.
 
 ### Goal
 Long-horizon desired outcome.
@@ -222,7 +228,7 @@ Historical evidence for improving future duration estimates and feeding `LEARNIN
 
 Estimate provenance should distinguish at least:
 - user-confirmed/canonical remaining-effort estimate;
-- model-derived advisory prediction;
+- model-derived remaining-effort prediction and selected effective planning budget (D-074);
 - timestamp/version of the observation.
 
 Model disagreement may create risk information but does not overwrite the user's canonical estimate.
@@ -250,7 +256,7 @@ Before canonical creation:
 
 ```text
 CANDIDATE
-   ↓ user confirms
+   ↓ user confirms or an accepted generation relationship authorizes its mapped instance
 CANONICAL TASK
 ```
 
@@ -312,7 +318,7 @@ Canonical personal task-state mutation policy:
 - raw external evidence may be ingested automatically;
 - parsed candidates may be generated automatically;
 - meaningful accepted Task-state changes require user confirmation by default;
-- future auto-accept exceptions require an explicit user-approved policy.
+- D-072 authorizes scoped relationship-generated creation; D-073 authorizes expiration only after informing the user; other exceptions still require explicit policy, and external completion always requires review.
 
 ---
 
@@ -321,7 +327,8 @@ Canonical personal task-state mutation policy:
 Store:
 - exact timestamps with timezone where relevant
 - date-only deadlines only when truly date-only
-- source timezone if ambiguous
+- source timezone if supplied/ambiguous; retain original evidence
+- planning timezone Asia/Shanghai; date-only cutoff local 23:59, retaining default-policy provenance
 - created/released/due/completed times separately
 
 Avoid:
@@ -350,13 +357,13 @@ Historical calibration should use actual work sessions rather than only self-rep
 
 User evening review is the primary routine point for confirming actual completion and actual effort.
 
-For every INCOMPLETE Task that remains relevant to future planning, evening review must obtain a user-provided estimated remaining effort. If omitted, continue requesting it.
+For every future-relevant INCOMPLETE Task, evening review needs a new user estimate or an explicit unchanged-estimate confirmation. Untouched Tasks with existing unchanged estimates may be confirmed in one scoped batch (D-077). If neither is supplied, continue requesting it.
 
 Externally inferred completion must create a pending confirmation rather than directly changing the Task to COMPLETE in v1.
 
 When model and user remaining-effort estimates disagree:
 - user estimate remains canonical;
-- model estimate remains derived/advisory;
+- model estimate remains derived and, when applicable/valid, supplies the effective allocation/risk budget (D-074);
 - disagreement may produce an estimation-risk signal.
 
 ---
@@ -426,11 +433,11 @@ When resolved, propagate changes to:
 
 - Keep separate dimensions: candidate acceptance, INCOMPLETE/COMPLETE, lifecycle/disposition (active/cancelled/expired), and derived overdue/stale/conflicted metadata. Their exact encoding is open; a single undifferentiated status enum is insufficient. An overdue REQUIRED Task is not automatically complete, optional, expired, or deleted.
 - User-confirmed remaining effort, template/default initial estimates, internal numeric predictions, and selected daily stage/session estimates are different quantities with provenance/version. Completing a Task sets its remaining effort to zero after authorized validation; time spent alone never proves completion or mechanically determines remaining effort.
-- Parent and child stages describe the same obligation. Forecasts must count its work once; daily selected stage effort is part of parent effort, not an extra workload. Parent-versus-stage accounting is resolved in Section 12: parent effort is the canonical budget, stage estimates are derived planning allocations, not additional workload.
+- Parent and child stages describe the same obligation. Forecasts must count its work once; daily selected stage effort is part of parent effort, not an extra workload. Parent-versus-stage accounting is resolved in Section 12: one effective parent planning budget (model-first under D-074) supplies stage allocations; the canonical user estimate remains separate and is not extra workload.
 - A child-stage completion does not independently confirm the final parent obligation. Reopening a stage preserves history and requires the accepted personal-state authorization path; apply the consistent parent effect under Section 12 when the user explicitly confirms genuine rework of that same obligation.
 - TaskType defaults may be copied automatically into a proposed/authorized Task; automatic inheritance does not authorize canonical creation. New template versions must not silently rewrite existing accepted Tasks.
-- Accepted Goal configuration is distinct from generated Task instances and Goal progress. Generators must be idempotent; activation authority remains open in CONSISTENCY_AUDIT.md.
-- Expiration time/condition is distinct from deadline. Time crossing that condition may be detected automatically, but canonical EXPIRED-transition authority still needs explicit resolution. Preserve evidence and history in the meantime.
+- Accepted Goal configuration is distinct from generated Tasks/Goal progress. Canonical instances may be activated by an explicitly accepted generation relationship under D-072; otherwise candidate review remains. Generators must be idempotent.
+- Expiration condition is distinct from deadline. D-073 permits recording EXPIRED after first informing the user, without an extra acknowledgement; uncertain condition or failed notice delivery remains pending. Preserve evidence/history.
 - Course teaching/task-family progress values are dynamic; axis/unit definitions are stable. A maximum completed unit must not hide holes in older units when reporting backlog.
 - WorkSession actual observations and planned allocations remain separate, even if implemented in one table. Optional time-of-day data must not be fabricated when only total effort was reported.
 - Effective-state/version checks and audit records are required for confirmed writes, including batch writes. Reject stale proposals rather than overwriting intervening user updates.
@@ -443,11 +450,23 @@ Open cross-file edges are tracked in CONSISTENCY_AUDIT.md; exact SQL tables rema
 
 Resolution type: internal engineering rule under existing A0 semantics; no new user field or repeated review is introduced. The user authorized resolution of non-experience implementation questions on 2026-10-06.
 
-1. A parent obligation has one user-confirmed remaining-effort budget. Selected stages/sessions consume that budget for forecast accounting; they are never added to it as separate Tasks' workloads. Preserve any original stage estimate and its provenance separately.
-2. Stage planning budgets are derived. Allocate the parent budget across its unfinished stages using accepted template proportions or stage prediction weights. If valid weights sum to W and the parent budget is P, a provisional stage allocation is P*w_i/W. Exact allocation heuristics may change without changing canonical estimates. With no reliable weights, plan against the parent budget and report stage-estimate uncertainty rather than fabricate user-supplied detail.
-3. Preserve separately user-provided stage estimates if available. A contradictory accepted stage estimate is not silently scaled away or used to overwrite the parent. Surface one reconciliation question, with both interpretations, only when the contradiction affects actionable planning. Otherwise the parent budget controls overall accounting and the mismatch remains visible metadata.
-4. Reporting time spent never mechanically reduces canonical remaining effort. Evening confirmation supplies the new parent estimate; derived stage allocations are then regenerated. Existing history retains the earlier budget and predictions.
+1. A parent obligation retains its user-confirmed remaining effort U separately from its effective planning budget B. Under D-074, B is the valid model remaining-effort prediction when available, otherwise U with fallback provenance. Stages/sessions consume B for forecast accounting; never add U+B or parent+stage budgets. Preserve original estimates/provenance separately.
+2. Stage planning budgets are derived. Allocate the effective parent planning budget B across unfinished stages using accepted template proportions or stage prediction weights. If valid weights sum to W, a provisional stage allocation is B*w_i/W. Exact allocation heuristics may change without changing canonical estimates. With no reliable weights, plan against the parent budget and report stage-estimate uncertainty rather than fabricate user-supplied detail.
+3. Preserve separately user-provided stage estimates if available. A contradictory accepted stage estimate is not silently scaled away or used to overwrite the parent. Surface one reconciliation question, with both interpretations, only when the contradiction affects actionable planning. Otherwise B controls allocation/forecast accounting; canonical U and any separately confirmed stage values retain their provenance, with material disagreement surfaced concisely.
+4. Reporting time spent never mechanically reduces canonical remaining effort. Evening review supplies an updated user estimate or authorized unchanged-estimate batch; then recompute any applicable remaining-effort prediction, select B under D-074, and regenerate derived stage allocations. Existing history retains the earlier budget and predictions.
 5. If the user explicitly says an existing obligation's completed stage genuinely needs rework, the resolved command authorizes reopening that stage and keeping/reopening its parent as INCOMPLETE in the same audited transaction. This is a consistent effect of the user's command, not external evidence or automatic inference. Obtain a user-confirmed remaining estimate when needed. Distinguish correcting an erroneous old completion record from a new independent follow-up obligation; ambiguous intent stays pending.
 6. Child stages alone do not prove final parent completion. Final COMPLETE remains user-confirmed, with remaining effort zero. Keep stage/parent rework history and do not re-ask the same resolved instruction.
 
 This uses the existing normal brief (parent remaining effort + today's stage estimate) and the existing rework/confirmation rules. Physical storage, rounding precision, and optimization-library choice remain later engineering details.
+
+---
+
+## 13. Follow-Up Data Invariants
+
+Record rule-authorized creation separately from direct confirmation; preserve field/default provenance and rule version. Validate generation and temporal-order graphs separately. Concrete generation creates a separate Task unless explicitly specified as a stage; never share a parent budget by accident.
+
+For expiration retain detected condition, notice delivery evidence/time, actual state-change time, and previous effort/completion history. Inform-before-record does not require marking the user as having read the message. Expiration is a disposition change; it must not set completion to COMPLETE or turn last user remaining effort into zero as if work succeeded.
+
+An unchanged-estimate batch records membership and per-Task verification provenance. Keep the original estimate's observation time; record the review confirmation time separately. Unreported work/session details remain unknown.
+
+Time-normalized fields use Asia/Shanghai for user-day semantics and explicit default 23:59 for date-only deadlines. Exact provider timestamps retain their timezone and may be converted for display without changing the instant. Natural-day vs rolling horizons remains O05; do not store a guessed accepted horizon mode.

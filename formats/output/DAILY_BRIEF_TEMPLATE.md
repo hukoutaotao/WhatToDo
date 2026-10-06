@@ -22,7 +22,7 @@
 For each item:
 
 - <Parent Task>
-  - Parent remaining effort: <duration>
+  - Remaining effort for planning: <effective model-first budget B; user-estimate fallback if needed>
   - Today: <specific stage/subtask>
   - Today's stage estimate: <duration>
   - Work style: <large uninterrupted block | fragmentable | either>
@@ -33,7 +33,7 @@ For each item:
 For future required work that should be pulled forward:
 
 - <Parent Task>
-  - Parent remaining effort: <duration>
+  - Remaining effort for planning: <effective model-first budget B; user-estimate fallback if needed>
   - Today: <specific stage/subtask>
   - Today's stage estimate: <duration>
   - Work style: <large uninterrupted block | fragmentable | either>
@@ -44,11 +44,11 @@ For future required work that should be pulled forward:
 
 <Prefer work-style labels on items above. If using this section, reference those items without counting them again; for a new recommendation show parent remaining effort + selected stage/chunk estimate.>
 
-- <Parent Task> — remaining <duration>; today <stage/chunk>, <estimate>; <deadline when within 3 days, risky, or requested>
+- <Parent Task> — remaining for planning <B>; today <stage/chunk>, <estimate>; <deadline when within 3 days, risky, or requested>
 
 ## Optional if Capacity Remains
 
-- <Parent Task> — remaining <duration>; today <stage/chunk>, <estimate>; <work style>; <deadline when within 3 days, risky, or requested>
+- <Parent Task> — remaining for planning <B>; today <stage/chunk>, <estimate>; <work style>; <deadline when within 3 days, risky, or requested>
 
 ## Risks / Exceptions
 
@@ -88,13 +88,13 @@ After the user answers, regenerate the final emergency-day plan and recompute ev
 
 - Keep routine output concise.
 - Show parent Task plus the concrete stage/subtask to advance.
-- Show parent remaining effort and today's stage/subtask estimate for recommended work.
+- Show parent effective remaining effort for planning and today's selected stage/subtask estimate. If materially different, add a concise “your estimate U; planning uses model B” note; do not overwrite or conflate them.
 - Do not assign exact clock times by default.
 - Show explicit deadlines by default only when within 3 days, risky, or requested.
 - Show all 1-day / 3-day / 7-day risk states.
 - Overall mode equals the most severe horizon.
 - SAFE conceptually preserves about one hour of reserve per represented day; DANGER means REQUIRED still fits but this reserve is breached; EMERGENCY means REQUIRED no longer fits in total usable capacity.
-- In SAFE mode, do not fill a residual free gap around 40 minutes or less merely to maximize utilization.
+- In SAFE, leave aggregate whole-day discretionary capacity <=40 minutes free after protecting required work/reserve; do not apply this as a ban on each short window.
 - Prefer actionable recommendations over explanation.
 - Expand explanations only for abnormal/risky/surprising situations or when requested.
 
@@ -106,5 +106,15 @@ After the user answers, regenerate the final emergency-day plan and recompute ev
 - “Protect today”, “advance”, and “optional if capacity remains” are daily plan roles, not replacements for REQUIRED / OPTIONAL / EXPIRING. A REQUIRED Task can appear as optional additional advancement only after its required feasibility is protected.
 - SAFE discretionary selection uses importance after feasibility/reserve, so high-importance OPTIONAL/EXPIRING work is not automatically excluded because future REQUIRED work exists.
 - Count a Task/stage allocation once. Fragmentability is preferably a label; repeated references are navigation aids, not extra workload.
-- The one-hour reserve is separate from the ~40-minute small-gap rule. Exact gap/window and horizon conventions remain open in the audit; the renderer cannot invent them.
+- The one-hour reserve is separate from aggregate whole-day <=40-minute discretionary remainder (D-076). Beijing time and date-only 23:59 are fixed; natural-day vs rolling horizon scope alone remains O05, and the renderer cannot invent it.
 - Unresolved confirmations or stale capacity are visible data-quality exceptions; do not present uncertain input as a precise safe guarantee. Confirmation review is a prerequisite workflow, not a footnote that authorizes using unconfirmed facts.
+
+---
+
+# Follow-Up Display Rules
+
+- Display dates/deadlines in Beijing time (Asia/Shanghai). For date-only deadlines use accepted 23:59; preserve explicitly specified times. Do not label 1/3/7-day window endpoints as approved until the horizon-mode subquestion is answered.
+- A valid model remaining-effort prediction supplies B for daily allocation/risk; fallback source is the user estimate when unavailable. The selected stage estimate is part of B, not an extra obligation. The original user estimate remains accessible and is shown when material to understanding a discrepancy.
+- Use concise relation notes only when meaningful: “generated from Task X”, “must finish before Task Y”, or “blocked by prerequisite”. Completion order alone does not imply a start block.
+- Inform the user of confirmed expiration before recording EXPIRED, without adding an unrequested acknowledgement step. Pending notification is not already recorded expiration or completion.
+- Evening output can list worked-on Tasks for individual updates and untouched/unchanged Tasks in one “keep previous estimates” batch. No silent acceptance of missing answers.

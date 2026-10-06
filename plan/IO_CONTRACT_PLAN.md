@@ -14,7 +14,7 @@ parse/normalize
 ↓
 structured candidate / resolved explicit user instruction
 ↓
-user review when not already authorized
+user review when not already authorized by an explicit command or accepted generation relationship
 ↓
 validate schema, references, authority, and state version
 ↓
@@ -82,7 +82,9 @@ Semantic flow:
 show/report requirements for all relevant items
 → confirm COMPLETE / INCOMPLETE
 → capture cumulative/new actual effort
-→ for every incomplete future-relevant task, require a user-provided latest estimated remaining effort
+→ update remaining effort for worked-on future-relevant incomplete Tasks
+→ list untouched/unchanged Tasks for one explicit “keep previous estimates” batch confirmation
+→ obtain initial/changed estimates for uncovered incomplete Tasks
 → if missing, continue follow-up until supplied
 → confirm externally detected completion candidates
 → update state
@@ -105,6 +107,8 @@ Examples:
 - Schedule change
 - Effort estimate correction
 - today-only "must do this Task" override
+- define/change/remove typed Task relationships and approved automatic generation
+- explicitly confirm a listed unchanged-estimate batch
 
 Need:
 - Natural-language interpretation
@@ -195,7 +199,7 @@ Explicit user corrections are authoritative for personal task state.
 
 New task-like content discovered externally must be reviewed by the user before canonical task creation.
 
-More generally, consequential canonical personal task-state mutations require user confirmation by default. Automated ingestion updates evidence/candidates, not accepted operational truth.
+Canonical personal-state mutations require user authority by default. D-072 permits mapped instance creation under an accepted generation relationship, and D-073 permits expiration after informing the user. Ordinary external ingestion still updates evidence/candidates; it does not bypass review.
 
 For v1, there is no completion shortcut: even a high-confidence submission record requires user confirmation before canonical completion changes.
 
@@ -326,12 +330,26 @@ Provider-specific Calendar/email/learning-platform payload details are intention
 
 A clear explicit user statement can authorize the described personal-state update after target resolution and validation. Do not require a redundant second confirmation. Ambiguous references or extra inferred changes still require review. A today-only lock distinguishes “complete today” from “advance this stage today”; do not weaken the requested action.
 
-Normal reviews present the full pending queue, with recommendations and high-impact items first. The 5–10 minute duration is an expectation, not authority to discard lower-priority questions. Missing/unanswerable items remain pending, and any blocked reconciliation/review is visible; no fabricated answer or completion is allowed. D-065 still requires remaining effort for every future-relevant INCOMPLETE Task; efficient carry-forward/explicit reconfirmation UX is open in CONSISTENCY_AUDIT.md.
+Normal reviews present the full pending queue, with recommendations and high-impact items first. The 5–10 minute duration is an expectation, not authority to discard lower-priority questions. Missing/unanswerable items remain pending, and any blocked reconciliation/review is visible; no fabricated answer or completion is allowed. D-065 still requires remaining effort for every future-relevant INCOMPLETE Task; D-077 now permits explicit bulk reconfirmation of untouched Tasks with existing unchanged estimates; no silent carry-forward is permitted.
 
-Recurring/Goal/conditional generated work is a candidate until canonical activation authority is resolved. Template inheritance needs no repeated field-by-field confirmation; that is separate from accepting the Task itself.
+Recurring/Goal/conditional work may create canonical mapped Tasks when covered by an accepted automatic-generation relationship (D-072). Outside that scope, use candidates/review. Template inheritance alone does not grant blanket authority; approved rule execution needs no repeated per-instance/field confirmation.
 
 Overall EMERGENCY uses two rounds even if only the 3-day or 7-day horizon is infeasible. Round 1 shows a visibly provisional baseline and actual deficit. Round 2 applies user-approved removals/additional capacity, recomputes all horizons, and reports any remaining infeasibility. Removing an item from today's recommendation is not canonical cancellation/deletion of its Task, and optional removal alone does not reduce REQUIRED R. More today-capacity cannot by itself solve every future deadline/window bottleneck.
 
-The machine contract in M2 must distinguish task requiredness from plan role (must/protect today, advance, optional), completion from disposition/trust, parent work from selected stage effort, advisory predictions from user-canonical estimates, and provisional from final emergency output. No implemented machine schema exists yet.
+The machine contract in M2 must distinguish task requiredness from plan role (must/protect today, advance, optional), completion from disposition/trust, parent work from selected stage effort, derived model planning predictions from user-canonical estimates, and provisional from final emergency output. No implemented machine schema exists yet.
 
-Internal O03 accounting is now resolved in DATA_MODEL_PLAN Section 12: parent budget governs totals; stage budgets are derived allocations, with contradictory accepted estimates preserved/reconciled when material. O06 placement checks and horizon accounting are resolved in PLANNER_PLAN Section 21. O01/O02/O04/O05/O07/O08 remain user-experience choices awaiting answers.
+Internal O03 accounting is now resolved in DATA_MODEL_PLAN Section 12: effective model-first parent budget B governs forecast totals; stage budgets are derived allocations, with canonical user U separate and contradictory accepted estimates preserved/reconciled when material. O06 placement checks and horizon accounting are resolved in PLANNER_PLAN Section 21. D-071–D-077 resolve relationship generation, notify-before-record expiration, model-first planning, Beijing timezone/23:59, aggregate short-gap policy, and bulk unchanged-estimate review. O05 retains only the unanswered natural-day vs rolling horizon choice and dependent partial-day conventions.
+
+---
+
+## 11. Follow-Up Interaction and Output Contract
+
+Relationship inputs distinguish creation-trigger mapping, completion-before-completion, completion-before-start, soft sequence, and parent/stage membership. A creation event is not a completion event. Natural-language setup resolves IDs/meaning and accepted rule scope before automatic execution; unsafe or ambiguous changes stay pending.
+
+Expiration flow: detect confirmed condition → inform user → validate latest state/version → record EXPIRED with retained history. No additional acknowledgement was requested. Notification failure remains process/pending state, not successful delivery. Uncertain expiration meaning becomes a confirmation question instead of an automatic write.
+
+Planning uses the valid model remaining-effort prediction as the operative estimate; fallback is the accepted user value when unavailable. Machine output must retain selected planning estimate/source/model version plus canonical user estimate. Brief labels should distinguish “remaining effort for planning” from “your reported remaining effort” where they differ. A material discrepancy gets one concise note, not a new daily approval requirement.
+
+Worked-on Tasks report completion/actual effort/updated remaining effort; untouched Tasks may share a listed “keep previous estimates” confirmation. The batch must identify covered Tasks, exclude missing initial/changed/uncertain estimates, and retain per-Task provenance. Silence or a skipped interaction supplies no confirmation.
+
+Render daily dates and date-only 23:59 deadlines in Beijing time. Preserve explicit deadline times. The SAFE 40-minute rule applies to the whole day's discretionary remainder after reserve, not each fragment. A materially blocking/violated hard relationship may be shown as a short reason; routine output does not need a graph or implementation field names.

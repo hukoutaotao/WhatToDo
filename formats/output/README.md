@@ -10,3 +10,6 @@ Authority: [I/O contract](../../plan/IO_CONTRACT_PLAN.md) and [Planner](../../pl
 
 The exact machine schema is not finalized yet. M2 will refine concrete structured output while preserving accepted A0 semantics unless the user changes them.
 
+---
+
+Follow-up output semantics: model-first effective parent/stage estimates with canonical user estimate retained separately; concise relationship origin/blocking notes; Beijing timestamps and date-only 23:59; aggregate-day <=40-minute SAFE remainder; notice-before-record expiration; batch unchanged-estimate evening review. The only pending original experience subquestion is natural-day vs rolling-hour 1/3/7-day horizon scope.

@@ -466,7 +466,7 @@ If the task is complete:
 
 The user's preferred progress report is therefore primarily **remaining effort**, not a required percentage.
 
-If an incomplete task is reported without a remaining-time estimate, the evening interaction should ask for it.
+If a future-relevant incomplete Task has neither an updated remaining-time estimate nor an explicit unchanged-estimate confirmation, ask for it. Section 60 permits one bulk confirmation for untouched Tasks whose previous estimates still hold.
 
 ---
 
@@ -554,7 +554,7 @@ When even all usable capacity is insufficient for REQUIRED work, the relevant ho
 This is a planning safety threshold, not a guarantee that exactly one continuous hour must appear on the calendar.
 
 Small-gap rule:
-- when overall state is SAFE and the remaining free gap is only about **40 minutes or less**, do not schedule extra work merely to maximize utilization;
+- when overall state is SAFE and the aggregate discretionary capacity remaining across the whole day, after protecting REQUIRED work and the one-hour reserve, is **40 minutes or less**, do not schedule extra work merely to maximize utilization; this is not a per-window ban;
 - in DANGER or EMERGENCY, such time may be used when an eligible task can productively fit.
 
 During high-intensity periods, DANGER/EMERGENCY logic may consume part or all of the normal reserve.
@@ -591,9 +591,9 @@ The SAFE/DANGER/EMERGENCY thresholds are fixed by Section 37. Notification deliv
 
 ---
 
-## 23. Mandatory Human Review for New Canonical Tasks
+## 23. Review of External Discoveries and Authorized Generation
 
-All newly discovered task-like content must be reviewed by the user before it becomes canonical task state.
+Externally discovered task-like content must be reviewed before canonical creation. Execution of an explicitly accepted automatic-generation relationship has prior scoped authorization under Section 60; it is not an external-discovery confidence shortcut.
 
 Even if an external source appears unambiguous, the normal flow is:
 
@@ -616,7 +616,7 @@ Therefore:
 - automated collection is allowed;
 - automatic candidate creation is allowed;
 - automatic insertion into canonical factual task state is not the default;
-- user confirmation is required for new task content and uncertain changes.
+- user confirmation is required for externally discovered new task content and uncertain changes; Section 60 defines the bounded exception for execution of a preapproved automatic-generation relationship.
 
 The exact review UI is deferred.
 
@@ -648,7 +648,7 @@ The inactivity trigger is two consecutive days without normal interaction (Secti
 When human interaction is missing, the canonical factual database should remain conservative.
 
 Without user confirmation:
-- do not create a canonical personal task from collected evidence;
+- do not create a canonical personal task from collected evidence alone; an accepted generation relationship may instantiate its mapped target when its canonical source trigger occurs (Section 60);
 - do not change the accepted task deadline/meaning;
 - do not mark tasks complete;
 - do not change personal progress/remaining-effort facts;
@@ -1408,7 +1408,7 @@ The accepted default authority boundary is:
 - generate proposed interpretations/templates for confirmation.
 
 ### Requires user review/confirmation
-- create/change canonical Task facts;
+- create/change canonical Task facts outside the exact preauthorized generation and notice-before-record expiration scope in Section 60;
 - change completion/progress/remaining-effort facts;
 - alter explicit user preferences;
 - adopt new behavioral/planning rules;
@@ -1416,7 +1416,7 @@ The accepted default authority boundary is:
 - finalize consequential plan changes where the accepted workflow explicitly requires review.
 
 Core principle:
-**automatic analysis and recommendation are allowed; canonical truth and key planning policy remain user-reviewed.**
+**automatic analysis and recommendation are allowed; canonical truth and key planning policy require user authority, either a direct reviewed update or the exact accepted rule scope in Section 60.**
 
 ---
 
@@ -1453,16 +1453,16 @@ Even a strong source such as "submitted at 21:35" produces:
 - no canonical completion change until the user approves.
 
 ### Remaining-effort requirement
-For every INCOMPLETE Task that will remain relevant to future planning, evening review must obtain a user-provided remaining-effort estimate.
+For every INCOMPLETE Task that remains relevant to future planning, evening review must obtain a user-updated estimate or an explicit confirmation that the prior user-provided estimate still holds. Untouched/unchanged Tasks may be confirmed together (Section 60).
 
-If it is omitted, continue asking until the user supplies an estimate.
+If neither an updated estimate nor an applicable unchanged-estimate confirmation is supplied, continue asking; do not treat omission as confirmation.
 
 The system may offer a model estimate as assistance, but it must not silently substitute it for the user's canonical estimate.
 
 ### User estimate vs model estimate
 When user and model estimates conflict:
 - preserve the user's estimate as canonical personal state;
-- retain the model prediction separately as advisory/derived information;
+- retain the model prediction separately as derived information; Section 60 authorizes using a valid model remaining-effort prediction to arrange time and forecast risk;
 - allow the model disagreement to create an estimation-risk warning;
 - do not overwrite the user estimate automatically.
 
@@ -1515,3 +1515,41 @@ The purpose of A0 was to align semantics, authority, interaction, and planning p
 Remaining implementation-specific choices, including exact database schema, connector mappings, numerical tuning, UI wording refinements, and provider-specific APIs, are intentionally deferred to their appropriate milestones.
 
 If later development reveals a genuine semantic conflict, return to the A0 principles and update the authoritative documents rather than silently diverging.
+
+---
+
+## 60. Accepted Follow-Up Answers — 2026-10-06
+
+Source: the user's direct answers to the six experience questions, plus an explicit instruction to synchronize the entire document system. These refine earlier sections; A0 remains complete and no implementation milestone is claimed finished.
+
+### Task relationship system (question 1)
+
+Add a system for defining relationships between Tasks. Minimum examples: canonical creation of Task 1 automatically generates its corresponding Task 2; Task 2 must complete before Task 1 completes. Generation direction, completion ordering, start prerequisites, and parent/stage structure have distinct semantics (TASK_RELATIONSHIP_PLAN.md).
+
+An explicitly accepted automatic-generation relationship preauthorizes its mapped instances; execution need not ask the identical question again. This is a scoped rule-execution exception, not permission to accept arbitrary external discoveries or invent missing target facts. Template defaults alone do not grant unrelated automation. All generated Tasks share ordinary Task planning/effort semantics.
+
+### Expiration notice before recording (question 2)
+
+For an EXPIRING Task reaching its already accepted expiration condition, first inform the user, then record EXPIRED and retain its history. The user requested notification before recording, not an additional confirmation click or acknowledgement. If the condition/meaning is uncertain, resolve it as a pending question. Overdue REQUIRED work does not automatically expire. Completion is never inferred from expiration.
+
+### Use model prediction for planning (question 3)
+
+Use a valid model prediction of remaining effort to allocate time and compute required-work feasibility. Keep the user's remaining-effort estimate separately as canonical user-reported state; model planning does not overwrite it. This selects the model value when available, not the maximum of user/model by default, and not only when the model is more pessimistic. If no applicable valid prediction is available, use the retained user estimate with explicit estimate provenance/fallback. A stored/calibrated numerical model suffices; a live LLM call is not required.
+
+Parent user-reported effort, parent effective planning budget, and today's model-based stage allocation must be identifiable when they differ. Routine output remains concise and shows the operative estimate; material disagreement gets a short note.
+
+### Beijing time and date-only cutoff (question 4)
+
+Planning timezone: Asia/Shanghai (Beijing time, UTC+08:00). For a deadline that only names a date, apply that date's 23:59 Beijing-time cutoff and retain the original date-only evidence/default provenance. Preserve explicitly specified source/user times and source timezones; do not replace a supplied specific time with the default. Day-end override expiry is the next local midnight, a separate concept.
+
+The user did not choose between natural-day horizons and rolling 24/72/168-hour horizons. That subquestion remains open (O05); do not report either interpretation as user-approved. Exact partial-day reserve conventions remain technical design pending that scope.
+
+### Whole-day small-gap rule (question 5, option A)
+
+After REQUIRED feasibility and the one-hour reserve are protected, if the aggregate remaining discretionary capacity across the entire day is at most 40 minutes, leave it free in SAFE. Do not apply a blanket 40-minute minimum to each individual window. With more aggregate capacity, eligible fragmentable work may use individual windows of 40 minutes or less. DANGER/EMERGENCY may use productive short gaps under existing rules.
+
+### Consolidated unchanged-estimate review (question 6, option A)
+
+Update worked-on Tasks individually. For Tasks not worked on and whose estimate remains unchanged, present a clearly scoped batch and let the user confirm “keep the previous estimates.” Record per-Task confirmation provenance while preserving the original numeric estimate and observation time; review verification time may advance. Do not require duplicate per-Task numeric entry.
+
+Silence is not confirmation. New Tasks lacking a previous user estimate, changed/uncertain estimates, Tasks actually worked on, and unresolved completion candidates still need their appropriate review. Do not infer zero time spent for an untouched Task unless the user's statement actually covers it.

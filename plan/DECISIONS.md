@@ -531,7 +531,7 @@ Affected:
 Status: Accepted
 
 Decision:
-External systems and detectors may create candidate tasks, but newly discovered task-like content must be reviewed by the user before becoming canonical Task state.
+External systems and detectors may create candidate tasks, but externally discovered task-like content must be reviewed before canonical creation. D-072 adds the scoped exception for execution of an explicitly accepted automatic-generation relationship; confidence alone remains insufficient.
 
 This applies even when the source appears clear.
 
@@ -611,7 +611,7 @@ This includes, by default:
 
 Raw external source records may update automatically because they record what the source said, not the user's accepted operational truth.
 
-A future exception may only be introduced through an explicit user-approved policy.
+Exceptions require explicit user-approved policy. D-072 now permits mapped creation under an accepted relationship, and D-073 permits notice-before-record expiration under an accepted condition; neither permits external auto-completion.
 
 Affected:
 - A0_USER_INTENT
@@ -1071,7 +1071,7 @@ Let C = usable capacity, R = required expected effort, and S = one-hour-per-day 
 - DANGER when 0 <= C - R < S
 - EMERGENCY when C - R < 0
 
-In SAFE mode, a remaining gap around 40 minutes or less is normally left unscheduled rather than filled merely for utilization. In DANGER/EMERGENCY, such time may be used when productive.
+D-076 clarifies: in SAFE, aggregate whole-day discretionary capacity at most 40 minutes is left free after protecting required work/reserve; this is not a per-window minimum. DANGER/EMERGENCY may use productive short gaps.
 
 Affected:
 - PLANNER_PLAN
@@ -1157,7 +1157,7 @@ Affected:
 Status: Accepted
 
 Decision:
-Canonical personal Task-fact changes require user review in v1, including strong external completion evidence such as a submission record. Derived risk/staleness, raw source updates, numeric prediction updates, and the accepted day-end expiry of a temporary override are not completion/progress mutations. Automatic Task expiration and template-instantiation authority remain explicitly unresolved in CONSISTENCY_AUDIT.md.
+Canonical personal Task-fact changes require user authority in v1, including review of strong external completion evidence. Derived risk/staleness, raw source updates, numeric prediction updates, and accepted override expiry remain separate. Later D-072/D-073 define narrow preauthorized generation and notice-before-record expiration exceptions. No external completion shortcut is permitted.
 
 External evidence produces a candidate/recommended confirmation, not an automatic canonical completion mutation.
 
@@ -1174,9 +1174,9 @@ Affected:
 Status: Accepted
 
 Decision:
-During evening review, every INCOMPLETE Task that remains relevant to future planning must receive a user-provided remaining-effort estimate.
+During evening review, every future-relevant INCOMPLETE Task needs an updated user estimate or an explicit unchanged-estimate confirmation. D-077 permits a batch confirmation for untouched Tasks with existing unchanged estimates.
 
-If omitted, continue asking until supplied.
+If neither is supplied, continue asking; no estimate is silently assumed confirmed.
 
 Model estimates may assist but must not silently replace the user's canonical remaining-effort estimate.
 
@@ -1194,7 +1194,7 @@ Status: Accepted
 Decision:
 When a user estimate and internal prediction conflict:
 - retain the user estimate as canonical personal state;
-- retain the model estimate as derived/advisory information;
+- retain the model estimate as derived information; D-074 authorizes its use as the effective planning/forecast estimate without changing canonical user state;
 - allow disagreement to create an estimation-risk warning;
 - never silently overwrite the user estimate.
 
@@ -1271,3 +1271,64 @@ Affected:
 - PROGRESS
 - README
 
+---
+
+## D-071 — First-class Task relationship system
+
+Status: Accepted
+
+Decision: add structured relationships for automatic counterpart generation and required completion ordering, as directly requested on 2026-10-06. Canonical Task 1 creation can generate Task 2; Task 2 may be required to finish before Task 1. Do not conflate generation direction with execution order or parent/stage membership. Existing start prerequisites and soft sequencing retain their distinct semantics.
+
+Affected: TASK_RELATIONSHIP_PLAN, USER_MODEL, DATA_MODEL, IO_CONTRACT, PLANNER, PROJECT, DEVELOPMENT, INTEGRATION, AI_EXECUTION, TESTING, formats.
+
+## D-072 — Approved generation relationships authorize mapped instances
+
+Status: Accepted scoped automation
+
+Decision: execution of an explicitly approved automatic-generation relationship may create its fully resolved mapped counterpart without redundant per-instance confirmation. Preserve source Task/rule/template/authorization provenance, validate rule scope, prevent duplicates/cascades, and keep missing essential facts pending.
+
+Refines D-029/D-033/D-058/D-064. It does not automatically accept unknown external tasks, permit automatic completion, or treat template defaults alone as blanket automation authority. Goal/recurring/conditional work follows the same rule mechanism when explicitly covered; otherwise candidate review remains the default.
+
+Affected: A0_USER_INTENT §60, TASK_RELATIONSHIP_PLAN, DATA_MODEL, IO_CONTRACT, INTEGRATION, AI_EXECUTION, OPERATIONS, TESTING.
+
+## D-073 — Inform before recording expiration
+
+Status: Accepted
+
+Decision: when an EXPIRING Task reaches its confirmed expiration condition, inform the user before recording EXPIRED. No extra acknowledgement/confirmation click was requested. Uncertain conditions require clarification; failed notice delivery cannot be treated as successful notice. Preserve history and never equate overdue REQUIRED work with expiration or successful completion.
+
+Affected: A0_USER_INTENT, DATA_MODEL, IO_CONTRACT, PLANNER, INTEGRATION, OPERATIONS, SECURITY_PRIVACY, TESTING, formats.
+
+## D-074 — Model remaining-effort prediction drives planning
+
+Status: Accepted
+
+Decision: use an applicable valid model remaining-effort prediction for allocation and risk forecasting. Keep the user's estimate as canonical user-reported state separately; do not overwrite it. Do not silently substitute max(user, model). When prediction is unavailable/invalid, fall back to the accepted user estimate with provenance; no live LLM dependency is introduced.
+
+Refines D-066 and the O03 accounting specification: one effective parent planning budget is split into derived stage allocations; canonical user effort and model planning budget are never added together.
+
+Affected: A0_USER_INTENT, DATA_MODEL, PLANNER, LEARNING, IO_CONTRACT, AI_EXECUTION, PROJECT, DEVELOPMENT, TESTING, formats.
+
+## D-075 — Beijing planning timezone and 23:59 date cutoff
+
+Status: Accepted (horizon scope remains open)
+
+Decision: use Asia/Shanghai / Beijing time for daily planning and date-only deadlines; date-only due dates default to local 23:59. Preserve explicit timestamps/timezones. Day-end override expiration remains next local midnight. The user did not choose natural-day versus rolling-hour 1/3/7-day horizon boundaries; do not claim that choice is accepted.
+
+Affected: A0_USER_INTENT, USER_MODEL, DATA_MODEL, IO_CONTRACT, INTEGRATION, PLANNER, OPERATIONS, TESTING, formats, CONSISTENCY_AUDIT.
+
+## D-076 — 40-minute rule is whole-day discretionary remainder
+
+Status: Accepted
+
+Decision: in SAFE, leave aggregate whole-day discretionary capacity at most 40 minutes free, after preserving REQUIRED feasibility and the one-hour reserve. Individual short windows are not categorically unusable when aggregate capacity is greater and work is fragmentable. No double subtraction of reserve; risk-mode exceptions remain.
+
+Refines D-059. Affects A0_USER_INTENT, USER_MODEL, DATA_MODEL, PLANNER, IO_CONTRACT, PROJECT, TESTING, Daily Brief template.
+
+## D-077 — Batch confirmation of untouched unchanged estimates
+
+Status: Accepted
+
+Decision: worked-on Tasks are updated individually; untouched Tasks with existing unchanged user estimates may be listed and confirmed together with “keep previous estimates.” Record per-Task confirmation without duplicate numeric input. Silence, missing initial estimates, worked-on Tasks, and unresolved facts are not covered by implicit carry-forward.
+
+Refines D-065. Affects A0_USER_INTENT, DATA_MODEL, IO_CONTRACT, LEARNING, OPERATIONS, TESTING, input/output formats.

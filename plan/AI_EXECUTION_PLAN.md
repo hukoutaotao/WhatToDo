@@ -186,3 +186,13 @@ Validation is necessary but not sufficient authority. High confidence, valid JSO
 Core write validation, confirmation, version checks, and audit start with Phase 2 persistence. Phase 6 extends them with model-output schemas/provider routing; it does not introduce the first validator. A lightweight reviewed/optional extraction path may precede the full Router; ordinary planning and recovery never require a model call.
 
 Structured proposals may contain derived recommendation scores, but must not confuse them with the user's 1–5 importance or stored remaining effort. Automatic numeric learning updates derived predictions, not canonical user estimates, template defaults, or behavioral rules.
+
+---
+
+## 11. Follow-Up Authority and Prediction Contract
+
+D-072 authorizes creation only through explicit accepted generation relationships, with resolved mappings and validated source occurrence. An AI may propose a relationship, but cannot turn unknown source text into an accepted automation rule or treat a template as blanket creation authority. Model confidence is still not authority; external completion still requires review.
+
+D-074 makes a valid model remaining-effort prediction the effective Planner budget without rewriting the user's estimate. Stored/calibrated numerical prediction is sufficient; no live LLM call is required for each plan. Keep prediction validity/source/version, fallback reason, canonical user value, and selected budget separate. Never confuse total effort prediction with remaining work, and never automatically use max(user, model) contrary to the chosen policy.
+
+Expiration follows the accepted notify-before-record contract, not an AI's inferred lifecycle change. Batch unchanged-estimate confirmation must be an explicit user statement with resolved membership; an AI-generated suggested answer or user silence cannot establish it.

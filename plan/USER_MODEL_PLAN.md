@@ -309,4 +309,14 @@ Do not re-ask A0's accepted domains, three 1–5 difficulty dimensions, Task imp
 
 Time-of-day preferences are user-confirmed profile rules; learned alternatives require approval. Exam review phases/cadence may be configured explicitly, but are not a generic lead-time field for every TaskType. Teaching progress and task-family progress values are dynamic state; the definition of their common axis is stable profile/config.
 
-Conditional triggers (three missed note units, exam phase) can automatically detect the condition and propose work. Their canonical Task activation permission remains open; see CONSISTENCY_AUDIT.md. M1 is not complete: no current-semester profiles have been collected in this repository.
+Conditional triggers can detect conditions automatically; mapped Tasks may be instantiated under an explicitly accepted automatic-generation relationship (D-072). Outside accepted rule scope, propose candidates. TaskType defaults alone are not blanket activation permission. M1 is not complete: no current-semester profiles have been collected in this repository.
+
+---
+
+## 12. Fixed Follow-Up Preferences and Relationship Collection
+
+Confirmed preferences: Beijing time (Asia/Shanghai); date-only deadlines default to 23:59; valid model remaining-effort predictions drive planning; SAFE leaves aggregate whole-day discretionary remainder <=40 minutes free; evening review may batch-confirm untouched unchanged estimates. Do not re-ask these defaults. Natural-day vs rolling-hour horizon scope remains one unanswered subquestion.
+
+In M1/M1B collect course/TaskType patterns for counterpart generation and required completion/start order. Ask about the actual workflow and relevant target fields, not graph terminology. Task 1 creation → Task 2 generation does not imply Task 1 executes first. Pre-lab preparation may be generated after its lab Task is created but must finish before the lab under its separate order relation.
+
+Stable generation/order templates belong with versioned profile/rule knowledge; concrete Task links/runtime generation and user review state belong in PostgreSQL. Confirmed rule execution needs no repeated per-instance acceptance within its exact mapping/scope. Course-specific differences refine these rules without assigning primary Course importance.

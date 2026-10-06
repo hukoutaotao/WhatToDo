@@ -100,7 +100,7 @@ The user-facing system does not need to expose all internal statistics.
 
 When the user's current remaining-effort estimate conflicts with the model:
 - keep the user's value as canonical personal state;
-- keep the model prediction as derived/advisory;
+- keep the model prediction derived; D-074 selects a valid remaining-effort prediction for allocation/risk without overwriting the user value;
 - use disagreement as a possible uncertainty/risk signal;
 - do not silently overwrite the user estimate.
 
@@ -254,4 +254,12 @@ Do not over-engineer the statistical model before real data exists.
 
 Aggregate actual effort without inventing unreported session times. Planned work is not actual execution. Preserve cancelled/expired/reopened history, but distinguish outcome types when estimating completed-task effort: an abandoned task's invested time is not its full completion duration.
 
-Retain estimate-at-planning-time snapshots so future model updates do not rewrite past prediction errors. An updated numeric model may generate estimation-risk warnings; the accepted canonical user estimate remains separate. Exact Planner treatment of disagreement is an open design choice in CONSISTENCY_AUDIT.md.
+Retain estimate-at-planning-time snapshots so future model updates do not rewrite past prediction errors. An updated numeric model may generate estimation-risk warnings; the accepted canonical user estimate remains separate. D-074 resolves Planner treatment: valid model remaining-effort prediction drives planning; no-prediction fallback uses the retained user estimate. Model/user values and selected-source history remain separate.
+
+---
+
+## 14. Model-First Planning and Review Observations
+
+Predict remaining unfinished work, not blindly the original total task duration. Retain context, valid model version, uncertainty, and applicability to the current Task/stages. Planner uses this prediction under D-074; it is not automatically max(user, model) and may be smaller than user-reported effort. Numeric calibration remains automatic; behavioral/preference changes still require approval.
+
+Bulk unchanged-estimate confirmation is a verification observation, not a new numerical estimate or evidence that a task was worked on. Preserve original estimate time, batch verification time, membership, and any explicit no-work statement. Rule-generated Task origin and typed dependencies provide context; generations and notifications are not execution/completion signals.

@@ -776,6 +776,17 @@ Responsibilities:
 - Scheduling
 - Goal progression
 
+### Task Relationship System
+
+Responsibilities:
+- configure accepted generation and completion/start-order relationships
+- create/link mapped counterparts on canonical source creation
+- validate distinct generation and ordering graphs
+- prevent duplicate/recursive generation and preserve authorization/provenance
+- expose relationships to Planner without inventing completion
+
+Specification: TASK_RELATIONSHIP_PLAN.md. This is portable domain/application logic orchestrated by n8n, not a new workflow platform.
+
 ### AI Router
 
 Responsibilities:
@@ -979,6 +990,16 @@ Planner reads accepted Tasks, accepted rules, derived numeric predictions, and a
 
 In overall EMERGENCY, show a visibly provisional normal baseline, collect the user's sacrifices/additional capacity, then recompute and return the final plan. Optional removal alone cannot mathematically erase a REQUIRED-work deficit; preserve the residual deficit if it remains.
 
-Goal/recurring/conditional generators emit proposed instances under approved templates. Per-instance canonical activation authority is still open; until settled, the conservative review path applies. Source Calendar updates may refresh occupancy automatically within configured scope without becoming Task progress/completion.
+Goal/recurring/conditional work can instantiate mapped canonical Tasks through explicitly accepted automatic-generation relationships (D-071/D-072). Templates/defaults alone do not grant blanket authority; unmapped/uncertain discoveries remain candidates. Source Calendar updates may refresh occupancy automatically within configured scope without becoming Task progress/completion.
 
 Minimum confirmation, provenance, audit, versioning, staleness, and recovery safeguards belong to persistence/ingestion and the first MVP. Advanced catch-up/weekly learning in Phase 7 extends those foundations. See `CONSISTENCY_AUDIT.md` for unresolved edges and planning inputs.
+
+---
+
+## 27. Accepted Experience Refinements — 2026-10-06
+
+The user's six answers add the Task Relationship System and scoped rule-authorized counterpart generation; expiration informs before recording; model remaining-effort predictions drive allocation/risk; planning uses Beijing time and local 23:59 date-only deadlines; SAFE's 40-minute rule uses whole-day discretionary remainder; untouched unchanged user estimates may be batch-confirmed in evening review.
+
+Canonical personal-state protection remains: external completion needs review, model estimates do not overwrite user estimates, and generation uses accepted rule mappings rather than confidence. Explicit model-first planning is not an automatic max(user, model). Prediction can come from stored numerical calibration, so the deterministic/no-live-LLM path remains intact.
+
+Relationship completion order is not automatically a start prerequisite, and generation edges must not be mistaken for temporal ordering or stages. Externally published concrete times retain their meaning. Natural-day vs rolling-hour horizon boundaries remain one unanswered subquestion; other accepted answers are not reopened.

@@ -10,3 +10,12 @@ Carry forward: natural-language direct user commands, external evidence/candidat
 
 Later deliverables: versioned schemas, valid/invalid/edge examples, provenance/deduplication/update semantics, and semantic-vs-provider adapter mapping. Review open boundaries in [consistency audit](../../plan/CONSISTENCY_AUDIT.md) before freezing schemas. Do not reinterpret the empty schema directory as missing A0 product decisions.
 
+---
+
+## Accepted follow-up inputs
+
+The [Task relationship specification](../../plan/TASK_RELATIONSHIP_PLAN.md) covers generation rules and typed completion/start ordering; M2 schemas must distinguish them from parent stages. Canonical source creation may generate mapped targets under accepted rules without repeated instance review.
+
+Review inputs include explicit batch confirmation of listed untouched Tasks' unchanged estimates. Worked-on/changed/missing estimates require their own updates. Time parsing uses Asia/Shanghai and date-only 23:59 while preserving explicit times. Canonical user effort is separate from model-first planning predictions; expiration informs before recording, without an extra acknowledgement requirement.
+
+The natural-day vs rolling-hour 1/3/7-day horizon subquestion remains pending; no other answered choice should be treated as undecided.

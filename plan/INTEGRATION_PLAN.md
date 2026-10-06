@@ -161,7 +161,7 @@ When conflicting credible sources exist:
 - preserve both source records
 - mark state conflicted when material
 - rules may select a recommended source interpretation automatically;
-- canonical personal Task-fact changes still require user review in v1;
+- ordinary external canonical Task-fact proposals still require review; D-072 permits only mapped creation triggered by an accepted generation relationship, and D-073 permits notified expiration under confirmed conditions;
 - raw source/Calendar occupancy updates remain distinct from Task truth
 
 Completion-specific rule:
@@ -261,3 +261,15 @@ Email account/provider selection is open; Gmail is an example, not a requirement
 From the first ingestion prototype, preserve candidates, provenance, deduplication, checkpoints, errors/staleness, and safe replay. Source deletion does not automatically cancel a canonical Task. A Calendar-owned event may refresh occupancy within configured sync scope without confirming a Task or inventing personal progress.
 
 Phase 4 may use deterministic extraction, manual reviewed imports, or a narrowly validated optional extractor. Full AI Router deployment remains Phase 6. Collectors must remain useful when an extraction model is unavailable; uncertain content stays evidence/pending, and no safety boundary waits for the Router.
+
+---
+
+## 12. Relationship Events, Expiration Notices, and Time Defaults
+
+Raw external discovery is not canonical Task creation and cannot trigger a relationship cascade. Once a source Task is accepted/created, application/domain logic emits the canonical event and evaluates explicitly accepted rules under TASK_RELATIONSHIP_PLAN. n8n may orchestrate those events/notifications; the connector does not invent rule scope, ordering, deadlines, or task completion.
+
+Approved rules produce fully mapped canonical counterparts without redundant review, with provenance/idempotency; unresolved essential target fields go to the review queue. Completion signals from email/platform remain advisory even for rule-generated Tasks. Source deletion/cancellation does not silently propagate Task cancellation.
+
+For a confirmed expiration condition: notify first, then record EXPIRED only after successful user-facing dispatch, latest-state validation, and deduplication. This is not a requirement to wait for a read receipt or extra acknowledgement. Failed notices remain pending/retryable; uncertain conditions require clarification. Exact delivery channel remains unselected.
+
+Normalize date-only deadlines to 23:59 Asia/Shanghai while retaining source date/default provenance. Explicit timestamps/source zones are preserved and only converted for display. Server-timezone defaults must not affect user dates or next-midnight override expiry.

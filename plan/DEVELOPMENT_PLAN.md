@@ -6,7 +6,7 @@
 > M1 modeling specification after A0: `plan/USER_MODEL_PLAN.md`
 
 > Status: Existing milestone roadmap; detailed execution plan not yet prepared.
-> Current requested sequence: consistency audit → resolve remaining experience choices (internal O03/O06 resolved) → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
+> Current requested sequence: consistency audit → synchronize accepted follow-up answers / clarify remaining horizon scope → detailed project planning → semantic modeling milestones. M1 is incomplete, not a reason to bypass the user's current planning request.
 > Status: Planning phase  
 > Audience: AI agents, Codex, future maintainers  
 > Authority: This file is the authoritative source for **development order, prerequisites, and milestone sequencing**.  
@@ -39,7 +39,7 @@ Add AI selectively
 Recover and improve from real usage
 ```
 
-The project has **12 core functional capabilities**. In addition, several design artifacts such as the Task schema and input/output contracts must be defined early because later functions depend on them.
+The project has **13 core functional capabilities**, including the newly requested Task Relationship System (F13). In addition, several design artifacts such as the Task schema and input/output contracts must be defined early because later functions depend on them.
 
 ### Phase 0 — Interaction and Information-Model Alignment
 
@@ -61,7 +61,7 @@ No code implementation should begin before A0 is accepted.
 
 ---
 
-## 2. The 12 Core Functional Capabilities
+## 2. The 13 Core Functional Capabilities
 
 ### F1 — Personal Domain Classification
 
@@ -423,6 +423,20 @@ Depends on:
 
 ---
 
+### F13 — Task Relationship System
+
+Goal:
+- define generation and completion/start-order relationships between Tasks
+- automatically create a mapped counterpart under a preapproved generation rule
+- enforce hard temporal relations and distinguish soft sequence/stage membership
+- prevent duplicate/uncontrolled generation and contradictory order
+
+User supplies representative relationship patterns and any missing meaning/target defaults; no coding or technical graph notation is required. The accepted minimum examples are Task 1 creation → Task 2 generation, and Task 2 completion before Task 1 completion. Generic authority is D-071/D-072; no need to reconfirm the feature itself.
+
+Depends on F2/F3 semantic contracts and F4 persistence; feeds F5 goal generation and F9 Planner. M1B/M2 define relationships; M3 implements minimal persistence/generation; M6 enforces ordering. Detailed specification: TASK_RELATIONSHIP_PLAN.md.
+
+---
+
 ## 3. Foundational Design Artifacts
 
 These are not separate end-user functions, but they must be completed early.
@@ -500,6 +514,7 @@ These three artifacts should be stable before database and connector implementat
 5. Input Contract
 6. Output Contract
 7. Initial Goal / Milestone concepts and generic onboarding contract (A0 minimum fields, approval boundary, Task generation semantics)
+8. F13 typed Task relationships, automatic-generation rule authority, and concrete mappings before persistence
 
 ### User participation
 
@@ -540,7 +555,9 @@ Phase 1 is complete when:
 4. Manual task create/update/complete/cancel flows
 5. Provenance
 6. Audit history, confirmed-write authority, state version checks, pending-confirmation persistence, effort history, and staleness/minimal reconciliation
-7. Initial F5 Goal persistence (configuration only; runtime generation is later)
+7. Initial F5 Goal persistence (configuration only; full goal generation is later)
+8. F13 minimal relationship persistence, separate graph validation, and approved canonical-creation → mapped counterpart generation with idempotent audit
+9. Expiration notice-before-record workflow/process state and unchanged-estimate batch-confirmation provenance
 
 ### Minimal vertical prototype
 
@@ -796,7 +813,7 @@ Need from user:
 - recurring stage/dependency patterns
 
 Deliverables:
-- per-course/task-type decomposition presets
+- per-course/task-type decomposition presets and representative generation/order relationship patterns
 - extensible task-type taxonomy
 - one stable default template per normal task type
 - rules for when a workflow should become a new task type/template
@@ -821,7 +838,9 @@ Deliverables:
 - Output specification
 - concrete Daily Brief contract based on `formats/output/DAILY_BRIEF_TEMPLATE.md`
 - generic Goal onboarding/approval/generation contract before Goal persistence; M5B later validates real Goal examples
-- resolved or explicitly gated cross-module boundaries from CONSISTENCY_AUDIT.md
+- typed Task relationship/generation-rule contracts and bounded instance authorization
+- model-first effective planning budget vs canonical user estimate, expiration notice-before-record, Beijing-time cutoff, aggregate-gap and batch-review contracts
+- one remaining horizon-mode choice and its partial-day conventions resolved before implementing exact risk windows
 
 ### M3 — Persistent-state prototype
 
@@ -872,7 +891,7 @@ Need from user:
 Deliverables:
 - goal onboarding interaction contract
 - goal/milestone/task-generation semantics
-- rules for proposing configured Goal work automatically; canonical activation follows the reviewed authority contract resolved in M2
+- configured Goal/recurring/conditional work uses accepted generation relationships for mapped canonical instances; outside their scope use candidate review (D-072)
 - generated Tasks must enter Planner through the same Task interface as other work
 
 ### M6 — Planning MVP
@@ -881,7 +900,7 @@ Need from user:
 - Scheduling preferences
 
 Deliverables:
-- Planner
+- Planner with hard completion/start-order relations and model-first remaining-effort budgets
 - Daily plan
 - 1/3/7-day capacity-vs-required-work forecasts
 - emergency/risk mode
@@ -932,7 +951,7 @@ A0 is closed. Do not reopen broad alignment questioning unless M1 or later work 
 
 Do **not** begin PostgreSQL implementation, n8n workflow construction, scraping, calendar API mapping, or planner coding yet.
 
-After the completed consistency audit, obtain the six remaining user-experience answers before detailed planning. Internal O03/O06 are resolved specifications. Then prepare the detailed project plan before beginning course/activity collection. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
+The six experience answers are now synchronized, including the new Task Relationship System. O03/O06 are resolved internal specifications. Clarify only the unanswered natural-day vs rolling-hour horizon subquestion when needed, then prepare the detailed project plan before course/activity collection; do not re-ask accepted choices. Use CONSISTENCY_AUDIT.md as planning input; do not mark semantic milestones complete or begin infrastructure.
 
 Subsequent semantic sequence:
 
@@ -957,3 +976,13 @@ Safety is incremental: Phase 2 owns minimal confirmation/audit/versioning/stalen
 Known A0 policies are defaults, not new questions: no primary Course importance, no generic TaskType lead time, binary parent completion, three requiredness values, one-hour reserve, worst-horizon risk, advisory external completion, user-canonical remaining effort, and automatic numeric learning vs reviewed behavioral rules. Collect concrete course/TaskType values and explicit exceptions at their milestones.
 
 Before activating a behavior touched by an unresolved item in CONSISTENCY_AUDIT.md, resolve its semantics at the listed milestone. Conservative evidence/candidate storage permits useful preparatory work; it is not permission to invent missing personal facts.
+
+---
+
+## 14. Follow-Up Implementation Prerequisites
+
+Build the newly accepted relationship system as a domain capability across M1B/M2/M3/M6, not as a speculative later add-on. M3's minimal persistent-state prototype must handle approved creation cascades/deduplication; M6 must consume distinct completion/start-order constraints and counted counterpart workloads. n8n orchestration remains the sole workflow platform.
+
+The user approved notice-before-record expiration without another confirmation click. Persist delivery attempts/state/version and do not claim a notice succeeded when delivery failed. Keep hard completion evidence review unchanged. The user chose model prediction for planning, not overwriting personal effort facts; parent/stage allocation uses one operative model-first budget.
+
+Asia/Shanghai and date-only 23:59 are fixed. The SAFE discretionary remainder rule is aggregate <=40 minutes. Untouched unchanged estimates are explicitly confirmed in a scoped batch. These are accepted contracts, not new questions or implemented capabilities. Natural-day vs rolling-hour horizon scope remains the only unanswered original experience subquestion; concrete schemas/libraries/provider adapters remain normal later engineering work.

@@ -30,7 +30,8 @@ Use AI only for genuinely fuzzy judgment.
 Expected conceptual inputs:
 - active tasks
 - deadlines
-- progress/remaining effort
+- user-reported remaining effort plus valid model remaining-effort prediction and selected effective planning budget/source
+- accepted typed Task relationships: generation origins, completion order, start prerequisites, soft sequencing
 - task-level 1–5 thinking depth / repetitive volume / new-learning load
 - minimum useful continuous session
 - fragmentability
@@ -38,7 +39,7 @@ Expected conceptual inputs:
 - goal/milestone state
 - fixed events
 - total usable free time and available-window characteristics
-- user constraints
+- user constraints, Beijing planning timezone and date-only 23:59 deadline default
 - historical calibration
 - optional risk signals
 
@@ -50,7 +51,7 @@ Expected conceptual inputs:
 Examples:
 - class/training cannot overlap work block
 - required delivery deadlines are hard obligation constraints; a missed deadline creates visible infeasibility/overdue state, not automatic Task cancellation or a ban on all recovery work
-- explicitly hard prerequisite/dependency
+- explicitly hard prerequisite/dependency or completion-order relation (distinguish finish-before-start from finish-before-finish)
 - minimum session length where truly required
 - today-only user lock, unless physically incompatible with another hard obligation
 
@@ -78,7 +79,7 @@ It should:
 - allocate a realistic amount of work to that capacity;
 - avoid chronic overfilling and unnecessary underfilling;
 - preserve a SAFE reserve of about 1 hour per day after REQUIRED work when feasible;
-- when SAFE and only a ~40-minute-or-smaller free gap remains, normally leave it unscheduled rather than filling it just for utilization;
+- when SAFE and aggregate whole-day discretionary capacity after required work/reserve is at most 40 minutes, leave it free rather than filling it for utilization; individual short windows may still be used when aggregate capacity is greater;
 - allow DANGER/EMERGENCY logic to consume the reserve when needed to protect REQUIRED work;
 - identify which tasks require large uninterrupted blocks;
 - identify which tasks are suitable for fragmented time;
@@ -355,9 +356,9 @@ Never silently cancel REQUIRED work or treat removal from a daily list as cancel
 - A positive aggregate C - R is not by itself proof of feasibility. Deadline-prefix bottlenecks, release times, hard prerequisites, and minimum useful windows can make work impossible even with sufficient total hours. The accepted feasibility rules must be implemented with suitable checks, not weakened to calendar-date labels.
 - Required work due beyond 7 days may need effort today to preserve long-run feasibility. Daily/weekly/long-term layers coordinate; R must not blindly omit necessary early allocations or count every future Task's full effort as due today.
 - Overdue REQUIRED work remains visible until the user confirms its disposition. EXPIRING work is distinct; detect time/condition crossings without inventing canonical transition permission.
-- User remaining effort is canonical; numeric predictions are advisory and disagreement may add an estimation-risk warning. Forecast estimate selection still needs the user-experience answer O04. Parent/stage accounting is resolved in DATA_MODEL_PLAN Section 12, and window-infeasibility handling is resolved in Section 21.
-- Preserve the reserve when allocating discretionary work; do not fill it merely to improve utilization. The ~40-minute residual-gap rule is separate from the one-hour reserve; exact fragmentation/accounting is still open.
-- Use a configured user planning timezone, not the server timezone, for “today”, override expiry, date-only deadlines, and missed-interaction days. The actual user profile timezone and rolling-vs-calendar horizon boundaries still need confirmation/design in M2/M4.
+- User-reported remaining effort stays canonical; under D-074 use a valid model remaining-effort prediction as B for allocation/forecasting, with user-estimate fallback if unavailable. This is not max(user, model). Parent/stage accounting uses B once (DATA_MODEL_PLAN §12); window-infeasibility handling is in §21.
+- Preserve reserve before discretionary work. D-076 fixes the small-gap scope: aggregate whole-day discretionary remainder at most 40 minutes stays free in SAFE; it is not a per-window restriction. Do not subtract the reserve twice.
+- Use Asia/Shanghai (Beijing time), not server locale, for “today”, override expiry, and missed-interaction days. Date-only deadlines default to local 23:59; preserve explicit times. Natural-day vs rolling-hour 1/3/7-day horizon mode remains O05; do not claim the user selected it.
 
 ## 20. Failures and Missing Information
 
@@ -369,7 +370,7 @@ Unknown/stale capacity or missing task facts cannot produce falsely precise SAFE
 
 Resolution type: internal engineering specification to preserve accepted deadline safety, three risk states, and long-horizon advancement. It does not introduce an additional user choice or an implemented scheduling algorithm.
 
-- Build a versioned availability/required-work snapshot using the selected estimate policy (O04 still awaits the user). Normalize usable windows, release dates, deadlines, hard prerequisites, task continuity/minimum session constraints, and confirmed today-only locks. Count parent obligations once under DATA_MODEL_PLAN Section 12.
+- Build a versioned availability/required-work snapshot using D-074 model-first remaining-effort prediction with explicit user-estimate fallback. Normalize usable windows, release dates, deadlines, hard prerequisites, task continuity/minimum session constraints, and confirmed today-only locks. Count parent obligations once under DATA_MODEL_PLAN Section 12.
 - Evaluate actual required-work placement feasibility within those windows, not just aggregate free hours. Every deadline prefix is a constraint. Include dependencies' required work; a task unavailable until late cannot consume earlier free time. Soft academic sequences may be bypassed under the accepted policy with an exception note; hard dependencies remain binding.
 - Use one coordinated longer-horizon workload projection for required work beyond day 7. Determine necessary early allocations from release/deadline/window restrictions and remaining later capacity, then feed those derived allocations into shorter-horizon workload accounting. Do not count a distant Task's entire budget as due today, and do not add its parent/stage representations twice. Preserve provenance for the projected early allocation and do not mutate the Task's accepted deadline.
 - Compute each horizon's C, counted REQUIRED workload R, and reserve target S separately. Horizon snapshots overlap and are not summed. C excludes configured occupancy/no-work/buffers, but not S. Report the accepted C-R margin alongside any placement bottleneck.
@@ -378,3 +379,15 @@ Resolution type: internal engineering specification to preserve accepted deadlin
 - Keep the implementation interchangeable (e.g. a deterministic constraint solver with a small exact fixture oracle). No provider/language/library is selected here. Respect task-specific indivisibility and minimum sessions; an overly relaxed hour-sum calculation cannot certify executable feasibility.
 
 Acceptance cases: abundant total hours but an early deadline has too few usable hours; several short windows cannot fit one continuous stage; hard dependency pushes work beyond a deadline; far-future work must start today because later capacity is full; parent/stage work is counted once; known feasible fixtures remain feasible; solver timeout is not confused with proven infeasibility.
+
+---
+
+## 22. Follow-Up Planner Integration
+
+TASK_RELATIONSHIP_PLAN defines separate generation and ordering graphs. Planner consumes concrete accepted instances, not raw discoveries. Explicit Task 2-before-Task 1 completion order is hard and does not automatically imply Task 1 cannot start first; enforce stronger start prerequisites only when specified. Include any necessary prerequisite work for required feasibility, without pretending it was completed. Report confirmed historical violations rather than falsifying them.
+
+Effective planning budget B is the valid model prediction of unfinished effort, even when lower than the user's reported U; the latest user answer selected model-first planning rather than an automatic conservative maximum. Use model validity/uncertainty diagnostics and retained history, and show material estimate differences. B does not require a live LLM/provider; no prediction means fallback to U with clear provenance. Split B across stages once, never U+B or parent+stage sum.
+
+For SAFE discretionary capacity, protect required workload and reserve first, then sum the day's remaining usable discretionary windows. If total is <=40 minutes, leave it free. If total is greater, fragmentable tasks may use short individual windows when their own minimum session constraints permit. The 40-minute rule changes discretionary allocation, not the C-R risk inequalities.
+
+At a confirmed expiration condition, a pending notify-before-record process can expose derived no-longer-useful status for recommendations, but cannot claim canonical EXPIRED before the notice step. Preserve discrepancy/process visibility; never infer task completion. Exact 1/3/7-day boundary selection still awaits one user choice; core constraints/model estimates remain preparable meanwhile.

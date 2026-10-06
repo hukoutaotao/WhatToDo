@@ -131,3 +131,11 @@ D-069 preserves normal Task outcomes (COMPLETE/CANCELLED/EXPIRED), rework, estim
 Deleting external content must not silently delete/cancel the accepted Task. Explicit privacy removal, erroneous-record correction, or duplicate merge can legitimately remove records with appropriate handling; ordinary finished/expired/cancelled history is not routine garbage to purge.
 
 Confirmation evidence and field-level write authority must accompany validation. Repository-backed profiles follow accepted D-005 while sensitive live state stays in PostgreSQL. This audit does not move private data to a new service or change repository visibility.
+
+---
+
+## 12. Follow-Up Automation Boundaries
+
+Accepted RelationshipRule scope is the authorization for mapped counterpart creation; it is not a general write grant to connectors/models. Keep the approving user statement, rule/version, source occurrence, target mapping, and field provenance in audit. Relationship commands still obey least privilege and input-as-data handling; external prompt text cannot approve rules.
+
+Expiration notice content should disclose only relevant task/condition information. Inform before recording under D-073, retain semantic Task history, and never report a delivery/read acknowledgement that did not occur. Batch estimate confirmation preserves scoped per-Task provenance, not invented personal progress. Model-first allocation leaves canonical user estimates intact; retention/minimization rules continue to apply.

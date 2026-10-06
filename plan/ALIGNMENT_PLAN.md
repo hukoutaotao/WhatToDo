@@ -425,3 +425,12 @@ If a provider-specific detail is discovered later:
 - update the relevant specialized integration plan
 - update semantic plans only if the discovery changes the internal meaning, not merely field mapping
 
+---
+
+## 11. Follow-Up Accepted Extension — 2026-10-06
+
+A0 remains complete. The user's six answers refine runtime semantics and explicitly add the Task Relationship System. Read A0_USER_INTENT §60, DECISIONS D-071–D-077, and TASK_RELATIONSHIP_PLAN.md alongside the original alignment method. No current-semester profiles or runtime capability were created.
+
+Generation and temporal ordering are distinct, typed cross-module concepts. Accepted rules authorize exact counterpart creation; ordinary external discoveries/completion still require review. Model predictions now drive allocation while user estimates remain canonical; expiration informs before recording; Beijing/date-only 23:59, aggregate <=40-minute SAFE remainder, and batch unchanged-estimate review are accepted.
+
+The user answered the timezone/cutoff part of question 4 but not natural-day vs rolling-hour horizon scope. Retain only that subquestion, then continue detailed project planning; do not reopen all six questions or broad A0.

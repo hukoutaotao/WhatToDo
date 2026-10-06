@@ -63,7 +63,7 @@ Create scenarios with expected invariants:
 - SAFE uses approximately one hour of reserve per represented day
 - DANGER triggers when REQUIRED work fits but the safety reserve is breached
 - EMERGENCY triggers when REQUIRED work exceeds total usable capacity
-- in SAFE mode, a ~40-minute-or-smaller residual gap is normally left unscheduled
+- in SAFE, aggregate whole-day discretionary remainder <=40 minutes after required work/reserve is left free; it is not a per-window ban
 - 1/3/7-day capacity deficits are detected
 - DANGER signals reserve breach; overall EMERGENCY triggers only on an infeasible horizon, not merely an approaching deadline
 - task count does not substitute for workload-time calculation
@@ -169,8 +169,8 @@ Additional A0 behavioral acceptance:
 ### Phase 4
 - connectors ingest without duplicates.
 - failures preserve prior trusted state.
-- newly discovered task-like content remains candidate until user confirmation.
-- deadline/progress/completion candidates do not mutate accepted task state without confirmation.
+- external newly discovered task-like content remains candidate until user confirmation; mapped counterpart creation under a preapproved generation relationship is separately authorized (D-072).
+- external deadline/progress/completion candidates do not mutate accepted task state without confirmation; generation/expiration exceptions are limited to D-072/D-073 and never auto-complete Tasks.
 - even strong external submission evidence does not auto-complete a Task in v1.
 - repeated polling does not bypass the confirmation boundary.
 
@@ -227,7 +227,7 @@ Update PROGRESS.md with the strongest actually demonstrated state.
 - A clear user command commits only its resolved authorized update; no duplicate confirmation is required. Ambiguous references remain pending.
 - High-confidence published deadlines and strong submission evidence update source/candidate records without automatically mutating canonical Task facts.
 - Internal numeric calibration changes derived predictions without rule approval; it does not rewrite user estimates, TaskType defaults, past snapshots, or explicit preferences.
-- Parent 4 h remaining + selected 1 h stage consumes 1 h of today's allocation and represents 4 h total remaining, not 5 h. Conflicting parent/stage estimates follow DATA_MODEL_PLAN Section 12: parent budget controls totals, derived stage budgets are separate, and accepted contradictions that affect planning are surfaced.
+- Effective parent planning budget B=4 h + selected 1 h stage consumes 1 h today and represents 4 h forecast workload, not 5 h. If the user says U=4 h and model predicts B=6 h, use 6 h for planning, retain U=4 h separately, and never count 10 h. Conflicting parent/stage estimates follow DATA_MODEL_PLAN Section 12: effective B controls forecast totals, derived stage budgets are separate, and accepted contradictions that affect planning are surfaced.
 - Each risk inequality is checked at its boundary: C - R = S is SAFE; C - R = 0 is DANGER for positive S; negative is EMERGENCY. Report all three horizons and the worst mode.
 - 1-day SAFE + 3-day EMERGENCY enters overall EMERGENCY and the two-round interaction. The baseline is provisional, and the final plan reports any unresolved deficit.
 - Removing only OPTIONAL work cannot mathematically fix a negative C - R for REQUIRED work. Daily removal never silently cancels/deletes canonical Tasks.
@@ -237,8 +237,8 @@ Update PROGRESS.md with the strongest actually demonstrated state.
 - Review presents the whole confirmation queue, keeps unanswered items pending, and follows up for missing future-relevant remaining effort. A missing interaction never fabricates progress.
 - Today-only override respects configured local day boundaries and preserves the distinction between “complete” and “advance”. No server-timezone assumption.
 - Course progress with holes in older units produces backlog warnings; latest/max unit alone cannot erase the holes.
-- Repeated conditional/Goal generation is idempotent and follows the authority contract resolved in M2. Trigger detection itself does not constitute acceptance.
-- Time passing a deadline does not automatically cancel/expire REQUIRED work. Expiration handling follows the explicit permission contract; raw source deletion does not delete Tasks.
+- Repeated conditional/Goal generation is idempotent under the accepted relationship rule scope; unaccepted/raw trigger evidence does not authorize canonical creation. Template defaults alone are not permission.
+- Time passing a deadline does not automatically cancel/expire REQUIRED work. EXPIRING follows notify-before-record under its confirmed condition, without a new acknowledgement; raw source deletion does not delete Tasks.
 - Completed/cancelled/expired/reopened outcomes retain relevant history; raw-content minimization can coexist with retained semantic audit records.
 
 These are planned acceptance cases, not executed runtime tests. Unresolved edges in CONSISTENCY_AUDIT.md must be settled before pinning an exact expected behavior. The current audit verifies documents/references and requirement propagation only.
@@ -247,6 +247,23 @@ These are planned acceptance cases, not executed runtime tests. Unresolved edges
 
 ## 10. Resolved Internal-Boundary Acceptance Cases
 
-O03: parent budget 4 h with derived stage weights 1:3 produces budgets 1 h and 3 h, not 8 h total. A confirmed new parent budget changes derived allocations while preserving old estimates. User-confirmed stage rework updates the stage and same parent consistently in one audit transaction; ambiguous follow-up meaning stays pending. Conflicting user estimates are preserved and reconciled when material, never silently overwritten.
+O03 refined by D-074: effective B=4 h with weights 1:3 produces stage budgets 1 h and 3 h; if U=4 h and model B=6 h, stage budgets are 1.5 h and 4.5 h with 6 h total forecast work, while U remains 4 h. An updated effective parent planning budget recomputes derived allocations while preserving historical model and user estimates. User-confirmed stage rework updates the stage and same parent consistently in one audit transaction; ambiguous follow-up meaning stays pending. Conflicting user estimates are preserved and reconciled when material, never silently overwritten.
 
 O06: a 7-day total-capacity surplus cannot hide an impossible first-day deadline or minimum-session constraint. Confirm feasible placement before applying reserve margins. Early required allocation for a distant deadline is derived once from the longer projection. An exact infeasibility result differs from a heuristic failure/timeout. These are specification acceptance cases; no executable Planner exists yet.
+
+---
+
+## 11. Accepted Follow-Up Regression Cases
+
+- Canonical Task 1 creation under an accepted generation rule produces exactly one mapped Task 2 across retries; raw unaccepted discovery does not trigger canonical cascades. Missing essential mapping facts remain pending.
+- Task 1 → generates Task 2 and Task 2 → completes before Task 1 are a valid combination in distinct graphs. Reject true uncontrolled generation loops/hard-order cycles, not that valid pair.
+- Finish-before-finish permits Task 1 to start earlier; finish-before-start does not. Hard relations affect feasible recommendations; truthful confirmed out-of-order completion is recorded with a violation, never rejected/fabricated.
+- Distinguish generated separate obligations from stages. Separate Tasks contribute their own B once each; stages partition one B. Cancellation/reopening does not silently propagate to counterparts.
+- EXPIRING reaches an accepted condition: user-facing notice dispatch precedes canonical EXPIRED. Delivery failure keeps transition pending; no acknowledgement is required; uncertain conditions require clarification. Normal history remains, and expiration never implies COMPLETE.
+- U=2 h, model B=4 h: allocate/forecast using 4 h and keep U=2 h. U=4 h, model B=2 h: use 2 h, not max=4 h. No valid prediction: fall back to U with source/diagnostic metadata. A total-task prediction is not accepted as remaining work without the appropriate interpretation.
+- Asia/Shanghai is the user planning timezone regardless of server locale. Date-only deadline maps to local 23:59 with default provenance; explicit 18:00 stays 18:00; explicit other-zone instant is preserved. Today-only override expires at next Beijing midnight, not default task cutoff.
+- After required work/reserve, discretionary aggregate 40 minutes in SAFE stays free; aggregate 60 minutes in three 20-minute windows may use fragmentable work. A single 30-minute window is not automatically excluded when day's aggregate is larger. Reserve is subtracted once.
+- Evening batch “keep previous estimates” confirms only the listed untouched unchanged Tasks, with per-Task provenance and retained original estimate time. Worked-on/new/missing/changed estimates and ambiguous completion remain individual review; silence confirms nothing.
+- Original unanswered natural-day versus rolling-hour horizon scope stays explicitly pending; fixtures cannot pretend either convention has user approval. Schema/library choice remains engineering work rather than an unanswered experience decision.
+
+These are planned conceptual acceptance cases. No runtime tests ran, because this repository remains documentation only.

@@ -173,8 +173,18 @@ Do not finalize deployment vendor before requirements are known.
 
 ## 11. Runtime Time and State Safety
 
-Configure the user's planning timezone explicitly; do not assume the server locale. Normal-interaction day tracking, today-only override expiry, and daily generation must use that configuration. DST/date-only/horizon edge conventions are later M2/M4 work.
+The accepted planning timezone is Asia/Shanghai (Beijing time). Normal-interaction day tracking, next-local-midnight override expiry, and daily dates use it, not server locale. Date-only deadlines default to local 23:59; supplied explicit times remain intact. Natural-day vs rolling-hour horizon scope is still pending; provider edge fixtures are later work.
 
-Treat pending review, source sync health, and last trusted state as different observability dimensions. A connector success does not prove user reconciliation succeeded. A partial evening response must not be recorded as a fully completed review while required fields remain missing; exact interaction tracking UX remains open.
+Treat pending review, source sync health, and last trusted state as different observability dimensions. A connector success does not prove user reconciliation succeeded. A partial evening response must not be recorded as a fully completed review while required fields remain missing; D-077 permits explicit bulk confirmation of untouched unchanged estimates; missing or uncovered facts still keep review incomplete.
 
 Minimum backup/audit/state-version/staleness/confirmation protection begins with persistent-state prototypes, and safe replay begins with the first connector. Phase 7 extends resilience; it cannot be the first time these protections exist.
+
+---
+
+## 12. Relationship and Expiration Runtime Processes
+
+Observe accepted generation rule versions, canonical source events, deduplication/occurrence keys, cascade failures, graph conflicts, and pending target facts. Persist source creation/outbox and generation audit so retry/restart cannot create multiple counterparts or turn unaccepted evidence into a trigger. Rule changes do not automatically regenerate historical counterparts.
+
+Notify-before-record expiration requires explicit process state: detected confirmed condition → dispatch user-facing notice → revalidate current Task/version/condition → commit EXPIRED/history. “Informed” means successful dispatch through the chosen user-facing channel, not merely writing a log/unsent queue item; no read receipt/acknowledgement is required. Failed dispatch stays pending/retryable. Record notification and transition IDs to avoid duplicate notices/writes and audit any state change between them.
+
+Runtime, channel, service code, and workflows do not yet exist. Preserve stale-state handling and safe fallback while model predictions or notification services are unavailable.
