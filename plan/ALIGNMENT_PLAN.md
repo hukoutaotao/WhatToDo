@@ -345,8 +345,9 @@ No implementation phase may begin until A0 is complete.
 Current status:
 - Initial 12-question A0 round completed.
 - Second follow-up A0 round completed.
+- Third A0 round on task-centric modeling, Course Progress Axis, Exam semantics, risk states, and historical learning completed.
 - The consolidated results are captured in `A0_USER_INTENT.md`.
-- A0 is **not yet complete**; remaining work is concentrated on module information granularity/cross-effects, confirmation boundaries, importance-vs-necessity semantics, difficulty scales, task-template details, and risk-level semantics.
+- A0 is **not yet complete**; remaining work is now concentrated on lead-time policy, persistent-priority semantics, importance/requiredness scale details, risk thresholds, progress-axis edge cases, confirmation/output presentation, and learned-pattern review UX.
 
 A0 requires:
 
@@ -369,7 +370,15 @@ A0 requires:
 - [x] New canonical task requires user review
 - [x] 1/3/7-day capacity forecasting accepted
 - [x] Long-horizon feasibility is the planner objective
-- [ ] Remaining module information-model details accepted
+- [x] Task established as the fundamental planning unit
+- [x] Course-level importance removed from primary Planner semantics
+- [x] Importance and requiredness separated
+- [x] 1–5 task-level difficulty scales accepted
+- [x] Course Progress Axis accepted
+- [x] Exam modeled independently from preparation Tasks
+- [x] SAFE / DANGER / EMERGENCY vocabulary accepted
+- [x] Historical learning separated from Planner with user-confirmed rule adoption
+- [ ] Remaining information-model/output threshold details accepted
 - [ ] Major modules identified
 - [ ] For each near-term module, required information categories are understood
 - [ ] Information granularity is discussed enough to avoid obvious ambiguity
