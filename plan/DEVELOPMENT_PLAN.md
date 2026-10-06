@@ -784,6 +784,8 @@ Need from user:
 Deliverables:
 - per-course/task-type decomposition presets
 - extensible task-type taxonomy
+- one stable default template per normal task type
+- rules for when a workflow should become a new task type/template
 - rules for when to split and when not to split
 - multi-dimensional difficulty representation
 - effort/session defaults that task instances may inherit
@@ -863,7 +865,9 @@ Need from user:
 Deliverables:
 - Planner
 - Daily plan
-- Daily scheduled generation
+- 1/3/7-day capacity-vs-required-work forecasts
+- emergency/risk mode
+- daily scheduled generation
 
 ### M7 — AI-enhanced planning
 
