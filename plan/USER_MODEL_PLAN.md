@@ -242,8 +242,6 @@ If course-profile fields change materially:
 
 ---
 
-## 10. M1 Completion Criteria
-
 ## 9. Relationship to M1B
 
 M1 captures what each course/activity is like.
@@ -253,6 +251,8 @@ M1B then uses those profiles plus representative real tasks to define per-course
 Do not attempt to force all decomposition detail into the first course-listing conversation. The dedicated M1B step exists because this information is expected to be complex and high-volume.
 
 ---
+
+## 10. M1 Completion Criteria
 
 M1 is complete when:
 
