@@ -417,7 +417,7 @@ Do not add provider-specific fields to the conceptual model merely because an ex
 - Exact status/state machine
 - Exact encoding of effort/stage-based progress (binary parent completion and user-canonical remaining effort are already accepted)
 - Exact representation of accepted parent/stage structure and hard/soft dependency edges; both semantics are required
-- Whether Course and generic Activity share one profile type
+- Exact machine validation and registry reference resolution for the shared Course/Activity envelope (draft in Section 14)
 - How recurring tasks are instantiated
 - Which preferences are global vs course-specific
 - Confidence semantics
@@ -475,6 +475,14 @@ An unchanged-estimate batch records membership and per-Task verification provena
 Time-normalized fields use Asia/Shanghai for user-day semantics and explicit default 23:59 for date-only deadlines. Exact provider timestamps retain their timezone and may be converted for display without changing the instant. D-078 fixes the horizon mode to natural days including today, with 1/3/7-day cutoffs today / today+2 / today+6 at 23:59. A versioned forecast snapshot retains calculation instant, Asia/Shanghai anchor date, covered date range, and cutoff for each window. Remaining usable capacity starts at the snapshot, not midnight in the past. Preserve absolute source deadlines and distinguish forecast-window bounds from Task deadlines and override expiry.
 
 ---
+
+## 14. M1-02 Profile Proposal Boundary
+
+The [stable profile proposal](USER_MODEL_PLAN.md#13-m1-02-stable-profile-format-proposal) uses one versioned envelope with Course/Activity-specific stable definitions. Real identity/name provenance comes from the [current inventory](intake/CURRENT_INVENTORY.md); the [synthetic example](examples/STABLE_PROFILE_V0_1.synthetic.json) is never personal truth.
+
+Profile IDs/revisions and exact TaskType/rule reference versions support review and future compatible loading. There is no primary Course importance scalar. Axis/unit definitions belong in Git; teaching/task-family progress, holes, Task effort/completion, Calendar occurrences and numerical predictions remain dynamic/derived state. Missing cadence/duration/term is not a zero or default. Profile reference/default presence grants no canonical-generation permission.
+
+This resolves the shared-versus-separate envelope engineering question for M1's draft. M1-03/04/05 still establish reviewed examples and refine the format; M2 still owns frozen machine schemas, registry resolution and PostgreSQL contracts. No database schema or user default is implemented here.
 
 ## Detailed Execution Mapping
 

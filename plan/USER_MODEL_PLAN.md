@@ -326,6 +326,73 @@ Stable generation/order templates belong with versioned profile/rule knowledge; 
 
 ---
 
+## 13. M1-02 Stable Profile Format Proposal
+
+Proposal version: `whatodo.stable-profile / 0.1.0-draft`. Status: SPEC proposal, to be exercised by M1-03/04 and refined at M1-05. It is not the frozen M2 machine schema or a runtime validator. Artifact: [one synthetic example bundle](examples/STABLE_PROFILE_V0_1.synthetic.json); it includes one Course and one Activity and explicit reference stubs, all fictional.
+
+### 13.1 Ownership and Identity
+
+Use one versioned envelope with `kind = COURSE | ACTIVITY` and kind-specific stable payloads. IDs come from the [inventory](intake/CURRENT_INVENTORY.md) for real items; IDs never depend on display name, row position or filename. Profile revision identifies content changes separately from contract/schema version. Term/source aliases may be added later without replacing the item ID.
+
+No primary Course importance is required or permitted in this proposal. Importance, requiredness and the three 1–5 difficulty defaults belong to TaskTypes/Tasks; profiles bind versioned TaskType definitions. A Course without any root priority score is valid.
+
+### 13.2 Envelope Fields
+
+| Field | Proposal type / requirement | Meaning and consumer |
+| --- | --- | --- |
+| `profile_format` | Required string, exactly `whatodo.stable-profile` | Explicit format discriminator; never inferred from filename |
+| `profile_schema_version` | Required version string, currently `0.1.0-draft` | Contract compatibility and validation |
+| `profile_id` | Required immutable nonempty ID | Course/activity association, source matching, output grouping |
+| `profile_revision` | Required positive integer | Exact reviewed snapshot; future updates compare expected revision |
+| `kind` | Required `COURSE` or `ACTIVITY` | Selects the small payload contract |
+| `domain` | Required `study`, `exercise`, `life_administration` or `other`; COURSE uses study | Existing accepted domains; no course-name branch in Planner |
+| `record_mode` | Required `USER_PROFILE` or `SYNTHETIC` | Prevents a test example being loaded as personal truth |
+| `review_status` | Required `DRAFT` or `REVIEWED` | Whole-profile review readiness; independent of each known field's provenance |
+| `review_evidence` | Required for REVIEWED: `{source_id, profile_revision}` | User review source must cover this exact profile revision; optional/absent for DRAFT |
+| `display_name` | Required nonempty user-provided name, or clearly fictional fixture name | Human/source identity; editing the name does not change ID |
+| `term_ref` | Optional known nonempty term ID/string; unresolved if not supplied | Academic context; intake date is not an invented term |
+| `profile` | Required object with the appropriate payload below | Stable definitions consumed by normalization/planning |
+| `unresolved_fields` | Required array of unique JSON Pointer paths to omitted, unknown fields | Unknown never becomes zero, false or an empty set |
+| `provenance` | Required source list and field-to-source map | Review, correction, trust, downstream traceability |
+| `extensions` | Required object, empty when no extensions exist | Registered additive data; rules below prevent silent semantic overrides |
+
+An explicitly supplied zero/false/empty list is a known value with source evidence. An omitted field listed in unresolved_fields is unknown. A field genuinely not applicable to this kind is omitted and not listed as unknown; Course-only axis data does not become a missing Activity axis. Known and unresolved declarations for the same path are contradictory and invalid.
+
+A source contains a stable local source ID, authority (`USER_STATEMENT`, `ACCEPTED_DEFAULT`, `ENGINEERING_METADATA`, `SYNTHETIC`, or `UNREVIEWED_SOURCE`) and an exact source reference/description. `field_sources` maps JSON Pointer paths to source IDs. A parent-path source covers its descendants unless a more specific field mapping overrides it. Every planning-relevant supplied field needs a resolvable source. IDs/version/revision and other engineering metadata are identified as engineering choices, not invented user preferences.
+
+UNREVIEWED_SOURCE can appear in a DRAFT as a proposal; it never becomes confirmed personal truth through confidence. REVIEWED requires the relevant user statements/accepted defaults and explicit scoped profile review, not an AI-written status. SYNTHETIC records remain fixtures regardless of their other fields; they are rejected at any real-user activation boundary.
+
+### 13.3 Stable Payloads
+
+| Kind / field | Proposal shape | Ownership and downstream effect |
+| --- | --- | --- |
+| Both: `task_family_refs` | Array of `{family_id, task_type_ref: {id, version}}` | References exact TaskType defaults/decomposition; changing a definition does not silently rewrite existing Tasks |
+| COURSE: `progress_axis` | `{axis_id, axis_version, unit_kind, unit_label, ordered_units?}`; each declared unit has stable id/label | Defines chapter/lesson/experiment/topic semantics; actual M1-04 may refine range encoding |
+| COURSE: `learning_patterns` | Optional reviewed stable review/cumulative-knowledge context | Exam/Goal/review setup; no implicit activation or generic start-N-days-early rule |
+| Both: `timing_patterns` | Optional reviewed release/deadline or time-of-day pattern definitions | Instantiation/scheduling context; concrete release/deadline timestamps stay with Tasks/Events |
+| Both: `relationship_rule_refs` | Array of exact rule ID/version references, unknown until reviewed | Links stable generation/order templates; reference presence does not grant authority |
+| ACTIVITY: `activity_category` | Optional nonempty descriptive category ID | Allows another sport/life category through configuration rather than Planner branches |
+| ACTIVITY: `schedule_intent` | Optional `FIXED_COMMITMENT`, `FLEXIBLE` or `MIXED` | Describes stable intent; even FIXED_COMMITMENT does not supply busy intervals or prove immovability |
+| ACTIVITY: `recurrence` | Optional reviewed recurrence/condition definition; at this proposal stage kind/description suffice | M1-07 collects actual cadence; M2/M5B define machine occurrence rules and accepted activation |
+| ACTIVITY: `work_characteristics` | Optional typical effort/session minutes and fragmentability | Stable tendencies, never a concrete Task's user remaining effort, selected prediction or actual effort |
+| ACTIVITY: `buffers` | Optional nonnegative preparation/travel minutes | Calendar capacity normalization; overlapping occupancy/work must be counted once |
+
+Work characteristics and TaskType defaults distinguish thinking depth, repetitive volume and new-learning load; a generic course-difficulty scalar is not added. Duration tendencies are templates/context, not live U or B. Continuous-session constraints/fragmentability must be reviewed for the relevant family/activity; absent values remain unresolved.
+
+No live Task IDs/status, actual work sessions, user remaining-effort values, numerical model predictions, concrete occurrence times, teaching position, task-family completion position, completed-unit set, backlog holes, Exam coverage instance or temporary day override belongs in a stable profile. Those remain PostgreSQL operational state later. The axis definition can enumerate units but must not label them completed.
+
+### 13.4 Validation, Review and Compatibility
+
+1. Validate discriminator/version, kind/domain, immutable ID, positive revision and declared field shapes. Reject unsupported major/breaking contracts explicitly; no best-effort conversion that silently drops fields.
+2. Check source IDs, referenced field paths and unresolved/known contradictions. A DRAFT can be a valid partial profile while remaining unusable for a consumer that needs a missing constraint. Report that exact missing field; do not assume a frequency, duration or available slot.
+3. Resolve referenced TaskType/rule ID and version against the registry of that scope. Synthetic stubs resolve only within the example bundle and are not an implemented registry. Unresolved real references block their affected consumer; they do not block unrelated identity display.
+4. REVIEWED is scoped to one profile/revision with review evidence. Any material edited field needs appropriate review; retain previous versions/evidence. A revision cannot silently replace history or migrate live Task values.
+5. Adding another activity category, course name or progress-unit label uses the same fields. Adding core planning behavior or a new domain/kind requires an explicit compatible contract/consumer change.
+6. Each extension has a namespaced key and `{version, critical, payload}`. Extensions cannot shadow core fields, grant automation authority or execute code. Registered handlers validate consumed extensions. Preserve unknown noncritical payloads as opaque data; they cannot affect planning. Unknown critical extensions block the affected consumer with a reason.
+7. Contract edits require an explicit supported adapter/migration or clear rejection for old incompatible revisions. Round-trip compatible data without dropping IDs, provenance or noncritical extensions. M1-05 refines the proposal, M2 freezes machine contracts and M2-16 selects concrete language/path mapping.
+
+Acceptance exercised by the synthetic bundle: Course with no primary importance; chapter axis with no dynamic completion; Activity with no course axis; explicitly known zero buffers; omitted unknown term; versioned TaskType reference with fixture-only stub; noncritical opaque extension. These are contract/example checks, not live user profiles, runtime tests or final machine-schema conformance.
+
 ## Detailed Execution Mapping
 
 Profiles/presets are one reviewed course/activity/family per repeated task. M1-01's identity artifact is the linked inventory; detailed profile readiness and the next task are in PROGRESS. Do not confuse confirmed names with reviewed detailed profiles.

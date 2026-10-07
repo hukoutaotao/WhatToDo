@@ -36,7 +36,7 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 
 - Type: `SPEC`. Initial status: `TODO`.
 - Prerequisites: [M1-01](M1_USER_COURSE_MODEL.md#m1-01)
-- Deliverable / bounded file scope: profiles schema proposal and one synthetic example.
+- Deliverable / bounded file scope: [versioned profile proposal](../USER_MODEL_PLAN.md#13-m1-02-stable-profile-format-proposal) and [one synthetic example bundle](../examples/STABLE_PROFILE_V0_1.synthetic.json). Frozen machine schemas remain M2 work.
 - Work: Define Course/Activity identity, context, axis units, TaskType references, provenance and version; separate stable profile fields from dynamic personal progress.
 - Acceptance / failure and extension checks: A course without a primary importance scalar is valid; dynamic progress cannot be committed as a stable default; adding an activity type needs no planner-specific code.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.

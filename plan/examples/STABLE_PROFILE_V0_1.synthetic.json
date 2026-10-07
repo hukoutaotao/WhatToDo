@@ -1,0 +1,161 @@
+{
+  "example_version": 1,
+  "fixture_only": true,
+  "profile_schema_version": "0.1.0-draft",
+  "reference_stubs": [
+    {
+      "kind": "TaskType",
+      "id": "fixture-homework",
+      "version": "0.1.0-draft",
+      "fixture_only": true,
+      "description": "Reference shape only; real TaskType defaults and activation remain M1B/M2 work."
+    }
+  ],
+  "profiles": [
+    {
+      "profile_format": "whatodo.stable-profile",
+      "profile_schema_version": "0.1.0-draft",
+      "profile_id": "fixture-course-chapters",
+      "profile_revision": 1,
+      "kind": "COURSE",
+      "domain": "study",
+      "record_mode": "SYNTHETIC",
+      "review_status": "DRAFT",
+      "display_name": "合成课程示例（不是用户课程）",
+      "profile": {
+        "task_family_refs": [
+          {
+            "family_id": "fixture-homework",
+            "task_type_ref": {
+              "id": "fixture-homework",
+              "version": "0.1.0-draft"
+            }
+          }
+        ],
+        "progress_axis": {
+          "axis_id": "fixture-chapters",
+          "axis_version": 1,
+          "unit_kind": "chapter",
+          "unit_label": "章",
+          "ordered_units": [
+            {
+              "id": "ch-01",
+              "label": "第1章"
+            },
+            {
+              "id": "ch-02",
+              "label": "第2章"
+            },
+            {
+              "id": "ch-03",
+              "label": "第3章"
+            }
+          ]
+        }
+      },
+      "unresolved_fields": [
+        "/term_ref",
+        "/profile/learning_patterns",
+        "/profile/relationship_rule_refs"
+      ],
+      "provenance": {
+        "sources": [
+          {
+            "id": "SYN-PROFILE-001",
+            "authority": "SYNTHETIC",
+            "description": "Invented M1-02 contract example; not a user course, commitment or preference."
+          }
+        ],
+        "field_sources": {
+          "/display_name": [
+            "SYN-PROFILE-001"
+          ],
+          "/domain": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/task_family_refs": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/progress_axis": [
+            "SYN-PROFILE-001"
+          ]
+        }
+      },
+      "extensions": {
+        "whatodo.example.annotation": {
+          "version": 1,
+          "critical": false,
+          "payload": {
+            "note": "Retain through format updates; does not change planning."
+          }
+        }
+      }
+    },
+    {
+      "profile_format": "whatodo.stable-profile",
+      "profile_schema_version": "0.1.0-draft",
+      "profile_id": "fixture-activity-flexible",
+      "profile_revision": 1,
+      "kind": "ACTIVITY",
+      "domain": "life_administration",
+      "record_mode": "SYNTHETIC",
+      "review_status": "DRAFT",
+      "display_name": "合成生活事务（不是用户的洗衣服或洗杯子）",
+      "profile": {
+        "activity_category": "synthetic-household",
+        "schedule_intent": "FLEXIBLE",
+        "recurrence": {
+          "kind": "CONDITION",
+          "description": "Synthetic condition; requires an accepted generation mapping before any canonical Task is created."
+        },
+        "work_characteristics": {
+          "typical_effort_minutes": 10,
+          "minimum_session_minutes": 5,
+          "fragmentability": "HIGH"
+        },
+        "buffers": {
+          "preparation_minutes": 0,
+          "travel_minutes": 0
+        }
+      },
+      "unresolved_fields": [
+        "/term_ref",
+        "/profile/task_family_refs",
+        "/profile/relationship_rule_refs"
+      ],
+      "provenance": {
+        "sources": [
+          {
+            "id": "SYN-PROFILE-001",
+            "authority": "SYNTHETIC",
+            "description": "Invented M1-02 contract example; not a user course, commitment or preference."
+          }
+        ],
+        "field_sources": {
+          "/display_name": [
+            "SYN-PROFILE-001"
+          ],
+          "/domain": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/activity_category": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/schedule_intent": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/recurrence": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/work_characteristics": [
+            "SYN-PROFILE-001"
+          ],
+          "/profile/buffers": [
+            "SYN-PROFILE-001"
+          ]
+        }
+      },
+      "extensions": {}
+    }
+  ]
+}

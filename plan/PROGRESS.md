@@ -4,21 +4,22 @@ Last updated: 2026-10-07 (Asia/Shanghai).
 
 ## 1. Actual State
 
-**M1-01 identity intake is complete: nine courses and six non-course commitments. Next ready task: M1-02.**
+**M1-01 identity intake and M1-02 stable-profile proposal are complete. Current task: M1-03, course-001 details, awaiting user input.**
 
 - M0 repository/control foundation: complete.
 - A0 accepted interaction/semantics alignment: complete.
 - Original audit boundaries O01–O08: resolved in accepted intent/decisions and module specs.
 - Detailed plan: [DEVELOPMENT_PLAN](DEVELOPMENT_PLAN.md) + 11 linked catalogs, 195 bounded definitions with explicit dependencies and acceptance; repeated real instances are still to be enumerated.
 - M1 identity intake: [confirmed inventory](intake/CURRENT_INVENTORY.md), nine courses and six non-course commitments with stable provisional IDs and user-source evidence.
+- M1-02 SPEC proposal: stable profile v0.1.0-draft and a clearly synthetic Course/Activity example; frozen machine validation is still future work.
 - M1/M1B/M2 gates: not complete; reviewed detailed profiles, presets, concrete machine schemas and toolchain selection do not yet exist.
 - Runtime, database, n8n, collectors, Calendar adapter, Planner, renderer, AI Router, learning and deployment: not implemented or runtime-verified.
 
-M1-01 is DONE at the identity-intake boundary. M1-02 is ready without additional user facts. No coding/deployment task is active. Task catalogs state initial TODO; this ledger is authoritative for actual status. Inventory intake does not complete M1 or implement runtime behavior.
+M1-01 is DONE at the identity-intake boundary; M1-02 is DONE as a versioned SPEC proposal. M1-03 (scope: course-001) is BLOCKED_USER for the actual course workflow. No coding/deployment task is active. Task catalogs state initial TODO; this ledger is authoritative for actual status. Inventory intake does not complete M1 or implement runtime behavior.
 
 ## 2. Next Work and Information Gates
 
-Next ready task: [M1-02](tasks/M1_USER_COURSE_MODEL.md#m1-02), a versioned stable profile proposal and synthetic example grounded in the completed inventory. Then model course-001 (the first course supplied), its axis, refine the reusable profile, and instantiate the other eight courses and six activities individually. The Other domain, exact term label and detailed scheduling facts are unknown; do not infer empty scope or fixed Calendar intervals. M1B presets and M2 contracts precede persistence.
+Current task: [M1-03](tasks/M1_USER_COURSE_MODEL.md#m1-03), course-001 — 复变函数与数理方程. The first scoped question asks what recurring work the course creates and how that work normally flows. Collect missing difficulty, duration, fragmentation and timing details in subsequent small prompts as needed; never assume a generic course's homework/preview/review pattern. Then define its axis, refine the reusable profile, and instantiate the other eight courses and six activities individually. The Other domain, exact term label and detailed scheduling facts are unknown; do not infer empty scope or fixed Calendar intervals. M1B presets and M2 contracts precede persistence.
 
 Ask only the current task's missing facts. Already accepted: four life domains; Task-based importance/requiredness/difficulty; parent/stage structure; explicit task relationships and scoped generation; notice-before-expiry without extra acknowledgement; model-first remaining-work planning with U retained; Beijing/date-only 23:59; natural-day windows including today; daily reserve and aggregate ≤40-minute SAFE rule; explicit unchanged-estimate batches; full review/emergency/inactivity/learning authority rules. Do not reopen them.
 
@@ -31,7 +32,9 @@ Default status for every unlisted task/instance: TODO. M1-01 is DONE based on th
 | ID / instance | Status | Evidence / blocker | Next action |
 | --- | --- | --- | --- |
 | PLAN-2026-10-06 | DONE | Detailed plan/catalogs, dependency and document checks; publication verified separately | M1-01 intake started |
-| M1-01 | DONE | [Intake v1](intake/CURRENT_INVENTORY.md); source `USR-20261007-INVENTORY-01` (2026-10-07 user reply). Nine exact course names, four sports, two life activities, 15 unique IDs with identity confirmation; frequencies/term/Other remain unknown. | M1-02 stable profile proposal; no detailed course/activity readiness yet. |
+| M1-01 | DONE | [Intake v1](intake/CURRENT_INVENTORY.md); source `USR-20261007-INVENTORY-01` (2026-10-07 user reply). Nine exact course names, four sports, two life activities, 15 unique IDs with identity confirmation; frequencies/term/Other remain unknown. Published as `aa00b5511b3f827c12b4960acaaaef994cd72277`; all eight changed files and main head read back successfully. | Identity prerequisite for M1-02 met; detailed profiles remain pending. |
+| M1-02 | DONE | [Profile v0.1.0-draft](USER_MODEL_PLAN.md#13-m1-02-stable-profile-format-proposal), [synthetic example](examples/STABLE_PROFILE_V0_1.synthetic.json); in-session JSON/example/contract checks described below. | M1-03 representative course; refine proposal after real M1-04 evidence. |
+| M1-03 | BLOCKED_USER | M1-01/02 artifacts exist; scope is course-001. Real workflow/task families for 复变函数与数理方程 have not been supplied. | Ask one natural-language question about the work this course creates; retain unknown details. |
 
 During execution, add only active, blocked, completed or explicitly NOT_ENABLED tasks/instances here. Record: ID/scope, contract/artifact versions, changed paths, exact checks or user-source reference, observed result, limitations and downstream readiness. Keep a concise session history; do not paste another full roadmap.
 
@@ -68,3 +71,12 @@ Execution order/tasks: DEVELOPMENT_PLAN and catalogs. Actual evidence/status: th
 - Propagation: root/control README, USER_MODEL, ALIGNMENT, PROJECT and DEVELOPMENT_PLAN now link to the identity artifact and defer live next-task readiness to this ledger. Product policy/decisions and task dependencies did not change.
 - Targeted checks: exact ordered names/counts, unique IDs, per-item confirmation, unknown-boundary wording, Markdown link targets/anchors and whitespace. Publication is checked separately by committed-file read-back and expected main head.
 - Result: M1-01 DONE; M1-02 ready. M1-03 and repeated instances are not complete. No runtime-test or Calendar-delivery evidence exists.
+
+## 8. Execution Session — 2026-10-07 (M1-02 and M1-03 Intake)
+
+- Completed prerequisite: M1-01 published at `aa00b5511b3f827c12b4960acaaaef994cd72277`; 34 Markdown files/540 local links/318 fragments and 15 confirmed unique identities checked. All eight changed GitHub files and the expected main head were read back.
+- M1-02 artifacts: USER_MODEL_PLAN §13, proposal version `0.1.0-draft`; examples/STABLE_PROFILE_V0_1.synthetic.json, example version 1. DATA_MODEL §14 links ownership/compatibility boundaries; the catalog links the delivered artifacts.
+- Targeted check method: in-session JavaScript JSON parse and contract/example checks; source/pointer/reference resolution; synthetic isolation; no Course importance or dynamic state; valid Activity without course axis; unknown versus explicit zero; critical extension handling; Markdown paths/anchors and whitespace. Observed: two valid synthetic profiles and lossless JSON round-trip; eight negative variants rejected (live progress, known/unresolved contradiction, missing provenance, unsupported version, unknown critical extension, unresolved TaskType version, root Course importance and unsupported review marker); real-user activation of a synthetic record was also rejected. This is an ephemeral proposal check, not a shipped runtime validator or final JSON Schema test.
+- Result: M1-02 DONE at SPEC scope. The shared envelope, versioning, source evidence and scoped unknowns can be exercised by M1-03/04, then refined at M1-05. No real profile has been reviewed, and no TaskType registry, database or Planner is implemented.
+- Next intake: M1-03 (scope: course-001) uses the first course in the user's supplied order. This is an execution scope, not a course priority. Actual work families/workflow are BLOCKED_USER; only that course's missing facts are requested now.
+- Publication check: read back every changed artifact at the new commit and verify the expected main head. Do not treat pre-publication checks as remote verification.
