@@ -1005,7 +1005,7 @@ The user's six answers add the Task Relationship System and scoped rule-authoriz
 
 Canonical personal-state protection remains: external completion needs review, model estimates do not overwrite user estimates, and generation uses accepted rule mappings rather than confidence. Explicit model-first planning is not an automatic max(user, model). Prediction can come from stored numerical calibration, so the deterministic/no-live-LLM path remains intact.
 
-Relationship completion order is not automatically a start prerequisite, and generation edges must not be mistaken for temporal ordering or stages. Externally published concrete times retain their meaning. D-078 fixes all risk windows to natural days including today, ending at 23:59 Asia/Shanghai on today / today+2 / today+6. Capacity snapshots include only remaining usable time. All original audit boundaries are resolved; the detailed development plan is complete and M1-01 is the next scoped information task. Implementation remains incomplete.
+Relationship completion order is not automatically a start prerequisite, and generation edges must not be mistaken for temporal ordering or stages. Externally published concrete times retain their meaning. D-078 fixes all risk windows to natural days including today, ending at 23:59 Asia/Shanghai on today / today+2 / today+6. Capacity snapshots include only remaining usable time. All original audit boundaries are resolved; the detailed development plan is complete; current identities are in the [confirmed inventory](intake/CURRENT_INVENTORY.md) and PROGRESS owns actual next-task readiness. Implementation remains incomplete.
 
 ---
 

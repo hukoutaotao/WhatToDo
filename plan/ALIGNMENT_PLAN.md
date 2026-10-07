@@ -406,7 +406,7 @@ It is a shared mental model represented in:
 - relevant decisions
 - PROGRESS
 
-A0 is accepted. M1 remains the next incomplete semantic milestone. The detailed plan and linked task catalogs are now complete. Follow PROGRESS.md and start M1-01 current-semester inventory before concrete course/activity modeling.
+A0 is accepted. M1 remains the next incomplete semantic milestone. The detailed plan and linked task catalogs are now complete. Follow PROGRESS.md for actual readiness. M1-01's [confirmed inventory](intake/CURRENT_INVENTORY.md) precedes concrete course/activity modeling; the identity list does not complete M1.
 
 ---
 

@@ -4,7 +4,7 @@
 > Bounded work: [M1_USER_COURSE_MODEL](tasks/M1_USER_COURSE_MODEL.md) · [M1B_TASKTYPE_PRESETS](tasks/M1B_TASKTYPE_PRESETS.md) · [M5B_GOALS_GENERATION](tasks/M5B_GOALS_GENERATION.md).
 
 > Purpose: Define how WhatToDo learns the user's stable working context before task/database implementation.
-> Current relevance: A0 is complete. This is the modeling specification for the next incomplete semantic milestone M1; the detailed development plan is complete; the next task is M1-01 current-semester inventory (PROGRESS.md).
+> Current relevance: A0 and the detailed development plan are complete; M1 remains incomplete. The current names are recorded once in the [confirmed inventory](intake/CURRENT_INVENTORY.md). Read PROGRESS for the current task and evidence; identity intake does not complete detailed modeling.
 
 ## 1. Scope
 
@@ -312,7 +312,7 @@ Do not re-ask A0's accepted domains, three 1–5 difficulty dimensions, Task imp
 
 Time-of-day preferences are user-confirmed profile rules; learned alternatives require approval. Exam review phases/cadence may be configured explicitly, but are not a generic lead-time field for every TaskType. Teaching progress and task-family progress values are dynamic state; the definition of their common axis is stable profile/config.
 
-Conditional triggers can detect conditions automatically; mapped Tasks may be instantiated under an explicitly accepted automatic-generation relationship (D-072). Outside accepted rule scope, propose candidates. TaskType defaults alone are not blanket activation permission. M1 is not complete: no current-semester profiles have been collected in this repository.
+Conditional triggers can detect conditions automatically; mapped Tasks may be instantiated under an explicitly accepted automatic-generation relationship (D-072). Outside accepted rule scope, propose candidates. TaskType defaults alone are not blanket activation permission. M1 is not complete: current course/activity identities have been collected, but reviewed detailed profiles, axis definitions and task-family defaults remain pending.
 
 ---
 
@@ -328,4 +328,4 @@ Stable generation/order templates belong with versioned profile/rule knowledge; 
 
 ## Detailed Execution Mapping
 
-Profiles/presets are one reviewed course/activity/family per repeated task; M1-01 is next. Do not claim current profiles exist.
+Profiles/presets are one reviewed course/activity/family per repeated task. M1-01's identity artifact is the linked inventory; detailed profile readiness and the next task are in PROGRESS. Do not confuse confirmed names with reviewed detailed profiles.

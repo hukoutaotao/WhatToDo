@@ -4,20 +4,21 @@ Last updated: 2026-10-07 (Asia/Shanghai).
 
 ## 1. Actual State
 
-**Development execution started with M1-01. Current-semester inventory is awaiting user input.**
+**M1-01 identity intake is complete: nine courses and six non-course commitments. Next ready task: M1-02.**
 
 - M0 repository/control foundation: complete.
 - A0 accepted interaction/semantics alignment: complete.
 - Original audit boundaries O01–O08: resolved in accepted intent/decisions and module specs.
 - Detailed plan: [DEVELOPMENT_PLAN](DEVELOPMENT_PLAN.md) + 11 linked catalogs, 195 bounded definitions with explicit dependencies and acceptance; repeated real instances are still to be enumerated.
-- M1/M1B/M2 deliverables: not complete; current-semester profiles, reviewed presets, concrete machine schemas and toolchain selection do not yet exist.
+- M1 identity intake: [confirmed inventory](intake/CURRENT_INVENTORY.md), nine courses and six non-course commitments with stable provisional IDs and user-source evidence.
+- M1/M1B/M2 gates: not complete; reviewed detailed profiles, presets, concrete machine schemas and toolchain selection do not yet exist.
 - Runtime, database, n8n, collectors, Calendar adapter, Planner, renderer, AI Router, learning and deployment: not implemented or runtime-verified.
 
-Active work is M1-01 information collection, currently BLOCKED_USER because the current-semester inventory has not been supplied. No coding/deployment task is active. Task catalogs state initial TODO; this ledger is authoritative for actual status. Starting intake does not complete modeling or implement runtime behavior.
+M1-01 is DONE at the identity-intake boundary. M1-02 is ready without additional user facts. No coding/deployment task is active. Task catalogs state initial TODO; this ledger is authoritative for actual status. Inventory intake does not complete M1 or implement runtime behavior.
 
 ## 2. Next Work and Information Gates
 
-Current task: [M1-01](tasks/M1_USER_COURSE_MODEL.md#m1-01), collecting the current-semester course/activity inventory. The required next input is the names of all current courses and recurring non-course commitments; names only are sufficient for this intake step, and an empty category must be explicitly stated. Then model one representative course and axis, refine the reusable profile, and instantiate remaining courses/activities individually. M1B presets and M2 contracts precede persistence.
+Next ready task: [M1-02](tasks/M1_USER_COURSE_MODEL.md#m1-02), a versioned stable profile proposal and synthetic example grounded in the completed inventory. Then model course-001 (the first course supplied), its axis, refine the reusable profile, and instantiate the other eight courses and six activities individually. The Other domain, exact term label and detailed scheduling facts are unknown; do not infer empty scope or fixed Calendar intervals. M1B presets and M2 contracts precede persistence.
 
 Ask only the current task's missing facts. Already accepted: four life domains; Task-based importance/requiredness/difficulty; parent/stage structure; explicit task relationships and scoped generation; notice-before-expiry without extra acknowledgement; model-first remaining-work planning with U retained; Beijing/date-only 23:59; natural-day windows including today; daily reserve and aggregate ≤40-minute SAFE rule; explicit unchanged-estimate batches; full review/emergency/inactivity/learning authority rules. Do not reopen them.
 
@@ -25,12 +26,12 @@ Later input checkpoints are listed in DEVELOPMENT_PLAN §7: actual calendar/sour
 
 ## 3. Live Task Ledger
 
-Default status for every unlisted task/instance: TODO. M1-01 has started and is BLOCKED_USER until the current inventory is supplied. It is not DONE, and no course/activity profile is inferred from prior conversation or an empty template.
+Default status for every unlisted task/instance: TODO. M1-01 is DONE based on the current user statement and intake artifact. The list confirms identities only; no detailed profile is inferred from prior conversation or an empty template.
 
 | ID / instance | Status | Evidence / blocker | Next action |
 | --- | --- | --- | --- |
 | PLAN-2026-10-06 | DONE | Detailed plan/catalogs, dependency and document checks; publication verified separately | M1-01 intake started |
-| M1-01 | BLOCKED_USER | User requested development start on 2026-10-07; M1-01 and USER_MODEL_PLAN reviewed at baseline `50aa717bd09421dc81f42c0fdf7953db7796a796`. Current course/activity names are not yet supplied. | Collect one scoped inventory response, then record each confirmed item with a stable provisional ID and confirmation state. |
+| M1-01 | DONE | [Intake v1](intake/CURRENT_INVENTORY.md); source `USR-20261007-INVENTORY-01` (2026-10-07 user reply). Nine exact course names, four sports, two life activities, 15 unique IDs with identity confirmation; frequencies/term/Other remain unknown. | M1-02 stable profile proposal; no detailed course/activity readiness yet. |
 
 During execution, add only active, blocked, completed or explicitly NOT_ENABLED tasks/instances here. Record: ID/scope, contract/artifact versions, changed paths, exact checks or user-source reference, observed result, limitations and downstream readiness. Keep a concise session history; do not paste another full roadmap.
 
@@ -52,10 +53,18 @@ Earlier documentation commits: full audit `12189642e300dacf62a46bae9d8a51d8c1a61
 
 Execution order/tasks: DEVELOPMENT_PLAN and catalogs. Actual evidence/status: this file. Product policy: A0/DECISIONS. Do not infer completion from milestone names, technology availability, old chat or generated documentation.
 
-## 6. Execution Session — 2026-10-07
+## 6. Execution Session — 2026-10-07 (Development Start)
 
 - User source: the request to use the GitHub progress document and start development if it exists. This authorizes beginning the planned execution sequence.
 - Observed baseline: PROGRESS already exists; M1-01 has no prerequisites and requires confirmed current-semester courses/recurring activities. The catalog and USER_MODEL_PLAN agree on inventory-first intake.
 - Changed scope: this progress ledger only. No accepted product decision, course profile, code, database or deployment was changed.
 - Targeted checks: each intended text replacement occurs exactly once; existing Markdown links are preserved; the M1-01 ledger entry is unique and BLOCKED_USER; no trailing whitespace is introduced. Publication is checked by reading back the committed file and branch head; those remote results must not be inferred from the pre-publication text checks.
 - Remaining limitation: no confirmed inventory has been received. M1-02 remains TODO with M1-01 incomplete; this session provides no runtime-test evidence.
+
+## 7. Execution Session — 2026-10-07 (M1-01)
+
+- User source: `USR-20261007-INVENTORY-01`; nine current courses, four named sports and two named life arrangements. The names are authoritative; no historical facts were imported.
+- Artifact: intake/CURRENT_INVENTORY.md, version 1. All 15 items have stable provisional IDs and identity confirmation. The circuits theory/experiment courses are distinct; term, schedules, detailed profiles and Other-domain coverage remain unknown.
+- Propagation: root/control README, USER_MODEL, ALIGNMENT, PROJECT and DEVELOPMENT_PLAN now link to the identity artifact and defer live next-task readiness to this ledger. Product policy/decisions and task dependencies did not change.
+- Targeted checks: exact ordered names/counts, unique IDs, per-item confirmation, unknown-boundary wording, Markdown link targets/anchors and whitespace. Publication is checked separately by committed-file read-back and expected main head.
+- Result: M1-01 DONE; M1-02 ready. M1-03 and repeated instances are not complete. No runtime-test or Calendar-delivery evidence exists.

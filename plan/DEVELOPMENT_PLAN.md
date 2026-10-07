@@ -127,7 +127,7 @@ Do not require an entire milestone's live credentials to develop independent tas
 | [M8 — Learning/operations/release](tasks/M8_LEARNING_RELEASE_OPERATIONS.md) | 27 | Passed core; explicit enabled-provider scope | M8-27 maintainable release with restore, drills and extension evidence |
 | **Total** | **195** | Additional repeated instances are explicit | No runtime capability is complete merely because listed |
 
-Primary next task after this planning deliverable: **M1-01**, current-semester inventory. M1 is still incomplete; this plan does not collect or guess the user's courses/activities.
+The planning deliverable initially handed off to **M1-01**, current-semester inventory. Execution evidence and next-task readiness now belong to [PROGRESS](PROGRESS.md); confirmed names belong to the [inventory](intake/CURRENT_INVENTORY.md). M1 remains incomplete until its gate passes; this plan does not guess user facts.
 
 Practical release slices:
 
@@ -300,6 +300,6 @@ All are resolved specifications. Their code/test tasks remain incomplete until e
 
 Validate the complete documentation inventory, local links/anchors, unique task/decision/intent IDs, all dependency references and acyclicity, milestone counts/gates, all F1–F13 and C01–C21/O01–O08 mappings, replacement reference cleanup and critical semantic propagation. Before publishing verify the remote base head; after publishing compare remote file blobs with the checked artifacts, including retired-file deletion.
 
-This is document/task-plan verification only. It proves neither a working implementation nor that the selected future solver/provider/deployment passes runtime tests. M0/A0 and this planning deliverable are complete; next is M1-01. Future task changes remain versioned and evidence-based.
+This is document/task-plan verification only. It proves neither a working implementation nor that the selected future solver/provider/deployment passes runtime tests. M0/A0 and this planning deliverable are complete; current execution status and next-task readiness are recorded in PROGRESS. Future task changes remain versioned and evidence-based.
 
 The 2026-10-06 local verification passed for 33 Markdown files, 11 catalogs/195 task definitions, 528 local links/319 fragments, acyclic dependencies, complete milestone gates, AI-independent deterministic-release dependencies, 79 decision IDs/62 A0 sections, F/C/O/R traceability, retired-file cleanup and whitespace. Publication is verified separately against GitHub; runtime tasks are still TODO.

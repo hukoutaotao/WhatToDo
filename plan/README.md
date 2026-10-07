@@ -9,7 +9,7 @@ This is the entry point for a new AI. The repository currently contains accepted
 3. Choose one ready card from its [task catalog index](DEVELOPMENT_PLAN.md#6-milestones-and-task-catalogs). Read that catalog's semantic sources and completed prerequisite artifacts.
 4. On a new handoff or semantic change, read [A0 intent](A0_USER_INTENT.md) and [DECISIONS](DECISIONS.md). Do not invent current-semester facts from chat history.
 
-Next: M1-01, current-semester course/activity inventory. M0/A0 and the detailed planning deliverable are complete. M1/M1B/M2 and all runtime tasks remain incomplete. Do not reopen accepted preferences or begin persistence before their semantic gates.
+Current-semester names: [confirmed inventory](intake/CURRENT_INVENTORY.md). The next ready task and blockers are maintained in PROGRESS. M0/A0 and the detailed planning deliverable are complete. M1/M1B/M2 and all runtime tasks remain incomplete. Do not reopen accepted preferences or begin persistence before their semantic gates.
 
 ## 2. Authority by Subject
 
@@ -32,7 +32,7 @@ A technical proposal or task ID does not authorize a new user preference. Record
 | [A0_USER_INTENT](A0_USER_INTENT.md), [DECISIONS](DECISIONS.md) | Complete accepted user semantics and refinements | All; decisions preserved, not duplicated into alternatives |
 | [ALIGNMENT_PLAN](ALIGNMENT_PLAN.md) | Reusable semantic-vs-adapter alignment method; completed A0 gate | M1, M1B, M2 |
 | [PROJECT_PLAN](PROJECT_PLAN.md) | Architecture/storage/Calendar/AI responsibilities | M2–M8 |
-| [USER_MODEL_PLAN](USER_MODEL_PLAN.md) | Current courses/activities, axes, preferences and presets | M1, M1B, M5B |
+| [USER_MODEL_PLAN](USER_MODEL_PLAN.md), [confirmed inventory](intake/CURRENT_INVENTORY.md) | Stable modeling specification and current user-confirmed identity intake; detailed profiles remain separate | M1, M1B, M5B |
 | [DATA_MODEL_PLAN](DATA_MODEL_PLAN.md) | Task/state/provenance/history/effort ownership | M2, M3A, M3B, M5B |
 | [TASK_RELATIONSHIP_PLAN](TASK_RELATIONSHIP_PLAN.md) | Typed generation/order, authority, idempotency and workload | M1B, M2, M3B, M6 |
 | [IO_CONTRACT_PLAN](IO_CONTRACT_PLAN.md) | Natural input, full review, batches, emergency, output | M2, M3A/B, M6 |
