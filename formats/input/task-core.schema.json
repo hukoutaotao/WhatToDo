@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:task-core:0.1.0-draft",
+  "title": "WhatToDo Task core snapshot (development draft)",
+  "description": "Structural validation only. Not a complete Task, an authorization check, or a persistence command.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "task_id",
+    "revision",
+    "title",
+    "domain",
+    "context",
+    "task_type_ref",
+    "acceptance",
+    "completion",
+    "disposition",
+    "requiredness",
+    "importance",
+    "difficulty",
+    "expiration",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "task_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "pattern": "\\S"
+    },
+    "domain": {
+      "enum": [
+        "study",
+        "exercise",
+        "life_administration",
+        "other"
+      ]
+    },
+    "context": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "id"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "COURSE",
+                "ACTIVITY",
+                "GOAL",
+                "EXAM"
+              ]
+            },
+            "id": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "task_type_ref": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "version"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/$defs/reference"
+            },
+            "version": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "acceptance": {
+      "type": "object",
+      "required": [
+        "state",
+        "authority_ref"
+      ],
+      "properties": {
+        "state": {
+          "const": "ACCEPTED"
+        },
+        "authority_ref": {
+          "$ref": "#/$defs/reference"
+        }
+      },
+      "additionalProperties": false
+    },
+    "completion": {
+      "enum": [
+        "INCOMPLETE",
+        "COMPLETE"
+      ]
+    },
+    "disposition": {
+      "enum": [
+        "ACTIVE",
+        "CANCELLED",
+        "EXPIRED"
+      ]
+    },
+    "requiredness": {
+      "enum": [
+        "REQUIRED",
+        "OPTIONAL",
+        "EXPIRING"
+      ]
+    },
+    "importance": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "difficulty": {
+      "type": "object",
+      "required": [
+        "thinking_depth",
+        "repetitive_volume",
+        "new_learning_load"
+      ],
+      "properties": {
+        "thinking_depth": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "repetitive_volume": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "new_learning_load": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "expiration": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "condition_ref",
+            "notice_ref"
+          ],
+          "properties": {
+            "condition_ref": {
+              "$ref": "#/$defs/reference"
+            },
+            "notice_ref": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "$ref": "#/$defs/reference"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "metadata": {
+      "type": "object",
+      "required": [
+        "trust",
+        "overdue"
+      ],
+      "properties": {
+        "trust": {
+          "enum": [
+            "TRUSTED",
+            "STALE",
+            "CONFLICTED",
+            "UNKNOWN"
+          ]
+        },
+        "overdue": {
+          "enum": [
+            "NOT_OVERDUE",
+            "OVERDUE",
+            "UNKNOWN",
+            "NOT_APPLICABLE"
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "requiredness": {
+            "const": "EXPIRING"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "expiration": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "expiration": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "disposition": {
+            "const": "EXPIRED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "requiredness": {
+            "const": "EXPIRING"
+          },
+          "completion": {
+            "const": "INCOMPLETE"
+          },
+          "expiration": {
+            "type": "object",
+            "properties": {
+              "notice_ref": {
+                "$ref": "#/$defs/reference"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    }
+  }
+}

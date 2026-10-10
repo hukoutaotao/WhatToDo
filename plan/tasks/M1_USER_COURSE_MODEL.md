@@ -69,7 +69,7 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 
 - Type: `SPEC`. Initial status: `TODO`.
 - Prerequisites: [M1-04](M1_USER_COURSE_MODEL.md#m1-04)
-- Deliverable / bounded file scope: revised stable schema and compatibility note.
+- Deliverable / bounded file scope: [revised stable format proposal](../USER_MODEL_PLAN.md#14-m1-05-reusable-profile-refinement), [reusable template and compatibility note](../PROFILE_TEMPLATE.md), and [source-backed DRAFT example](../examples/COURSE_001_PROFILE_V0_2.intake.json). Frozen machine schema remains M2 work.
 - Work: Extract reusable fields from the representative course; define optional extensions and error reporting for missing required context. Preserve the original reviewed example.
 - Acceptance / failure and extension checks: The example round-trips without loss; another course can use chapters or experiments through configuration; optional extension fields cannot alter accepted core semantics.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.

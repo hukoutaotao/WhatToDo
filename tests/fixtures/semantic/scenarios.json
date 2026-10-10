@@ -1,0 +1,262 @@
+{
+  "synthetic": true,
+  "scenario_version": "0.1.0-draft",
+  "scenarios": [
+    {
+      "id": "SC-001",
+      "kind": "MODEL_FORECAST",
+      "decisions": [
+        "D-066",
+        "D-074"
+      ],
+      "inputs": {
+        "user_seconds": 1800,
+        "model_seconds": 600,
+        "capacity_seconds": 5400
+      },
+      "expected": {
+        "budget_seconds": 600,
+        "source": "MODEL",
+        "canonical_user_seconds": 1800,
+        "risk": "SAFE"
+      }
+    },
+    {
+      "id": "SC-002",
+      "kind": "MODEL_FORECAST",
+      "decisions": [
+        "D-059",
+        "D-074"
+      ],
+      "inputs": {
+        "user_seconds": 1800,
+        "model_seconds": 3600,
+        "capacity_seconds": 5400
+      },
+      "expected": {
+        "budget_seconds": 3600,
+        "source": "MODEL",
+        "canonical_user_seconds": 1800,
+        "risk": "DANGER"
+      }
+    },
+    {
+      "id": "SC-003",
+      "kind": "HARD_WINDOW",
+      "decisions": [
+        "D-032",
+        "D-040",
+        "D-061"
+      ],
+      "inputs": {
+        "slot_seconds": 900,
+        "day_slots": 16,
+        "required_slots": 2,
+        "eligible_slots": [
+          0
+        ]
+      },
+      "expected": {
+        "candidate_placements": 0,
+        "capacity_seconds": 14400,
+        "required_seconds": 1800,
+        "positive_margin": true,
+        "risk": "EMERGENCY"
+      }
+    },
+    {
+      "id": "SC-004",
+      "kind": "EXTERNAL_AUTHORITY",
+      "decisions": [
+        "D-020",
+        "D-033",
+        "D-064"
+      ],
+      "inputs": {
+        "confidence": "1",
+        "proposed_completion": "COMPLETE"
+      },
+      "expected": {
+        "candidate_state": "PENDING",
+        "authorized": false,
+        "completion": "INCOMPLETE",
+        "canonical_user_seconds": 1800
+      }
+    },
+    {
+      "id": "SC-005",
+      "kind": "BATCH_COMMIT",
+      "decisions": [
+        "D-051",
+        "D-065",
+        "D-077",
+        "D-079"
+      ],
+      "inputs": {
+        "untouched_id": "synthetic-untouched",
+        "worked_id": "synthetic-worked",
+        "user_seconds": 1800,
+        "include_worked_in_batch": false
+      },
+      "expected": {
+        "verified_task_ids": [
+          "synthetic-untouched"
+        ],
+        "responses_complete": false,
+        "audit_entries": 1,
+        "canonical_user_seconds": 1800,
+        "commit_code": "COMMITTED"
+      }
+    },
+    {
+      "id": "SC-006",
+      "kind": "GENERATION_ORDER",
+      "decisions": [
+        "D-071",
+        "D-072"
+      ],
+      "inputs": {
+        "source_type": "synthetic-source-type",
+        "target_type": "synthetic-target-type",
+        "preparation_seconds": 1800,
+        "source_seconds": 3600
+      },
+      "expected": {
+        "graph_issues": 0,
+        "resolution": "PROPOSED",
+        "authorized": true,
+        "replay_state": "ALREADY_RECORDED",
+        "total_seconds": 5400
+      }
+    },
+    {
+      "id": "SC-007",
+      "kind": "NOTICE_EXPIRY",
+      "decisions": [
+        "D-044",
+        "D-069",
+        "D-073",
+        "D-079"
+      ],
+      "inputs": {
+        "initial_dispatch": "UNKNOWN",
+        "user_seconds": 1800
+      },
+      "expected": {
+        "ready_before_receipt": false,
+        "resend_blocked": true,
+        "ready_after_receipt": true,
+        "authorized": true,
+        "disposition": "EXPIRED",
+        "completion": "INCOMPLETE",
+        "canonical_user_seconds": 1800,
+        "audit_entries": 1
+      }
+    },
+    {
+      "id": "SC-008",
+      "kind": "NOTICE_EXPIRY",
+      "decisions": [
+        "D-073",
+        "D-064"
+      ],
+      "inputs": {
+        "initial_dispatch": "FAILED",
+        "user_seconds": 1800
+      },
+      "expected": {
+        "ready_before_receipt": false,
+        "resend_blocked": false,
+        "ready_after_receipt": true,
+        "authorized": true,
+        "disposition": "EXPIRED",
+        "completion": "INCOMPLETE",
+        "canonical_user_seconds": 1800,
+        "audit_entries": 1
+      }
+    },
+    {
+      "id": "SC-009",
+      "kind": "ROLLOVER",
+      "decisions": [
+        "D-063",
+        "D-075",
+        "D-078"
+      ],
+      "inputs": {
+        "before": "2026-01-01T23:58:00+08:00",
+        "after": "2026-01-02T00:01:00+08:00",
+        "date_only": "2026-01-02"
+      },
+      "expected": {
+        "before_cutoffs": [
+          "2026-01-01T23:59:00+08:00",
+          "2026-01-03T23:59:00+08:00",
+          "2026-01-07T23:59:00+08:00"
+        ],
+        "after_cutoffs": [
+          "2026-01-02T23:59:00+08:00",
+          "2026-01-04T23:59:00+08:00",
+          "2026-01-08T23:59:00+08:00"
+        ],
+        "before_capacity_seconds": 60,
+        "lock_active_before": true,
+        "lock_active_after": false,
+        "date_only_due": "2026-01-02T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "SC-010",
+      "kind": "SAFE_GAP",
+      "decisions": [
+        "D-059",
+        "D-076"
+      ],
+      "inputs": {
+        "required_seconds": 1800,
+        "reserve_seconds": 3600,
+        "gap_seconds": [
+          2340,
+          2400,
+          2460
+        ],
+        "fragment_seconds": [
+          1200,
+          1200,
+          60
+        ]
+      },
+      "expected": {
+        "discretionary_seconds": [
+          0,
+          0,
+          2460
+        ],
+        "fragments_total_seconds": 2460
+      }
+    },
+    {
+      "id": "SC-011",
+      "kind": "BATCH_COMMIT",
+      "decisions": [
+        "D-051",
+        "D-065",
+        "D-077",
+        "D-079"
+      ],
+      "inputs": {
+        "untouched_id": "synthetic-untouched",
+        "worked_id": "synthetic-worked",
+        "user_seconds": 1800,
+        "include_worked_in_batch": true
+      },
+      "expected": {
+        "verified_task_ids": [],
+        "responses_complete": false,
+        "audit_entries": 0,
+        "canonical_user_seconds": 1800,
+        "commit_code": "NOT_COMMITTED"
+      }
+    }
+  ]
+}

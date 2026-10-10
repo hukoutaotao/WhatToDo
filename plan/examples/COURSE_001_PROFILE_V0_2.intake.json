@@ -1,0 +1,358 @@
+{
+  "profile_format": "whatodo.stable-profile",
+  "profile_schema_version": "0.2.0-draft",
+  "profile_id": "course-001",
+  "profile_revision": 1,
+  "kind": "COURSE",
+  "domain": "study",
+  "record_mode": "USER_PROFILE",
+  "review_status": "DRAFT",
+  "display_name": "复变函数与数理方程",
+  "review_history": [
+    {
+      "source_id": "USR-20261009-COURSE001-06",
+      "source_artifact": "../intake/COURSE_001_PROFILE_DRAFT.md",
+      "source_revision": 5,
+      "scope": "用户认可自然语言工作流程汇总并补充预习课前约束；不表示本结构表示已整份审核。"
+    },
+    {
+      "source_id": "USR-20261009-COURSE001-07",
+      "source_artifact": "../intake/COURSE_001_PROFILE_DRAFT.md",
+      "source_revision": 6,
+      "scope": "仅补充老师实际课次数的轴单位选择。"
+    },
+    {
+      "source_id": "USR-20261009-COURSE001-08",
+      "source_artifact": "../intake/COURSE_001_PROFILE_DRAFT.md",
+      "source_revision": 7,
+      "scope": "仅补充预习 EXPIRING 与目标实际课开始时失效。"
+    }
+  ],
+  "profile": {
+    "context_notes": {
+      "reported_experience": [
+        "用户已学过多元微积分，认为当前复变函数前面部分与二元积分有较大相似性，目前感觉难度不大；不扩展为整门课的固定难度。",
+        "用户报告授课教师是退休返聘的老教授；感觉教学投入不多，不带纸质讲义或备课课件，不使用 PPT，主要凭记忆板书。",
+        "用户报告讲授速度快，内容频繁跳转而不说明逻辑，板书量大，需全程高度专注记录并跟上思路。",
+        "用户报告课堂内容常有错误，课后需检查笔记并重新组织知识结构。"
+      ],
+      "reported_exam_hint": "用户转述教师明显暗示考试题绝大部分来自课堂例题和作业；不是已核实的考试范围、比例或官方承诺。"
+    },
+    "family_intake": [
+      {
+        "family_id": "course-001-preview",
+        "description": "往后翻教材，概览接下来知识点；不要求提前弄懂所有证明。",
+        "estimate": {
+          "basis": "对应一次实际课／每周的预习",
+          "minimum_minutes": 20,
+          "maximum_minutes": 30,
+          "measurement_status": "UNMEASURED_USER_ESTIMATE"
+        },
+        "difficulty": {
+          "thinking_depth": 2,
+          "repetitive_volume": 2,
+          "new_learning_load": 3
+        },
+        "session": {
+          "fragmentable": true,
+          "minimum_effective_minutes": 20
+        },
+        "requiredness": "EXPIRING",
+        "timing": {
+          "axis_position": "BEFORE",
+          "target": "对应的目标实际课次",
+          "deadline_description": "目标实际课开始前；正常周二 13:30，停调课跟随实际对应课次。",
+          "expiration_condition": "目标实际课开始时仍未完成；先通知用户，再记录 EXPIRED，无需额外确认；保留 INCOMPLETE 历史和用户剩余估计。"
+        }
+      },
+      {
+        "family_id": "course-001-notes",
+        "description": "核查课堂笔记中的错误，并把上课内容重组为有体系的知识网络。",
+        "qualitative_importance": "用户认为是本课最重要的工作；数值重要性未知。",
+        "estimate": {
+          "basis": "一次课的笔记；每周一次课",
+          "minimum_minutes": 60,
+          "maximum_minutes": 60,
+          "measurement_status": "UNMEASURED_USER_ESTIMATE"
+        },
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 3,
+          "new_learning_load": 3
+        },
+        "session": {
+          "fragmentable": true,
+          "minimum_effective_minutes": 20
+        },
+        "requiredness": "OPTIONAL",
+        "timing": {
+          "axis_position": "AFTER",
+          "target": "笔记所对应的实际课次",
+          "normal_window": "该周周四至周日；允许之后补做，周日不是自动失效界限。"
+        }
+      },
+      {
+        "family_id": "course-001-homework",
+        "description": "完成这一周对应的作业；教师通常在课堂讲题，无固定独立订正任务，不推断订正永远不适用。",
+        "estimate": {
+          "basis": "当周／一次课对应的作业",
+          "minimum_minutes": 40,
+          "maximum_minutes": 40,
+          "measurement_status": "UNMEASURED_USER_ESTIMATE"
+        },
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "session": {
+          "single_session_required": true
+        },
+        "requiredness": "REQUIRED",
+        "timing": {
+          "axis_position": "AFTER",
+          "target": "明确关联的实际课次；跨课次作业是否存在仍未知",
+          "release_description": "每次课后立即布置。",
+          "deadline_description": "下一次实际课开始前提交，正常为下一周周二 13:30；不是日期型 23:59 默认。"
+        }
+      }
+    ],
+    "timing_patterns": {
+      "weekly_class": {
+        "weekday": "TUESDAY",
+        "start_local": "13:30",
+        "end_local": "16:55",
+        "timezone": "Asia/Shanghai",
+        "frequency": "WEEKLY",
+        "description": "每周一次的稳定模式；有效学期和停调课例外未知，不生成 Calendar 事件。"
+      }
+    },
+    "progress_axis": {
+      "axis_id": "course-001-lectures",
+      "axis_version": 1,
+      "unit_kind": "lecture",
+      "unit_label": "第 N 次实际课",
+      "unit_semantics": "按老师实际授课顺序计数；不按章数、校历周号或课内45分钟小节拆分，停课不推进已教进度。",
+      "position_kinds": [
+        "BEFORE",
+        "AT",
+        "AFTER"
+      ],
+      "range_semantics": "INCLUSIVE_ORDERED_ENDPOINTS",
+      "multiple_unit_coverage": "REFERENCE_ONE_WORK_INSTANCE_ONCE"
+    },
+    "relationship_intake": [
+      {
+        "id": "course-001-notes-before-homework",
+        "predecessor_family_id": "course-001-notes",
+        "successor_family_id": "course-001-homework",
+        "relation_kind": "EXECUTION_ORDER",
+        "strength": "SOFT",
+        "exception_description": "作业截止临近、来不及整理时允许先完成作业，之后补笔记。"
+      }
+    ]
+  },
+  "unresolved_fields": [
+    "/term_ref",
+    "/profile/task_family_refs",
+    "/profile/relationship_rule_refs",
+    "/profile/progress_axis/ordered_units",
+    "/profile/family_intake/0/numerical_importance",
+    "/profile/family_intake/1/numerical_importance",
+    "/profile/family_intake/2/numerical_importance"
+  ],
+  "provenance": {
+    "sources": [
+      {
+        "id": "ENG-M1-05-001",
+        "authority": "ENGINEERING_METADATA",
+        "description": "0.2 SPEC representation, stable provisional family IDs and translations; no new user preference or machine review."
+      },
+      {
+        "id": "A0-ACCEPTED-DEFAULTS",
+        "authority": "ACCEPTED_DEFAULT",
+        "description": "A0/DECISIONS: Asia/Shanghai planning timezone; D-073 notify before EXPIRED; no extra acknowledgement."
+      },
+      {
+        "id": "USR-20261007-INVENTORY-01",
+        "authority": "USER_STATEMENT",
+        "description": "CURRENT_INVENTORY.md confirms course-001 identity/name."
+      },
+      {
+        "id": "USR-20261009-COURSE001-01",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 01; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-02",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 02; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-03",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 03; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-04",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 04; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-05",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 05; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-06",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 06; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-07",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 07; scoped natural-language evidence, not a machine-profile review."
+      },
+      {
+        "id": "USR-20261009-COURSE001-08",
+        "authority": "USER_STATEMENT",
+        "description": "COURSE_001_PROFILE_DRAFT.md revision history/source 08; scoped natural-language evidence, not a machine-profile review."
+      }
+    ],
+    "field_sources": {
+      "/": [
+        "ENG-M1-05-001"
+      ],
+      "/display_name": [
+        "USR-20261007-INVENTORY-01"
+      ],
+      "/domain": [
+        "USR-20261007-INVENTORY-01"
+      ],
+      "/profile/context_notes": [
+        "USR-20261009-COURSE001-01"
+      ],
+      "/profile/timing_patterns/weekly_class": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/timing_patterns/weekly_class/timezone": [
+        "A0-ACCEPTED-DEFAULTS"
+      ],
+      "/profile/progress_axis": [
+        "USR-20261009-COURSE001-07"
+      ],
+      "/profile/progress_axis/axis_id": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/progress_axis/axis_version": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/progress_axis/position_kinds": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/progress_axis/range_semantics": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/progress_axis/multiple_unit_coverage": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/relationship_intake/0": [
+        "USR-20261009-COURSE001-04",
+        "USR-20261009-COURSE001-05"
+      ],
+      "/profile/relationship_intake/0/id": [
+        "ENG-M1-05-001"
+      ],
+      "/review_history": [
+        "USR-20261009-COURSE001-06",
+        "USR-20261009-COURSE001-07",
+        "USR-20261009-COURSE001-08"
+      ],
+      "/profile/family_intake/0/family_id": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/family_intake/0/description": [
+        "USR-20261009-COURSE001-01"
+      ],
+      "/profile/family_intake/0/estimate": [
+        "USR-20261009-COURSE001-02",
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/0/difficulty": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/0/session": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/0/requiredness": [
+        "USR-20261009-COURSE001-08"
+      ],
+      "/profile/family_intake/0/timing": [
+        "USR-20261009-COURSE001-06",
+        "USR-20261009-COURSE001-08",
+        "A0-ACCEPTED-DEFAULTS"
+      ],
+      "/profile/family_intake/1/family_id": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/family_intake/1/description": [
+        "USR-20261009-COURSE001-01"
+      ],
+      "/profile/family_intake/1/estimate": [
+        "USR-20261009-COURSE001-02",
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/1/difficulty": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/1/session": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/1/requiredness": [
+        "USR-20261009-COURSE001-04"
+      ],
+      "/profile/family_intake/1/timing": [
+        "USR-20261009-COURSE001-04",
+        "USR-20261009-COURSE001-05"
+      ],
+      "/profile/family_intake/1/qualitative_importance": [
+        "USR-20261009-COURSE001-01"
+      ],
+      "/profile/family_intake/2/family_id": [
+        "ENG-M1-05-001"
+      ],
+      "/profile/family_intake/2/description": [
+        "USR-20261009-COURSE001-01"
+      ],
+      "/profile/family_intake/2/estimate": [
+        "USR-20261009-COURSE001-02",
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/2/difficulty": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/2/session": [
+        "USR-20261009-COURSE001-03"
+      ],
+      "/profile/family_intake/2/requiredness": [
+        "USR-20261009-COURSE001-04"
+      ],
+      "/profile/family_intake/2/timing": [
+        "USR-20261009-COURSE001-03"
+      ]
+    }
+  },
+  "extensions": {
+    "whatodo.intake.source_artifacts": {
+      "version": 1,
+      "critical": false,
+      "payload": {
+        "profile": "../intake/COURSE_001_PROFILE_DRAFT.md",
+        "profile_intake_revision": 7,
+        "axis": "../intake/COURSE_001_PROGRESS_AXIS.md",
+        "axis_document_revision": 2,
+        "notice": "Source artifacts preserved unchanged; actual progress/date/remaining effort are intentionally not stable payload."
+      }
+    }
+  }
+}

@@ -1,0 +1,967 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "core",
+    "effort",
+    "timing",
+    "work",
+    "stage_details",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "core": {
+      "$ref": "#/$defs/core"
+    },
+    "effort": {
+      "$ref": "#/$defs/effort"
+    },
+    "timing": {
+      "type": "object",
+      "required": [
+        "created_at",
+        "release",
+        "deadline",
+        "completed_at"
+      ],
+      "properties": {
+        "created_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "release": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "instant",
+                "original_value",
+                "source_ref"
+              ],
+              "properties": {
+                "instant": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "original_value": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "source_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "deadline": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "due_ref",
+                "value"
+              ],
+              "properties": {
+                "due_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                },
+                "value": {
+                  "$ref": "#/$defs/due"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completed_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "work": {
+      "type": "object",
+      "required": [
+        "total_estimate",
+        "minimum_session_seconds",
+        "fragmentable"
+      ],
+      "properties": {
+        "total_estimate": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "seconds",
+                "source_ref",
+                "observed_at",
+                "basis",
+                "definition_ref"
+              ],
+              "properties": {
+                "seconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "source_ref": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "basis": {
+                  "enum": [
+                    "USER_REPORT",
+                    "TEMPLATE_DEFAULT"
+                  ]
+                },
+                "definition_ref": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "kind",
+                        "id",
+                        "version"
+                      ],
+                      "properties": {
+                        "kind": {
+                          "enum": [
+                            "TASKTYPE",
+                            "TASK_TEMPLATE"
+                          ]
+                        },
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200,
+                          "pattern": "\\S"
+                        },
+                        "version": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200,
+                          "pattern": "\\S"
+                        }
+                      },
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false,
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "basis": {
+                        "const": "TEMPLATE_DEFAULT"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "definition_ref": {
+                        "type": "object",
+                        "required": [
+                          "kind",
+                          "id",
+                          "version"
+                        ],
+                        "properties": {
+                          "kind": {
+                            "enum": [
+                              "TASKTYPE",
+                              "TASK_TEMPLATE"
+                            ]
+                          },
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200,
+                            "pattern": "\\S"
+                          },
+                          "version": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200,
+                            "pattern": "\\S"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "else": {
+                    "properties": {
+                      "definition_ref": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "minimum_session_seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fragmentable": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "stage_details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "stage_id",
+          "revision",
+          "title"
+        ],
+        "properties": {
+          "stage_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "provenance": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "field",
+          "source_ref"
+        ],
+        "properties": {
+          "field": {
+            "type": "string",
+            "pattern": "^/",
+            "maxLength": 500
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:task-aggregate:0.1.0-draft",
+  "title": "Generic composed Task snapshot (development contract)",
+  "description": "Shape only; semantic consistency, references, actual caller authority and audited persistence remain required.",
+  "$defs": {
+    "core": {
+      "title": "WhatToDo Task core snapshot (development draft)",
+      "description": "Structural validation only. Not a complete Task, an authorization check, or a persistence command.",
+      "type": "object",
+      "required": [
+        "schema_version",
+        "task_id",
+        "revision",
+        "title",
+        "domain",
+        "context",
+        "task_type_ref",
+        "acceptance",
+        "completion",
+        "disposition",
+        "requiredness",
+        "importance",
+        "difficulty",
+        "expiration",
+        "metadata"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-draft"
+        },
+        "task_id": {
+          "$ref": "#/$defs/core/$defs/reference"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\S"
+        },
+        "domain": {
+          "enum": [
+            "study",
+            "exercise",
+            "life_administration",
+            "other"
+          ]
+        },
+        "context": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": [
+                "kind",
+                "id"
+              ],
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "COURSE",
+                    "ACTIVITY",
+                    "GOAL",
+                    "EXAM"
+                  ]
+                },
+                "id": {
+                  "$ref": "#/$defs/core/$defs/reference"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "task_type_ref": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": [
+                "id",
+                "version"
+              ],
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/core/$defs/reference"
+                },
+                "version": {
+                  "$ref": "#/$defs/core/$defs/reference"
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "acceptance": {
+          "type": "object",
+          "required": [
+            "state",
+            "authority_ref"
+          ],
+          "properties": {
+            "state": {
+              "const": "ACCEPTED"
+            },
+            "authority_ref": {
+              "$ref": "#/$defs/core/$defs/reference"
+            }
+          },
+          "additionalProperties": false
+        },
+        "completion": {
+          "enum": [
+            "INCOMPLETE",
+            "COMPLETE"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "ACTIVE",
+            "CANCELLED",
+            "EXPIRED"
+          ]
+        },
+        "requiredness": {
+          "enum": [
+            "REQUIRED",
+            "OPTIONAL",
+            "EXPIRING"
+          ]
+        },
+        "importance": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "difficulty": {
+          "type": "object",
+          "required": [
+            "thinking_depth",
+            "repetitive_volume",
+            "new_learning_load"
+          ],
+          "properties": {
+            "thinking_depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "repetitive_volume": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "new_learning_load": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "additionalProperties": false
+        },
+        "expiration": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "object",
+              "required": [
+                "condition_ref",
+                "notice_ref"
+              ],
+              "properties": {
+                "condition_ref": {
+                  "$ref": "#/$defs/core/$defs/reference"
+                },
+                "notice_ref": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "$ref": "#/$defs/core/$defs/reference"
+                    }
+                  ]
+                }
+              },
+              "additionalProperties": false
+            }
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "required": [
+            "trust",
+            "overdue"
+          ],
+          "properties": {
+            "trust": {
+              "enum": [
+                "TRUSTED",
+                "STALE",
+                "CONFLICTED",
+                "UNKNOWN"
+              ]
+            },
+            "overdue": {
+              "enum": [
+                "NOT_OVERDUE",
+                "OVERDUE",
+                "UNKNOWN",
+                "NOT_APPLICABLE"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "requiredness": {
+                "const": "EXPIRING"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "expiration": {
+                "type": "object"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "expiration": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "EXPIRED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "requiredness": {
+                "const": "EXPIRING"
+              },
+              "completion": {
+                "const": "INCOMPLETE"
+              },
+              "expiration": {
+                "type": "object",
+                "properties": {
+                  "notice_ref": {
+                    "$ref": "#/$defs/core/$defs/reference"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "$defs": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "effort": {
+      "title": "Effort snapshot development contract",
+      "type": "object",
+      "required": [
+        "schema_version",
+        "task_id",
+        "task_revision",
+        "completion",
+        "disposition",
+        "user_remaining",
+        "prediction",
+        "stages"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-draft"
+        },
+        "task_id": {
+          "$ref": "#/$defs/effort/$defs/reference"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "completion": {
+          "enum": [
+            "INCOMPLETE",
+            "COMPLETE"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "ACTIVE",
+            "CANCELLED",
+            "EXPIRED"
+          ]
+        },
+        "user_remaining": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "seconds",
+                "observation_id",
+                "observed_at",
+                "verified_at"
+              ],
+              "properties": {
+                "seconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "observation_id": {
+                  "$ref": "#/$defs/effort/$defs/reference"
+                },
+                "observed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "verified_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prediction": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "seconds",
+                "prediction_id",
+                "model_ref",
+                "task_revision",
+                "computed_at",
+                "valid_until",
+                "valid",
+                "applicable"
+              ],
+              "properties": {
+                "seconds": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "prediction_id": {
+                  "$ref": "#/$defs/effort/$defs/reference"
+                },
+                "model_ref": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "version"
+                  ],
+                  "properties": {
+                    "id": {
+                      "$ref": "#/$defs/effort/$defs/reference"
+                    },
+                    "version": {
+                      "$ref": "#/$defs/effort/$defs/reference"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "task_revision": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "computed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "valid_until": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                },
+                "valid": {
+                  "type": "boolean"
+                },
+                "applicable": {
+                  "type": "boolean"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "stage_id",
+              "completion",
+              "weight",
+              "user_remaining"
+            ],
+            "properties": {
+              "stage_id": {
+                "$ref": "#/$defs/effort/$defs/reference"
+              },
+              "completion": {
+                "enum": [
+                  "INCOMPLETE",
+                  "COMPLETE"
+                ]
+              },
+              "weight": {
+                "anyOf": [
+                  {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "user_remaining": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "required": [
+                      "seconds",
+                      "observation_id",
+                      "observed_at",
+                      "verified_at"
+                    ],
+                    "properties": {
+                      "seconds": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "observation_id": {
+                        "$ref": "#/$defs/effort/$defs/reference"
+                      },
+                      "observed_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                      },
+                      "verified_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+                      }
+                    },
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "completion": {
+                "const": "COMPLETE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "user_remaining": {
+                "type": "object",
+                "properties": {
+                  "seconds": {
+                    "const": 0
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "disposition": {
+                "const": "EXPIRED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "completion": {
+                "const": "INCOMPLETE"
+              }
+            }
+          }
+        }
+      ],
+      "$defs": {
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        }
+      }
+    },
+    "due": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "input_kind",
+        "original_value",
+        "source_ref",
+        "instant",
+        "default_policy_ref"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-draft"
+        },
+        "input_kind": {
+          "enum": [
+            "DATE_ONLY",
+            "EXPLICIT_INSTANT"
+          ]
+        },
+        "original_value": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "instant": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "default_policy_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "input_kind": {
+                "const": "DATE_ONLY"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "original_value": {
+                "type": "string",
+                "format": "date"
+              },
+              "default_policy_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "original_value": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "default_policy_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

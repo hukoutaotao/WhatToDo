@@ -1,0 +1,1346 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:plan:0.1.0-draft",
+  "title": "Versioned Plan/forecast development handoff; metadata does not grant authority",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "plan_id",
+    "snapshot_ref",
+    "state_revision",
+    "config_version_ref",
+    "generated_at",
+    "timezone",
+    "overall_risk",
+    "phase",
+    "horizons",
+    "tasks",
+    "allocations",
+    "items",
+    "selected_seconds",
+    "fixed_events",
+    "emergency_review"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "plan_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "snapshot_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "state_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "config_version_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timezone": {
+      "const": "Asia/Shanghai"
+    },
+    "overall_risk": {
+      "enum": [
+        null,
+        "SAFE",
+        "DANGER",
+        "EMERGENCY"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "NORMAL",
+        "UNVERIFIED",
+        "PROVISIONAL_EMERGENCY",
+        "FINAL_EMERGENCY"
+      ]
+    },
+    "horizons": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/horizon"
+            },
+            {
+              "properties": {
+                "window": {
+                  "properties": {
+                    "horizon_days": {
+                      "const": 1
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/horizon"
+            },
+            {
+              "properties": {
+                "window": {
+                  "properties": {
+                    "horizon_days": {
+                      "const": 3
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "allOf": [
+            {
+              "$ref": "#/$defs/horizon"
+            },
+            {
+              "properties": {
+                "window": {
+                  "properties": {
+                    "horizon_days": {
+                      "const": 7
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "items": false
+    },
+    "tasks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/task"
+      }
+    },
+    "allocations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/allocation"
+      }
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/item"
+      }
+    },
+    "selected_seconds": {
+      "$ref": "#/$defs/nonnegative"
+    },
+    "fixed_events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    },
+    "emergency_review": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/emergency"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "NORMAL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "overall_risk": {
+            "enum": [
+              "SAFE",
+              "DANGER"
+            ]
+          },
+          "emergency_review": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "UNVERIFIED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "overall_risk": {
+            "type": "null"
+          },
+          "emergency_review": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "PROVISIONAL_EMERGENCY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "overall_risk": {
+            "const": "EMERGENCY"
+          },
+          "emergency_review": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "FINAL_EMERGENCY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "overall_risk": {
+            "enum": [
+              "SAFE",
+              "DANGER",
+              "EMERGENCY"
+            ]
+          },
+          "emergency_review": {
+            "$ref": "#/$defs/emergency"
+          },
+          "horizons": {
+            "items": {
+              "properties": {
+                "risk": {
+                  "enum": [
+                    "SAFE",
+                    "DANGER",
+                    "EMERGENCY"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonnegative": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numerator",
+        "denominator"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "signed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "numerator",
+        "denominator"
+      ],
+      "properties": {
+        "numerator": {
+          "type": "integer"
+        },
+        "denominator": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "task_revision",
+        "seconds",
+        "source",
+        "reason",
+        "user_seconds",
+        "reference_id",
+        "review_needed"
+      ],
+      "properties": {
+        "task_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "source": {
+          "enum": [
+            "MODEL",
+            "USER_FALLBACK",
+            "UNKNOWN",
+            "NOT_ACTIVE",
+            "COMPLETED"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "user_seconds": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_needed": {
+          "type": "boolean"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "enum": [
+                  "UNKNOWN",
+                  "NOT_ACTIVE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "seconds": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "seconds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      ]
+    },
+    "projection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget",
+        "requiredness",
+        "seconds",
+        "basis",
+        "projection_ref",
+        "protected_required_tasks",
+        "dependency_ref"
+      ],
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/budget"
+        },
+        "requiredness": {
+          "enum": [
+            "REQUIRED",
+            "OPTIONAL",
+            "EXPIRING"
+          ]
+        },
+        "seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "basis": {
+          "enum": [
+            "FULL_DUE",
+            "NECESSARY_EARLY",
+            "HARD_PREREQUISITE"
+          ]
+        },
+        "projection_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "protected_required_tasks": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "dependency_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "basis": {
+                "const": "HARD_PREREQUISITE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "protected_required_tasks": {
+                "minItems": 1
+              },
+              "dependency_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "requiredness": {
+                "const": "REQUIRED"
+              },
+              "protected_required_tasks": {
+                "maxItems": 0
+              },
+              "dependency_ref": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "placement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "input_fingerprint",
+        "solver_id",
+        "solver_version",
+        "outcome",
+        "computed_at",
+        "evidence_ref",
+        "placement_deficit_seconds"
+      ],
+      "properties": {
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "solver_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "solver_version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "outcome": {
+          "enum": [
+            "FEASIBLE",
+            "INFEASIBLE",
+            "TIMEOUT",
+            "UNKNOWN",
+            "ERROR"
+          ]
+        },
+        "computed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "evidence_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "placement_deficit_seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "enum": [
+                  "FEASIBLE",
+                  "INFEASIBLE"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "evidence_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome": {
+                "const": "INFEASIBLE"
+              }
+            }
+          },
+          "then": {},
+          "else": {
+            "properties": {
+              "placement_deficit_seconds": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "horizon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot_ref",
+        "window",
+        "input_fingerprint",
+        "assessed_at",
+        "capacity_seconds",
+        "required_seconds",
+        "reserve_seconds",
+        "margin_seconds",
+        "aggregate_deficit_seconds",
+        "risk",
+        "data_quality",
+        "verification",
+        "diagnostics",
+        "projections",
+        "placement"
+      ],
+      "properties": {
+        "snapshot_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "window": {
+          "$ref": "#/$defs/window"
+        },
+        "input_fingerprint": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "assessed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "capacity_seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "required_seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reserve_seconds": {
+          "$ref": "#/$defs/nonnegative"
+        },
+        "margin_seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/signed"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "aggregate_deficit_seconds": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "risk": {
+          "enum": [
+            null,
+            "SAFE",
+            "DANGER",
+            "EMERGENCY"
+          ]
+        },
+        "data_quality": {
+          "enum": [
+            "READY",
+            "UNRESOLVED",
+            "STALE",
+            "CONFLICTED"
+          ]
+        },
+        "verification": {
+          "enum": [
+            "VERIFIED_PLACEMENT",
+            "PROVEN_DEFICIT",
+            "INCOMPLETE"
+          ]
+        },
+        "diagnostics": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        },
+        "projections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/projection"
+          }
+        },
+        "placement": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/placement"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "data_quality": {
+                "enum": [
+                  "UNRESOLVED",
+                  "STALE",
+                  "CONFLICTED"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "risk": {
+                "type": "null"
+              },
+              "verification": {
+                "const": "INCOMPLETE"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "risk": {
+                "enum": [
+                  "SAFE",
+                  "DANGER"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data_quality": {
+                "const": "READY"
+              },
+              "verification": {
+                "const": "VERIFIED_PLACEMENT"
+              },
+              "placement": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/placement"
+                  },
+                  {
+                    "properties": {
+                      "outcome": {
+                        "const": "FEASIBLE"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "risk": {
+                "const": "EMERGENCY"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "data_quality": {
+                "const": "READY"
+              },
+              "verification": {
+                "const": "PROVEN_DEFICIT"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verification": {
+                "const": "INCOMPLETE"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "risk": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "risk": {
+                "enum": [
+                  "SAFE",
+                  "DANGER",
+                  "EMERGENCY"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "capacity_seconds": {
+                "$ref": "#/$defs/nonnegative"
+              },
+              "required_seconds": {
+                "$ref": "#/$defs/nonnegative"
+              },
+              "margin_seconds": {
+                "$ref": "#/$defs/signed"
+              },
+              "aggregate_deficit_seconds": {
+                "$ref": "#/$defs/nonnegative"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verification": {
+                "const": "VERIFIED_PLACEMENT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "risk": {
+                "enum": [
+                  "SAFE",
+                  "DANGER"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "verification": {
+                "const": "PROVEN_DEFICIT"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "risk": {
+                "const": "EMERGENCY"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "stage_id",
+        "seconds"
+      ],
+      "properties": {
+        "stage_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "seconds": {
+          "$ref": "#/$defs/nonnegative"
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget",
+        "title",
+        "requiredness",
+        "stage_partition"
+      ],
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/budget"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "requiredness": {
+          "enum": [
+            "REQUIRED",
+            "OPTIONAL",
+            "EXPIRING"
+          ]
+        },
+        "stage_partition": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "reason",
+                "canonical_disagreement",
+                "allocations"
+              ],
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "canonical_disagreement": {
+                  "type": "boolean"
+                },
+                "allocations": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/$defs/stage"
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "allocation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "allocation_id",
+        "task_id",
+        "task_revision",
+        "stage_id",
+        "seconds",
+        "objective",
+        "work_style"
+      ],
+      "properties": {
+        "allocation_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "task_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "stage_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "seconds": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/nonnegative"
+            },
+            {
+              "properties": {
+                "numerator": {
+                  "minimum": 1
+                }
+              }
+            }
+          ]
+        },
+        "objective": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "work_style": {
+          "enum": [
+            "CONTINUOUS",
+            "FRAGMENTABLE",
+            "EITHER"
+          ]
+        }
+      }
+    },
+    "item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "item_id",
+        "allocation_ref",
+        "role",
+        "reason"
+      ],
+      "properties": {
+        "item_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "allocation_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "role": {
+          "enum": [
+            "PROTECT_TODAY",
+            "ADVANCE",
+            "OPTIONAL_ADDON",
+            "FRAGMENTABLE_REFERENCE"
+          ]
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "emergency": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "initial_plan_ref",
+        "review_id",
+        "review_commit_ref",
+        "user_statement_ref",
+        "recomputed_snapshot_ref",
+        "recompute_ref",
+        "completed_at"
+      ],
+      "properties": {
+        "initial_plan_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "review_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "review_commit_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "user_statement_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recomputed_snapshot_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "recompute_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "completed_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "snapshot_at",
+        "timezone",
+        "window_mode",
+        "horizon_days",
+        "start_date",
+        "end_date",
+        "cutoff"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-draft"
+        },
+        "snapshot_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "timezone": {
+          "const": "Asia/Shanghai"
+        },
+        "window_mode": {
+          "const": "NATURAL_DAY_INCLUDING_TODAY"
+        },
+        "horizon_days": {
+          "enum": [
+            1,
+            3,
+            7
+          ]
+        },
+        "start_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_date": {
+          "type": "string",
+          "format": "date"
+        },
+        "cutoff": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "event_id",
+        "revision",
+        "provider",
+        "scope_ref",
+        "external_id",
+        "source_record_ref",
+        "kind",
+        "timing_kind",
+        "interval",
+        "occupancy",
+        "state",
+        "task_ref",
+        "authority_ref"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-draft"
+        },
+        "event_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "provider": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "scope_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "external_id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "source_record_ref": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "kind": {
+          "enum": [
+            "EXTERNAL_FIXED",
+            "PLANNED_WORK",
+            "REMINDER"
+          ]
+        },
+        "timing_kind": {
+          "enum": [
+            "TIMED",
+            "ALL_DAY"
+          ]
+        },
+        "interval": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "start",
+            "end"
+          ],
+          "properties": {
+            "start": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "end": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "occupancy": {
+          "enum": [
+            "BLOCKING",
+            "NON_BLOCKING",
+            "UNKNOWN"
+          ]
+        },
+        "state": {
+          "enum": [
+            "CONFIRMED",
+            "TENTATIVE",
+            "CANCELLED"
+          ]
+        },
+        "task_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "authority_ref": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "PLANNED_WORK"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "task_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "authority_ref": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,360 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "explicit-user-envelope",
+      "contract": "command",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "scoped-batch-envelope",
+      "contract": "command",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": "synthetic-batch",
+        "batch_members": [
+          "synthetic-task"
+        ]
+      }
+    },
+    {
+      "id": "external-envelope-no-grant",
+      "contract": "command",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "EXTERNAL",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "scoped-rule-create",
+      "contract": "command",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "RELATIONSHIP_RULE",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-generated-task",
+            "expected_revision": null,
+            "action": "CREATE_TASK",
+            "fields": {
+              "title": "Synthetic preparation",
+              "completion": "INCOMPLETE"
+            }
+          }
+        ],
+        "rule_scope": {
+          "rule_id": "synthetic-rule",
+          "version": "1",
+          "source_task_id": "synthetic-source-task",
+          "creation_event_ref": "synthetic-created-event",
+          "occurrence_key": "synthetic-occurrence",
+          "target_role": "preparation"
+        },
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "expiry-envelope",
+      "contract": "command",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "EXPIRATION_PROCESS",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "EXPIRE_TASK",
+            "fields": {
+              "disposition": "EXPIRED",
+              "expiration_notice_ref": "synthetic-notice"
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "missing-target-revision",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": null,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "create-revision-must-be-absent",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "CREATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "unreviewed-extra-control-field",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4,
+              "principal_id": "USER"
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "rule-missing-scope",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "RELATIONSHIP_RULE",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "expiry-missing-delivery-reference",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "EXPIRATION_PROCESS",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "EXPIRE_TASK",
+            "fields": {
+              "disposition": "EXPIRED"
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "batch-ref-without-members",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": "synthetic-batch",
+        "batch_members": []
+      }
+    },
+    {
+      "id": "members-without-batch",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 4
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": [
+          "synthetic-task"
+        ]
+      }
+    },
+    {
+      "id": "unsupported-importance",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 3,
+            "action": "UPDATE_TASK",
+            "fields": {
+              "importance": 6
+            }
+          }
+        ],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    },
+    {
+      "id": "empty-command",
+      "contract": "command",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "command_id": "synthetic-command-1",
+        "principal_id": "synthetic-user",
+        "origin": "USER_COMMAND",
+        "authority_ref": "synthetic-resolved-user-instruction",
+        "changes": [],
+        "rule_scope": null,
+        "batch_ref": null,
+        "batch_members": []
+      }
+    }
+  ]
+}

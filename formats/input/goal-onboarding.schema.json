@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:goal-onboarding:0.1.0-draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "goal_id",
+    "goal_revision",
+    "configuration_ready",
+    "missing_fields",
+    "generation_state"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "goal_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "configuration_ready": {
+      "type": "boolean"
+    },
+    "missing_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "generation_state": {
+      "enum": [
+        "PENDING",
+        "CANDIDATE_ONLY",
+        "RULE_RESOLUTION_REQUIRED"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "configuration_ready": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "missing_fields": {
+            "maxItems": 0
+          },
+          "generation_state": {
+            "enum": [
+              "CANDIDATE_ONLY",
+              "RULE_RESOLUTION_REQUIRED"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "missing_fields": {
+            "minItems": 1
+          },
+          "generation_state": {
+            "const": "PENDING"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,284 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "detected-not-sent",
+      "contract": "expiration-notice",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 2,
+        "condition_ref": "synthetic-condition",
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [],
+        "dispatch_history": [],
+        "delivery_state": "PENDING"
+      }
+    },
+    {
+      "id": "queued-not-delivered",
+      "contract": "expiration-notice",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 2,
+        "condition_ref": "synthetic-condition",
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [
+          {
+            "attempt_id": "synthetic-attempt",
+            "started_at": "2026-01-01T12:01:00+00:00",
+            "state": "PENDING",
+            "finished_at": null,
+            "delivered_at": null,
+            "evidence_ref": null,
+            "correlation_ref": "synthetic-correlation"
+          }
+        ],
+        "dispatch_history": [],
+        "delivery_state": "PENDING"
+      }
+    },
+    {
+      "id": "delivered-with-history",
+      "contract": "expiration-notice",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 2,
+        "condition_ref": "synthetic-condition",
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [
+          {
+            "attempt_id": "synthetic-attempt",
+            "started_at": "2026-01-01T12:01:00+00:00",
+            "state": "DELIVERED",
+            "finished_at": "2026-01-01T12:03:00+00:00",
+            "delivered_at": "2026-01-01T12:02:00+00:00",
+            "evidence_ref": "synthetic-provider-receipt",
+            "correlation_ref": "synthetic-correlation"
+          }
+        ],
+        "dispatch_history": [
+          {
+            "notice_id": "synthetic-notice",
+            "attempt": {
+              "attempt_id": "synthetic-attempt",
+              "started_at": "2026-01-01T12:01:00+00:00",
+              "state": "DELIVERED",
+              "finished_at": "2026-01-01T12:03:00+00:00",
+              "delivered_at": "2026-01-01T12:02:00+00:00",
+              "evidence_ref": "synthetic-provider-receipt",
+              "correlation_ref": "synthetic-correlation"
+            }
+          }
+        ],
+        "delivery_state": "DELIVERED"
+      }
+    },
+    {
+      "id": "missing-condition-reference",
+      "contract": "expiration-notice",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 2,
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [],
+        "dispatch_history": [],
+        "delivery_state": "PENDING"
+      }
+    },
+    {
+      "id": "notice-cannot-carry-task-completion",
+      "contract": "expiration-notice",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 2,
+        "condition_ref": "synthetic-condition",
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [],
+        "dispatch_history": [],
+        "delivery_state": "PENDING",
+        "completion": "COMPLETE"
+      }
+    },
+    {
+      "id": "invalid-task-revision",
+      "contract": "expiration-notice",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "task_id": "synthetic-task",
+        "task_revision": 0,
+        "condition_ref": "synthetic-condition",
+        "condition_evidence_ref": "synthetic-condition-evidence",
+        "detected_at": "2026-01-01T12:00:00+00:00",
+        "attempts": [],
+        "dispatch_history": [],
+        "delivery_state": "PENDING"
+      }
+    },
+    {
+      "id": "confirmed-delivery",
+      "contract": "dispatch-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "DELIVERED",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": "2026-01-01T12:02:00+00:00",
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "confirmed-failure",
+      "contract": "dispatch-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "FAILED",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": null,
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "ambiguous-delivery",
+      "contract": "dispatch-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "UNKNOWN",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": null,
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "pending-is-not-result",
+      "contract": "dispatch-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "PENDING",
+          "finished_at": null,
+          "delivered_at": null,
+          "evidence_ref": null,
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "unknown-has-no-confirmed-delivery-time",
+      "contract": "dispatch-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "UNKNOWN",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": "2026-01-01T12:02:00+00:00",
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "delivered-needs-delivery-time",
+      "contract": "dispatch-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "DELIVERED",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": null,
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "result-needs-evidence-reference",
+      "contract": "dispatch-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "DELIVERED",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": "2026-01-01T12:02:00+00:00",
+          "evidence_ref": null,
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    },
+    {
+      "id": "invalid-explicit-time",
+      "contract": "dispatch-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "notice_id": "synthetic-notice",
+        "attempt": {
+          "attempt_id": "synthetic-attempt",
+          "started_at": "2026-01-01T12:01:00+00:00",
+          "state": "DELIVERED",
+          "finished_at": "2026-01-01T12:03:00+00:00",
+          "delivered_at": "2026-01-01",
+          "evidence_ref": "synthetic-provider-receipt",
+          "correlation_ref": "synthetic-correlation"
+        }
+      }
+    }
+  ]
+}

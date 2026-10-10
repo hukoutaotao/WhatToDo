@@ -312,7 +312,7 @@ Do not re-ask A0's accepted domains, three 1–5 difficulty dimensions, Task imp
 
 Time-of-day preferences are user-confirmed profile rules; learned alternatives require approval. Exam review phases/cadence may be configured explicitly, but are not a generic lead-time field for every TaskType. Teaching progress and task-family progress values are dynamic state; the definition of their common axis is stable profile/config.
 
-Conditional triggers can detect conditions automatically; mapped Tasks may be instantiated under an explicitly accepted automatic-generation relationship (D-072). Outside accepted rule scope, propose candidates. TaskType defaults alone are not blanket activation permission. M1 is not complete: current course/activity identities have been collected, but reviewed detailed profiles, axis definitions and task-family defaults remain pending.
+Conditional triggers can detect conditions automatically; mapped Tasks may be instantiated under an explicitly accepted automatic-generation relationship (D-072). Outside accepted rule scope, propose candidates. TaskType defaults alone are not blanket activation permission. M1 is not complete: current identities, one reviewed representative workflow, its [actual-lecture axis](intake/COURSE_001_PROGRESS_AXIS.md) and the [M1-05 reusable format](PROFILE_TEMPLATE.md) exist; other detailed profiles and task-family presets remain pending. [course-001 intake revision 7](intake/COURSE_001_PROFILE_DRAFT.md) retains reviewed workflow, the user's explicit axis-unit choice and source 08's EXPIRING preview rule: unfinished preview expires at its corresponding actual class start under D-073. Current teaching/task-family states, manual notice evidence and the next-class date belong in the [separate sourced intake](intake/COURSE_001_PROGRESS_INTAKE.md), not stable defaults; PROGRESS owns development evidence/status.
 
 ---
 
@@ -392,6 +392,51 @@ No live Task IDs/status, actual work sessions, user remaining-effort values, num
 7. Contract edits require an explicit supported adapter/migration or clear rejection for old incompatible revisions. Round-trip compatible data without dropping IDs, provenance or noncritical extensions. M1-05 refines the proposal, M2 freezes machine contracts and M2-16 selects concrete language/path mapping.
 
 Acceptance exercised by the synthetic bundle: Course with no primary importance; chapter axis with no dynamic completion; Activity with no course axis; explicitly known zero buffers; omitted unknown term; versioned TaskType reference with fixture-only stub; noncritical opaque extension. These are contract/example checks, not live user profiles, runtime tests or final machine-schema conformance.
+
+## 14. M1-05 Reusable Profile Refinement
+
+Proposal version: `whatodo.stable-profile / 0.2.0-draft`. This additive SPEC refinement uses course-001's reviewed workflow and actual-lecture axis. [Reusable intake template and compatibility note](PROFILE_TEMPLATE.md); [source-backed DRAFT representation](examples/COURSE_001_PROFILE_V0_2.intake.json). Section 13 and its original synthetic bundle remain the retained 0.1 baseline; neither proposal is a frozen M2 schema or a runtime validator.
+
+### 14.1 Additive Intake Fields
+
+Retain the Section 13 envelope and meaning. The current version value becomes 0.2.0-draft only by an explicit format adaptation. These optional fields permit reviewed natural-language intake before registered TaskTypes/rules exist:
+
+| Field | Proposal shape | Boundary |
+| --- | --- | --- |
+| Envelope: `review_history` | Array of `{source_id, source_artifact, source_revision, scope}` | Preserve earlier scoped review; cannot replace exact-revision `review_evidence` for a new REVIEWED envelope |
+| Envelope: `intake_scope` | Optional `{deferred_topics: [{topic, source_id, reason}]}` | User-deferred exam/major-assignment intake remains pending for later; not absent, zero workload or permission to ask now |
+| Both: `profile.context_notes` | Object of sourced descriptions or reported observations | Preserve qualitative user context without inventing scalar importance/difficulty or verified exam coverage |
+| Both: `profile.family_intake` | Array of stable `family_id`, `description`, optional `estimate`, `difficulty`, `session`, `requiredness`, `qualitative_importance`, `timing` | Staged sourced facts, not a registered TaskType or generator; real references remain unresolved until M1B/M2 |
+| Both: `profile.relationship_intake` | Array of `{id, predecessor_family_id, successor_family_id, relation_kind, strength, exception_description?}` | Separate order from generation and material availability; SOFT/HARD requires source authority |
+| COURSE: axis `position_kinds`, `range_semantics`, `multiple_unit_coverage` | BEFORE/AT/AFTER; inclusive ordered endpoints; explicit-set support | Define allowed references without inserting actual progress, exam instances or duplicate workload |
+
+Family `estimate` is `{basis, minimum_minutes, maximum_minutes, measurement_status}`. Equal bounds represent an approximate point, not false precision; positive ranges use minimum ≤ maximum. `measurement_status = UNMEASURED_USER_ESTIMATE` labels setup estimates; actual timed observations remain dynamic. `difficulty` has separate `thinking_depth`, `repetitive_volume`, `new_learning_load`, each 1–5 when supplied. `session` has sourced fragmentability, optional minimum effective minutes and/or single-session requirement; no fabricated minimum for a single-session family. Requiredness retains REQUIRED/OPTIONAL/EXPIRING; expiration condition and ordinary scheduling window are separate timing entries. A qualitative importance statement cannot supply numerical importance.
+
+`timing` descriptions bind relative units/events and record semantics (normal window, deadline or expiration condition); they do not manufacture concrete dates. Exact machine expressions and enforcement are M2 work. Unknown numerical importance, TaskType/rule references, totals and recurrence applicability stay in `unresolved_fields`. Once registered references exist, staged facts and the referenced version must agree or produce an explicit conflict; do not establish two competing defaults or overwrite live Tasks.
+
+### 14.2 Validation and Compatibility Outcomes
+
+Missing context reports identify `{code, profile_id, path, consumer, reason}`. Codes are proposed diagnostic vocabulary, not shipped error handlers:
+
+| Case | Proposed outcome |
+| --- | --- |
+| Required envelope/identity missing | `MISSING_REQUIRED_FIELD`; invalid record, no fabricated ID/domain |
+| Unknown term, actual next class, or unknown work estimate | `UNRESOLVED_CONTEXT` only for the consumer needing it; identity/workflow collection remains usable |
+| TaskType/rule version unresolved | `UNRESOLVED_REFERENCE`; blocks that instantiation, preserves staged facts |
+| Declared value also listed unknown, invalid interval/rating, or broken axis range | `CONTRADICTORY_FIELD` / `INVALID_VALUE` / `INVALID_AXIS_REFERENCE` with exact path |
+| Unsupported contract or unknown critical extension | `UNSUPPORTED_VERSION` / `UNSUPPORTED_CRITICAL_EXTENSION`; block affected consumer |
+| Unknown noncritical extension | Preserve opaque payload, no planning effect or authority |
+| Dynamic progress in stable payload | `DYNAMIC_FIELD_IN_STABLE_PROFILE`; keep state in separate operational intake |
+
+Section 13 review/provenance/extension restrictions still apply. Optional fields cannot override core requiredness, completion, authority, expense ownership or expiry notification. Axis configuration may use lectures, chapters, experiments or another sourced unit; no course-name branch is introduced. A known incomplete hole remains distinct from unknown and expired disposition; no maximum-completed shortcut.
+
+Explicit 0.1 → 0.2 adaptation changes only the declared version unless sourced additions are provided, preserving original IDs/provenance/unknowns/extensions. A consumer accepting only 0.1 rejects 0.2; a reverse adapter must explicitly reject unsupported additions or preserve them in separately reported full data. Silent dropping or automatic REVIEWED promotion is forbidden. JSON parse/serialize and fixture comparisons are SPEC evidence only; real adapters, schema enforcement and activation gates remain M2.
+
+### 14.3 Calendar-backed Timing Intake
+
+Source `USR-20261009-COURSE001-09` states that all class information will be uploaded to the calendar. Avoid asking for each next class again when a scoped, mapped, fresh calendar occurrence can supply it. Without calendar access, a sourced manual next-occurrence date may support current planning/expiry context, but is not required to finish a stable workflow template. Preserve manual provenance; later reconcile against the mapped event rather than silently replacing discrepancies. Missing, stale, cancelled or conflicting occurrences block affected time-dependent conclusions and need targeted reconciliation, not repetitive whole-course intake.
+
+Calendar authority concerns its raw event/occupancy, not personal Task completion, actual teaching progress or blanket task generation. Exact source IDs, mappings, freshness and conflict machinery remain M4. The existing class-start-relative preview/deadline rule follows the resolved relevant occurrence; a manual date creates no external event. User-designated parallel intake of course-002 is outside this turn; continue one subsequent course at a time after M1-05.
 
 ## Detailed Execution Mapping
 

@@ -1,0 +1,1036 @@
+{
+  "schema_version": "task-core-cases-1",
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "required-incomplete",
+      "valid": true,
+      "note": "Requiredness and importance are separate axes; references are synthetic and unresolved.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "optional-high-importance",
+      "valid": true,
+      "note": "High importance or overdue metadata does not make optional work required or expired.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "OPTIONAL",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "OVERDUE"
+        }
+      }
+    },
+    {
+      "id": "expiring-before-condition",
+      "valid": true,
+      "note": "Expiry condition retained separately; no notice or transition is claimed.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-class-start",
+          "notice_ref": null
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "expired-incomplete-history",
+      "valid": true,
+      "note": "Expiry retains INCOMPLETE. Reference shape cannot prove delivery; runtime must resolve and revalidate.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "EXPIRED",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-class-start",
+          "notice_ref": "synthetic-delivery-record"
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "completed-preview",
+      "valid": true,
+      "note": "A completed preview retains its condition without being marked expired.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "COMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-class-start",
+          "notice_ref": null
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "cancelled-history",
+      "valid": true,
+      "note": "Cancelled history remains representable and incomplete.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "CANCELLED",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "stale-completed-fact",
+      "valid": true,
+      "note": "Derived freshness does not rewrite confirmed completion.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "COMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "STALE",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "new-domain-context",
+      "valid": true,
+      "note": "No course-specific code is required; null means unresolved/not specified context, not an empty confirmed inventory.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "other",
+        "context": null,
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 1,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "UNKNOWN",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "legacy-status",
+      "valid": false,
+      "note": "A single status field cannot conflate the independent state axes.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        },
+        "status": "IN_PROGRESS"
+      }
+    },
+    {
+      "id": "partial-completion",
+      "valid": false,
+      "note": "Parent completion is binary.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "IN_PROGRESS",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "importance-zero",
+      "valid": false,
+      "note": "Importance must be integer 1–5.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 0,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "importance-six",
+      "valid": false,
+      "note": "Importance must be integer 1–5.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 6,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "importance-boolean",
+      "valid": false,
+      "note": "JSON booleans are not ratings.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": true,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "difficulty-zero",
+      "valid": false,
+      "note": "Each difficulty dimension has its own range.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 0,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "difficulty-six",
+      "valid": false,
+      "note": "Each difficulty dimension has its own range.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 6,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "fractional-difficulty",
+      "valid": false,
+      "note": "Difficulty is an integer scale.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2.5
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "missing-difficulty",
+      "valid": false,
+      "note": "Unknown required dimensions remain pending rather than invented.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "new-requiredness",
+      "valid": false,
+      "note": "Only REQUIRED/OPTIONAL/EXPIRING are allowed.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "RECOMMENDED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "expiring-without-condition",
+      "valid": false,
+      "note": "Expiring work needs its own condition.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "optional-expiration",
+      "valid": false,
+      "note": "An optional deadline is not an expiry condition.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-date",
+          "notice_ref": null
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "required-expired",
+      "valid": false,
+      "note": "Overdue required work cannot be automatically expired.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "EXPIRED",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "expired-complete",
+      "valid": false,
+      "note": "Expiry is not successful completion.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "COMPLETE",
+        "disposition": "EXPIRED",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-class-start",
+          "notice_ref": "synthetic-delivery-record"
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "expired-no-notice",
+      "valid": false,
+      "note": "Missing delivery reference cannot represent the post-notice state.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "EXPIRED",
+        "requiredness": "EXPIRING",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": {
+          "condition_ref": "synthetic-class-start",
+          "notice_ref": null
+        },
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "course-importance",
+      "valid": false,
+      "note": "There is no primary course importance scalar.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001",
+          "importance": 5
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "candidate-as-canonical",
+      "valid": false,
+      "note": "Candidate parsing belongs to its separate future contract.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "CANDIDATE",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "missing-authority",
+      "valid": false,
+      "note": "Accepted snapshots retain a reference; its existence/authority must later be resolved.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "unrecognized-version",
+      "valid": false,
+      "note": "Versions are explicit, with no silent adaptation.",
+      "payload": {
+        "schema_version": "99.0.0",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "invalid-revision",
+      "valid": false,
+      "note": "State revision begins at 1.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 0,
+        "title": "Synthetic homework",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    },
+    {
+      "id": "empty-title",
+      "valid": false,
+      "note": "An actionable task needs a nonblank title.",
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-homework-001",
+        "revision": 1,
+        "title": "   ",
+        "domain": "study",
+        "context": {
+          "kind": "COURSE",
+          "id": "synthetic-course-001"
+        },
+        "task_type_ref": null,
+        "acceptance": {
+          "state": "ACCEPTED",
+          "authority_ref": "synthetic-user-command-001"
+        },
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "requiredness": "REQUIRED",
+        "importance": 5,
+        "difficulty": {
+          "thinking_depth": 3,
+          "repetitive_volume": 2,
+          "new_learning_load": 2
+        },
+        "expiration": null,
+        "metadata": {
+          "trust": "TRUSTED",
+          "overdue": "UNKNOWN"
+        }
+      }
+    }
+  ]
+}

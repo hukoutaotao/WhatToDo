@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:generation-occurrence:0.1.0-draft",
+  "title": "Version-independent occurrence key with retained audit version",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "generation_key",
+    "rule_id",
+    "rule_version",
+    "source_task_id",
+    "creation_event_ref",
+    "occurrence_key",
+    "target_role",
+    "obligation_kind",
+    "state",
+    "target_id",
+    "missing_fields",
+    "failure_code"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "generation_key": {
+      "type": "string",
+      "pattern": "^generation-[a-f0-9]{64}$"
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "rule_version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_task_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "creation_event_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "occurrence_key": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_role": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "obligation_kind": {
+      "enum": [
+        "SEPARATE_TASK",
+        "STAGE"
+      ]
+    },
+    "state": {
+      "enum": [
+        "PENDING",
+        "CREATED",
+        "FAILED"
+      ]
+    },
+    "target_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "missing_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      }
+    },
+    "failure_code": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "CREATED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "missing_fields": {
+            "maxItems": 0
+          },
+          "failure_code": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "PENDING"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_id": {
+            "type": "null"
+          },
+          "missing_fields": {
+            "minItems": 1
+          },
+          "failure_code": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "FAILED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_id": {
+            "type": "null"
+          },
+          "failure_code": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "missing_fields": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

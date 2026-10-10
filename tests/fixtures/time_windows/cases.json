@@ -1,0 +1,453 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "date-only-local-default",
+      "contract": "normalized-due",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "input_kind": "DATE_ONLY",
+        "original_value": "2026-01-01",
+        "source_ref": "synthetic-user-date",
+        "instant": "2026-01-01T23:59:00+08:00",
+        "default_policy_ref": "D-075-date-only-2359"
+      }
+    },
+    {
+      "id": "explicit-offset-kept",
+      "contract": "normalized-due",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "input_kind": "EXPLICIT_INSTANT",
+        "original_value": "2026-01-01T21:00:00-07:00",
+        "source_ref": "synthetic-user-date",
+        "instant": "2026-01-01T21:00:00-07:00",
+        "default_policy_ref": null
+      }
+    },
+    {
+      "id": "date-default-needs-provenance",
+      "contract": "normalized-due",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "input_kind": "DATE_ONLY",
+        "original_value": "2026-01-01",
+        "source_ref": "synthetic-user-date",
+        "instant": "2026-01-01T23:59:00+08:00",
+        "default_policy_ref": null
+      }
+    },
+    {
+      "id": "naive-time-rejected",
+      "contract": "normalized-due",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "input_kind": "DATE_ONLY",
+        "original_value": "2026-01-01",
+        "source_ref": "synthetic-user-date",
+        "instant": "2026-01-01T23:59:00",
+        "default_policy_ref": "D-075-date-only-2359"
+      }
+    },
+    {
+      "id": "invalid-calendar-date",
+      "contract": "normalized-due",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "input_kind": "DATE_ONLY",
+        "original_value": "2026-02-30",
+        "source_ref": "synthetic-user-date",
+        "instant": "2026-01-01T23:59:00+08:00",
+        "default_policy_ref": "D-075-date-only-2359"
+      }
+    },
+    {
+      "id": "natural-days-include-today",
+      "contract": "forecast-window",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "window_mode": "NATURAL_DAY_INCLUDING_TODAY",
+        "horizon_days": 3,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-03",
+        "cutoff": "2026-01-03T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "one-day-window",
+      "contract": "forecast-window",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "window_mode": "NATURAL_DAY_INCLUDING_TODAY",
+        "horizon_days": 1,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-01",
+        "cutoff": "2026-01-01T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "rolling-window-forbidden",
+      "contract": "forecast-window",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "window_mode": "ROLLING_72_HOURS",
+        "horizon_days": 3,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-03",
+        "cutoff": "2026-01-03T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "unaccepted-day-count",
+      "contract": "forecast-window",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "window_mode": "NATURAL_DAY_INCLUDING_TODAY",
+        "horizon_days": 2,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-03",
+        "cutoff": "2026-01-03T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "server-zone-not-user-zone",
+      "contract": "forecast-window",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "timezone": "America/Denver",
+        "window_mode": "NATURAL_DAY_INCLUDING_TODAY",
+        "horizon_days": 3,
+        "start_date": "2026-01-01",
+        "end_date": "2026-01-03",
+        "cutoff": "2026-01-03T23:59:00+08:00"
+      }
+    },
+    {
+      "id": "today-advance-intent",
+      "contract": "today-lock",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "lock_id": "synthetic-lock",
+        "task_id": "synthetic-task",
+        "task_revision": 1,
+        "intent": "ADVANCE",
+        "authority_ref": "synthetic-user-lock",
+        "created_at": "2026-01-01T20:00:00+08:00",
+        "expires_at": "2026-01-02T00:00:00+08:00",
+        "timezone": "Asia/Shanghai"
+      }
+    },
+    {
+      "id": "today-completion-intent",
+      "contract": "today-lock",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "lock_id": "synthetic-lock",
+        "task_id": "synthetic-task",
+        "task_revision": 1,
+        "intent": "COMPLETE",
+        "authority_ref": "synthetic-user-lock",
+        "created_at": "2026-01-01T20:00:00+08:00",
+        "expires_at": "2026-01-02T00:00:00+08:00",
+        "timezone": "Asia/Shanghai"
+      }
+    },
+    {
+      "id": "today-lock-is-not-task-completion",
+      "contract": "today-lock",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "lock_id": "synthetic-lock",
+        "task_id": "synthetic-task",
+        "task_revision": 1,
+        "intent": "ADVANCE",
+        "authority_ref": "synthetic-user-lock",
+        "created_at": "2026-01-01T20:00:00+08:00",
+        "expires_at": "2026-01-02T00:00:00+08:00",
+        "timezone": "Asia/Shanghai",
+        "completion": "COMPLETE"
+      }
+    },
+    {
+      "id": "lock-needs-accepted-origin-reference",
+      "contract": "today-lock",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "lock_id": "synthetic-lock",
+        "task_id": "synthetic-task",
+        "task_revision": 1,
+        "intent": "ADVANCE",
+        "authority_ref": null,
+        "created_at": "2026-01-01T20:00:00+08:00",
+        "expires_at": "2026-01-02T00:00:00+08:00",
+        "timezone": "Asia/Shanghai"
+      }
+    },
+    {
+      "id": "external-calendar-occupancy",
+      "contract": "calendar-event",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "scope_ref": "synthetic-account",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "EXTERNAL_FIXED",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "BLOCKING",
+        "state": "CONFIRMED",
+        "task_ref": null,
+        "authority_ref": null
+      }
+    },
+    {
+      "id": "calendar-unknown-is-explicit",
+      "contract": "calendar-event",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "scope_ref": "synthetic-account",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "EXTERNAL_FIXED",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "UNKNOWN",
+        "state": "CONFIRMED",
+        "task_ref": null,
+        "authority_ref": null
+      }
+    },
+    {
+      "id": "planned-work-linked-ownership",
+      "contract": "calendar-event",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "scope_ref": "synthetic-account",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "PLANNED_WORK",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "BLOCKING",
+        "state": "CONFIRMED",
+        "task_ref": "synthetic-task",
+        "authority_ref": "synthetic-approved-plan"
+      }
+    },
+    {
+      "id": "planned-work-without-task",
+      "contract": "calendar-event",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "scope_ref": "synthetic-account",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "PLANNED_WORK",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "BLOCKING",
+        "state": "CONFIRMED",
+        "task_ref": null,
+        "authority_ref": null
+      }
+    },
+    {
+      "id": "calendar-event-not-completion-signal",
+      "contract": "calendar-event",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "scope_ref": "synthetic-account",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "EXTERNAL_FIXED",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "BLOCKING",
+        "state": "CONFIRMED",
+        "task_ref": null,
+        "authority_ref": null,
+        "completion": "COMPLETE"
+      }
+    },
+    {
+      "id": "calendar-scope-required",
+      "contract": "calendar-event",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "event_id": "synthetic-event",
+        "revision": 1,
+        "provider": "synthetic-calendar",
+        "external_id": "synthetic-external",
+        "source_record_ref": "synthetic-source-record",
+        "kind": "EXTERNAL_FIXED",
+        "timing_kind": "TIMED",
+        "interval": {
+          "start": "2026-01-01T08:00:00+08:00",
+          "end": "2026-01-01T09:00:00+08:00"
+        },
+        "occupancy": "BLOCKING",
+        "state": "CONFIRMED",
+        "task_ref": null,
+        "authority_ref": null
+      }
+    },
+    {
+      "id": "known-finite-availability",
+      "contract": "availability",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_ref": "synthetic-snapshot",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "cutoff": "2026-01-01T23:59:00+08:00",
+        "availability": [
+          {
+            "start": "2026-01-01T08:00:00+08:00",
+            "end": "2026-01-01T20:00:00+08:00"
+          }
+        ],
+        "occupancy": [],
+        "data_quality": "READY",
+        "unresolved_refs": []
+      }
+    },
+    {
+      "id": "verified-empty-availability",
+      "contract": "availability",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_ref": "synthetic-snapshot",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "cutoff": "2026-01-01T23:59:00+08:00",
+        "availability": [],
+        "occupancy": [],
+        "data_quality": "READY",
+        "unresolved_refs": []
+      }
+    },
+    {
+      "id": "unknown-capacity-explicit",
+      "contract": "availability",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_ref": "synthetic-snapshot",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "cutoff": "2026-01-01T23:59:00+08:00",
+        "availability": [
+          {
+            "start": "2026-01-01T08:00:00+08:00",
+            "end": "2026-01-01T20:00:00+08:00"
+          }
+        ],
+        "occupancy": [],
+        "data_quality": "UNRESOLVED",
+        "unresolved_refs": [
+          "synthetic-unmapped-calendar"
+        ]
+      }
+    },
+    {
+      "id": "ready-cannot-have-missing-source",
+      "contract": "availability",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_ref": "synthetic-snapshot",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "cutoff": "2026-01-01T23:59:00+08:00",
+        "availability": [
+          {
+            "start": "2026-01-01T08:00:00+08:00",
+            "end": "2026-01-01T20:00:00+08:00"
+          }
+        ],
+        "occupancy": [],
+        "data_quality": "READY",
+        "unresolved_refs": [
+          "synthetic-unknown"
+        ]
+      }
+    },
+    {
+      "id": "stale-needs-diagnostic",
+      "contract": "availability",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "snapshot_ref": "synthetic-snapshot",
+        "snapshot_at": "2026-01-01T15:00:00+08:00",
+        "cutoff": "2026-01-01T23:59:00+08:00",
+        "availability": [
+          {
+            "start": "2026-01-01T08:00:00+08:00",
+            "end": "2026-01-01T20:00:00+08:00"
+          }
+        ],
+        "occupancy": [],
+        "data_quality": "STALE",
+        "unresolved_refs": []
+      }
+    }
+  ]
+}

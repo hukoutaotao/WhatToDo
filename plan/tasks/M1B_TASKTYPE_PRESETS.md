@@ -115,5 +115,5 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Prerequisites: [M1B-08](M1B_TASKTYPE_PRESETS.md#m1b-08)
 - Deliverable / bounded file scope: reports/acceptance/M1B.md.
 - Work: Confirm preset coverage, type-extension rules, typed relationships and user-authorized mapping scope. List schema decisions to carry into M2.
-- Acceptance / failure and extension checks: No implementation begins against unreviewed required presets; all acceptance examples are linked to accepted sources rather than AI assumptions.
+- Acceptance / failure and extension checks: No real preset is activated without its required review; all acceptance examples are linked to accepted sources rather than AI assumptions. D-080 permits independent generic contract/offline code development with synthetic presets while personal intake is deferred; this exception does not complete M1B or authorize real counterpart generation.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.

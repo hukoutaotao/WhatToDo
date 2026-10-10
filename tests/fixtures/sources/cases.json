@@ -1,0 +1,557 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "raw-source-present",
+      "contract": "source",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "LEARNING_PLATFORM",
+        "provider": "synthetic-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "PRESENT",
+        "deleted_at": null
+      }
+    },
+    {
+      "id": "source-tombstone-retains-hash",
+      "contract": "source",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "LEARNING_PLATFORM",
+        "provider": "synthetic-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "DELETED",
+        "deleted_at": "2026-01-02T00:00:00Z"
+      }
+    },
+    {
+      "id": "generic-new-provider",
+      "contract": "source",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "OTHER",
+        "provider": "synthetic-new-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "PRESENT",
+        "deleted_at": null
+      }
+    },
+    {
+      "id": "malformed-source-hash",
+      "contract": "source",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "LEARNING_PLATFORM",
+        "provider": "synthetic-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "unverified",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "PRESENT",
+        "deleted_at": null
+      }
+    },
+    {
+      "id": "tombstone-missing-time",
+      "contract": "source",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "LEARNING_PLATFORM",
+        "provider": "synthetic-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "DELETED",
+        "deleted_at": null
+      }
+    },
+    {
+      "id": "source-cannot-mint-principal",
+      "contract": "source",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "record_id": "synthetic-source-record",
+        "source_id": "synthetic-source",
+        "source_type": "LEARNING_PLATFORM",
+        "provider": "synthetic-provider",
+        "scope_ref": "synthetic-scope",
+        "external_id": "assignment-001",
+        "external_revision": "v1",
+        "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_timestamp": null,
+        "captured_at": "2026-01-01T00:00:00Z",
+        "state": "PRESENT",
+        "deleted_at": null,
+        "principal": "USER"
+      }
+    },
+    {
+      "id": "confidence-one-is-still-pending",
+      "contract": "candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "unresolved-completion-target",
+      "contract": "candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": null,
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "new-task-discovery",
+      "contract": "candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "CREATE_TASK",
+        "target_ref": null,
+        "proposed_fields": {
+          "title": "Synthetic assignment",
+          "importance": 4
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "confirmed-review-history",
+      "contract": "candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "CONFIRMED",
+          "authority_ref": "synthetic-reviewed-command",
+          "reviewed_at": "2026-01-02T00:00:00Z",
+          "canonical_task_id": "synthetic-task"
+        }
+      }
+    },
+    {
+      "id": "conflicting-evidence-pending",
+      "contract": "candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "CONFLICTED",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "pending-cannot-carry-authority",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": "external-user-claim",
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "confirmed-needs-review-authority",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "CONFIRMED",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "source-facts-cannot-mint-authority",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE",
+          "authority_ref": "external-user-claim"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "proposed-fields-not-acceptance",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE",
+          "acceptance": {
+            "state": "ACCEPTED"
+          }
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "empty-proposal",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {},
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "out-of-range-confidence",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1.01,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "completion-action-consistent",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "INCOMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "no-task-review-status-conflation",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "COMPLETE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "COMPLETE",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    },
+    {
+      "id": "create-cannot-target-existing-revision",
+      "contract": "candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "source_ref": {
+          "source_id": "synthetic-source",
+          "record_id": "synthetic-source-record",
+          "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "parser_version": "synthetic-parser-1",
+        "action": "CREATE_TASK",
+        "target_ref": {
+          "task_id": "synthetic-task",
+          "revision": 3
+        },
+        "proposed_fields": {
+          "completion": "COMPLETE"
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:00:00Z",
+        "review": {
+          "state": "PENDING",
+          "authority_ref": null,
+          "reviewed_at": null,
+          "canonical_task_id": null
+        }
+      }
+    }
+  ]
+}

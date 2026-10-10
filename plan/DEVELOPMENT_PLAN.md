@@ -9,7 +9,7 @@
 
 The goal is a maintainable personal task/schedule system that reduces the user's daily planning effort: trusted Tasks across courses, sport, life and other; explicit task relationships; available-capacity reasoning; concise daily recommendations; morning/evening review; recovery; weekly/long-term views; optional AI and historical learning. It is not sufficient to build a Task CRUD app or an LLM prompt that produces an attractive list without verified state and feasibility.
 
-The plan contains **195 bounded task definitions in 11 catalogs**. Real courses, TaskTypes, accounts, layouts, Goals and recovery scenarios instantiate explicitly repeated definitions; this count is not a promise that all real instances are known or that the whole system takes a fixed number of equal-duration sessions. No fictional deadline or completion estimate is assigned to the project.
+The plan contains **195 base task definitions in 11 catalogs**, plus explicitly recorded development children such as M2-01.a and M2-02.a. Real courses, TaskTypes, accounts, layouts, Goals and recovery scenarios instantiate explicitly repeated definitions; this count is not a promise that all real instances are known or that the whole system takes a fixed number of equal-duration sessions. No fictional deadline or completion estimate is assigned to the project.
 
 An AI should read:
 
@@ -73,7 +73,7 @@ The PostgreSQL outbox/leases are domain reliability mechanisms. They do not intr
 
 Every task card provides a stable ID, type, prerequisites, bounded deliverable, work and concrete acceptance/failure/extension conditions. The shared rules below are part of every card.
 
-1. **Check readiness.** Read PROGRESS, the card, relevant semantic sources and completed prerequisite interfaces. Runtime implementation waits for M1/M1B/M2 gates; M2-16 permits only its bounded disposable toolchain-validation spike. Do not assume a credential, profile, API field, schema or artifact exists because this plan names it.
+1. **Check readiness.** Read PROGRESS, the card, relevant semantic sources and completed prerequisite interfaces. The user's [development-first instruction](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake) permits generic contracts, offline implementation and synthetic validation before remaining personal intake is complete. [M2-01.a](tasks/M2_CONTRACTS.md#m2-01a) is the first bounded development child. Keep unresolved semantics local to affected features; final contract adoption, real profile activation and live scheduling retain their gates. M2-16 still owns the final toolchain choice. Do not assume a credential, profile, API field, schema or artifact exists because this plan names it.
 2. **Keep one outcome.** Usually one handler, migration group, rule, adapter slice, fixture set or operating drill; ordinarily one module and its focused tests, roughly 3–7 changed implementation files. This is a scope guideline, not a quota that excuses missing essential tests. Do not combine independent task IDs into a large rewrite.
 3. **Resolve engineering details within authority.** Routine implementation choices consistent with accepted contracts do not need repeated product questions. Missing personal facts or semantic conflicts affect only the relevant task; document the precise blocker and continue independent ready work when appropriate.
 4. **Split before expanding.** If a card turns out to span several providers, workflows or algorithm changes, add stable child IDs (`M6-10.a`, `.b`) with deliverables, dependencies and acceptance before coding; preserve the parent ID as a gate. Update the catalogs/coverage/progress. Do not hide multi-session work under DONE.
@@ -107,7 +107,7 @@ Task definitions state initial `TODO`; **PROGRESS is the live ledger**, so stale
 - M7 is optional. M8-19 additionally requires M7-14 evidence **only if AI is enabled in that release**. Disabled optional AI leaves its tasks NOT_ENABLED/TODO with rationale and does not block the deterministic release. Similar source instances apply only to confirmed enabled scope; core semantic/port tests are never waived.
 - Invalidate affected downstream evidence after a breaking schema/interface/semantic change; do not merely leave old DONE markers. Explicit dependency IDs control order even when numbering differs (M3A-20 CI feeds M3A-19).
 
-Do not require an entire milestone's live credentials to develop independent tasks whose explicit prerequisites are already passed. Keep intended milestone order and meaningful gate checks; do not bypass semantic gates for convenience.
+Do not require an entire milestone's live credentials to develop independent tasks whose explicit prerequisites are already passed. D-080 additionally defers remaining personal intake until after system development and permits generic offline development using accepted semantics and synthetic fixtures. This explicitly changes development order, not product authority or real-data readiness. Required unknown personal facts stay unknown and block affected real activation, not unrelated implementation. Preserve the original milestone acceptance evidence; deferred intake is not DONE or an empty inventory.
 
 ## 6. Milestones and Task Catalogs
 

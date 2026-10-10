@@ -482,8 +482,14 @@ The [stable profile proposal](USER_MODEL_PLAN.md#13-m1-02-stable-profile-format-
 
 Profile IDs/revisions and exact TaskType/rule reference versions support review and future compatible loading. There is no primary Course importance scalar. Axis/unit definitions belong in Git; teaching/task-family progress, holes, Task effort/completion, Calendar occurrences and numerical predictions remain dynamic/derived state. Missing cadence/duration/term is not a zero or default. Profile reference/default presence grants no canonical-generation permission.
 
-This resolves the shared-versus-separate envelope engineering question for M1's draft. M1-03/04/05 still establish reviewed examples and refine the format; M2 still owns frozen machine schemas, registry resolution and PostgreSQL contracts. No database schema or user default is implemented here.
+This resolves the shared-versus-separate envelope engineering question for M1's draft. M1-03 has delivered the [reviewed course-001 natural-language profile](intake/COURSE_001_PROFILE_DRAFT.md), revision 7; M1-04 supplies its [axis v1/document revision 2](intake/COURSE_001_PROGRESS_AXIS.md). Teaching/work outcomes and prior notice-before-EXPIRED evidence remain in the [separate progress intake](intake/COURSE_001_PROGRESS_INTAKE.md), now revision 3 with manually sourced next-class date October 13; no actual date enters stable defaults. Expiration preserves INCOMPLETE history and is not a zero remaining-effort observation. M1-05's [0.2 reusable format/template](PROFILE_TEMPLATE.md) and [sourced DRAFT representation](examples/COURSE_001_PROFILE_V0_2.intake.json) preserve qualitative context, staged family facts, exact reference unknowns and prior scoped review. Staged family intake is not a second registered TaskType or live default; user-deferred long-term work remains pending without a zero or absence assertion. M2 still owns frozen machine schemas, registry resolution and PostgreSQL contracts. These intake/SPEC artifacts are not a runtime implementation.
 
 ## Detailed Execution Mapping
 
 Concrete schema design precedes small PostgreSQL migration/repository tasks; authority/audit/version/replay are early requirements.
+
+## 15. Early Task-Core Contract Boundary
+
+Under [D-080](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake), [M2-01.a](tasks/M2_CONTRACTS.md#m2-01a) provides the runnable [Task-core development contract](../formats/input/TASK_CORE_CONTRACT.md). Version 0.1.0-draft encodes identity, independent acceptance/completion/disposition/requiredness, importance, difficulty and derived metadata with closed fields and synthetic valid/invalid examples.
+
+This is a core snapshot component, not the complete schedulable Task or final machine-schema freeze. The validator checks shape and cross-field restrictions only; reference strings cannot prove authority, actual notice delivery or current state version. Effort/stages/times/commands/relations and PostgreSQL ownership still require their corresponding contracts. No reviewed profile is automatically imported or registered by these checks.

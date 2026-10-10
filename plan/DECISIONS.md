@@ -1367,3 +1367,15 @@ Affected: DEVELOPMENT_PLAN, plan/tasks, README, PROGRESS, all module specificati
 ## Detailed Execution Mapping
 
 D-079 governs the new planning requirement; technical proposals do not become user policy merely by appearing in a task.
+
+## D-080 — Develop the system before completing personal intake
+
+Status: Accepted development-order change, 2026-10-09
+
+Source: `USR-20261009-DEVELOPMENT-FIRST-01`. The user asks whether course intake is complete and directs skipping other items, developing the system first, then returning to remaining tasks.
+
+Decision: stop the current activity/capacity intake and prioritize generic system development. Use accepted semantics, reviewed examples and clearly synthetic fixtures; missing personal facts do not block independent contracts or offline code. Record bounded early-development children where old prerequisites require complete semester intake. This does not declare all courses, M1 or M1B complete, remove deferred commitments, authorize guessed personal defaults or approve real task generation. Required unresolved semantics still block affected features; references, authority, audit and version checks remain mandatory before persistence. Real profile activation, capacity-based personal plans, enabled-provider access and delivery require their own actual evidence.
+
+Remaining intake includes activity/capacity details, course-specific gaps and deferred long-term work; resume after system development or an explicit later user change. The previous ice-hockey question is superseded by this instruction; no answer is needed now. Preserve other conversations' course work and source statements.
+
+Affected: A0_USER_INTENT §63, DEVELOPMENT_PLAN, README control documents, M2 early-development children, PROGRESS and the current activity draft. Existing Task/effort/time/authority semantics remain unchanged.

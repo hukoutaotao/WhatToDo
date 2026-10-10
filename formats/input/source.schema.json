@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:source:0.1.0-draft",
+  "title": "Raw-source provenance development contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "record_id",
+    "source_id",
+    "source_type",
+    "provider",
+    "scope_ref",
+    "external_id",
+    "external_revision",
+    "content_hash",
+    "source_timestamp",
+    "captured_at",
+    "state",
+    "deleted_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "record_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "source_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "source_type": {
+      "enum": [
+        "USER",
+        "CALENDAR",
+        "EMAIL",
+        "LEARNING_PLATFORM",
+        "OTHER"
+      ]
+    },
+    "provider": {
+      "$ref": "#/$defs/reference"
+    },
+    "scope_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "external_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "external_revision": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/reference"
+        }
+      ]
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_timestamp": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+        }
+      ]
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "state": {
+      "enum": [
+        "PRESENT",
+        "DELETED"
+      ]
+    },
+    "deleted_at": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "state": {
+            "const": "DELETED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "deleted_at": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "version": "0.1.0-spike",
+  "status": "SELECTED_SPIKE_VERIFIED_NOT_RELEASE_FROZEN",
+  "platform": "windows-x64",
+  "python_version": "3.13.5",
+  "language": "Python",
+  "postgresql": {
+    "version": "18.6",
+    "build": "18.6-5",
+    "url": "https://get.enterprisedb.com/postgresql/postgresql-18.6-5-windows-x64-binaries.zip",
+    "sha256": "e2246ba91d22345bc3d017586c09ede52d9df180b1eeb480f050445f1cad84e2",
+    "bytes": 384620317,
+    "verification": "Official linked HTTPS source; digest observed locally, not a publisher signature."
+  },
+  "python_packages": [
+    {
+      "name": "attrs",
+      "version": "24.3.0",
+      "sha256": "ac96cd038792094f438ad1f6ff80837353805ac950cd2aa0e0625ef19850c308"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.23.0",
+      "sha256": "fbadb6f8b144a8f8cf9f0b89ba94501d143e50411a1278633f56a7acf7fd5566"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2023.7.1",
+      "sha256": "05adf340b659828a004220a9613be00fa3f223f2b82002e273dee62fd50524b1"
+    },
+    {
+      "name": "psycopg",
+      "version": "3.3.6",
+      "sha256": "a1db9f7148b06a28606767efaca51fa6f9398c5c0a3810519be69d7000bdb631"
+    },
+    {
+      "name": "psycopg-binary",
+      "version": "3.3.6",
+      "sha256": "0ebfad5d131de9f892ae9e70cc7616207768b6714b66a52d4612b8ceaf78b372"
+    },
+    {
+      "name": "referencing",
+      "version": "0.30.2",
+      "sha256": "449b6669b6121a9e96a7f9e410b245d471e8d48964c67113ce9afe50c8dd7bdf"
+    },
+    {
+      "name": "rfc3339-validator",
+      "version": "0.1.4",
+      "sha256": "24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa"
+    },
+    {
+      "name": "rpds-py",
+      "version": "0.22.3",
+      "sha256": "c58e2339def52ef6b71b8f36d13c3688ea23fa093353f3a4fee2556e62086ec9"
+    },
+    {
+      "name": "six",
+      "version": "1.17.0",
+      "sha256": "4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274"
+    },
+    {
+      "name": "tzdata",
+      "version": "2025.2",
+      "sha256": "1a403fada01ff9221ca8044d701868fa132215d84beb92242d9acd2147f667a8"
+    }
+  ],
+  "evidence": "Project-local spike, not production tooling or application migration",
+  "scope": "WINDOWS_X64_LOCAL_DEVELOPMENT",
+  "native_client": {
+    "driver_implementation": "binary",
+    "libpq_version": 180004
+  }
+}

@@ -1584,3 +1584,9 @@ The coarse roadmap is replaced at DEVELOPMENT_PLAN.md; the completed audit worki
 ## Detailed Execution Mapping
 
 All task catalogs preserve these accepted semantics; engineering tasks cannot silently alter them.
+
+## 63. Development Before Remaining Personal Intake — 2026-10-09
+
+Source: `USR-20261009-DEVELOPMENT-FIRST-01`; the user directs skipping other intake for now, developing the system first and returning to remaining tasks afterward. [D-080](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake) records this priority change.
+
+Stop requesting sports, life and remaining capacity information now. Preserve course gaps and user-deferred work without calling them complete. Build generic contracts and offline system behavior with accepted rules and synthetic fixtures. Lack of complete semester data should block only affected real activation or personal planning, not independent development. Do not invent personal defaults or relax truth, authorization, audit, versioning or integration-evidence requirements.

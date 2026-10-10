@@ -1,0 +1,529 @@
+{
+  "registry_version": "0.1.0-draft",
+  "evidence_level": "OFFLINE_NOT_RELEASE_FROZEN",
+  "contracts": [
+    {
+      "name": "ai-export",
+      "path": "formats/input/ai-export.schema.json",
+      "schema_id": "urn:whattodo:ai-export:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "75e53e213afec8422290ae5665d13e7a08533187f55177be3d8029758757fb0e",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "ai_job_revision",
+        "ai_job_event"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "ai-import-record",
+      "path": "formats/input/ai-import-record.schema.json",
+      "schema_id": "urn:whattodo:ai-import-record:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "6478db5c1c4210de4e7867e1f8d6756667156fb82399de50df341cc78a4504fa",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "ai_import_record"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "ai-job",
+      "path": "formats/input/ai-job.schema.json",
+      "schema_id": "urn:whattodo:ai-job:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "9c47bf86f6204645ea57288d3a2616b716fbd642b756a008705d72252bf83df8",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "ai_job_revision",
+        "ai_job_event"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "ai-result",
+      "path": "formats/input/ai-result.schema.json",
+      "schema_id": "urn:whattodo:ai-result:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "07a8584b6083e8ac704b0634c62aa27f6d38006c99cfb4b6084646ce6e7c9285",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "ai_result"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "availability",
+      "path": "formats/input/availability.schema.json",
+      "schema_id": "urn:whattodo:availability:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "23758c6f74184cf265c739bf7bc0f981d3eb2de55aca9023990f8fad45c99f21",
+      "consumers": [
+        "src/domain/time_windows.py"
+      ],
+      "database_owners": [
+        "planning_snapshot"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "behavior-candidate",
+      "path": "formats/input/behavior-candidate.schema.json",
+      "schema_id": "urn:whattodo:behavior-candidate:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "2ebc8ef509ffd2f84196591112c5511a9a10ee0ff4e3946652845aa0b2b9fa9d",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "behavior_candidate"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "calendar-event",
+      "path": "formats/input/calendar-event.schema.json",
+      "schema_id": "urn:whattodo:calendar-event:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "501f3621da2f5dacd9b21ace31c2465ff696049dd4990c2d9cc8ca15db2539a1",
+      "consumers": [
+        "src/domain/time_windows.py"
+      ],
+      "database_owners": [
+        "calendar_event_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "candidate",
+      "path": "formats/input/candidate.schema.json",
+      "schema_id": "urn:whattodo:candidate:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "d9ec8f7b0a306533064fb0586d04075a02211810e5425d87ab95a30ec1356ab5",
+      "consumers": [
+        "src/domain/provenance.py"
+      ],
+      "database_owners": [
+        "candidate_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "command",
+      "path": "formats/input/command.schema.json",
+      "schema_id": "urn:whattodo:command:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "374ba411ef9c8e6e5123b6193b1f4c66bff25cef82ba2c6a60ebb1b2b7793a14",
+      "consumers": [
+        "src/domain/authorization.py"
+      ],
+      "database_owners": [
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "dispatch-result",
+      "path": "formats/input/dispatch-result.schema.json",
+      "schema_id": "urn:whattodo:dispatch-result:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "ea313eef0e1f61913425aad991f0331e04f08e34e433b34fef99cc454db6875c",
+      "consumers": [
+        "src/domain/expiration.py"
+      ],
+      "database_owners": [
+        "dispatch_attempt",
+        "dispatch_result"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "effort",
+      "path": "formats/input/effort.schema.json",
+      "schema_id": "urn:whattodo:effort:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "34c206ba4b3f660f18b54b6f3cc420bce4a2ea40dd1e0ee3c6ca9db06f193df5",
+      "consumers": [
+        "src/domain/effort.py"
+      ],
+      "database_owners": [
+        "task_revision",
+        "stage_revision",
+        "remaining_prediction"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "exam",
+      "path": "formats/input/exam.schema.json",
+      "schema_id": "urn:whattodo:exam:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "ff94198ef95c681db448e95f3263dc6a78eae69b1583ef6b85ebbf8757e8e04c",
+      "consumers": [
+        "src/domain/goals.py"
+      ],
+      "database_owners": [
+        "exam_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "expiration-notice",
+      "path": "formats/input/expiration-notice.schema.json",
+      "schema_id": "urn:whattodo:expiration-notice:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "3c910e2ece8a7c733e3c6a12f7a90dd5ec2abf8ca9d026691fa175016e7fbc20",
+      "consumers": [
+        "src/domain/expiration.py"
+      ],
+      "database_owners": [
+        "expiration_notice",
+        "dispatch_attempt",
+        "dispatch_result"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "forecast-window",
+      "path": "formats/input/forecast-window.schema.json",
+      "schema_id": "urn:whattodo:forecast-window:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "299c081afce6d1ba6604cc606e1b1247ac7fff676ca114cfcbe924252ea5e3d1",
+      "consumers": [
+        "src/domain/time_windows.py"
+      ],
+      "database_owners": [
+        "forecast_horizon"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "generation-occurrence",
+      "path": "formats/input/generation-occurrence.schema.json",
+      "schema_id": "urn:whattodo:generation-occurrence:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "18463303feea208e606c24f2af3d3b812688efaefc8a2abb4c2a45dc43015e9b",
+      "consumers": [
+        "src/domain/relationships.py"
+      ],
+      "database_owners": [
+        "generation_occurrence"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "goal",
+      "path": "formats/input/goal.schema.json",
+      "schema_id": "urn:whattodo:goal:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "2f2bb155b3f5dd16d946b2b386ac8d048f1d727ed2ca0f6cfbd60e82689f8361",
+      "consumers": [
+        "src/domain/goals.py"
+      ],
+      "database_owners": [
+        "goal_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "goal-onboarding",
+      "path": "formats/input/goal-onboarding.schema.json",
+      "schema_id": "urn:whattodo:goal-onboarding:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "e3f78d425459e7fa07dd1bd3daf6671ea9c24f0edee62949fe110b1eef7007e5",
+      "consumers": [
+        "src/domain/goals.py"
+      ],
+      "database_owners": [
+        "goal_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "goal-progress",
+      "path": "formats/input/goal-progress.schema.json",
+      "schema_id": "urn:whattodo:goal-progress:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "4bb88f45d85f86c277d4b469111cc408b6bffc36541c647d2834989abcb6c570",
+      "consumers": [
+        "src/domain/goals.py"
+      ],
+      "database_owners": [
+        "goal_progress"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "milestone",
+      "path": "formats/input/milestone.schema.json",
+      "schema_id": "urn:whattodo:milestone:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "42aee899c11377b1a970e52f64fe700d338bf5083ab872769cf5379d8ebac81a",
+      "consumers": [
+        "src/domain/goals.py"
+      ],
+      "database_owners": [
+        "milestone_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "normalized-due",
+      "path": "formats/input/normalized-due.schema.json",
+      "schema_id": "urn:whattodo:normalized-due:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "5438dfc08dad19244537f6544792fcd4c8d51d3860b19f7f37b9f35503999cc5",
+      "consumers": [
+        "src/domain/time_windows.py"
+      ],
+      "database_owners": [
+        "normalized_due"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "plan",
+      "path": "formats/output/plan.schema.json",
+      "schema_id": "urn:whattodo:plan:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "d2159f04177ba50198849f58a0521089a40cbc10854f6eef908bb348ec0c3624",
+      "consumers": [
+        "src/domain/plan_output.py"
+      ],
+      "database_owners": [
+        "plan_record",
+        "plan_allocation",
+        "forecast_horizon"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "relationship-rule",
+      "path": "formats/input/relationship-rule.schema.json",
+      "schema_id": "urn:whattodo:relationship-rule:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "d4dceef1f9c4c9a9b683c2c9010e0694c28ce2fa1ece2b00b99fdb81abf23daa",
+      "consumers": [
+        "src/domain/relationships.py"
+      ],
+      "database_owners": [
+        "configuration_revision",
+        "relationship_rule_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "remaining-prediction",
+      "path": "formats/input/remaining-prediction.schema.json",
+      "schema_id": "urn:whattodo:remaining-prediction:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "f193d5785e1bf564623a4578a64f858ffebb025412c6d39d456c8faf6f299574",
+      "consumers": [
+        "src/domain/ai_results.py"
+      ],
+      "database_owners": [
+        "remaining_prediction",
+        "model_revision",
+        "numeric_eligibility",
+        "model_lifecycle_event"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "review-response",
+      "path": "formats/input/review-response.schema.json",
+      "schema_id": "urn:whattodo:review-response:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "89be4a1fa37c768765257a972a04b1bf54be7319bcac8c078f75fb05b3fa0f33",
+      "consumers": [
+        "src/domain/review.py",
+        "src/application/guided_review.py"
+      ],
+      "database_owners": [
+        "review_frame",
+        "review_member",
+        "review_response",
+        "estimate_verification"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "source",
+      "path": "formats/input/source.schema.json",
+      "schema_id": "urn:whattodo:source:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "288b0f1d74fb28422edde08d591032aa85b3cd1fd41aedfbee5793e7e10b0f75",
+      "consumers": [
+        "src/domain/provenance.py"
+      ],
+      "database_owners": [
+        "source_scope",
+        "source_identity",
+        "source_record",
+        "source_lifecycle_event"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "task-core",
+      "path": "formats/input/task-core.schema.json",
+      "schema_id": "urn:whattodo:task-core:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "9c148d26567a733d1beb2c7411a6196b988d677aa0764380476e9a71a077e410",
+      "consumers": [
+        "tools/validate_task_core.py"
+      ],
+      "database_owners": [
+        "task_revision",
+        "task_head"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "task-relation",
+      "path": "formats/input/task-relation.schema.json",
+      "schema_id": "urn:whattodo:task-relation:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "af78def47df67da67083723b068ec20f2bf488e0dcb8869919fbe3ae4caebb50",
+      "consumers": [
+        "src/domain/relationships.py"
+      ],
+      "database_owners": [
+        "task_relation_revision"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "today-lock",
+      "path": "formats/input/today-lock.schema.json",
+      "schema_id": "urn:whattodo:today-lock:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "dcfe8df5e20b1118a83e4365168c3e92279f1cc943b327478b23ed98eb89fed0",
+      "consumers": [
+        "src/domain/time_windows.py"
+      ],
+      "database_owners": [
+        "today_lock"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "work-observation",
+      "path": "formats/input/work-observation.schema.json",
+      "schema_id": "urn:whattodo:work-observation:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "4a25a847d35143b1ad08cf40ef87479dba151df6154f2dff142f236ea5f27d79",
+      "consumers": [
+        "src/domain/effort.py"
+      ],
+      "database_owners": [
+        "effort_observation",
+        "estimate_verification"
+      ],
+      "adapters": []
+    },
+    {
+      "name": "task-aggregate",
+      "path": "formats/input/task-aggregate.schema.json",
+      "schema_id": "urn:whattodo:task-aggregate:0.1.0-draft",
+      "supported_versions": [
+        "0.1.0-draft"
+      ],
+      "schema_hash": "153ef9a931cd16ed599bc555389fae8e14286b6a56ad6cd376033aaa38274c29",
+      "consumers": [
+        "src/domain/task_aggregate.py",
+        "src/application/task_aggregate.py"
+      ],
+      "database_owners": [
+        "task_revision",
+        "task_head",
+        "task_details_revision",
+        "task_field_provenance",
+        "stage_revision",
+        "remaining_prediction",
+        "normalized_due",
+        "configuration_revision",
+        "source_record"
+      ],
+      "adapters": []
+    }
+  ],
+  "policy": {
+    "unknown_version": "REJECT_RETAIN_ORIGINAL_BYTES",
+    "missing_version": "REJECT_NO_DEFAULT",
+    "unknown_fields": "SCHEMA_POLICY_NO_SILENT_DROP",
+    "automatic_legacy_adapters": "NONE_IMPLEMENTED",
+    "structural_optional_addition": "BREAKING_FOR_STRICT_OLD_CONSUMERS",
+    "complex_schema_change": "REVIEW_REQUIRED_INVALIDATE_CONSUMERS",
+    "domain_authority": "REQUIRED_AFTER_VERSION_AND_SHAPE"
+  }
+}

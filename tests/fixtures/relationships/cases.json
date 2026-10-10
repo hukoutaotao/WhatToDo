@@ -1,0 +1,657 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "accepted-generation-rule",
+      "contract": "relationship-rule",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "inactive-unaccepted-rule",
+      "contract": "relationship-rule",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": false,
+        "acceptance_ref": null,
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "stage-generation-explicit",
+      "contract": "relationship-rule",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "STAGE",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "active-rule-without-acceptance",
+      "contract": "relationship-rule",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": null,
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "raw-discovery-is-not-trigger",
+      "contract": "relationship-rule",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "EXTERNAL_DISCOVERY",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "literal-with-source-lookup",
+      "contract": "relationship-rule",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": "completion",
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "essential-outcome-field-missing",
+      "contract": "relationship-rule",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "disposition",
+          "importance"
+        ],
+        "mappings": [
+          {
+            "target_field": "title",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "mapping-forged-authority-field",
+      "contract": "relationship-rule",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "rule_id": "synthetic-rule",
+        "version": "1",
+        "active": true,
+        "acceptance_ref": "synthetic-user-rule",
+        "trigger": "CANONICAL_CREATION",
+        "source_type_ref": "synthetic-lab",
+        "target_type_ref": "synthetic-preparation",
+        "target_template_ref": "synthetic-template",
+        "target_template_version": "1",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "essential_fields": [
+          "title",
+          "completion",
+          "disposition"
+        ],
+        "mappings": [
+          {
+            "target_field": "authority_ref",
+            "kind": "SOURCE",
+            "source_field": "title",
+            "literal_json": null
+          },
+          {
+            "target_field": "completion",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"INCOMPLETE\""
+          },
+          {
+            "target_field": "disposition",
+            "kind": "LITERAL",
+            "source_field": null,
+            "literal_json": "\"ACTIVE\""
+          }
+        ]
+      }
+    },
+    {
+      "id": "completion-order",
+      "contract": "task-relation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "COMPLETION_ORDER",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "start-prerequisite",
+      "contract": "task-relation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "START_PREREQUISITE",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "soft-sequence",
+      "contract": "task-relation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "SOFT_SEQUENCE",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "parent-stage-membership",
+      "contract": "task-relation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "STAGE_MEMBERSHIP",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "STAGE",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "generation-not-order-link",
+      "contract": "task-relation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "GENERATION",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "stage-not-separate-task",
+      "contract": "task-relation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "STAGE_MEMBERSHIP",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "rule-origin-without-version",
+      "contract": "task-relation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 1,
+        "kind": "COMPLETION_ORDER",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": "synthetic-rule",
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "non-positive-link-version",
+      "contract": "task-relation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "relation_id": "synthetic-link",
+        "revision": 0,
+        "kind": "COMPLETION_ORDER",
+        "before": {
+          "kind": "TASK",
+          "id": "synthetic-preparation"
+        },
+        "after": {
+          "kind": "TASK",
+          "id": "synthetic-lab"
+        },
+        "authority_ref": "synthetic-approved-relation",
+        "origin_rule_id": null,
+        "origin_rule_version": null
+      }
+    },
+    {
+      "id": "created-occurrence",
+      "contract": "generation-occurrence",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "CREATED",
+        "target_id": "synthetic-preparation",
+        "missing_fields": [],
+        "failure_code": null
+      }
+    },
+    {
+      "id": "pending-missing-facts",
+      "contract": "generation-occurrence",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "PENDING",
+        "target_id": null,
+        "missing_fields": [
+          "title"
+        ],
+        "failure_code": null
+      }
+    },
+    {
+      "id": "failed-occurrence",
+      "contract": "generation-occurrence",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "FAILED",
+        "target_id": null,
+        "missing_fields": [],
+        "failure_code": "TEMPORARY_STORE_FAILURE"
+      }
+    },
+    {
+      "id": "created-with-unknown-target",
+      "contract": "generation-occurrence",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "CREATED",
+        "target_id": null,
+        "missing_fields": [],
+        "failure_code": null
+      }
+    },
+    {
+      "id": "pending-with-invented-target",
+      "contract": "generation-occurrence",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "PENDING",
+        "target_id": "synthetic-preparation",
+        "missing_fields": [
+          "title"
+        ],
+        "failure_code": null
+      }
+    },
+    {
+      "id": "failed-without-diagnostic",
+      "contract": "generation-occurrence",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "generation_key": "generation-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "rule_id": "synthetic-rule",
+        "rule_version": "1",
+        "source_task_id": "synthetic-lab",
+        "creation_event_ref": "synthetic-create",
+        "occurrence_key": "synthetic-occurrence",
+        "target_role": "preparation",
+        "obligation_kind": "SEPARATE_TASK",
+        "state": "FAILED",
+        "target_id": null,
+        "missing_fields": [],
+        "failure_code": null
+      }
+    }
+  ]
+}

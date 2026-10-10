@@ -1,0 +1,802 @@
+{
+  "synthetic": true,
+  "catalog_version": "0.1.0-draft",
+  "scope": "OFFLINE_DEVELOPMENT_NOT_RELEASE_ACCEPTANCE",
+  "decision_source": "plan/DECISIONS.md",
+  "decision_ids": [
+    "D-001",
+    "D-002",
+    "D-003",
+    "D-004",
+    "D-005",
+    "D-006",
+    "D-007",
+    "D-008",
+    "D-009",
+    "D-010",
+    "D-011",
+    "D-012",
+    "D-013",
+    "D-014",
+    "D-015",
+    "D-016",
+    "D-017",
+    "D-018",
+    "D-019",
+    "D-020",
+    "D-021",
+    "D-022",
+    "D-023",
+    "D-024",
+    "D-025",
+    "D-026",
+    "D-027",
+    "D-028",
+    "D-029",
+    "D-030",
+    "D-031",
+    "D-032",
+    "D-033",
+    "D-034",
+    "D-035",
+    "D-036",
+    "D-037",
+    "D-038",
+    "D-039",
+    "D-040",
+    "D-041",
+    "D-042",
+    "D-043",
+    "D-044",
+    "D-045",
+    "D-046",
+    "D-047",
+    "D-048",
+    "D-049",
+    "D-050",
+    "D-051",
+    "D-052",
+    "D-053",
+    "D-054",
+    "D-055",
+    "D-056",
+    "D-057",
+    "D-058",
+    "D-059",
+    "D-060",
+    "D-061",
+    "D-062",
+    "D-063",
+    "D-064",
+    "D-065",
+    "D-066",
+    "D-067",
+    "D-068",
+    "D-069",
+    "D-070",
+    "D-071",
+    "D-072",
+    "D-073",
+    "D-074",
+    "D-075",
+    "D-076",
+    "D-077",
+    "D-078",
+    "D-079",
+    "D-080"
+  ],
+  "boundaries": [
+    {
+      "id": "SB-001",
+      "decision_ids": [
+        "D-002",
+        "D-017",
+        "D-025",
+        "D-035",
+        "D-036",
+        "D-037",
+        "D-043",
+        "D-044"
+      ],
+      "requirement": "Binary Task axes; task-level importance/difficulty; requiredness independent of importance.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "task_core",
+          "case_id": "optional-high-importance"
+        },
+        {
+          "bundle": "task_core",
+          "case_id": "partial-completion"
+        },
+        {
+          "bundle": "task_core",
+          "case_id": "course-importance"
+        },
+        {
+          "bundle": "task_core",
+          "case_id": "difficulty-six"
+        }
+      ],
+      "tests": [
+        "tests.test_effort.EffortTests.test_complete_needs_explicit_zero_and_zero_does_not_complete"
+      ],
+      "scenarios": [],
+      "remaining": [
+        "Full Task/preset reference resolution and durable canonical state."
+      ]
+    },
+    {
+      "id": "SB-002",
+      "decision_ids": [
+        "D-019",
+        "D-054",
+        "D-065",
+        "D-066",
+        "D-074"
+      ],
+      "requirement": "Valid remaining model drives B above/below U; U retained and unknown U remains review-needed.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "effort",
+          "case_id": "remaining-model-above-user"
+        },
+        {
+          "bundle": "effort",
+          "case_id": "remaining-model-below-user"
+        },
+        {
+          "bundle": "effort",
+          "case_id": "unknown-remaining"
+        },
+        {
+          "bundle": "effort",
+          "case_id": "missing-user-estimate-model-present"
+        }
+      ],
+      "tests": [
+        "tests.test_effort.EffortTests.test_model_above_and_below_user",
+        "tests.test_effort.EffortTests.test_model_fallbacks",
+        "tests.test_effort.EffortTests.test_missing_user_is_still_review_pending_with_model"
+      ],
+      "scenarios": [
+        "SC-001",
+        "SC-002"
+      ],
+      "remaining": [
+        "Real timing/model fitting and independently eligible model selection."
+      ]
+    },
+    {
+      "id": "SB-003",
+      "decision_ids": [
+        "D-026",
+        "D-034",
+        "D-069",
+        "D-074"
+      ],
+      "requirement": "One parent budget; stages partition it; actual increments do not decrement U.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "effort",
+          "case_id": "unknown-stage-weights"
+        },
+        {
+          "bundle": "effort",
+          "case_id": "actual-work-immutable-observation"
+        },
+        {
+          "bundle": "effort",
+          "case_id": "batch-not-new-estimate"
+        }
+      ],
+      "tests": [
+        "tests.test_effort.EffortTests.test_exact_stage_partition_no_double_count",
+        "tests.test_effort.EffortTests.test_observations_are_immutable_idempotent_and_not_estimate_decrements",
+        "tests.test_effort.EffortTests.test_separate_obligations_add_repeated_references_do_not"
+      ],
+      "scenarios": [
+        "SC-006"
+      ],
+      "remaining": [
+        "Persistent parent/stage/observation histories and rework transactions."
+      ]
+    },
+    {
+      "id": "SB-004",
+      "decision_ids": [
+        "D-016",
+        "D-020",
+        "D-058",
+        "D-064"
+      ],
+      "requirement": "External high-confidence evidence remains a candidate and cannot complete a Task.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "sources",
+          "case_id": "confidence-one-is-still-pending"
+        },
+        {
+          "bundle": "sources",
+          "case_id": "source-facts-cannot-mint-authority"
+        },
+        {
+          "bundle": "sources",
+          "case_id": "pending-cannot-carry-authority"
+        }
+      ],
+      "tests": [
+        "tests.test_provenance.ProvenanceTests.test_high_confidence_is_pending_not_task_completion",
+        "tests.test_provenance.ProvenanceTests.test_tombstone_does_not_cancel_task_or_candidate"
+      ],
+      "scenarios": [
+        "SC-004"
+      ],
+      "remaining": [
+        "Real collectors, mapping scopes and durable review application."
+      ]
+    },
+    {
+      "id": "SB-005",
+      "decision_ids": [
+        "D-029",
+        "D-033",
+        "D-042",
+        "D-064",
+        "D-072"
+      ],
+      "requirement": "Exact independent authority and current revisions; direct user command needs no duplicate approval.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "authorization",
+          "case_id": "explicit-user-envelope"
+        },
+        {
+          "bundle": "authorization",
+          "case_id": "external-envelope-no-grant"
+        },
+        {
+          "bundle": "authorization",
+          "case_id": "unreviewed-extra-control-field"
+        }
+      ],
+      "tests": [
+        "tests.test_authorization.AuthorizationTests.test_explicit_user_authority_needs_no_duplicate_approval",
+        "tests.test_authorization.AuthorizationTests.test_external_claimed_user_and_known_reference_do_not_grant_authority",
+        "tests.test_authorization.AuthorizationTests.test_same_field_wrong_value_and_inferred_extra_are_rejected"
+      ],
+      "scenarios": [
+        "SC-004",
+        "SC-006"
+      ],
+      "remaining": [
+        "Authenticated transport and transactional authority/reference resolution; D-072 scopes the generation exception."
+      ]
+    },
+    {
+      "id": "SB-006",
+      "decision_ids": [
+        "D-024",
+        "D-051",
+        "D-052",
+        "D-065",
+        "D-077"
+      ],
+      "requirement": "Full review queue with unanswered defaults, individual worked-task updates and explicit exact unchanged batches.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "review",
+          "case_id": "no-submission-keeps-defaults-unconfirmed"
+        },
+        {
+          "bundle": "review",
+          "case_id": "unchanged-explicit-batch"
+        },
+        {
+          "bundle": "review",
+          "case_id": "body-cannot-mint-user-principal"
+        }
+      ],
+      "tests": [
+        "tests.test_review.ReviewTests.test_partial_reply_does_not_close_full_queue",
+        "tests.test_review.ReviewTests.test_batch_binds_exact_members_current_revision_estimate_id_and_value",
+        "tests.test_review.ReviewTests.test_batch_excludes_worked_changed_uncertain_missing_and_inactive_estimates"
+      ],
+      "scenarios": [
+        "SC-005",
+        "SC-011"
+      ],
+      "remaining": [
+        "Real review interaction, committed round completion and UI."
+      ]
+    },
+    {
+      "id": "SB-007",
+      "decision_ids": [
+        "D-048",
+        "D-061",
+        "D-071"
+      ],
+      "requirement": "Generation, hard start/completion order, soft order and stage membership are separate graphs.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "relationships",
+          "case_id": "accepted-generation-rule"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "completion-order"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "start-prerequisite"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "generation-not-order-link"
+        }
+      ],
+      "tests": [
+        "tests.test_relationships.RelationshipTests.test_reverse_generation_and_execution_order_are_separate_graphs",
+        "tests.test_relationships.RelationshipTests.test_actual_generation_cycle_reports_only_offending_rules",
+        "tests.test_relationships.RelationshipTests.test_completion_order_allows_early_start_but_start_prerequisite_does_not"
+      ],
+      "scenarios": [
+        "SC-006"
+      ],
+      "remaining": [
+        "Persistent graph ownership and actual Planner constraint assembly."
+      ]
+    },
+    {
+      "id": "SB-008",
+      "decision_ids": [
+        "D-046",
+        "D-058",
+        "D-071",
+        "D-072"
+      ],
+      "requirement": "Accepted scoped mappings propose only resolved active incomplete targets; occurrence replay is stable across rule versions.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "relationships",
+          "case_id": "created-occurrence"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "pending-missing-facts"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "pending-with-invented-target"
+        },
+        {
+          "bundle": "relationships",
+          "case_id": "mapping-forged-authority-field"
+        }
+      ],
+      "tests": [
+        "tests.test_relationships.RelationshipTests.test_generation_resolves_only_approved_bindings_and_template_version",
+        "tests.test_relationships.RelationshipTests.test_rule_version_and_retries_do_not_duplicate_created_occurrence",
+        "tests.test_relationships.RelationshipTests.test_mapped_proposal_still_needs_independent_authority"
+      ],
+      "scenarios": [
+        "SC-006"
+      ],
+      "remaining": [
+        "Atomic generation/outbox and persistent uniqueness constraints."
+      ]
+    },
+    {
+      "id": "SB-009",
+      "decision_ids": [
+        "D-044",
+        "D-069",
+        "D-073"
+      ],
+      "requirement": "Confirmed notice precedes expiry; failed/unknown delivery cannot grant expiry; U/history retained.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "expiration",
+          "case_id": "queued-not-delivered"
+        },
+        {
+          "bundle": "expiration",
+          "case_id": "ambiguous-delivery"
+        },
+        {
+          "bundle": "expiration",
+          "case_id": "confirmed-failure"
+        },
+        {
+          "bundle": "expiration",
+          "case_id": "delivered-with-history"
+        }
+      ],
+      "tests": [
+        "tests.test_expiration.ExpirationTests.test_unknown_blocks_resend_until_original_result_reconciled",
+        "tests.test_expiration.ExpirationTests.test_condition_is_checked_again_after_delivery",
+        "tests.test_expiration.ExpirationTests.test_ready_notice_still_requires_scoped_transaction_authority"
+      ],
+      "scenarios": [
+        "SC-007",
+        "SC-008"
+      ],
+      "remaining": [
+        "Real notification evidence, persisted attempts and audited expiry transactions."
+      ]
+    },
+    {
+      "id": "SB-010",
+      "decision_ids": [
+        "D-063",
+        "D-075",
+        "D-078"
+      ],
+      "requirement": "Beijing date-only due 23:59, explicit instants retained, today locks end next midnight and horizons include today.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "time_windows",
+          "case_id": "date-only-local-default"
+        },
+        {
+          "bundle": "time_windows",
+          "case_id": "rolling-window-forbidden"
+        },
+        {
+          "bundle": "time_windows",
+          "case_id": "server-zone-not-user-zone"
+        },
+        {
+          "bundle": "time_windows",
+          "case_id": "today-lock-is-not-task-completion"
+        }
+      ],
+      "tests": [
+        "tests.test_time_windows.TimeWindowTests.test_beijing_midnight_changes_anchor_independent_of_server_day",
+        "tests.test_time_windows.TimeWindowTests.test_explicit_instant_offset_precision_and_original_text_are_preserved",
+        "tests.test_time_windows.TimeWindowTests.test_today_locks_keep_advance_and_complete_separate_and_expire_at_midnight"
+      ],
+      "scenarios": [
+        "SC-009"
+      ],
+      "remaining": [
+        "Real clock/runtime rollover, deadline mapping and persisted lock expiry."
+      ]
+    },
+    {
+      "id": "SB-011",
+      "decision_ids": [
+        "D-006",
+        "D-031",
+        "D-067",
+        "D-078"
+      ],
+      "requirement": "Remaining usable capacity is exact clipped union minus scoped occupancy; missing/stale data is not free time.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "time_windows",
+          "case_id": "calendar-unknown-is-explicit"
+        },
+        {
+          "bundle": "time_windows",
+          "case_id": "verified-empty-availability"
+        },
+        {
+          "bundle": "time_windows",
+          "case_id": "unknown-capacity-explicit"
+        }
+      ],
+      "tests": [
+        "tests.test_time_windows.TimeWindowTests.test_unknown_and_tentative_occupancy_are_unresolved_not_free",
+        "tests.test_time_windows.TimeWindowTests.test_integer_grid_oracle_matches_interval_union_minus_occupancy",
+        "tests.test_time_windows.TimeWindowTests.test_unresolved_or_stale_frame_cannot_supply_canonical_capacity"
+      ],
+      "scenarios": [
+        "SC-003",
+        "SC-009"
+      ],
+      "remaining": [
+        "Actual calendar pagination/freshness/source resolution and personal capacity."
+      ]
+    },
+    {
+      "id": "SB-012",
+      "decision_ids": [
+        "D-022",
+        "D-039",
+        "D-056",
+        "D-057"
+      ],
+      "requirement": "Goal setup/progress and Exam dates are independent; neither duplicates Task effort nor infers completion/occupancy.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "goals",
+          "case_id": "partial-goal-remains-draft"
+        },
+        {
+          "bundle": "goals",
+          "case_id": "goal-has-no-task-remaining-seconds"
+        },
+        {
+          "bundle": "goals",
+          "case_id": "exam-date-only-not-2359-start"
+        },
+        {
+          "bundle": "goals",
+          "case_id": "onboarding-is-not-generation-authority"
+        }
+      ],
+      "tests": [
+        "tests.test_goals.GoalTests.test_complete_setup_still_needs_review_and_rule_resolution",
+        "tests.test_goals.GoalTests.test_numeric_attainment_never_infers_confirmed_completion",
+        "tests.test_goals.GoalTests.test_goal_and_milestones_have_no_duplicate_task_effort",
+        "tests.test_goals.GoalTests.test_date_only_exam_does_not_become_deadline_2359_or_occupancy"
+      ],
+      "scenarios": [],
+      "remaining": [
+        "Real Goal/Exam intake, accepted references, generation and persistence."
+      ]
+    },
+    {
+      "id": "SB-013",
+      "decision_ids": [
+        "D-031",
+        "D-032",
+        "D-040",
+        "D-050",
+        "D-059",
+        "D-067",
+        "D-074",
+        "D-078"
+      ],
+      "requirement": "Risk requires bound feasible/infeasible placement evidence; positive margin alone cannot prove SAFE.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "forecast_plan",
+          "case_id": "safe-needs-feasible-placement-proof"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "unverified-timeout-not-safe"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "stale-data-not-safe"
+        }
+      ],
+      "tests": [
+        "tests.test_forecast_plan.ForecastPlanTests.test_positive_hours_do_not_prove_hard_constraint_feasibility",
+        "tests.test_forecast_plan.ForecastPlanTests.test_worst_horizon_and_missing_knowledge_are_separate"
+      ],
+      "scenarios": [
+        "SC-001",
+        "SC-002",
+        "SC-003"
+      ],
+      "remaining": [
+        "Full exact/heuristic solver and scoped hard-constraint witness verification; SC-003 is a finite synthetic single-task oracle."
+      ]
+    },
+    {
+      "id": "SB-014",
+      "decision_ids": [
+        "D-059",
+        "D-076"
+      ],
+      "requirement": "SAFE discretionary <=40 minute rule uses whole-day remainder after one reserve subtraction.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "forecast_plan",
+          "case_id": "normal-verified-output"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "danger-reserve-breached"
+        }
+      ],
+      "tests": [
+        "tests.test_forecast_plan.ForecastPlanTests.test_safe_small_gap_rule_uses_day_total_after_required_and_reserve"
+      ],
+      "scenarios": [
+        "SC-010"
+      ],
+      "remaining": [
+        "Actual Task-importance allocation/selection and fragmentable placements."
+      ]
+    },
+    {
+      "id": "SB-015",
+      "decision_ids": [
+        "D-018",
+        "D-024",
+        "D-034",
+        "D-040",
+        "D-053"
+      ],
+      "requirement": "Plan sections reference one allocation; provisional/final emergency phases require their respective evidence.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "forecast_plan",
+          "case_id": "provisional-aggregate-emergency"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "final-round-two-recovery"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "final-needs-committed-review"
+        },
+        {
+          "bundle": "forecast_plan",
+          "case_id": "plan-cannot-cancel-canonical-task"
+        }
+      ],
+      "tests": [
+        "tests.test_forecast_plan.ForecastPlanTests.test_plan_sections_reference_one_allocation_without_extra_effort",
+        "tests.test_forecast_plan.ForecastPlanTests.test_emergency_baseline_is_provisional_and_final_requires_independent_review"
+      ],
+      "scenarios": [],
+      "remaining": [
+        "Daily Brief renderer, committed emergency interaction/recompute and publication."
+      ]
+    },
+    {
+      "id": "SB-016",
+      "decision_ids": [
+        "D-007",
+        "D-008",
+        "D-009",
+        "D-041",
+        "D-042",
+        "D-054",
+        "D-058",
+        "D-066",
+        "D-074"
+      ],
+      "requirement": "AI numeric output needs independent eligibility; behavioral changes stay pending; exact usage may be unknown.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "ai_results",
+          "case_id": "behavior-result-valid"
+        },
+        {
+          "bundle": "ai_results",
+          "case_id": "prediction-is-not-total"
+        },
+        {
+          "bundle": "ai_results",
+          "case_id": "prediction-no-user-write"
+        },
+        {
+          "bundle": "ai_results",
+          "case_id": "candidate-never-accepted"
+        },
+        {
+          "bundle": "ai_results",
+          "case_id": "cost-needs-currency"
+        }
+      ],
+      "tests": [
+        "tests.test_ai_results.AIResultTests.test_independent_current_model_eligibility_is_required",
+        "tests.test_ai_results.AIResultTests.test_all_behavior_policies_remain_pending_at_full_confidence",
+        "tests.test_ai_results.AIResultTests.test_accepted_replay_is_no_effect_even_after_cancellation_or_stale_context",
+        "tests.test_ai_results.AIResultTests.test_usage_unknown_is_distinct_from_zero_and_cost_is_exact"
+      ],
+      "scenarios": [],
+      "remaining": [
+        "Actual provider/context/model/cost, calibrated numeric learning and scoped user policy adoption."
+      ]
+    },
+    {
+      "id": "SB-017",
+      "decision_ids": [
+        "D-004",
+        "D-014",
+        "D-033",
+        "D-079"
+      ],
+      "requirement": "Internal ports preserve independent scoped authority, CAS and atomic before/after audit plus receipt.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "authorization",
+          "case_id": "scoped-batch-envelope"
+        },
+        {
+          "bundle": "authorization",
+          "case_id": "missing-target-revision"
+        }
+      ],
+      "tests": [
+        "tests.test_ports.PortTests.test_independent_permit_exact_value_caller_origin_and_validity_are_required",
+        "tests.test_ports.PortTests.test_audit_or_precommit_failure_leaves_state_history_and_receipts_untouched",
+        "tests.test_ports.PortTests.test_lost_commit_receipt_reconciles_and_replays_without_duplicate_write",
+        "tests.test_ports.PortTests.test_concurrent_distinct_requests_from_one_version_have_one_winner"
+      ],
+      "scenarios": [
+        "SC-005",
+        "SC-007",
+        "SC-011"
+      ],
+      "remaining": [
+        "PostgreSQL transactions, crash durability, replay/backup/restore and live permit lifecycle."
+      ]
+    },
+    {
+      "id": "SB-018",
+      "decision_ids": [
+        "D-006",
+        "D-020",
+        "D-030",
+        "D-073",
+        "D-079"
+      ],
+      "requirement": "Source pages and notification receipts stay scoped; delivery ambiguity requires reconciliation without resend.",
+      "scope": "OFFLINE_DEVELOPMENT",
+      "schema_cases": [
+        {
+          "bundle": "expiration",
+          "case_id": "ambiguous-delivery"
+        },
+        {
+          "bundle": "expiration",
+          "case_id": "unknown-has-no-confirmed-delivery-time"
+        }
+      ],
+      "tests": [
+        "tests.test_ports.PortTests.test_calendar_scope_window_pagination_and_stale_quality_remain_explicit",
+        "tests.test_ports.PortTests.test_ambiguous_notification_requires_reconciliation_without_resending",
+        "tests.test_ports.PortTests.test_ready_source_quality_cannot_hide_gaps_or_duplicate_unresolved_refs"
+      ],
+      "scenarios": [
+        "SC-007",
+        "SC-008"
+      ],
+      "remaining": [
+        "Real channels/credentials, bounded retries, persisted checkpoints and source freshness."
+      ]
+    }
+  ],
+  "unmapped_decisions": [
+    "D-001",
+    "D-003",
+    "D-005",
+    "D-010",
+    "D-011",
+    "D-012",
+    "D-013",
+    "D-015",
+    "D-021",
+    "D-023",
+    "D-027",
+    "D-028",
+    "D-038",
+    "D-045",
+    "D-047",
+    "D-049",
+    "D-055",
+    "D-060",
+    "D-062",
+    "D-068",
+    "D-070",
+    "D-080"
+  ],
+  "scenario_file": "tests/fixtures/semantic/scenarios.json"
+}

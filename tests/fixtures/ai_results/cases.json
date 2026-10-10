@@ -1,0 +1,885 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "ai-job-valid",
+      "contract": "ai-job",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "revision": 1,
+        "job_type": "synthetic-calibration",
+        "executor_class": "MANUAL_PREMIUM",
+        "priority": 3,
+        "reason": "Synthetic job",
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "status": "PENDING",
+        "exported_at": null
+      }
+    },
+    {
+      "id": "ai-export-valid",
+      "contract": "ai-export",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "export_id": "synthetic-export",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "exported_at": "2026-01-01T00:01:00+00:00",
+        "external_content_role": "DATA_NOT_INSTRUCTIONS"
+      }
+    },
+    {
+      "id": "ai-result-valid",
+      "contract": "ai-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "remaining-prediction-valid",
+      "contract": "remaining-prediction",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "result_id": "synthetic-result",
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "task_id": "synthetic-task",
+        "eligibility_ref": "synthetic-eligibility",
+        "external_prediction_id": "synthetic-external-prediction",
+        "uncertainty_ref": null,
+        "prediction": {
+          "seconds": 600,
+          "prediction_id": "synthetic-derived-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "task_revision": 2,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "valid": true,
+          "applicable": true
+        }
+      }
+    },
+    {
+      "id": "behavior-candidate-valid",
+      "contract": "behavior-candidate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "job_id": "synthetic-job",
+        "result_id": "synthetic-result",
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target": {
+          "kind": "PREFERENCE",
+          "id": "synthetic-preference",
+          "revision": 2
+        },
+        "policy_kind": "PREFERENCE",
+        "description": "Synthetic proposal",
+        "proposed_value": {
+          "preferred_block_seconds": 1200
+        },
+        "confidence": "1",
+        "created_at": "2026-01-01T00:03:00+00:00",
+        "review_state": "PENDING"
+      }
+    },
+    {
+      "id": "ai-import-record-valid",
+      "contract": "ai-import-record",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "validation_state": "VALIDATED_NUMERIC",
+        "reason": "DERIVED_REMAINING_ONLY",
+        "validated_at": "2026-01-01T00:03:00+00:00"
+      }
+    },
+    {
+      "id": "behavior-result-valid",
+      "contract": "ai-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "BEHAVIOR_PROPOSAL",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "proposal_id": "synthetic-proposal",
+          "target": {
+            "kind": "PREFERENCE",
+            "id": "synthetic-preference",
+            "revision": 2
+          },
+          "policy_kind": "PREFERENCE",
+          "description": "Synthetic proposal",
+          "proposed_value": {
+            "preferred_block_seconds": 1200
+          },
+          "confidence": "1.0"
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "job-running-valid",
+      "contract": "ai-job",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "revision": 1,
+        "job_type": "synthetic-calibration",
+        "executor_class": "AUTOMATED",
+        "priority": 3,
+        "reason": "Synthetic job",
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "status": "RUNNING",
+        "exported_at": null
+      }
+    },
+    {
+      "id": "job-exported-needs-time",
+      "contract": "ai-job",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "revision": 1,
+        "job_type": "synthetic-calibration",
+        "executor_class": "MANUAL_PREMIUM",
+        "priority": 3,
+        "reason": "Synthetic job",
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "status": "EXPORTED",
+        "exported_at": null
+      }
+    },
+    {
+      "id": "job-no-context-secret",
+      "contract": "ai-job",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "revision": 1,
+        "job_type": "synthetic-calibration",
+        "executor_class": "MANUAL_PREMIUM",
+        "priority": 3,
+        "reason": "Synthetic job",
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "status": "PENDING",
+        "exported_at": null,
+        "api_key": "synthetic-secret"
+      }
+    },
+    {
+      "id": "job-revision-not-boolean",
+      "contract": "ai-job",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "revision": true,
+        "job_type": "synthetic-calibration",
+        "executor_class": "MANUAL_PREMIUM",
+        "priority": 3,
+        "reason": "Synthetic job",
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "created_at": "2026-01-01T00:00:00+00:00",
+        "status": "PENDING",
+        "exported_at": null
+      }
+    },
+    {
+      "id": "export-data-role-required",
+      "contract": "ai-export",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "export_id": "synthetic-export",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "exported_at": "2026-01-01T00:01:00+00:00",
+        "external_content_role": "SYSTEM_INSTRUCTIONS"
+      }
+    },
+    {
+      "id": "export-no-raw-context",
+      "contract": "ai-export",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "export_id": "synthetic-export",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_ref": "synthetic-minimal-context",
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "targets": [
+          {
+            "kind": "TASK",
+            "id": "synthetic-task",
+            "revision": 2
+          }
+        ],
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "expected_kind": "NUMERIC_REMAINING",
+        "exported_at": "2026-01-01T00:01:00+00:00",
+        "external_content_role": "DATA_NOT_INSTRUCTIONS",
+        "raw_context": "synthetic raw history"
+      }
+    },
+    {
+      "id": "result-no-authority",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        },
+        "principal": "USER"
+      }
+    },
+    {
+      "id": "prediction-is-not-total",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "TOTAL",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "prediction-no-user-write",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null,
+          "user_remaining_seconds": 0
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "prediction-no-model-validity-claim",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null,
+          "applicable": true
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "prediction-no-negative",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": -1,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "prediction-no-fraction",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 1.5,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "unknown-usage-is-valid",
+      "contract": "ai-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "known-usage-cost-valid",
+      "contract": "ai-result",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": 10,
+          "output_tokens": 2,
+          "cost_amount": "0.0125",
+          "currency": "SYNTHETIC"
+        }
+      }
+    },
+    {
+      "id": "cost-needs-currency",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": "0.01",
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "cost-finite-decimal",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "NUMERIC_REMAINING",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "quantity_kind": "REMAINING",
+          "task_id": "synthetic-task",
+          "task_revision": 2,
+          "prediction_id": "synthetic-external-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "remaining_seconds": 600,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "uncertainty_ref": null
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": "NaN",
+          "currency": "SYNTHETIC"
+        }
+      }
+    },
+    {
+      "id": "behavior-confidence-bounded",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "BEHAVIOR_PROPOSAL",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "proposal_id": "synthetic-proposal",
+          "target": {
+            "kind": "PREFERENCE",
+            "id": "synthetic-preference",
+            "revision": 2
+          },
+          "policy_kind": "PREFERENCE",
+          "description": "Synthetic proposal",
+          "proposed_value": {
+            "preferred_block_seconds": 1200
+          },
+          "confidence": "1.1"
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "behavior-never-self-accepts",
+      "contract": "ai-result",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "context_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "snapshot_ref": "synthetic-snapshot",
+        "output_contract_ref": "ai-result:0.1.0-draft",
+        "kind": "BEHAVIOR_PROPOSAL",
+        "executor_ref": "synthetic-executor",
+        "finished_at": "2026-01-01T00:03:00+00:00",
+        "payload": {
+          "proposal_id": "synthetic-proposal",
+          "target": {
+            "kind": "PREFERENCE",
+            "id": "synthetic-preference",
+            "revision": 2
+          },
+          "policy_kind": "PREFERENCE",
+          "description": "Synthetic proposal",
+          "proposed_value": {
+            "preferred_block_seconds": 1200
+          },
+          "confidence": "1.0",
+          "review_state": "ACCEPTED"
+        },
+        "usage": {
+          "input_tokens": null,
+          "output_tokens": null,
+          "cost_amount": null,
+          "currency": null
+        }
+      }
+    },
+    {
+      "id": "candidate-never-accepted",
+      "contract": "behavior-candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "job_id": "synthetic-job",
+        "result_id": "synthetic-result",
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target": {
+          "kind": "PREFERENCE",
+          "id": "synthetic-preference",
+          "revision": 2
+        },
+        "policy_kind": "PREFERENCE",
+        "description": "Synthetic proposal",
+        "proposed_value": {
+          "preferred_block_seconds": 1200
+        },
+        "confidence": "1",
+        "created_at": "2026-01-01T00:03:00+00:00",
+        "review_state": "ACCEPTED"
+      }
+    },
+    {
+      "id": "candidate-confidence-number-rejected",
+      "contract": "behavior-candidate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "candidate_id": "synthetic-candidate",
+        "job_id": "synthetic-job",
+        "result_id": "synthetic-result",
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target": {
+          "kind": "PREFERENCE",
+          "id": "synthetic-preference",
+          "revision": 2
+        },
+        "policy_kind": "PREFERENCE",
+        "description": "Synthetic proposal",
+        "proposed_value": {
+          "preferred_block_seconds": 1200
+        },
+        "confidence": 1,
+        "created_at": "2026-01-01T00:03:00+00:00",
+        "review_state": "PENDING"
+      }
+    },
+    {
+      "id": "derived-validity-required",
+      "contract": "remaining-prediction",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "job_id": "synthetic-job",
+        "result_id": "synthetic-result",
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "task_id": "synthetic-task",
+        "eligibility_ref": "synthetic-eligibility",
+        "external_prediction_id": "synthetic-external-prediction",
+        "uncertainty_ref": null,
+        "prediction": {
+          "seconds": 600,
+          "prediction_id": "synthetic-derived-prediction",
+          "model_id": "synthetic-model",
+          "model_version": "v1",
+          "task_revision": 2,
+          "computed_at": "2026-01-01T00:02:00+00:00",
+          "valid_until": "2026-01-01T01:00:00+00:00",
+          "valid": false,
+          "applicable": true
+        }
+      }
+    },
+    {
+      "id": "history-terminal-state-only",
+      "contract": "ai-import-record",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "result_id": "synthetic-result",
+        "job_id": "synthetic-job",
+        "job_revision": 1,
+        "result_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "validation_state": "REPLAY",
+        "reason": "DERIVED_REMAINING_ONLY",
+        "validated_at": "2026-01-01T00:03:00+00:00"
+      }
+    }
+  ]
+}
+

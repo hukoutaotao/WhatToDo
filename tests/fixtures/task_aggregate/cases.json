@@ -1,0 +1,1545 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "aggregate-unknown-facts",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": "Unknown is explicit null, not zero, guessed times or personal capacity."
+    },
+    {
+      "id": "aggregate-explicit-facts-and-original-total-below-current-u",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": "2026-01-01T00:00:00Z",
+          "release": {
+            "instant": "2026-01-01T08:00:00+08:00",
+            "original_value": "2026-01-01T00:00:00Z",
+            "source_ref": "synthetic-release"
+          },
+          "deadline": {
+            "due_ref": "synthetic-due",
+            "value": {
+              "schema_version": "0.1.0-draft",
+              "input_kind": "DATE_ONLY",
+              "original_value": "2026-01-02",
+              "source_ref": "synthetic-due-source",
+              "instant": "2026-01-02T23:59:00+08:00",
+              "default_policy_ref": "D-075-date-only-2359"
+            }
+          },
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": {
+            "seconds": 1800,
+            "source_ref": "synthetic-initial-estimate",
+            "observed_at": "2025-12-31T00:00:00Z",
+            "basis": "USER_REPORT",
+            "definition_ref": null
+          },
+          "minimum_session_seconds": 1200,
+          "fragmentable": true
+        },
+        "stage_details": [],
+        "provenance": [
+          {
+            "field": "/core/title",
+            "source_ref": "synthetic-source"
+          },
+          {
+            "field": "/work/total_estimate",
+            "source_ref": "synthetic-initial-estimate"
+          }
+        ]
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-stages-retain-historical-completed-stage-u",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": [
+            {
+              "stage_id": "stage-1",
+              "completion": "INCOMPLETE",
+              "weight": 1.0,
+              "user_remaining": null
+            },
+            {
+              "stage_id": "stage-2",
+              "completion": "COMPLETE",
+              "weight": 1,
+              "user_remaining": {
+                "seconds": 600,
+                "observation_id": "historical-stage-estimate",
+                "observed_at": "2025-12-31T00:00:00Z",
+                "verified_at": "2025-12-31T00:00:00Z"
+              }
+            }
+          ]
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [
+          {
+            "stage_id": "stage-1",
+            "revision": 1,
+            "title": "Read synthetic introduction"
+          },
+          {
+            "stage_id": "stage-2",
+            "revision": 2,
+            "title": "Complete synthetic examples"
+          }
+        ],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-complete-with-unknown-historical-completion-time",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "COMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "COMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 0,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-expired-retains-positive-u",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "EXPIRED",
+          "requiredness": "EXPIRING",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": {
+            "condition_ref": "synthetic-condition",
+            "notice_ref": "synthetic-notice"
+          },
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "EXPIRED",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-cancelled-retains-effort",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "CANCELLED",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "CANCELLED",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-versioned-template-total-not-canonical-u",
+      "contract": "task-aggregate",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": "2026-01-01T00:00:00Z",
+          "release": {
+            "instant": "2026-01-01T08:00:00+08:00",
+            "original_value": "2026-01-01T00:00:00Z",
+            "source_ref": "synthetic-release"
+          },
+          "deadline": {
+            "due_ref": "synthetic-due",
+            "value": {
+              "schema_version": "0.1.0-draft",
+              "input_kind": "DATE_ONLY",
+              "original_value": "2026-01-02",
+              "source_ref": "synthetic-due-source",
+              "instant": "2026-01-02T23:59:00+08:00",
+              "default_policy_ref": "D-075-date-only-2359"
+            }
+          },
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": {
+            "seconds": 1800,
+            "source_ref": "synthetic-initial-estimate",
+            "observed_at": "2025-12-31T00:00:00Z",
+            "basis": "TEMPLATE_DEFAULT",
+            "definition_ref": {
+              "kind": "TASKTYPE",
+              "id": "synthetic-type",
+              "version": "1"
+            }
+          },
+          "minimum_session_seconds": 1200,
+          "fragmentable": true
+        },
+        "stage_details": [],
+        "provenance": [
+          {
+            "field": "/core/title",
+            "source_ref": "synthetic-source"
+          },
+          {
+            "field": "/work/total_estimate",
+            "source_ref": "synthetic-initial-estimate"
+          }
+        ]
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-unknown-field",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": [],
+        "unknown": "secret"
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-missing-timing",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-unknown-version",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "future",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-ambiguous-release-date",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": {
+            "instant": "2026-01-01",
+            "original_value": "2026-01-01",
+            "source_ref": "source"
+          },
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-naive-created-time",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": "2026-01-01T00:00:00",
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-zero-minimum-session",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": 0,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-negative-total",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": {
+            "seconds": -1,
+            "source_ref": "source",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "basis": "USER_REPORT",
+            "definition_ref": null
+          },
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-guessed-fragmentability-string",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": "maybe"
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-total-template-missing-version",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": {
+            "seconds": 1200,
+            "source_ref": "source",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "basis": "TEMPLATE_DEFAULT",
+            "definition_ref": null
+          },
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-user-total-cannot-claim-template-basis",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": {
+            "seconds": 1200,
+            "source_ref": "source",
+            "observed_at": "2026-01-01T00:00:00Z",
+            "basis": "USER_REPORT",
+            "definition_ref": {
+              "kind": "TASKTYPE",
+              "id": "type",
+              "version": "1"
+            }
+          },
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-invalid-source-pointer-shape",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": [
+          {
+            "field": "title",
+            "source_ref": "source"
+          }
+        ]
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-stage-detail-revision-zero",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [
+          {
+            "stage_id": "s",
+            "revision": 0,
+            "title": "Synthetic stage"
+          }
+        ],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-complete-positive-u",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "COMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "COMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-submicrosecond-created-time",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": "2026-01-01T00:00:00.0000001Z",
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [],
+        "provenance": []
+      },
+      "note": ""
+    },
+    {
+      "id": "aggregate-blank-stage-title",
+      "contract": "task-aggregate",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "core": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "revision": 1,
+          "title": "Synthetic work",
+          "domain": "study",
+          "context": null,
+          "task_type_ref": null,
+          "acceptance": {
+            "state": "ACCEPTED",
+            "authority_ref": "synthetic-source"
+          },
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "requiredness": "REQUIRED",
+          "importance": 4,
+          "difficulty": {
+            "thinking_depth": 3,
+            "repetitive_volume": 2,
+            "new_learning_load": 2
+          },
+          "expiration": null,
+          "metadata": {
+            "trust": "TRUSTED",
+            "overdue": "UNKNOWN"
+          }
+        },
+        "effort": {
+          "schema_version": "0.1.0-draft",
+          "task_id": "aggregate-work",
+          "task_revision": 1,
+          "completion": "INCOMPLETE",
+          "disposition": "ACTIVE",
+          "user_remaining": {
+            "seconds": 2400,
+            "observation_id": "observation-aggregate-work",
+            "observed_at": "2025-12-31T00:00:00+00:00",
+            "verified_at": "2025-12-31T00:00:00+00:00"
+          },
+          "prediction": null,
+          "stages": []
+        },
+        "timing": {
+          "created_at": null,
+          "release": null,
+          "deadline": null,
+          "completed_at": null
+        },
+        "work": {
+          "total_estimate": null,
+          "minimum_session_seconds": null,
+          "fragmentable": null
+        },
+        "stage_details": [
+          {
+            "stage_id": "s",
+            "revision": 1,
+            "title": "  "
+          }
+        ],
+        "provenance": []
+      },
+      "note": ""
+    }
+  ]
+}

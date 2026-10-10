@@ -285,6 +285,22 @@ These are conceptual acceptance cases, not executed runtime tests.
 
 ---
 
+## 13. Bootstrap Estimate Calibration Cases
+
+Planned cases for LEARNING_PLAN §15 and M8-01–03, prompted by the course-001 intake follow-up:
+
+- An initial user estimate of 60 minutes remains tagged as unmeasured setup input, with work quantity/scope unresolved if absent. It is not a measured observation or automatically a per-class default.
+- Reusing that estimate in several plans does not create several independent actual-duration samples.
+- With sufficient applicable measured completion observations, the selected numeric model can substantially discount or exclude the initial estimate. The original statement, historical predictions and canonical user U remain unchanged.
+- A partial 20-minute work session is not a 20-minute full completion sample; new full-duration predictions still require an appropriate remaining-work interpretation for an in-progress Task.
+- Sparse, incompatible-quantity or outlier data retains explicit validity/uncertainty and fallback behavior; it does not silently provide a falsely precise replacement.
+
+These are specification cases. Weighting thresholds and executable tests remain future M8 work; no calibration ran during intake.
+
+---
+
 ## Detailed Execution Mapping
 
 Each card defines focused acceptance. M3A-20 adds isolated CI; PostgreSQL/fault/oracle/offline/live/restore evidence remain distinct, not inferred from document presence.
+
+The runnable [offline semantic map](../tests/fixtures/semantic/README.md) inventories current decisions and resolves scoped existing schema/test references. `python -m tools.check_semantic_catalog` also runs independently expected cross-domain scenarios and referenced test methods. Its unmapped decisions and per-row limitations are explicit; a passing offline catalog is not full release/runtime/persistence acceptance. Actual executions remain in [PROGRESS](PROGRESS.md).

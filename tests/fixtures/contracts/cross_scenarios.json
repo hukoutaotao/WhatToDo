@@ -1,0 +1,36 @@
+{
+  "synthetic": true,
+  "evidence_level": "OFFLINE_FIXTURE_SEEDS_NOT_LIVE_AUTHORITY",
+  "cases": [
+    {
+      "id": "cross-morning-model-budget-preserves-user-estimate",
+      "kind": "morning",
+      "inputs": {"user_seconds": 1200, "model_seconds": 300, "capacity_seconds": 30000},
+      "expected": {"wire_contracts": ["availability", "effort", "forecast-window", "plan", "task-core", "today-lock"], "validated_records": 10, "commit_status": "SUCCESS", "model_budget": 300, "canonical_user_seconds": 1200, "intent": "ADVANCE", "audit_entries": 1, "horizon_risks": ["SAFE", "SAFE", "SAFE"]}
+    },
+    {
+      "id": "cross-evening-explicit-remaining-and-unchanged-batch",
+      "kind": "evening",
+      "inputs": {"original_seconds": 1200, "unchanged_seconds": 1800, "remaining_seconds": 600, "actual_seconds": 300},
+      "expected": {"wire_contracts": ["effort", "review-response", "task-core"], "validated_records": 5, "responses_complete": true, "remaining_seconds": 600, "actual_increment": 300, "unchanged_seconds": 1800, "original_observation_retained": true, "candidate_resolution": "REJECTED", "commit_status": "SUCCESS", "audit_entries": 1}
+    },
+    {
+      "id": "cross-generation-order-single-count-replay",
+      "kind": "generation",
+      "inputs": {"source_seconds": 1200, "preparation_seconds": 300},
+      "expected": {"wire_contracts": ["command", "generation-occurrence", "relationship-rule", "task-core", "task-relation"], "validated_records": 5, "graph_issues": 0, "authorized": true, "total_seconds": 1500, "generation_replay": "ALREADY_RECORDED", "commit_status": "SUCCESS", "replay_status": "SUCCESS", "audit_entries": 1}
+    },
+    {
+      "id": "cross-delivered-expiry-retains-incomplete-and-effort",
+      "kind": "expiration",
+      "inputs": {"user_seconds": 1200},
+      "expected": {"wire_contracts": ["command", "dispatch-result", "effort", "expiration-notice", "task-core"], "validated_records": 5, "delivery": "DELIVERED", "ready": true, "authorized": true, "completion": "INCOMPLETE", "disposition": "EXPIRED", "canonical_user_seconds": 1200, "commit_status": "SUCCESS", "sends": 1}
+    },
+    {
+      "id": "cross-goal-measured-progress-is-not-task-completion",
+      "kind": "goal",
+      "inputs": {"target": "100", "reported": "150", "task_seconds": 3600},
+      "expected": {"wire_contracts": ["effort", "goal", "goal-onboarding", "goal-progress", "milestone", "normalized-due"], "validated_records": 6, "ready": true, "generation_state": "CANDIDATE_ONLY", "target_fraction": "3/2", "completion": "INCOMPLETE", "milestone_issues": [], "task_seconds": 3600, "commit_status": "SUCCESS"}
+    }
+  ]
+}

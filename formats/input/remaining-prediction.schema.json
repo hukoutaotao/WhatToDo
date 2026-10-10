@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:remaining-prediction:0.1.0-draft",
+  "title": "remaining-prediction offline development contract",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "result_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "result_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "task_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "eligibility_ref": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "external_prediction_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "uncertainty_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "prediction": {
+      "type": "object",
+      "properties": {
+        "seconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "prediction_id": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "model_id": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "model_version": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "task_revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "computed_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "valid_until": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "valid": {
+          "const": true
+        },
+        "applicable": {
+          "const": true
+        }
+      },
+      "required": [
+        "seconds",
+        "prediction_id",
+        "model_id",
+        "model_version",
+        "task_revision",
+        "computed_at",
+        "valid_until",
+        "valid",
+        "applicable"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "job_id",
+    "result_id",
+    "result_hash",
+    "task_id",
+    "eligibility_ref",
+    "external_prediction_id",
+    "uncertainty_ref",
+    "prediction"
+  ],
+  "additionalProperties": false
+}
+

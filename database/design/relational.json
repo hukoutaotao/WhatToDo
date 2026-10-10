@@ -1,0 +1,5779 @@
+{
+  "design_version": "0.1.0-draft",
+  "schema": "whattodo",
+  "evidence_level": "DRAFT_NOT_RELEASE_FROZEN",
+  "domains": [
+    {
+      "name": "ref",
+      "type": "text",
+      "check": "VALUE ~ '[^[:space:]]'"
+    },
+    {
+      "name": "sha256",
+      "type": "text",
+      "check": "VALUE ~ '^[a-f0-9]{64}$'"
+    },
+    {
+      "name": "revision",
+      "type": "bigint",
+      "check": "VALUE > 0"
+    },
+    {
+      "name": "measure",
+      "type": "numeric",
+      "check": "VALUE >= 0 AND VALUE::text NOT IN ('NaN','Infinity','-Infinity')"
+    },
+    {
+      "name": "seconds",
+      "type": "numeric",
+      "check": "VALUE >= 0 AND VALUE = trunc(VALUE) AND VALUE::text NOT IN ('NaN','Infinity','-Infinity')"
+    },
+    {
+      "name": "positive_integer",
+      "type": "numeric",
+      "check": "VALUE > 0 AND VALUE = trunc(VALUE) AND VALUE::text NOT IN ('NaN','Infinity','-Infinity')"
+    },
+    {
+      "name": "json_object",
+      "type": "jsonb",
+      "check": "jsonb_typeof(VALUE) = 'object'"
+    },
+    {
+      "name": "instant",
+      "type": "timestamptz",
+      "check": "isfinite(VALUE)"
+    },
+    {
+      "name": "calendar_date",
+      "type": "date",
+      "check": "isfinite(VALUE)"
+    }
+  ],
+  "tables": [
+    {
+      "name": "source_scope",
+      "batch": 1,
+      "primary_key": [
+        "provider",
+        "scope_ref"
+      ],
+      "columns": [
+        {
+          "name": "provider",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "scope_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "account_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "registered_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [],
+      "foreign_keys": [],
+      "immutable": true
+    },
+    {
+      "name": "source_identity",
+      "batch": 1,
+      "primary_key": [
+        "source_id"
+      ],
+      "columns": [
+        {
+          "name": "source_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "provider",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "scope_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "external_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_type",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "provider",
+          "scope_ref",
+          "external_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "source_type",
+          "expression": "source_type IN ('USER','CALENDAR','EMAIL','LEARNING_PLATFORM','OTHER')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "target": "source_scope",
+          "target_columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "source_record",
+      "batch": 1,
+      "primary_key": [
+        "record_id"
+      ],
+      "columns": [
+        {
+          "name": "record_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "external_revision",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "content_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "source_timestamp",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "captured_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "deleted_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "raw_content_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "source_id",
+          "content_hash",
+          "external_revision"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('PRESENT','DELETED')"
+        },
+        {
+          "name": "tombstone",
+          "expression": "(state = 'PRESENT' AND deleted_at IS NULL) OR (state = 'DELETED' AND deleted_at IS NOT NULL AND deleted_at >= captured_at)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "source_id"
+          ],
+          "target": "source_identity",
+          "target_columns": [
+            "source_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true,
+      "nulls_not_distinct": true
+    },
+    {
+      "name": "configuration_revision",
+      "batch": 1,
+      "primary_key": [
+        "configuration_ref"
+      ],
+      "columns": [
+        {
+          "name": "configuration_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "content_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "git_revision",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "registered_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "kind",
+          "id",
+          "version"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "kind IN ('COURSE_PROFILE','ACTIVITY_PROFILE','TASKTYPE','TASK_TEMPLATE','RELATIONSHIP_RULE','PREFERENCE')"
+        }
+      ],
+      "foreign_keys": [],
+      "immutable": true
+    },
+    {
+      "name": "authority_record",
+      "batch": 1,
+      "primary_key": [
+        "authority_ref"
+      ],
+      "columns": [
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "principal_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "origin",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "resolved_scope_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "resolved_scope",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "issued_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "origin",
+          "expression": "origin IN ('USER_COMMAND','RELATIONSHIP_RULE','EXPIRATION_PROCESS')"
+        },
+        {
+          "name": "validity",
+          "expression": "expires_at IS NULL OR expires_at > issued_at"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "command_transaction",
+      "batch": 1,
+      "primary_key": [
+        "request_id"
+      ],
+      "columns": [
+        {
+          "name": "request_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "request_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "principal_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "origin",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "expected_store_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "committed_store_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "audit_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "committed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "receipt",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "committed_store_revision"
+        ],
+        [
+          "audit_id"
+        ],
+        [
+          "request_id",
+          "audit_id"
+        ],
+        [
+          "request_id",
+          "committed_store_revision"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "origin",
+          "expression": "origin IN ('USER_COMMAND','RELATIONSHIP_RULE','EXPIRATION_PROCESS')"
+        },
+        {
+          "name": "epoch",
+          "expression": "committed_store_revision = expected_store_revision + 1"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "request_id",
+            "audit_id"
+          ],
+          "target": "audit_entry",
+          "target_columns": [
+            "request_id",
+            "audit_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "audit_entry",
+      "batch": 1,
+      "primary_key": [
+        "audit_id"
+      ],
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "request_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "correlation_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "committed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "request_id"
+        ],
+        [
+          "request_id",
+          "audit_id"
+        ],
+        [
+          "audit_id",
+          "request_id"
+        ]
+      ],
+      "checks": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "request_id",
+            "audit_id"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id",
+            "audit_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "audit_change",
+      "batch": 1,
+      "primary_key": [
+        "change_id"
+      ],
+      "columns": [
+        {
+          "name": "change_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "audit_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "before_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "after_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "before_value",
+          "type": "whattodo.json_object",
+          "nullable": true
+        },
+        {
+          "name": "after_value",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "request_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "audit_id",
+          "aggregate_kind",
+          "aggregate_id",
+          "after_revision"
+        ],
+        [
+          "change_id",
+          "aggregate_kind",
+          "aggregate_id",
+          "after_revision"
+        ],
+        [
+          "change_id",
+          "aggregate_kind",
+          "aggregate_id",
+          "after_revision",
+          "request_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "revision_step",
+          "expression": "(before_revision IS NULL AND after_revision = 1 AND before_value IS NULL) OR (before_revision IS NOT NULL AND after_revision = before_revision + 1 AND before_value IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "audit_id"
+          ],
+          "target": "audit_entry",
+          "target_columns": [
+            "audit_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "audit_id",
+            "request_id"
+          ],
+          "target": "audit_entry",
+          "target_columns": [
+            "audit_id",
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "store_epoch",
+      "batch": 1,
+      "primary_key": [
+        "singleton"
+      ],
+      "columns": [
+        {
+          "name": "singleton",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "last_transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "singleton",
+          "expression": "singleton = TRUE"
+        },
+        {
+          "name": "bootstrap",
+          "expression": "(revision = 1 AND last_transaction_ref IS NULL) OR (revision > 1 AND last_transaction_ref IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "last_transaction_ref",
+            "revision"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id",
+            "committed_store_revision"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": false
+    },
+    {
+      "name": "task_identity",
+      "batch": 2,
+      "primary_key": [
+        "task_id"
+      ],
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "effort_observation",
+      "batch": 2,
+      "primary_key": [
+        "observation_id"
+      ],
+      "columns": [
+        {
+          "name": "observation_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "seconds",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "recorded_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "batch_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "task_id",
+          "observation_id",
+          "kind",
+          "seconds"
+        ],
+        [
+          "task_id",
+          "observation_id",
+          "kind"
+        ],
+        [
+          "task_id",
+          "observation_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "kind IN ('ACTUAL_WORK','USER_REMAINING','UNCHANGED_VERIFICATION')"
+        },
+        {
+          "name": "meaning",
+          "expression": "(kind = 'UNCHANGED_VERIFICATION' AND seconds IS NULL AND batch_ref IS NOT NULL) OR (kind IN ('ACTUAL_WORK','USER_REMAINING') AND seconds IS NOT NULL AND batch_ref IS NULL)"
+        },
+        {
+          "name": "chronology",
+          "expression": "recorded_at >= observed_at"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id"
+          ],
+          "target": "task_identity",
+          "target_columns": [
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "task_revision",
+      "batch": 2,
+      "primary_key": [
+        "task_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "domain",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "context_kind",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "context_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "task_type_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "completion",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "disposition",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "requiredness",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "importance",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "thinking_depth",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "repetitive_volume",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "new_learning_load",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "user_remaining_seconds",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "estimate_observation_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "estimate_kind",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "expiration_condition_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "expiration_notice_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "notice_task_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "audit_change_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "metadata",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "due_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [
+        [
+          "task_id",
+          "revision",
+          "expiration_condition_ref"
+        ],
+        [
+          "task_id",
+          "revision",
+          "transaction_ref"
+        ],
+        [
+          "task_id",
+          "revision",
+          "completion"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "domain",
+          "expression": "domain IN ('study','exercise','life_administration','other')"
+        },
+        {
+          "name": "context",
+          "expression": "(context_kind IS NULL AND context_id IS NULL) OR (context_kind IS NOT NULL AND context_id IS NOT NULL AND context_kind IN ('COURSE','ACTIVITY','GOAL','EXAM'))"
+        },
+        {
+          "name": "completion",
+          "expression": "completion IN ('INCOMPLETE','COMPLETE')"
+        },
+        {
+          "name": "disposition",
+          "expression": "disposition IN ('ACTIVE','CANCELLED','EXPIRED')"
+        },
+        {
+          "name": "requiredness",
+          "expression": "requiredness IN ('REQUIRED','OPTIONAL','EXPIRING')"
+        },
+        {
+          "name": "ratings",
+          "expression": "importance BETWEEN 1 AND 5 AND thinking_depth BETWEEN 1 AND 5 AND repetitive_volume BETWEEN 1 AND 5 AND new_learning_load BETWEEN 1 AND 5"
+        },
+        {
+          "name": "complete_zero",
+          "expression": "completion <> 'COMPLETE' OR (user_remaining_seconds IS NOT NULL AND user_remaining_seconds = 0)"
+        },
+        {
+          "name": "estimate_binding",
+          "expression": "(user_remaining_seconds IS NULL AND estimate_observation_id IS NULL AND estimate_kind IS NULL) OR (user_remaining_seconds IS NOT NULL AND estimate_observation_id IS NOT NULL AND estimate_kind IS NOT NULL AND estimate_kind = 'USER_REMAINING')"
+        },
+        {
+          "name": "expiring_condition",
+          "expression": "(requiredness = 'EXPIRING' AND expiration_condition_ref IS NOT NULL) OR (requiredness <> 'EXPIRING' AND expiration_condition_ref IS NULL)"
+        },
+        {
+          "name": "expiry_history",
+          "expression": "(disposition = 'EXPIRED' AND completion = 'INCOMPLETE' AND requiredness = 'EXPIRING' AND expiration_notice_ref IS NOT NULL AND notice_task_revision IS NOT NULL AND notice_task_revision < revision) OR (disposition <> 'EXPIRED' AND expiration_notice_ref IS NULL AND notice_task_revision IS NULL)"
+        },
+        {
+          "name": "audit_kind",
+          "expression": "aggregate_kind = 'TASK'"
+        },
+        {
+          "name": "title_length",
+          "expression": "char_length(title) BETWEEN 1 AND 500 AND title ~ '[^[:space:]]'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id"
+          ],
+          "target": "task_identity",
+          "target_columns": [
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_type_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_id",
+            "estimate_observation_id",
+            "estimate_kind",
+            "user_remaining_seconds"
+          ],
+          "target": "effort_observation",
+          "target_columns": [
+            "task_id",
+            "observation_id",
+            "kind",
+            "seconds"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "expiration_notice_ref",
+            "task_id",
+            "notice_task_revision",
+            "expiration_condition_ref"
+          ],
+          "target": "expiration_notice",
+          "target_columns": [
+            "notice_id",
+            "task_id",
+            "task_revision",
+            "condition_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "audit_change_ref",
+            "aggregate_kind",
+            "task_id",
+            "revision",
+            "transaction_ref"
+          ],
+          "target": "audit_change",
+          "target_columns": [
+            "change_id",
+            "aggregate_kind",
+            "aggregate_id",
+            "after_revision",
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "due_ref"
+          ],
+          "target": "normalized_due",
+          "target_columns": [
+            "due_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "task_details_revision",
+      "batch": 2,
+      "primary_key": [
+        "task_id",
+        "task_revision"
+      ],
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "completion",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "release_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "release_original",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "release_source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "completed_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "total_estimate_seconds",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "total_source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "total_observed_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "total_basis",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "total_definition_kind",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "total_definition_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "total_definition_version",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "minimum_session_seconds",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "fragmentable",
+          "type": "boolean",
+          "nullable": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "release_pair",
+          "expression": "(release_at IS NULL AND release_original IS NULL AND release_source_record_ref IS NULL) OR (release_at IS NOT NULL AND release_original IS NOT NULL AND release_source_record_ref IS NOT NULL AND char_length(release_original) > 0)"
+        },
+        {
+          "name": "current_completion_time",
+          "expression": "completed_at IS NULL OR completion = 'COMPLETE'"
+        },
+        {
+          "name": "minimum_session",
+          "expression": "minimum_session_seconds IS NULL OR minimum_session_seconds > 0"
+        },
+        {
+          "name": "total_binding",
+          "expression": "(total_estimate_seconds IS NULL AND total_source_record_ref IS NULL AND total_observed_at IS NULL AND total_basis IS NULL AND total_definition_kind IS NULL AND total_definition_id IS NULL AND total_definition_version IS NULL) OR (total_estimate_seconds IS NOT NULL AND total_source_record_ref IS NOT NULL AND total_observed_at IS NOT NULL AND total_basis IS NOT NULL AND ((total_basis = 'USER_REPORT' AND total_definition_kind IS NULL AND total_definition_id IS NULL AND total_definition_version IS NULL) OR (total_basis = 'TEMPLATE_DEFAULT' AND total_definition_kind IS NOT NULL AND total_definition_kind IN ('TASKTYPE','TASK_TEMPLATE') AND total_definition_id IS NOT NULL AND total_definition_version IS NOT NULL)))"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision",
+            "completion"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision",
+            "completion"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "release_source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "total_source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "total_definition_kind",
+            "total_definition_id",
+            "total_definition_version"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "kind",
+            "id",
+            "version"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "task_field_provenance",
+      "batch": 2,
+      "primary_key": [
+        "task_id",
+        "task_revision",
+        "field_pointer"
+      ],
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "field_pointer",
+          "type": "text",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "field_pointer",
+          "expression": "field_pointer LIKE '/%' AND char_length(field_pointer) <= 500"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "task_head",
+      "batch": 2,
+      "primary_key": [
+        "task_id"
+      ],
+      "columns": [
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_id",
+            "revision",
+            "transaction_ref"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision",
+            "transaction_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": false
+    },
+    {
+      "name": "stage_revision",
+      "batch": 2,
+      "primary_key": [
+        "stage_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "stage_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "completion",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "user_remaining_seconds",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "weight_numerator",
+          "type": "whattodo.positive_integer",
+          "nullable": true
+        },
+        {
+          "name": "weight_denominator",
+          "type": "whattodo.positive_integer",
+          "nullable": true
+        }
+      ],
+      "unique": [
+        [
+          "stage_id",
+          "revision",
+          "task_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "completion",
+          "expression": "completion IN ('INCOMPLETE','COMPLETE')"
+        },
+        {
+          "name": "weight_pair",
+          "expression": "(weight_numerator IS NULL AND weight_denominator IS NULL) OR (weight_numerator IS NOT NULL AND weight_denominator IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "candidate_revision",
+      "batch": 2,
+      "primary_key": [
+        "candidate_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "candidate_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "parser_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "action",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "proposed_fields",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "confidence",
+          "type": "whattodo.measure",
+          "nullable": false
+        },
+        {
+          "name": "review_state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "review_authority_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "reviewed_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "canonical_task_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "confidence",
+          "expression": "confidence <= 1"
+        },
+        {
+          "name": "action",
+          "expression": "action IN ('CREATE_TASK','UPDATE_TASK','COMPLETE_TASK','CANCEL_TASK')"
+        },
+        {
+          "name": "target",
+          "expression": "(task_id IS NULL AND task_revision IS NULL) OR (task_id IS NOT NULL AND task_revision IS NOT NULL AND action <> 'CREATE_TASK')"
+        },
+        {
+          "name": "review_state",
+          "expression": "review_state IN ('PENDING','CONFLICTED','CONFIRMED','REJECTED')"
+        },
+        {
+          "name": "review_authority",
+          "expression": "(review_state IN ('PENDING','CONFLICTED') AND review_authority_ref IS NULL AND reviewed_at IS NULL) OR (review_state IN ('CONFIRMED','REJECTED') AND review_authority_ref IS NOT NULL AND reviewed_at IS NOT NULL AND reviewed_at >= created_at)"
+        },
+        {
+          "name": "adopted_task",
+          "expression": "(review_state = 'CONFIRMED' AND canonical_task_ref IS NOT NULL) OR (review_state <> 'CONFIRMED' AND canonical_task_ref IS NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "review_authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "canonical_task_ref"
+          ],
+          "target": "task_identity",
+          "target_columns": [
+            "task_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "review_frame",
+      "batch": 2,
+      "primary_key": [
+        "review_id",
+        "frame_revision"
+      ],
+      "columns": [
+        {
+          "name": "review_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "frame_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "queue_snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "presented_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "full_frame",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [],
+      "foreign_keys": [],
+      "immutable": true
+    },
+    {
+      "name": "review_member",
+      "batch": 2,
+      "primary_key": [
+        "review_id",
+        "frame_revision",
+        "member_kind",
+        "member_id"
+      ],
+      "columns": [
+        {
+          "name": "review_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "frame_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "member_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "member_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "member_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "task_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "candidate_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "candidate_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "estimate_observation_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [
+        [
+          "review_id",
+          "frame_revision",
+          "member_kind",
+          "member_id",
+          "member_revision",
+          "estimate_observation_ref"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "(member_kind = 'TASK' AND task_ref IS NOT NULL AND task_revision IS NOT NULL AND task_ref = member_id AND task_revision = member_revision AND candidate_ref IS NULL AND candidate_revision IS NULL) OR (member_kind = 'CANDIDATE' AND candidate_ref IS NOT NULL AND candidate_revision IS NOT NULL AND candidate_ref = member_id AND candidate_revision = member_revision AND task_ref IS NULL AND task_revision IS NULL)"
+        },
+        {
+          "name": "candidate_estimate",
+          "expression": "member_kind <> 'CANDIDATE' OR estimate_observation_ref IS NULL"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "review_id",
+            "frame_revision"
+          ],
+          "target": "review_frame",
+          "target_columns": [
+            "review_id",
+            "frame_revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_ref",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "candidate_ref",
+            "candidate_revision"
+          ],
+          "target": "candidate_revision",
+          "target_columns": [
+            "candidate_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_ref",
+            "estimate_observation_ref"
+          ],
+          "target": "effort_observation",
+          "target_columns": [
+            "task_id",
+            "observation_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "review_response",
+      "batch": 2,
+      "primary_key": [
+        "response_id"
+      ],
+      "columns": [
+        {
+          "name": "response_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "review_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "frame_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "submitted",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "user_statement_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "received_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "response",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "response_id",
+          "review_id",
+          "frame_revision"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "explicit_submission",
+          "expression": "(submitted = TRUE AND user_statement_ref IS NOT NULL) OR (submitted = FALSE AND user_statement_ref IS NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "review_id",
+            "frame_revision"
+          ],
+          "target": "review_frame",
+          "target_columns": [
+            "review_id",
+            "frame_revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "user_statement_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "estimate_verification",
+      "batch": 2,
+      "primary_key": [
+        "verification_id"
+      ],
+      "columns": [
+        {
+          "name": "verification_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "observation_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "batch_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "response_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "review_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "frame_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "member_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "verified_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "observation_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "response_id",
+          "batch_id",
+          "task_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "member_kind = 'TASK'"
+        },
+        {
+          "name": "user_estimate",
+          "expression": "observation_kind = 'USER_REMAINING'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "response_id",
+            "review_id",
+            "frame_revision"
+          ],
+          "target": "review_response",
+          "target_columns": [
+            "response_id",
+            "review_id",
+            "frame_revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_id",
+            "observation_id",
+            "observation_kind"
+          ],
+          "target": "effort_observation",
+          "target_columns": [
+            "task_id",
+            "observation_id",
+            "kind"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "review_id",
+            "frame_revision",
+            "member_kind",
+            "task_id",
+            "task_revision",
+            "observation_id"
+          ],
+          "target": "review_member",
+          "target_columns": [
+            "review_id",
+            "frame_revision",
+            "member_kind",
+            "member_id",
+            "member_revision",
+            "estimate_observation_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "relationship_rule_revision",
+      "batch": 3,
+      "primary_key": [
+        "rule_id",
+        "version"
+      ],
+      "columns": [
+        {
+          "name": "rule_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "configuration_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "trigger_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_type_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_type_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "template_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "template_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_role",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "obligation_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "mappings",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "rule_id",
+          "version",
+          "target_role"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "accepted_active",
+          "expression": "active = FALSE OR acceptance_ref IS NOT NULL"
+        },
+        {
+          "name": "trigger",
+          "expression": "trigger_kind = 'CANONICAL_CREATION'"
+        },
+        {
+          "name": "obligation",
+          "expression": "obligation_kind IN ('SEPARATE_TASK','STAGE')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "configuration_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_type_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "target_type_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "template_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "generation_occurrence",
+      "batch": 3,
+      "primary_key": [
+        "generation_key"
+      ],
+      "columns": [
+        {
+          "name": "generation_key",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "rule_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "rule_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "creation_transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "occurrence_key",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_role",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "obligation_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_task_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_stage_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_stage_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "failure_code",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "missing_facts",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "audit_change_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "rule_id",
+          "source_task_id",
+          "occurrence_key",
+          "target_role"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "obligation",
+          "expression": "obligation_kind IN ('SEPARATE_TASK','STAGE')"
+        },
+        {
+          "name": "state",
+          "expression": "state IN ('PENDING','CREATED','FAILED')"
+        },
+        {
+          "name": "created_target",
+          "expression": "(state = 'CREATED' AND ((obligation_kind = 'SEPARATE_TASK' AND target_task_ref IS NOT NULL AND target_stage_ref IS NULL AND target_stage_revision IS NULL) OR (obligation_kind = 'STAGE' AND target_task_ref IS NULL AND target_stage_ref IS NOT NULL AND target_stage_revision IS NOT NULL))) OR (state <> 'CREATED' AND target_task_ref IS NULL AND target_stage_ref IS NULL AND target_stage_revision IS NULL)"
+        },
+        {
+          "name": "failure",
+          "expression": "(state = 'FAILED' AND failure_code IS NOT NULL) OR (state <> 'FAILED' AND failure_code IS NULL)"
+        },
+        {
+          "name": "audit_kind",
+          "expression": "aggregate_kind = 'GENERATION_OCCURRENCE'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "rule_id",
+            "rule_version",
+            "target_role"
+          ],
+          "target": "relationship_rule_revision",
+          "target_columns": [
+            "rule_id",
+            "version",
+            "target_role"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_task_id",
+            "source_task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "creation_transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "target_task_ref"
+          ],
+          "target": "task_identity",
+          "target_columns": [
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "target_stage_ref",
+            "target_stage_revision"
+          ],
+          "target": "stage_revision",
+          "target_columns": [
+            "stage_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "audit_change_ref",
+            "aggregate_kind",
+            "generation_key",
+            "revision",
+            "transaction_ref"
+          ],
+          "target": "audit_change",
+          "target_columns": [
+            "change_id",
+            "aggregate_kind",
+            "aggregate_id",
+            "after_revision",
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": false
+    },
+    {
+      "name": "task_relation_revision",
+      "batch": 3,
+      "primary_key": [
+        "relation_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "relation_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "before_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "before_task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "before_task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "before_stage_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "before_stage_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "after_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "after_task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "after_task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "after_stage_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "after_stage_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "kind IN ('COMPLETION_ORDER','START_PREREQUISITE','SOFT_SEQUENCE','STAGE_MEMBERSHIP')"
+        },
+        {
+          "name": "before_endpoint",
+          "expression": "(before_kind = 'TASK' AND before_stage_id IS NULL AND before_stage_revision IS NULL) OR (before_kind = 'STAGE' AND before_stage_id IS NOT NULL AND before_stage_revision IS NOT NULL)"
+        },
+        {
+          "name": "after_endpoint",
+          "expression": "(after_kind = 'TASK' AND after_stage_id IS NULL AND after_stage_revision IS NULL) OR (after_kind = 'STAGE' AND after_stage_id IS NOT NULL AND after_stage_revision IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "before_task_id",
+            "before_task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "before_stage_id",
+            "before_stage_revision",
+            "before_task_id"
+          ],
+          "target": "stage_revision",
+          "target_columns": [
+            "stage_id",
+            "revision",
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "after_task_id",
+            "after_task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "after_stage_id",
+            "after_stage_revision",
+            "after_task_id"
+          ],
+          "target": "stage_revision",
+          "target_columns": [
+            "stage_id",
+            "revision",
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "expiration_notice",
+      "batch": 3,
+      "primary_key": [
+        "notice_id"
+      ],
+      "columns": [
+        {
+          "name": "notice_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "condition_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "condition_evidence_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "detected_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "task_id",
+          "task_revision",
+          "condition_ref"
+        ],
+        [
+          "notice_id",
+          "task_id",
+          "task_revision",
+          "condition_ref"
+        ]
+      ],
+      "checks": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision",
+            "condition_ref"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision",
+            "expiration_condition_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "condition_evidence_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "dispatch_attempt",
+      "batch": 3,
+      "primary_key": [
+        "notice_id",
+        "attempt_id"
+      ],
+      "columns": [
+        {
+          "name": "notice_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "channel_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "content_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "correlation_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "started_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "notice_id",
+          "attempt_id",
+          "started_at"
+        ]
+      ],
+      "checks": [],
+      "foreign_keys": [
+        {
+          "columns": [
+            "notice_id"
+          ],
+          "target": "expiration_notice",
+          "target_columns": [
+            "notice_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "dispatch_result",
+      "batch": 3,
+      "primary_key": [
+        "result_id"
+      ],
+      "columns": [
+        {
+          "name": "result_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "notice_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "attempt_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "started_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "delivered_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "evidence_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "correlation_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "content_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "notice_id",
+          "attempt_id",
+          "content_hash"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('DELIVERED','FAILED','UNKNOWN')"
+        },
+        {
+          "name": "chronology",
+          "expression": "finished_at >= started_at"
+        },
+        {
+          "name": "delivery",
+          "expression": "(state = 'DELIVERED' AND delivered_at IS NOT NULL AND delivered_at >= started_at AND delivered_at <= finished_at) OR (state IN ('FAILED','UNKNOWN') AND delivered_at IS NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "notice_id",
+            "attempt_id",
+            "started_at"
+          ],
+          "target": "dispatch_attempt",
+          "target_columns": [
+            "notice_id",
+            "attempt_id",
+            "started_at"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "evidence_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "goal_revision",
+      "batch": 4,
+      "primary_key": [
+        "goal_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "goal_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "acceptance",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_description",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_amount",
+          "type": "whattodo.measure",
+          "nullable": true
+        },
+        {
+          "name": "target_unit",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "total_workload",
+          "type": "whattodo.measure",
+          "nullable": true
+        },
+        {
+          "name": "workload_unit",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "progress_measure_kind",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "progress_unit",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_due_known",
+          "type": "boolean",
+          "nullable": false
+        },
+        {
+          "name": "due_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "cadence",
+          "type": "whattodo.json_object",
+          "nullable": true
+        },
+        {
+          "name": "phases",
+          "type": "whattodo.json_object",
+          "nullable": true
+        },
+        {
+          "name": "generation_rule_refs",
+          "type": "whattodo.json_object",
+          "nullable": true
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "acceptance",
+          "expression": "(acceptance = 'DRAFT' AND acceptance_ref IS NULL) OR (acceptance = 'ACCEPTED' AND acceptance_ref IS NOT NULL)"
+        },
+        {
+          "name": "target_pair",
+          "expression": "(target_amount IS NULL AND target_unit IS NULL) OR (target_amount IS NOT NULL AND target_unit IS NOT NULL)"
+        },
+        {
+          "name": "workload_pair",
+          "expression": "(total_workload IS NULL AND workload_unit IS NULL) OR (total_workload IS NOT NULL AND workload_unit IS NOT NULL)"
+        },
+        {
+          "name": "progress_measure",
+          "expression": "(progress_measure_kind IS NULL AND progress_unit IS NULL) OR (progress_measure_kind = 'CONFIRMED_OUTCOME' AND progress_unit IS NULL) OR (progress_measure_kind = 'QUANTITY' AND progress_unit IS NOT NULL)"
+        },
+        {
+          "name": "known_due",
+          "expression": "target_due_known = TRUE OR due_ref IS NULL"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "due_ref"
+          ],
+          "target": "normalized_due",
+          "target_columns": [
+            "due_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "goal_progress",
+      "batch": 4,
+      "primary_key": [
+        "progress_id"
+      ],
+      "columns": [
+        {
+          "name": "progress_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "goal_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "goal_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "amount",
+          "type": "whattodo.measure",
+          "nullable": true
+        },
+        {
+          "name": "unit",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "completion",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "measure_pair",
+          "expression": "(amount IS NULL AND unit IS NULL) OR (amount IS NOT NULL AND unit IS NOT NULL)"
+        },
+        {
+          "name": "completion",
+          "expression": "completion IN ('INCOMPLETE','COMPLETE')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "goal_id",
+            "goal_revision"
+          ],
+          "target": "goal_revision",
+          "target_columns": [
+            "goal_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "milestone_revision",
+      "batch": 4,
+      "primary_key": [
+        "milestone_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "milestone_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "goal_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "goal_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "position",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "phase_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "target_amount",
+          "type": "whattodo.measure",
+          "nullable": true
+        },
+        {
+          "name": "target_unit",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "due_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "target_pair",
+          "expression": "(target_amount IS NULL AND target_unit IS NULL) OR (target_amount IS NOT NULL AND target_unit IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "goal_id",
+            "goal_revision"
+          ],
+          "target": "goal_revision",
+          "target_columns": [
+            "goal_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "due_ref"
+          ],
+          "target": "normalized_due",
+          "target_columns": [
+            "due_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "exam_revision",
+      "batch": 4,
+      "primary_key": [
+        "exam_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "exam_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "title",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "course_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "acceptance",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "acceptance_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "timing_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "exam_date",
+          "type": "whattodo.calendar_date",
+          "nullable": true
+        },
+        {
+          "name": "event_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "event_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "axis_coverage",
+          "type": "whattodo.json_object",
+          "nullable": true
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "acceptance",
+          "expression": "(acceptance = 'DRAFT' AND acceptance_ref IS NULL) OR (acceptance = 'ACCEPTED' AND acceptance_ref IS NOT NULL)"
+        },
+        {
+          "name": "time",
+          "expression": "(timing_kind = 'UNKNOWN' AND exam_date IS NULL AND event_ref IS NULL AND event_revision IS NULL) OR (timing_kind = 'DATE_ONLY' AND exam_date IS NOT NULL AND event_ref IS NULL AND event_revision IS NULL) OR (timing_kind = 'EXACT_EVENT' AND exam_date IS NULL AND event_ref IS NOT NULL AND event_revision IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "acceptance_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "event_ref",
+            "event_revision"
+          ],
+          "target": "calendar_event_revision",
+          "target_columns": [
+            "event_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "calendar_event_revision",
+      "batch": 4,
+      "primary_key": [
+        "event_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "provider",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "scope_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "external_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "timing_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "starts_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "ends_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "original_timezone",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "original_start",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "original_end",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "occupancy",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [
+        [
+          "provider",
+          "scope_ref",
+          "external_id",
+          "revision"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "interval",
+          "expression": "ends_at > starts_at"
+        },
+        {
+          "name": "kind",
+          "expression": "kind IN ('EXTERNAL_FIXED','PLANNED_WORK','REMINDER')"
+        },
+        {
+          "name": "timing_kind",
+          "expression": "timing_kind IN ('TIMED','ALL_DAY')"
+        },
+        {
+          "name": "occupancy",
+          "expression": "occupancy IN ('BLOCKING','NON_BLOCKING','UNKNOWN')"
+        },
+        {
+          "name": "state",
+          "expression": "state IN ('CONFIRMED','TENTATIVE','CANCELLED')"
+        },
+        {
+          "name": "planned_ownership",
+          "expression": "kind <> 'PLANNED_WORK' OR (task_ref IS NOT NULL AND authority_ref IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "target": "source_scope",
+          "target_columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_ref"
+          ],
+          "target": "task_identity",
+          "target_columns": [
+            "task_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "normalized_due",
+      "batch": 4,
+      "primary_key": [
+        "due_id"
+      ],
+      "columns": [
+        {
+          "name": "due_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "input_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "original_value",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "due_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "original_date",
+          "type": "whattodo.calendar_date",
+          "nullable": true
+        },
+        {
+          "name": "default_policy_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "default_timezone",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "meaning",
+          "expression": "(input_kind = 'DATE_ONLY' AND original_date IS NOT NULL AND default_policy_ref IS NOT NULL AND default_timezone IS NOT NULL AND default_timezone = 'Asia/Shanghai' AND due_at = ((original_date + TIME '23:59') AT TIME ZONE 'Asia/Shanghai')) OR (input_kind = 'EXPLICIT_INSTANT' AND original_date IS NULL AND default_policy_ref IS NULL AND default_timezone IS NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "today_lock",
+      "batch": 4,
+      "primary_key": [
+        "lock_id"
+      ],
+      "columns": [
+        {
+          "name": "lock_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "intent",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "authority_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "expires_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "timezone",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "intent",
+          "expression": "intent IN ('COMPLETE','ADVANCE')"
+        },
+        {
+          "name": "day_end",
+          "expression": "timezone = 'Asia/Shanghai' AND expires_at = ((((created_at AT TIME ZONE 'Asia/Shanghai')::date + 1)::timestamp) AT TIME ZONE 'Asia/Shanghai')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "authority_ref"
+          ],
+          "target": "authority_record",
+          "target_columns": [
+            "authority_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "planning_snapshot",
+      "batch": 4,
+      "primary_key": [
+        "snapshot_id"
+      ],
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "store_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "last_transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "configuration_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "captured_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "data_quality",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "input_payload",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "snapshot_id",
+          "captured_at"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "quality",
+          "expression": "data_quality IN ('READY','STALE','UNRESOLVED')"
+        },
+        {
+          "name": "initial_epoch",
+          "expression": "last_transaction_ref IS NOT NULL OR store_revision = 1"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "last_transaction_ref",
+            "store_revision"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id",
+            "committed_store_revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "configuration_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "forecast_horizon",
+      "batch": 4,
+      "primary_key": [
+        "snapshot_id",
+        "horizon_days"
+      ],
+      "columns": [
+        {
+          "name": "snapshot_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "horizon_days",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "cutoff",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "timezone",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "capacity_numerator",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "capacity_denominator",
+          "type": "whattodo.positive_integer",
+          "nullable": true
+        },
+        {
+          "name": "required_numerator",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "required_denominator",
+          "type": "whattodo.positive_integer",
+          "nullable": true
+        },
+        {
+          "name": "reserve_seconds",
+          "type": "whattodo.seconds",
+          "nullable": false
+        },
+        {
+          "name": "risk",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "data_quality",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "hard_constraints_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "input_fingerprint",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "placement_state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "proof_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "assessed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "projections",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "days",
+          "expression": "horizon_days IN (1,3,7)"
+        },
+        {
+          "name": "timezone",
+          "expression": "timezone = 'Asia/Shanghai'"
+        },
+        {
+          "name": "cutoff",
+          "expression": "cutoff = ((((snapshot_at AT TIME ZONE 'Asia/Shanghai')::date + horizon_days - 1) + TIME '23:59') AT TIME ZONE 'Asia/Shanghai')"
+        },
+        {
+          "name": "capacity_pair",
+          "expression": "(capacity_numerator IS NULL AND capacity_denominator IS NULL) OR (capacity_numerator IS NOT NULL AND capacity_denominator IS NOT NULL)"
+        },
+        {
+          "name": "required_pair",
+          "expression": "(required_numerator IS NULL AND required_denominator IS NULL) OR (required_numerator IS NOT NULL AND required_denominator IS NOT NULL)"
+        },
+        {
+          "name": "reserve",
+          "expression": "reserve_seconds = horizon_days * 3600"
+        },
+        {
+          "name": "risk",
+          "expression": "risk IS NULL OR risk IN ('SAFE','DANGER','EMERGENCY')"
+        },
+        {
+          "name": "proof",
+          "expression": "placement_state NOT IN ('FEASIBLE','INFEASIBLE') OR proof_ref IS NOT NULL"
+        },
+        {
+          "name": "chronology",
+          "expression": "assessed_at >= snapshot_at"
+        },
+        {
+          "name": "quality",
+          "expression": "data_quality IN ('READY','STALE','UNRESOLVED','CONFLICTED')"
+        },
+        {
+          "name": "placement",
+          "expression": "placement_state IN ('FEASIBLE','INFEASIBLE','UNKNOWN','NOT_EVALUATED')"
+        },
+        {
+          "name": "known_risk",
+          "expression": "risk IS NULL OR (data_quality = 'READY' AND capacity_numerator IS NOT NULL AND required_numerator IS NOT NULL)"
+        },
+        {
+          "name": "safe_proof",
+          "expression": "risk IS NULL OR risk <> 'SAFE' OR (placement_state = 'FEASIBLE' AND proof_ref IS NOT NULL AND capacity_numerator IS NOT NULL AND required_numerator IS NOT NULL AND capacity_numerator * required_denominator - required_numerator * capacity_denominator >= reserve_seconds * capacity_denominator * required_denominator)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "snapshot_id",
+            "snapshot_at"
+          ],
+          "target": "planning_snapshot",
+          "target_columns": [
+            "snapshot_id",
+            "captured_at"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "plan_record",
+      "batch": 4,
+      "primary_key": [
+        "plan_id"
+      ],
+      "columns": [
+        {
+          "name": "plan_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "configuration_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "state_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "phase",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "generated_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "review_response_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "review_commit_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "recompute_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "output_payload",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "plan_id",
+          "snapshot_ref"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "phase",
+          "expression": "phase IN ('NORMAL','UNVERIFIED','PROVISIONAL_EMERGENCY','FINAL_EMERGENCY')"
+        },
+        {
+          "name": "final_review",
+          "expression": "phase <> 'FINAL_EMERGENCY' OR (review_response_ref IS NOT NULL AND review_commit_ref IS NOT NULL AND recompute_ref IS NOT NULL)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "snapshot_ref"
+          ],
+          "target": "planning_snapshot",
+          "target_columns": [
+            "snapshot_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "configuration_ref"
+          ],
+          "target": "configuration_revision",
+          "target_columns": [
+            "configuration_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "review_response_ref"
+          ],
+          "target": "review_response",
+          "target_columns": [
+            "response_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "review_commit_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "plan_allocation",
+      "batch": 4,
+      "primary_key": [
+        "allocation_id"
+      ],
+      "columns": [
+        {
+          "name": "allocation_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "plan_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "stage_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "stage_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "seconds_numerator",
+          "type": "whattodo.positive_integer",
+          "nullable": false
+        },
+        {
+          "name": "seconds_denominator",
+          "type": "whattodo.positive_integer",
+          "nullable": false
+        },
+        {
+          "name": "objective",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "session_mode",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "stage_pair",
+          "expression": "(stage_id IS NULL AND stage_revision IS NULL) OR (stage_id IS NOT NULL AND stage_revision IS NOT NULL)"
+        },
+        {
+          "name": "session_mode",
+          "expression": "session_mode IN ('CONTINUOUS','FRAGMENTABLE','EITHER')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "plan_id"
+          ],
+          "target": "plan_record",
+          "target_columns": [
+            "plan_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "stage_id",
+            "stage_revision",
+            "task_id"
+          ],
+          "target": "stage_revision",
+          "target_columns": [
+            "stage_id",
+            "revision",
+            "task_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "model_revision",
+      "batch": 5,
+      "primary_key": [
+        "model_id",
+        "version"
+      ],
+      "columns": [
+        {
+          "name": "model_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "artifact_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "artifact_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "training_evidence_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "registered_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('CANDIDATE','VALIDATED','RETIRED')"
+        }
+      ],
+      "foreign_keys": [],
+      "immutable": true
+    },
+    {
+      "name": "ai_job_revision",
+      "batch": 5,
+      "primary_key": [
+        "job_id",
+        "revision"
+      ],
+      "columns": [
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "job_type",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "executor_class",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "priority",
+          "type": "smallint",
+          "nullable": false
+        },
+        {
+          "name": "context_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "context_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "output_contract_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "expected_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "exported_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "targets",
+          "type": "whattodo.json_object",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "job_id",
+          "revision",
+          "context_hash",
+          "snapshot_ref"
+        ],
+        [
+          "job_id",
+          "revision",
+          "context_hash",
+          "snapshot_ref",
+          "output_contract_ref",
+          "expected_kind"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "executor",
+          "expression": "executor_class IN ('DETERMINISTIC','AUTOMATED','MANUAL_PREMIUM')"
+        },
+        {
+          "name": "priority",
+          "expression": "priority BETWEEN 1 AND 5"
+        },
+        {
+          "name": "kind",
+          "expression": "expected_kind IN ('NUMERIC_REMAINING','BEHAVIOR_PROPOSAL')"
+        },
+        {
+          "name": "status",
+          "expression": "status IN ('PENDING','EXPORTED','RUNNING','RESULT_RECEIVED','VALIDATED','REJECTED','CANCELLED')"
+        },
+        {
+          "name": "export",
+          "expression": "(status <> 'EXPORTED' OR exported_at IS NOT NULL) AND (status <> 'PENDING' OR exported_at IS NULL) AND (exported_at IS NULL OR exported_at >= created_at)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "snapshot_ref"
+          ],
+          "target": "planning_snapshot",
+          "target_columns": [
+            "snapshot_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "ai_result",
+      "batch": 5,
+      "primary_key": [
+        "job_id",
+        "result_id"
+      ],
+      "columns": [
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "context_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "output_contract_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "executor_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "finished_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "content_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "input_tokens",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "output_tokens",
+          "type": "whattodo.seconds",
+          "nullable": true
+        },
+        {
+          "name": "cost_amount",
+          "type": "whattodo.measure",
+          "nullable": true
+        },
+        {
+          "name": "currency",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "resolved_job_id",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "resolved_job_revision",
+          "type": "whattodo.revision",
+          "nullable": true
+        },
+        {
+          "name": "raw_source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "job_id",
+          "result_id",
+          "content_hash"
+        ],
+        [
+          "job_id",
+          "result_id",
+          "content_hash",
+          "context_hash",
+          "snapshot_ref",
+          "output_contract_ref",
+          "kind"
+        ],
+        [
+          "job_id",
+          "job_revision",
+          "result_id",
+          "content_hash",
+          "context_hash",
+          "snapshot_ref",
+          "output_contract_ref",
+          "kind"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "kind",
+          "expression": "kind IN ('NUMERIC_REMAINING','BEHAVIOR_PROPOSAL')"
+        },
+        {
+          "name": "currency",
+          "expression": "cost_amount IS NULL OR currency IS NOT NULL"
+        },
+        {
+          "name": "resolved_scope",
+          "expression": "(resolved_job_id IS NULL AND resolved_job_revision IS NULL) OR (resolved_job_id IS NOT NULL AND resolved_job_revision IS NOT NULL AND resolved_job_id = job_id AND resolved_job_revision = job_revision)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "resolved_job_id",
+            "resolved_job_revision",
+            "context_hash",
+            "snapshot_ref"
+          ],
+          "target": "ai_job_revision",
+          "target_columns": [
+            "job_id",
+            "revision",
+            "context_hash",
+            "snapshot_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "raw_source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "ai_import_record",
+      "batch": 5,
+      "primary_key": [
+        "import_id"
+      ],
+      "columns": [
+        {
+          "name": "import_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "validation_state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "reason_code",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "validated_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "job_id",
+          "result_id"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "validation_state IN ('VALIDATED_NUMERIC','PENDING_REVIEW','REJECTED')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id",
+            "result_id",
+            "result_hash"
+          ],
+          "target": "ai_result",
+          "target_columns": [
+            "job_id",
+            "result_id",
+            "content_hash"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "numeric_eligibility",
+      "batch": 5,
+      "primary_key": [
+        "eligibility_ref"
+      ],
+      "columns": [
+        {
+          "name": "eligibility_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "model_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "context_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "evaluated_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "valid_until",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "evaluator_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_state_event_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_state",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "eligibility_ref",
+          "task_id",
+          "task_revision",
+          "model_id",
+          "model_version",
+          "context_hash",
+          "snapshot_ref"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "validity",
+          "expression": "valid_until > evaluated_at"
+        },
+        {
+          "name": "model_validated",
+          "expression": "model_state = 'VALIDATED'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "task_id",
+            "task_revision"
+          ],
+          "target": "task_revision",
+          "target_columns": [
+            "task_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "model_id",
+            "model_version"
+          ],
+          "target": "model_revision",
+          "target_columns": [
+            "model_id",
+            "version"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "snapshot_ref"
+          ],
+          "target": "planning_snapshot",
+          "target_columns": [
+            "snapshot_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "model_state_event_ref",
+            "model_id",
+            "model_version",
+            "model_state"
+          ],
+          "target": "model_lifecycle_event",
+          "target_columns": [
+            "event_id",
+            "model_id",
+            "model_version",
+            "state"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "remaining_prediction",
+      "batch": 5,
+      "primary_key": [
+        "prediction_id"
+      ],
+      "columns": [
+        {
+          "name": "prediction_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "task_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "model_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "eligibility_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "context_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "snapshot_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "remaining_seconds",
+          "type": "whattodo.seconds",
+          "nullable": false
+        },
+        {
+          "name": "computed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "valid_until",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "uncertainty_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "job_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "output_contract_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "validity",
+          "expression": "valid_until > computed_at"
+        },
+        {
+          "name": "remaining_kind",
+          "expression": "kind = 'NUMERIC_REMAINING'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "eligibility_ref",
+            "task_id",
+            "task_revision",
+            "model_id",
+            "model_version",
+            "context_hash",
+            "snapshot_ref"
+          ],
+          "target": "numeric_eligibility",
+          "target_columns": [
+            "eligibility_ref",
+            "task_id",
+            "task_revision",
+            "model_id",
+            "model_version",
+            "context_hash",
+            "snapshot_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "job_id",
+            "job_revision",
+            "result_id",
+            "result_hash",
+            "context_hash",
+            "snapshot_ref",
+            "output_contract_ref",
+            "kind"
+          ],
+          "target": "ai_result",
+          "target_columns": [
+            "job_id",
+            "job_revision",
+            "result_id",
+            "content_hash",
+            "context_hash",
+            "snapshot_ref",
+            "output_contract_ref",
+            "kind"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "job_id",
+            "job_revision",
+            "context_hash",
+            "snapshot_ref",
+            "output_contract_ref",
+            "kind"
+          ],
+          "target": "ai_job_revision",
+          "target_columns": [
+            "job_id",
+            "revision",
+            "context_hash",
+            "snapshot_ref",
+            "output_contract_ref",
+            "expected_kind"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "behavior_candidate",
+      "batch": 5,
+      "primary_key": [
+        "candidate_id"
+      ],
+      "columns": [
+        {
+          "name": "candidate_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "result_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "target_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "target_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "policy_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "proposed_value",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "confidence",
+          "type": "whattodo.measure",
+          "nullable": false
+        },
+        {
+          "name": "review_state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "target_kind",
+          "expression": "target_kind IN ('TASK','TASKTYPE','PREFERENCE','RELATIONSHIP_RULE')"
+        },
+        {
+          "name": "policy_kind",
+          "expression": "policy_kind IN ('PREFERENCE','TASKTYPE_DEFAULT','RELATIONSHIP_RULE','DECOMPOSITION')"
+        },
+        {
+          "name": "confidence",
+          "expression": "confidence <= 1"
+        },
+        {
+          "name": "pending",
+          "expression": "review_state = 'PENDING'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id",
+            "result_id",
+            "result_hash"
+          ],
+          "target": "ai_result",
+          "target_columns": [
+            "job_id",
+            "result_id",
+            "content_hash"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "outbox_entry",
+      "batch": 5,
+      "primary_key": [
+        "outbox_id"
+      ],
+      "columns": [
+        {
+          "name": "outbox_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "idempotency_key",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "payload_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "payload",
+          "type": "whattodo.json_object",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "delivery_evidence_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "delivered_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "audit_change_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "idempotency_key"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('PENDING','IN_FLIGHT','FAILED','UNKNOWN','DELIVERED')"
+        },
+        {
+          "name": "delivery",
+          "expression": "(state = 'DELIVERED' AND delivery_evidence_ref IS NOT NULL AND delivered_at IS NOT NULL AND delivered_at >= created_at) OR (state <> 'DELIVERED' AND delivery_evidence_ref IS NULL AND delivered_at IS NULL)"
+        },
+        {
+          "name": "audit_kind",
+          "expression": "aggregate_kind = 'OUTBOX'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "delivery_evidence_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "audit_change_ref",
+            "aggregate_kind",
+            "outbox_id",
+            "revision",
+            "transaction_ref"
+          ],
+          "target": "audit_change",
+          "target_columns": [
+            "change_id",
+            "aggregate_kind",
+            "aggregate_id",
+            "after_revision",
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": false
+    },
+    {
+      "name": "collector_checkpoint",
+      "batch": 5,
+      "primary_key": [
+        "provider",
+        "scope_ref",
+        "collector_id"
+      ],
+      "columns": [
+        {
+          "name": "provider",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "scope_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "collector_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "cursor",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "last_source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "transaction_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "audit_change_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_key",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "aggregate_kind",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [
+        {
+          "name": "audit_kind",
+          "expression": "aggregate_kind = 'COLLECTOR_CHECKPOINT'"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "target": "source_scope",
+          "target_columns": [
+            "provider",
+            "scope_ref"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "last_source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "transaction_ref"
+          ],
+          "target": "command_transaction",
+          "target_columns": [
+            "request_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "audit_change_ref",
+            "aggregate_kind",
+            "aggregate_key",
+            "revision",
+            "transaction_ref"
+          ],
+          "target": "audit_change",
+          "target_columns": [
+            "change_id",
+            "aggregate_kind",
+            "aggregate_id",
+            "after_revision",
+            "request_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": false
+    },
+    {
+      "name": "schema_migration",
+      "batch": 1,
+      "primary_key": [
+        "migration_id"
+      ],
+      "columns": [
+        {
+          "name": "migration_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "content_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "design_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "applied_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [],
+      "checks": [],
+      "foreign_keys": [],
+      "immutable": true
+    },
+    {
+      "name": "model_lifecycle_event",
+      "batch": 5,
+      "primary_key": [
+        "event_id"
+      ],
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "model_version",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "sequence",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "evaluator_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "evidence_hash",
+          "type": "whattodo.sha256",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "model_id",
+          "model_version",
+          "sequence"
+        ],
+        [
+          "event_id",
+          "model_id",
+          "model_version",
+          "state"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('CANDIDATE','VALIDATED','RETIRED')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "model_id",
+            "model_version"
+          ],
+          "target": "model_revision",
+          "target_columns": [
+            "model_id",
+            "version"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "ai_job_event",
+      "batch": 5,
+      "primary_key": [
+        "event_id"
+      ],
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "job_revision",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "sequence",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "status",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "exported_at",
+          "type": "whattodo.instant",
+          "nullable": true
+        },
+        {
+          "name": "observed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "evaluator_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "source_record_ref",
+          "type": "whattodo.ref",
+          "nullable": true
+        }
+      ],
+      "unique": [
+        [
+          "job_id",
+          "job_revision",
+          "sequence"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "status",
+          "expression": "status IN ('PENDING','EXPORTED','RUNNING','RESULT_RECEIVED','VALIDATED','REJECTED','CANCELLED')"
+        },
+        {
+          "name": "export",
+          "expression": "(status <> 'EXPORTED' OR exported_at IS NOT NULL) AND (status <> 'PENDING' OR exported_at IS NULL) AND (exported_at IS NULL OR exported_at <= observed_at)"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "job_id",
+            "job_revision"
+          ],
+          "target": "ai_job_revision",
+          "target_columns": [
+            "job_id",
+            "revision"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_record_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    },
+    {
+      "name": "source_lifecycle_event",
+      "batch": 1,
+      "primary_key": [
+        "event_id"
+      ],
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "record_id",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "sequence",
+          "type": "whattodo.revision",
+          "nullable": false
+        },
+        {
+          "name": "state",
+          "type": "whattodo.ref",
+          "nullable": false
+        },
+        {
+          "name": "observed_at",
+          "type": "whattodo.instant",
+          "nullable": false
+        },
+        {
+          "name": "source_evidence_ref",
+          "type": "whattodo.ref",
+          "nullable": false
+        }
+      ],
+      "unique": [
+        [
+          "record_id",
+          "sequence"
+        ]
+      ],
+      "checks": [
+        {
+          "name": "state",
+          "expression": "state IN ('PRESENT','DELETED')"
+        }
+      ],
+      "foreign_keys": [
+        {
+          "columns": [
+            "record_id"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        },
+        {
+          "columns": [
+            "source_evidence_ref"
+          ],
+          "target": "source_record",
+          "target_columns": [
+            "record_id"
+          ],
+          "deferrable": true
+        }
+      ],
+      "immutable": true
+    }
+  ],
+  "partial_unique_indexes": [
+    {
+      "name": "dispatch_terminal_once",
+      "table": "dispatch_result",
+      "columns": [
+        "notice_id",
+        "attempt_id"
+      ],
+      "predicate": "state IN ('DELIVERED','FAILED')"
+    }
+  ],
+  "mutable_guards": {
+    "store_epoch": {
+      "preserve": [
+        "singleton"
+      ],
+      "conditions": []
+    },
+    "task_head": {
+      "preserve": [
+        "task_id"
+      ],
+      "conditions": []
+    },
+    "generation_occurrence": {
+      "preserve": [
+        "generation_key",
+        "rule_id",
+        "rule_version",
+        "source_task_id",
+        "source_task_revision",
+        "creation_transaction_ref",
+        "occurrence_key",
+        "target_role",
+        "obligation_kind"
+      ],
+      "conditions": [
+        "OLD.state <> 'CREATED' OR (NEW.state = 'CREATED' AND NEW.target_task_ref IS NOT DISTINCT FROM OLD.target_task_ref AND NEW.target_stage_ref IS NOT DISTINCT FROM OLD.target_stage_ref AND NEW.target_stage_revision IS NOT DISTINCT FROM OLD.target_stage_revision)"
+      ]
+    },
+    "outbox_entry": {
+      "preserve": [
+        "outbox_id",
+        "idempotency_key",
+        "kind",
+        "aggregate_ref",
+        "payload_hash",
+        "payload",
+        "created_at"
+      ],
+      "conditions": [
+        "OLD.state <> 'DELIVERED' OR (NEW.state = 'DELIVERED' AND NEW.delivery_evidence_ref IS NOT DISTINCT FROM OLD.delivery_evidence_ref AND NEW.delivered_at IS NOT DISTINCT FROM OLD.delivered_at)"
+      ]
+    },
+    "collector_checkpoint": {
+      "preserve": [
+        "provider",
+        "scope_ref",
+        "collector_id",
+        "aggregate_key"
+      ],
+      "conditions": []
+    }
+  }
+}

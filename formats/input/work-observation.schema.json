@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:work-observation:0.1.0-draft",
+  "title": "Immutable work/estimate observation development contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "observation_id",
+    "task_id",
+    "kind",
+    "seconds",
+    "observed_at",
+    "recorded_at",
+    "source_ref",
+    "authority_ref",
+    "batch_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "observation_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "task_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "kind": {
+      "enum": [
+        "USER_REMAINING",
+        "ACTUAL_WORK",
+        "UNCHANGED_VERIFICATION"
+      ]
+    },
+    "seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "source_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "authority_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "batch_ref": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/reference"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "UNCHANGED_VERIFICATION"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "seconds": {
+            "type": "null"
+          },
+          "batch_ref": {
+            "$ref": "#/$defs/reference"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "seconds": {
+            "type": "integer"
+          },
+          "batch_ref": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    }
+  }
+}

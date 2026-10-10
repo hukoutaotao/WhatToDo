@@ -1,0 +1,765 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "remaining-model-above-user",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "remaining-model-below-user",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 7200,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "no-model-fallback",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": null,
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "unknown-remaining",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": null,
+        "prediction": null,
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "expired-retains-canonical-estimate",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "EXPIRED",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "explicit-complete-zero",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "COMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 0,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "unknown-stage-weights",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": null,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "missing-user-estimate-model-present",
+      "contract": "effort",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": null,
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "negative-remaining",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": -1,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "remaining-bool",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": true,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "completed-nonzero-remaining",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "COMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "naive-estimate-time",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "invalid-date",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-02-30T00:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "negative-weight",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "INCOMPLETE",
+            "weight": -1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "partial-stage-as-completion",
+      "contract": "effort",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "task_id": "synthetic-task-001",
+        "task_revision": 3,
+        "completion": "INCOMPLETE",
+        "disposition": "ACTIVE",
+        "user_remaining": {
+          "seconds": 14400,
+          "observation_id": "synthetic-estimate-001",
+          "observed_at": "2026-01-01T00:00:00Z",
+          "verified_at": "2026-01-01T01:00:00Z"
+        },
+        "prediction": {
+          "seconds": 21600,
+          "prediction_id": "synthetic-prediction-001",
+          "model_ref": {
+            "id": "synthetic-model",
+            "version": "1"
+          },
+          "task_revision": 3,
+          "computed_at": "2026-01-01T02:00:00Z",
+          "valid_until": "2026-01-02T00:00:00Z",
+          "valid": true,
+          "applicable": true
+        },
+        "stages": [
+          {
+            "stage_id": "synthetic-stage-001",
+            "completion": "PARTIAL",
+            "weight": 1,
+            "user_remaining": null
+          },
+          {
+            "stage_id": "synthetic-stage-002",
+            "completion": "INCOMPLETE",
+            "weight": 2,
+            "user_remaining": null
+          }
+        ]
+      }
+    },
+    {
+      "id": "actual-work-immutable-observation",
+      "contract": "work-observation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "ACTUAL_WORK",
+        "seconds": 1200,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": null
+      }
+    },
+    {
+      "id": "user-estimate-observation",
+      "contract": "work-observation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "USER_REMAINING",
+        "seconds": 1200,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": null
+      }
+    },
+    {
+      "id": "unchanged-estimate-verification",
+      "contract": "work-observation",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "UNCHANGED_VERIFICATION",
+        "seconds": null,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": "synthetic-reviewed-batch"
+      }
+    },
+    {
+      "id": "batch-not-new-estimate",
+      "contract": "work-observation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "UNCHANGED_VERIFICATION",
+        "seconds": 1200,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": "synthetic-reviewed-batch"
+      }
+    },
+    {
+      "id": "batch-needs-membership-ref",
+      "contract": "work-observation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "UNCHANGED_VERIFICATION",
+        "seconds": null,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": null
+      }
+    },
+    {
+      "id": "actual-not-pending-number",
+      "contract": "work-observation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "ACTUAL_WORK",
+        "seconds": null,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": null
+      }
+    },
+    {
+      "id": "planned-not-actual",
+      "contract": "work-observation",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "observation_id": "synthetic-actual-001",
+        "task_id": "synthetic-task-001",
+        "kind": "PLANNED_SESSION",
+        "seconds": 1200,
+        "observed_at": "2026-01-01T03:00:00Z",
+        "recorded_at": "2026-01-01T03:10:00Z",
+        "source_ref": "synthetic-user-reply",
+        "authority_ref": "synthetic-user-command",
+        "batch_ref": null
+      }
+    }
+  ]
+}

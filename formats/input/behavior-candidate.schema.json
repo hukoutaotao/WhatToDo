@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:behavior-candidate:0.1.0-draft",
+  "title": "behavior-candidate offline development contract",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "candidate_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "result_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "result_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "TASK",
+            "TASKTYPE",
+            "PREFERENCE",
+            "RELATIONSHIP_RULE"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "pattern": "\\S"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "kind",
+        "id",
+        "revision"
+      ],
+      "additionalProperties": false
+    },
+    "policy_kind": {
+      "enum": [
+        "PREFERENCE",
+        "TASKTYPE_DEFAULT",
+        "RELATIONSHIP_RULE",
+        "DECOMPOSITION"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "proposed_value": {
+      "type": "object"
+    },
+    "confidence": {
+      "type": "string",
+      "pattern": "^(0(\\.[0-9]+)?|1(\\.0+)?)$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "review_state": {
+      "const": "PENDING"
+    }
+  },
+  "required": [
+    "schema_version",
+    "candidate_id",
+    "job_id",
+    "result_id",
+    "result_hash",
+    "target",
+    "policy_kind",
+    "description",
+    "proposed_value",
+    "confidence",
+    "created_at",
+    "review_state"
+  ],
+  "additionalProperties": false
+}
+

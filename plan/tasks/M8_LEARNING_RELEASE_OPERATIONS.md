@@ -29,7 +29,7 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Prerequisites: [M6-26](M6_PLANNER_DAILY_MVP.md#m6-26) · [M3A-15](M3_STATE_FOUNDATION.md#m3a-15)
 - Deliverable / bounded file scope: training/analysis observation read model.
 - Work: Join historical Task context, actual work, user U, model B and plan snapshots without rewriting old observations; distinguish canceled/expired/reworked outcomes.
-- Acceptance / failure and extension checks: Abandoned invested effort is not full completion duration; unreported time-of-day is unknown; late model versions cannot rewrite earlier prediction errors.
+- Acceptance / failure and extension checks: Abandoned invested effort is not full completion duration; unmeasured setup estimates are not measured training samples; unreported time-of-day is unknown; late model versions cannot rewrite earlier prediction errors.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.
 
 ### M8-02
@@ -40,7 +40,7 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Prerequisites: [M8-01](M8_LEARNING_RELEASE_OPERATIONS.md#m8-01)
 - Deliverable / bounded file scope: versioned numeric predictor.
 - Work: Use a simple robust interpretable baseline for one TaskType family with finite sample/validity requirements and explicit cold-start fallback.
-- Acceptance / failure and extension checks: Predictions concern unfinished effort, not raw total duration; small/outlier samples do not create fake certainty; no user U/template default is overwritten.
+- Acceptance / failure and extension checks: Predictions concern unfinished effort, not raw total duration; small/outlier samples do not create fake certainty; unknown work quantity is not assumed comparable; no user U/template default is overwritten.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.
 
 ### M8-03
@@ -51,7 +51,7 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Prerequisites: [M8-02](M8_LEARNING_RELEASE_OPERATIONS.md#m8-02)
 - Deliverable / bounded file scope: model training/version activation service.
 - Work: Fit from eligible observations, store model metadata and support deterministic activation/rollback; expose through Predictor port.
-- Acceptance / failure and extension checks: Numeric model update needs no behavioral-rule approval; rollback restores the earlier prediction source; restart does not duplicate training runs.
+- Acceptance / failure and extension checks: Numeric model update needs no behavioral-rule approval; sufficient applicable measurements can substantially reduce or remove an unmeasured setup estimate's influence under LEARNING_PLAN §15 without rewriting history/U/defaults; reusing a rough estimate in plans does not create additional measured samples; rollback restores the earlier prediction source; restart does not duplicate training runs.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.
 
 ### M8-04

@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "python_version": "3.13.5",
+  "packages": {
+    "attrs": "24.3.0",
+    "jsonschema": "4.23.0",
+    "jsonschema-specifications": "2023.7.1",
+    "psycopg": "3.3.6",
+    "psycopg-binary": "3.3.6",
+    "referencing": "0.30.2",
+    "rfc3339-validator": "0.1.4",
+    "rpds-py": "0.22.3",
+    "six": "1.17.0",
+    "tzdata": "2025.2"
+  },
+  "migrations": [
+    {
+      "file": "001_foundation.sql",
+      "sha256": "b12c168d3829cb236d8d9dcf7033575f372b914d87549a7711ac4704693a3ae3"
+    },
+    {
+      "file": "002_task_effort_review.sql",
+      "sha256": "c6abbbef9dc6e77993721944423dcc067a4b9b1f749fdb43b143c0940e3c9383"
+    },
+    {
+      "file": "003_relationships_notices.sql",
+      "sha256": "6fbb3dc2cb9e95398e7b96254bf9cb371ec4dc204ef4dc627bd227484dad9945"
+    },
+    {
+      "file": "004_goals_calendar_plans.sql",
+      "sha256": "f6ef09f8af6b8c4602f9de2b6dd7fc031f1f2acac3fc1c18188f6429de07d129"
+    },
+    {
+      "file": "005_ai_operations.sql",
+      "sha256": "ab51f6328b191c6c13a9e326841b95d5361183c5be9ec0307009ed9b7e64f3c8"
+    }
+  ],
+  "native_checks": [
+    "foundation_sql_probes",
+    "state_audit_receipt_commit",
+    "state_audit_receipt_rollback",
+    "deferred_receipt_audit_pair_rejects_orphan",
+    "duplicate_request_rejected",
+    "stale_epoch_cas_no_write",
+    "committed_receipt_reconciliation",
+    "aggregate_unknown_and_long_title_roundtrip",
+    "aggregate_user_and_versioned_template_total_keep_u",
+    "aggregate_details_parent_fk",
+    "aggregate_details_completion_fk",
+    "aggregate_minimum_session_zero_rejected",
+    "aggregate_partial_total_rejected",
+    "aggregate_unregistered_template_version_rejected",
+    "aggregate_provenance_source_fk",
+    "aggregate_provenance_revision_fk",
+    "aggregate_duplicate_field_provenance_rejected",
+    "aggregate_details_history_immutable",
+    "aggregate_provenance_history_immutable",
+    "aggregate_title_above_contract_rejected",
+    "aggregate_details_provenance_rollback"
+  ],
+  "server_stopped": true,
+  "limitations": [
+    "Synthetic isolated development spike only",
+    "Not a production migration runner, trusted command handler or full StateStore adapter",
+    "No live channels, personal intake, crash/restore or deployed operating evidence"
+  ],
+  "regression_methods": 300,
+  "database_design": "PASS",
+  "sql_drift": "PASS",
+  "regression_suite": "PASS",
+  "postgresql_version": "postgres (PostgreSQL) 18.6",
+  "server_version": "18.6",
+  "native_tables": 51,
+  "native_foreign_keys": 130,
+  "task": "M2-01.b",
+  "verified_on": "2026-10-10",
+  "verification_command": ".venv\\Scripts\\python.exe -m tools.verify_toolchain",
+  "focused_task_methods": 17,
+  "shape_cases": 22,
+  "combined_shape_cases": 258,
+  "contract_count": 30,
+  "source_registry_checkpoint": "reports/acceptance/M2-17a-registry.json",
+  "prior_native_migration_checkpoint": "reports/acceptance/M2-16a-baseline/migrations",
+  "foundation_negative_sql_probes": 14,
+  "aggregate_native_checks": 14,
+  "aggregate_negative_sql_probes": 11
+}

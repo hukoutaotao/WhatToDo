@@ -1,0 +1,828 @@
+{
+  "design_version": "0.1.0-draft",
+  "status": "DRAFT_NOT_APPLICATION_MIGRATED",
+  "documentation_major": 18,
+  "runtime_version": null,
+  "schema_name": "whattodo",
+  "sources": [
+    "https://www.postgresql.org/docs/18/ddl-constraints.html",
+    "https://www.postgresql.org/docs/18/transaction-iso.html",
+    "https://www.postgresql.org/docs/18/ddl-schemas.html"
+  ],
+  "migration_batches": [
+    {
+      "id": "001",
+      "group": "foundation",
+      "filename": "001_foundation.sql",
+      "tables": [
+        "source_scope",
+        "source_identity",
+        "source_record",
+        "configuration_revision",
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change",
+        "store_epoch",
+        "schema_migration",
+        "source_lifecycle_event"
+      ],
+      "status": "DRAFT_NOT_APPLIED"
+    },
+    {
+      "id": "002",
+      "group": "task_effort_review",
+      "filename": "002_task_effort_review.sql",
+      "tables": [
+        "task_identity",
+        "effort_observation",
+        "task_revision",
+        "task_details_revision",
+        "task_field_provenance",
+        "task_head",
+        "stage_revision",
+        "candidate_revision",
+        "review_frame",
+        "review_member",
+        "review_response",
+        "estimate_verification"
+      ],
+      "status": "DRAFT_NOT_APPLIED"
+    },
+    {
+      "id": "003",
+      "group": "relationships_notices",
+      "filename": "003_relationships_notices.sql",
+      "tables": [
+        "relationship_rule_revision",
+        "generation_occurrence",
+        "task_relation_revision",
+        "expiration_notice",
+        "dispatch_attempt",
+        "dispatch_result"
+      ],
+      "status": "DRAFT_NOT_APPLIED"
+    },
+    {
+      "id": "004",
+      "group": "goals_calendar_plans",
+      "filename": "004_goals_calendar_plans.sql",
+      "tables": [
+        "goal_revision",
+        "goal_progress",
+        "milestone_revision",
+        "exam_revision",
+        "calendar_event_revision",
+        "normalized_due",
+        "today_lock",
+        "planning_snapshot",
+        "forecast_horizon",
+        "plan_record",
+        "plan_allocation"
+      ],
+      "status": "DRAFT_NOT_APPLIED"
+    },
+    {
+      "id": "005",
+      "group": "ai_operations",
+      "filename": "005_ai_operations.sql",
+      "tables": [
+        "model_revision",
+        "ai_job_revision",
+        "ai_result",
+        "ai_import_record",
+        "numeric_eligibility",
+        "remaining_prediction",
+        "behavior_candidate",
+        "outbox_entry",
+        "collector_checkpoint",
+        "model_lifecycle_event",
+        "ai_job_event"
+      ],
+      "status": "DRAFT_NOT_APPLIED"
+    }
+  ],
+  "tables": [
+    {
+      "name": "source_scope",
+      "group": "foundation",
+      "ownership": "Scoped provider/account identity",
+      "primary_key": [
+        "provider",
+        "scope_ref"
+      ],
+      "requirements": "Source credentials remain outside database rows."
+    },
+    {
+      "name": "source_identity",
+      "group": "foundation",
+      "ownership": "External source identity",
+      "primary_key": [
+        "source_id"
+      ],
+      "requirements": "UNIQUE(provider,scope_ref,external_id); independent of content/revision."
+    },
+    {
+      "name": "source_record",
+      "group": "foundation",
+      "ownership": "Immutable captured source/tombstone evidence",
+      "primary_key": [
+        "record_id"
+      ],
+      "requirements": "FK source_id; SHA256 raw bytes; deletion retains prior identity/hash."
+    },
+    {
+      "name": "configuration_revision",
+      "group": "foundation",
+      "ownership": "Git-owned profile/type/template registration metadata",
+      "primary_key": [
+        "configuration_ref"
+      ],
+      "requirements": "UNIQUE(kind,id,version); no duplicated Git defaults."
+    },
+    {
+      "name": "authority_record",
+      "group": "foundation",
+      "ownership": "Independently resolved scoped authority",
+      "primary_key": [
+        "authority_ref"
+      ],
+      "requirements": "Authenticated principal/origin plus exact scope/evidence; external evidence cannot populate this registry."
+    },
+    {
+      "name": "command_transaction",
+      "group": "foundation",
+      "ownership": "Atomic authorized request and idempotent receipt",
+      "primary_key": [
+        "request_id"
+      ],
+      "requirements": "UNIQUE committed_store_revision and audit_id; original request fingerprint retained."
+    },
+    {
+      "name": "audit_entry",
+      "group": "foundation",
+      "ownership": "Immutable transaction audit header",
+      "primary_key": [
+        "audit_id"
+      ],
+      "requirements": "UNIQUE request_id; deferred mutual FK with command_transaction."
+    },
+    {
+      "name": "audit_change",
+      "group": "foundation",
+      "ownership": "Immutable before/after aggregate change",
+      "primary_key": [
+        "change_id"
+      ],
+      "requirements": "FK audit_entry; UNIQUE(audit_id,aggregate_kind,aggregate_id,after_revision)."
+    },
+    {
+      "name": "store_epoch",
+      "group": "foundation",
+      "ownership": "Coherent global CAS/version head",
+      "primary_key": [
+        "singleton"
+      ],
+      "requirements": "CHECK singleton; positive revision; last transaction FK."
+    },
+    {
+      "name": "task_identity",
+      "group": "task_effort_review",
+      "ownership": "Stable canonical parent identity",
+      "primary_key": [
+        "task_id"
+      ],
+      "requirements": "No reuse/renumbering after historical outcomes."
+    },
+    {
+      "name": "effort_observation",
+      "group": "task_effort_review",
+      "ownership": "Immutable measured/reported/verification observations",
+      "primary_key": [
+        "observation_id"
+      ],
+      "requirements": "FK task_id; typed observation meaning; actual increment distinct from cumulative report and estimate."
+    },
+    {
+      "name": "task_revision",
+      "group": "task_effort_review",
+      "ownership": "Versioned canonical Task core and U snapshot",
+      "primary_key": [
+        "task_id",
+        "revision"
+      ],
+      "requirements": "FK task_identity,authority_record,audit_change; separate completion/disposition/requiredness, 1..5 task ratings; COMPLETE requires known U=0."
+    },
+    {
+      "name": "task_head",
+      "group": "task_effort_review",
+      "ownership": "Current canonical revision pointer",
+      "primary_key": [
+        "task_id"
+      ],
+      "requirements": "Composite FK task_revision(task_id,revision); CAS updates share transaction."
+    },
+    {
+      "name": "stage_revision",
+      "group": "task_effort_review",
+      "ownership": "Versioned parent-owned stage state",
+      "primary_key": [
+        "stage_id",
+        "revision"
+      ],
+      "requirements": "FK task_id/task_revision; not a second registered TaskType or added parent budget."
+    },
+    {
+      "name": "candidate_revision",
+      "group": "task_effort_review",
+      "ownership": "Versioned external proposals/review disposition",
+      "primary_key": [
+        "candidate_id",
+        "revision"
+      ],
+      "requirements": "FK source_record; accepted resolution needs scoped review authority; confidence is not authority."
+    },
+    {
+      "name": "review_frame",
+      "group": "task_effort_review",
+      "ownership": "Immutable presented full queue snapshot",
+      "primary_key": [
+        "review_id",
+        "frame_revision"
+      ],
+      "requirements": "Source/time/queue binding; absence is not an empty queue."
+    },
+    {
+      "name": "review_member",
+      "group": "task_effort_review",
+      "ownership": "Exact presented Task/candidate membership",
+      "primary_key": [
+        "review_id",
+        "frame_revision",
+        "member_kind",
+        "member_id"
+      ],
+      "requirements": "FK review_frame; per-member revision/estimate identity."
+    },
+    {
+      "name": "review_response",
+      "group": "task_effort_review",
+      "ownership": "Immutable explicit user submission",
+      "primary_key": [
+        "response_id"
+      ],
+      "requirements": "FK review_frame; trusted user source; defaults/unsubmitted suggestions never authorize."
+    },
+    {
+      "name": "estimate_verification",
+      "group": "task_effort_review",
+      "ownership": "Exact unchanged-estimate confirmation provenance",
+      "primary_key": [
+        "verification_id"
+      ],
+      "requirements": "FK observation/task/review; retain original observation time, separate verified_at and batch membership."
+    },
+    {
+      "name": "relationship_rule_revision",
+      "group": "relationships_notices",
+      "ownership": "Accepted generation rule registration/version",
+      "primary_key": [
+        "rule_id",
+        "version"
+      ],
+      "requirements": "FK configuration_revision/authority; version is audit metadata, not new occurrence identity."
+    },
+    {
+      "name": "generation_occurrence",
+      "group": "relationships_notices",
+      "ownership": "Unique source/rule/occurrence/target-role obligation",
+      "primary_key": [
+        "generation_key"
+      ],
+      "requirements": "UNIQUE(rule_id,source_task_id,occurrence_key,target_role); rule version excluded; source creation and target typed linkage."
+    },
+    {
+      "name": "task_relation_revision",
+      "group": "relationships_notices",
+      "ownership": "Typed start/order/soft/stage links",
+      "primary_key": [
+        "relation_id",
+        "revision"
+      ],
+      "requirements": "Separate generation graph; stage endpoints bind explicit parent, current versions checked transactionally."
+    },
+    {
+      "name": "expiration_notice",
+      "group": "relationships_notices",
+      "ownership": "One detected task-revision/condition process",
+      "primary_key": [
+        "notice_id"
+      ],
+      "requirements": "UNIQUE(task_id,task_revision,condition_ref); detection is not delivery/expiry."
+    },
+    {
+      "name": "dispatch_attempt",
+      "group": "relationships_notices",
+      "ownership": "Registered immutable send attempt identity",
+      "primary_key": [
+        "notice_id",
+        "attempt_id"
+      ],
+      "requirements": "FK notice; correlation/content/channel scope; ambiguity requires original reconciliation."
+    },
+    {
+      "name": "dispatch_result",
+      "group": "relationships_notices",
+      "ownership": "Append-only observed delivery/failure/reconciliation",
+      "primary_key": [
+        "result_id"
+      ],
+      "requirements": "FK original attempt; confirmed delivery needs delivered_at; UNKNOWN/FAILED cannot claim delivery time."
+    },
+    {
+      "name": "goal_revision",
+      "group": "goals_calendar_plans",
+      "ownership": "Accepted/draft Goal setup independent of Task workload",
+      "primary_key": [
+        "goal_id",
+        "revision"
+      ],
+      "requirements": "Typed target/progress measure/time/cadence; no duplicate Task remaining-work column."
+    },
+    {
+      "name": "goal_progress",
+      "group": "goals_calendar_plans",
+      "ownership": "Immutable scoped Goal measurement/outcome",
+      "primary_key": [
+        "progress_id"
+      ],
+      "requirements": "FK exact Goal revision; attaining target does not infer completion."
+    },
+    {
+      "name": "milestone_revision",
+      "group": "goals_calendar_plans",
+      "ownership": "Versioned Goal checkpoint/phase",
+      "primary_key": [
+        "milestone_id",
+        "revision"
+      ],
+      "requirements": "FK exact Goal revision; no duplicate parent effort."
+    },
+    {
+      "name": "exam_revision",
+      "group": "goals_calendar_plans",
+      "ownership": "Independent unknown/date-only/exact Exam",
+      "primary_key": [
+        "exam_id",
+        "revision"
+      ],
+      "requirements": "Date-only exam is not 23:59 deadline or fabricated occupied interval."
+    },
+    {
+      "name": "calendar_event_revision",
+      "group": "goals_calendar_plans",
+      "ownership": "Scoped source event and occupancy classification",
+      "primary_key": [
+        "event_id",
+        "revision"
+      ],
+      "requirements": "FK source_record/scope; external fixed vs owned planned work; explicit timing/occupancy; source revisions retained."
+    },
+    {
+      "name": "normalized_due",
+      "group": "goals_calendar_plans",
+      "ownership": "Immutable source time and normalization policy",
+      "primary_key": [
+        "due_id"
+      ],
+      "requirements": "FK source_record; preserve original timestamp/offset; DATE_ONLY policy records Beijing 23:59."
+    },
+    {
+      "name": "today_lock",
+      "group": "goals_calendar_plans",
+      "ownership": "Authorized next-midnight task intent",
+      "primary_key": [
+        "lock_id"
+      ],
+      "requirements": "FK Task revision/authority; intent COMPLETE or ADVANCE does not assert actual completion."
+    },
+    {
+      "name": "planning_snapshot",
+      "group": "goals_calendar_plans",
+      "ownership": "Immutable input/Plan epoch binding",
+      "primary_key": [
+        "snapshot_id"
+      ],
+      "requirements": "FK store epoch/committed transaction reference and configuration metadata; gaps stay explicit."
+    },
+    {
+      "name": "forecast_horizon",
+      "group": "goals_calendar_plans",
+      "ownership": "One 1/3/7 natural-day assessment per snapshot",
+      "primary_key": [
+        "snapshot_id",
+        "horizon_days"
+      ],
+      "requirements": "Typed C/R/S/risk/proof quality; unknown values nullable; horizons overlap and never summed."
+    },
+    {
+      "name": "plan_record",
+      "group": "goals_calendar_plans",
+      "ownership": "Versioned derived Plan/phase output",
+      "primary_key": [
+        "plan_id"
+      ],
+      "requirements": "FK planning_snapshot; final emergency requires committed review/recompute references."
+    },
+    {
+      "name": "plan_allocation",
+      "group": "goals_calendar_plans",
+      "ownership": "Single counted parent/stage allocation",
+      "primary_key": [
+        "allocation_id"
+      ],
+      "requirements": "FK plan/task revision; positive exact rational seconds; stage references part of parent budget."
+    },
+    {
+      "name": "model_revision",
+      "group": "ai_operations",
+      "ownership": "Independent numeric model eligibility/version metadata",
+      "primary_key": [
+        "model_id",
+        "version"
+      ],
+      "requirements": "No behavioral configuration writes; applicability resolved independently from external output."
+    },
+    {
+      "name": "ai_job_revision",
+      "group": "ai_operations",
+      "ownership": "Scoped job/context/targets/version lifecycle",
+      "primary_key": [
+        "job_id",
+        "revision"
+      ],
+      "requirements": "Context hash/snapshot/output contract/executor class retained; no secrets/raw context."
+    },
+    {
+      "name": "ai_result",
+      "group": "ai_operations",
+      "ownership": "Immutable external output and usage provenance",
+      "primary_key": [
+        "job_id",
+        "result_id"
+      ],
+      "requirements": "FK exact job revision; content hash and unknown/exact usage; never effective authority."
+    },
+    {
+      "name": "ai_import_record",
+      "group": "ai_operations",
+      "ownership": "Immutable result validation history",
+      "primary_key": [
+        "import_id"
+      ],
+      "requirements": "FK source job/result/hash; identical replay no effect, changed same-ID content conflicts."
+    },
+    {
+      "name": "numeric_eligibility",
+      "ownership": "Independent numeric applicability evidence",
+      "requirements": "Exact Task/model/context/snapshot and validated model lifecycle binding; row is not user authority.",
+      "primary_key": [
+        "eligibility_ref"
+      ],
+      "group": "ai_operations"
+    },
+    {
+      "name": "remaining_prediction",
+      "group": "ai_operations",
+      "ownership": "Derived eligible remaining-work prediction",
+      "primary_key": [
+        "prediction_id"
+      ],
+      "requirements": "FK model/version,Task revision,job/result/eligibility; no U rewrite; not original-total effort."
+    },
+    {
+      "name": "behavior_candidate",
+      "group": "ai_operations",
+      "ownership": "Pending preference/default/rule/decomposition proposal",
+      "primary_key": [
+        "candidate_id"
+      ],
+      "requirements": "FK job/result/target revision; no self-acceptance; reviewed adoption separate."
+    },
+    {
+      "name": "outbox_entry",
+      "group": "ai_operations",
+      "ownership": "Audited transactional intent awaiting delivery",
+      "primary_key": [
+        "outbox_id"
+      ],
+      "requirements": "FK command_transaction/audit; UNIQUE(idempotency_key); pending entry is not delivered evidence."
+    },
+    {
+      "name": "collector_checkpoint",
+      "group": "ai_operations",
+      "ownership": "Scoped versioned ingestion cursor",
+      "primary_key": [
+        "provider",
+        "scope_ref",
+        "collector_id"
+      ],
+      "requirements": "FK source_scope; cursor advance and captured history share transaction."
+    },
+    {
+      "name": "schema_migration",
+      "group": "foundation",
+      "ownership": "Ordered applied migration/hash record",
+      "primary_key": [
+        "migration_id"
+      ],
+      "requirements": "Immutable checksum/version; failed migration cannot be recorded applied."
+    },
+    {
+      "name": "model_lifecycle_event",
+      "ownership": "Append-only model evaluation/status history",
+      "requirements": "Model version remains immutable; current applicability is revalidated in the application transaction.",
+      "primary_key": [
+        "event_id"
+      ],
+      "group": "ai_operations"
+    },
+    {
+      "name": "ai_job_event",
+      "ownership": "Append-only job execution/export status",
+      "requirements": "Context revision is distinct from execution status; no alteration of export scope.",
+      "primary_key": [
+        "event_id"
+      ],
+      "group": "ai_operations"
+    },
+    {
+      "name": "source_lifecycle_event",
+      "ownership": "Append-only source deletion/reobservation history",
+      "requirements": "Tombstone never cancels or completes canonical tasks; captured source identity is retained.",
+      "primary_key": [
+        "event_id"
+      ],
+      "group": "foundation"
+    },
+    {
+      "name": "task_details_revision",
+      "primary_key": [
+        "task_id",
+        "task_revision"
+      ],
+      "ownership": "Version-bound generic Task times, original estimate and session facts; no U/B/actual replacement",
+      "requirements": [
+        "M2-01.b",
+        "D-074",
+        "D-080"
+      ]
+    },
+    {
+      "name": "task_field_provenance",
+      "primary_key": [
+        "task_id",
+        "task_revision",
+        "field_pointer"
+      ],
+      "ownership": "Immutable version-bound field evidence; unresolved source references cannot authorize canonical mutation",
+      "requirements": [
+        "M2-01.b",
+        "D-074",
+        "D-080"
+      ]
+    }
+  ],
+  "contract_ownership": [
+    {
+      "contract": "task-core",
+      "tables": [
+        "task_revision",
+        "task_head"
+      ]
+    },
+    {
+      "contract": "effort",
+      "tables": [
+        "task_revision",
+        "stage_revision",
+        "remaining_prediction"
+      ]
+    },
+    {
+      "contract": "work-observation",
+      "tables": [
+        "effort_observation",
+        "estimate_verification"
+      ]
+    },
+    {
+      "contract": "source",
+      "tables": [
+        "source_scope",
+        "source_identity",
+        "source_record",
+        "source_lifecycle_event"
+      ]
+    },
+    {
+      "contract": "candidate",
+      "tables": [
+        "candidate_revision"
+      ]
+    },
+    {
+      "contract": "command",
+      "tables": [
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ]
+    },
+    {
+      "contract": "review-response",
+      "tables": [
+        "review_frame",
+        "review_member",
+        "review_response",
+        "estimate_verification"
+      ]
+    },
+    {
+      "contract": "relationship-rule",
+      "tables": [
+        "configuration_revision",
+        "relationship_rule_revision"
+      ]
+    },
+    {
+      "contract": "task-relation",
+      "tables": [
+        "task_relation_revision"
+      ]
+    },
+    {
+      "contract": "generation-occurrence",
+      "tables": [
+        "generation_occurrence"
+      ]
+    },
+    {
+      "contract": "expiration-notice",
+      "tables": [
+        "expiration_notice",
+        "dispatch_attempt",
+        "dispatch_result"
+      ]
+    },
+    {
+      "contract": "dispatch-result",
+      "tables": [
+        "dispatch_attempt",
+        "dispatch_result"
+      ]
+    },
+    {
+      "contract": "normalized-due",
+      "tables": [
+        "normalized_due"
+      ]
+    },
+    {
+      "contract": "forecast-window",
+      "tables": [
+        "forecast_horizon"
+      ]
+    },
+    {
+      "contract": "today-lock",
+      "tables": [
+        "today_lock"
+      ]
+    },
+    {
+      "contract": "calendar-event",
+      "tables": [
+        "calendar_event_revision"
+      ]
+    },
+    {
+      "contract": "availability",
+      "tables": [
+        "planning_snapshot"
+      ]
+    },
+    {
+      "contract": "goal",
+      "tables": [
+        "goal_revision"
+      ]
+    },
+    {
+      "contract": "milestone",
+      "tables": [
+        "milestone_revision"
+      ]
+    },
+    {
+      "contract": "exam",
+      "tables": [
+        "exam_revision"
+      ]
+    },
+    {
+      "contract": "goal-progress",
+      "tables": [
+        "goal_progress"
+      ]
+    },
+    {
+      "contract": "goal-onboarding",
+      "tables": [
+        "goal_revision"
+      ]
+    },
+    {
+      "contract": "plan",
+      "tables": [
+        "plan_record",
+        "plan_allocation",
+        "forecast_horizon"
+      ]
+    },
+    {
+      "contract": "ai-job",
+      "tables": [
+        "ai_job_revision",
+        "ai_job_event"
+      ]
+    },
+    {
+      "contract": "ai-export",
+      "tables": [
+        "ai_job_revision",
+        "ai_job_event"
+      ]
+    },
+    {
+      "contract": "ai-result",
+      "tables": [
+        "ai_result"
+      ]
+    },
+    {
+      "contract": "remaining-prediction",
+      "tables": [
+        "remaining_prediction",
+        "model_revision",
+        "numeric_eligibility",
+        "model_lifecycle_event"
+      ]
+    },
+    {
+      "contract": "behavior-candidate",
+      "tables": [
+        "behavior_candidate"
+      ]
+    },
+    {
+      "contract": "ai-import-record",
+      "tables": [
+        "ai_import_record"
+      ]
+    },
+    {
+      "contract": "task-aggregate",
+      "tables": [
+        "task_revision",
+        "task_head",
+        "task_details_revision",
+        "task_field_provenance",
+        "stage_revision",
+        "remaining_prediction",
+        "normalized_due",
+        "configuration_revision",
+        "source_record"
+      ]
+    }
+  ],
+  "transaction_checks": [
+    "Authenticate caller and independently resolve exact current domain authority; input flags/schema confidence are not grants.",
+    "Lock/version-check store epoch, targets, source/config/rule/model/notice references inside one transaction.",
+    "Reject same request ID with changed fingerprint; return original receipt for exact authorized historical retry.",
+    "Insert canonical revisions, full before/after audit, receipt, occurrence and outbox/checkpoint effects atomically.",
+    "Revalidate successful notice delivery and latest Task/condition before EXPIRED; preserve INCOMPLETE/U/history.",
+    "Reject worked/missing/stale members as a whole unchanged batch; never silently narrow exact confirmation.",
+    "Preserve one parent effective B; stage shares are derived and distinct obligations alone add workload.",
+    "Never treat NULL/UNKNOWN/stale/gapped sources as verified zero, empty complete data or successful delivery.",
+    "Raw source/observation/result/audit records are append-only; enforce via owner separation/privileges/triggers and tests.",
+    "On transient rollback retry a bounded exact request; on unknown commit/delivery reconcile original identity first."
+  ],
+  "outstanding": [
+    "Validate draft DDL/constraints/triggers/migration rollback using an actual selected isolated PostgreSQL runtime; static checks do not execute SQL.",
+    "Freeze complete contracts/transport/runtime; implement transactional authority, codecs and StateStore adapters.",
+    "Verify concurrency, crash/reconciliation, backup/restore and owner-separated runtime grants before activation.",
+    "Retain deferred real profiles/source scopes/capacity as unknown; no real activation from this design."
+  ]
+}

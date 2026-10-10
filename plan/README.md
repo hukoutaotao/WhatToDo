@@ -1,6 +1,6 @@
 # WhatToDo Plan Control Center
 
-This is the entry point for a new AI. The repository currently contains accepted requirements and a complete development plan, not a working runtime.
+This is the entry point for a new AI. The repository contains accepted requirements, a complete development plan and sixteen runnable offline development slices, including Plan/forecast, AI-result, application ports [semantic scenarios](../tests/fixtures/semantic/README.md) and [guided review](../formats/input/GUIDED_REVIEW_PROTOTYPE.md); a [checked relational/migration draft](../database/README.md) and [native toolchain spike](../toolchain/ADR-001.md) are also available. The application runtime is not yet implemented. Use the [input contract index](../formats/input/README.md), [output contract index](../formats/output/README.md) and live progress ledger for interfaces and executed checks.
 
 ## 1. Read and Act
 
@@ -9,7 +9,7 @@ This is the entry point for a new AI. The repository currently contains accepted
 3. Choose one ready card from its [task catalog index](DEVELOPMENT_PLAN.md#6-milestones-and-task-catalogs). Read that catalog's semantic sources and completed prerequisite artifacts.
 4. On a new handoff or semantic change, read [A0 intent](A0_USER_INTENT.md) and [DECISIONS](DECISIONS.md). Do not invent current-semester facts from chat history.
 
-Current-semester names: [confirmed inventory](intake/CURRENT_INVENTORY.md). The next ready task and blockers are maintained in PROGRESS. M0/A0 and the detailed planning deliverable are complete. M1/M1B/M2 and all runtime tasks remain incomplete. Do not reopen accepted preferences or begin persistence before their semantic gates.
+Current-semester names: [confirmed inventory](intake/CURRENT_INVENTORY.md). The next ready task and blockers are maintained in PROGRESS. M0/A0 and the detailed planning deliverable are complete. M1/M1B/M2 remain incomplete. [D-080](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake) explicitly prioritizes system development and defers remaining personal intake; generic offline development may use accepted semantics and synthetic examples. Do not mark deferred facts complete, invent availability or activate unresolved real profiles. Keep the required schema/authority/audit gates for persistence.
 
 ## 2. Authority by Subject
 

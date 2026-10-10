@@ -1,0 +1,5 @@
+# Development-only contract checks; local toolchain spike is pinned separately; release freeze remains open.
+jsonschema==4.23.0
+rfc3339-validator==0.1.4
+# Observed offline harness data; this is not a latest-version claim.
+tzdata==2025.2

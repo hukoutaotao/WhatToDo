@@ -269,6 +269,20 @@ Bulk unchanged-estimate confirmation is a verification observation, not a new nu
 
 ---
 
+## 15. Bootstrap Estimates and Measured Observations
+
+Clarification within the existing numeric-learning boundary, motivated by `USR-20261009-COURSE001-02`: the user wants rough setup estimates recorded for initial planning and asks to substantially reduce their influence after actual timing becomes available. This is a planned numerical capability, not an implemented model or a new behavioral-policy permission.
+
+- Keep an unmeasured setup estimate distinct from measured actual effort. Preserve its user source, scope/work quantity, observation time and uncertainty description; never label a rough estimate as a completed-work training sample. An unknown duration remains unknown.
+- A reviewed estimate may supply an applicable cold-start reference before enough eligible observations exist. Compare like workloads within the relevant family; unknown work quantity blocks treating a number as a per-lecture, per-assignment or weekly default. A typical full-task duration is not automatically an in-progress Task's remaining work.
+- Support substantially discounting the setup estimate, including excluding it from fitted predictions and retaining it only as a cold-start fallback, once sufficient applicable measured observations support a valid model. Do not give a setup estimate permanent equal weight with real completion observations or multiply its sample count merely because it was reused in several plans.
+- Exact weighting, quantity normalization, minimum sample criteria and outlier handling are M8-02/03 engineering choices to validate. One atypical or partial work session does not establish a reliable full-task duration. When fitted prediction is unavailable/invalid, retain the explicit fallback behavior in D-074.
+- Discounting changes derived predictions, not historical statements, template defaults or canonical user remaining effort U. Keep old estimate/plan/model snapshots; D-074 still selects valid model remaining-work B for planning and otherwise uses U with provenance.
+
+M8-01–03 and TESTING_PLAN carry these observation and calibration checks. No fixed discount percentage or required user-entered confidence score is introduced.
+
+---
+
 ## Detailed Execution Mapping
 
 M8-01–11 separate immutable observations, numeric calibration, reviewed behavioral rules and catch-up/weekly output; no live LLM is required.

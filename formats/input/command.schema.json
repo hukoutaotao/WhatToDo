@@ -1,0 +1,368 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:command:0.1.0-draft",
+  "title": "Scoped command envelope development contract",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "command_id",
+    "principal_id",
+    "origin",
+    "authority_ref",
+    "changes",
+    "rule_scope",
+    "batch_ref",
+    "batch_members"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "command_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "principal_id": {
+      "$ref": "#/$defs/reference"
+    },
+    "origin": {
+      "enum": [
+        "USER_COMMAND",
+        "RELATIONSHIP_RULE",
+        "EXPIRATION_PROCESS",
+        "EXTERNAL"
+      ]
+    },
+    "authority_ref": {
+      "$ref": "#/$defs/reference"
+    },
+    "changes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "task_id",
+          "expected_revision",
+          "action",
+          "fields"
+        ],
+        "properties": {
+          "task_id": {
+            "$ref": "#/$defs/reference"
+          },
+          "expected_revision": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "integer",
+                "minimum": 1
+              }
+            ]
+          },
+          "action": {
+            "enum": [
+              "CREATE_TASK",
+              "UPDATE_TASK",
+              "EXPIRE_TASK"
+            ]
+          },
+          "fields": {
+            "type": "object",
+            "required": [],
+            "properties": {
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "completion": {
+                "enum": [
+                  "INCOMPLETE",
+                  "COMPLETE"
+                ]
+              },
+              "disposition": {
+                "enum": [
+                  "ACTIVE",
+                  "CANCELLED",
+                  "EXPIRED"
+                ]
+              },
+              "requiredness": {
+                "enum": [
+                  "REQUIRED",
+                  "OPTIONAL",
+                  "EXPIRING"
+                ]
+              },
+              "importance": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 5
+              },
+              "difficulty": {
+                "type": "object",
+                "required": [
+                  "thinking_depth",
+                  "repetitive_volume",
+                  "new_learning_load"
+                ],
+                "properties": {
+                  "thinking_depth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "repetitive_volume": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  },
+                  "new_learning_load": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5
+                  }
+                },
+                "additionalProperties": false
+              },
+              "user_remaining_seconds": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                ]
+              },
+              "expiration_condition_ref": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/reference"
+                  }
+                ]
+              },
+              "expiration_notice_ref": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/reference"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": false,
+            "minProperties": 1
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "action": {
+                  "const": "CREATE_TASK"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "expected_revision": {
+                  "type": "null"
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "expected_revision": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "action": {
+                  "const": "EXPIRE_TASK"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "fields": {
+                  "required": [
+                    "disposition",
+                    "expiration_notice_ref"
+                  ],
+                  "properties": {
+                    "disposition": {
+                      "const": "EXPIRED"
+                    },
+                    "expiration_notice_ref": {
+                      "$ref": "#/$defs/reference"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rule_scope": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "rule_id",
+            "version",
+            "source_task_id",
+            "creation_event_ref",
+            "occurrence_key",
+            "target_role"
+          ],
+          "properties": {
+            "rule_id": {
+              "$ref": "#/$defs/reference"
+            },
+            "version": {
+              "$ref": "#/$defs/reference"
+            },
+            "source_task_id": {
+              "$ref": "#/$defs/reference"
+            },
+            "creation_event_ref": {
+              "$ref": "#/$defs/reference"
+            },
+            "occurrence_key": {
+              "$ref": "#/$defs/reference"
+            },
+            "target_role": {
+              "$ref": "#/$defs/reference"
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "batch_ref": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "$ref": "#/$defs/reference"
+        }
+      ]
+    },
+    "batch_members": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/reference"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "origin": {
+            "const": "RELATIONSHIP_RULE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rule_scope": {
+            "type": "object"
+          },
+          "changes": {
+            "items": {
+              "properties": {
+                "action": {
+                  "const": "CREATE_TASK"
+                }
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "rule_scope": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "origin": {
+            "const": "EXPIRATION_PROCESS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "changes": {
+            "items": {
+              "properties": {
+                "action": {
+                  "const": "EXPIRE_TASK"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "batch_ref": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "batch_members": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "batch_members": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "reference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:normalized-due:0.1.0-draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "input_kind",
+    "original_value",
+    "source_ref",
+    "instant",
+    "default_policy_ref"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "input_kind": {
+      "enum": [
+        "DATE_ONLY",
+        "EXPLICIT_INSTANT"
+      ]
+    },
+    "original_value": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "source_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "instant": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "default_policy_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "input_kind": {
+            "const": "DATE_ONLY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "original_value": {
+            "type": "string",
+            "format": "date"
+          },
+          "default_policy_ref": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "original_value": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "default_policy_ref": {
+            "type": "null"
+          }
+        }
+      }
+    }
+  ]
+}

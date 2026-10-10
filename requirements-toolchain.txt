@@ -1,0 +1,11 @@
+# Development spike pins, including resolved contract-check dependencies.
+# This extends the existing offline harness; not an application release freeze.
+jsonschema==4.23.0
+rfc3339-validator==0.1.4
+tzdata==2025.2
+attrs==24.3.0
+referencing==0.30.2
+rpds-py==0.22.3
+jsonschema-specifications==2023.7.1
+six==1.17.0
+psycopg[binary]==3.3.6

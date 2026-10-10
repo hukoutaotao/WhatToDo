@@ -1,0 +1,235 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:relationship-rule:0.1.0-draft",
+  "title": "Accepted mapping metadata; authority resolution is separate",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "rule_id",
+    "version",
+    "active",
+    "acceptance_ref",
+    "trigger",
+    "source_type_ref",
+    "target_type_ref",
+    "target_template_ref",
+    "target_template_version",
+    "target_role",
+    "obligation_kind",
+    "essential_fields",
+    "mappings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "rule_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "active": {
+      "type": "boolean"
+    },
+    "acceptance_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "trigger": {
+      "const": "CANONICAL_CREATION"
+    },
+    "source_type_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_type_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_template_ref": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_template_version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "target_role": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "obligation_kind": {
+      "enum": [
+        "SEPARATE_TASK",
+        "STAGE"
+      ]
+    },
+    "essential_fields": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "title",
+          "completion",
+          "disposition",
+          "requiredness",
+          "importance",
+          "difficulty",
+          "user_remaining_seconds",
+          "expiration_condition_ref",
+          "expiration_notice_ref"
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "const": "title"
+          }
+        },
+        {
+          "contains": {
+            "const": "completion"
+          }
+        },
+        {
+          "contains": {
+            "const": "disposition"
+          }
+        }
+      ]
+    },
+    "mappings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "target_field",
+          "kind",
+          "source_field",
+          "literal_json"
+        ],
+        "properties": {
+          "target_field": {
+            "enum": [
+              "title",
+              "completion",
+              "disposition",
+              "requiredness",
+              "importance",
+              "difficulty",
+              "user_remaining_seconds",
+              "expiration_condition_ref",
+              "expiration_notice_ref"
+            ]
+          },
+          "kind": {
+            "enum": [
+              "SOURCE",
+              "DEFAULT",
+              "LITERAL"
+            ]
+          },
+          "source_field": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "literal_json": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "LITERAL"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "source_field": {
+                  "type": "null"
+                },
+                "literal_json": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            },
+            "else": {
+              "properties": {
+                "source_field": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "literal_json": {
+                  "type": "null"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "active": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "acceptance_ref": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      }
+    }
+  ]
+}

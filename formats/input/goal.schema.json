@@ -1,0 +1,894 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:goal:0.1.0-draft",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "goal_id",
+    "revision",
+    "title",
+    "acceptance",
+    "acceptance_ref",
+    "target",
+    "workload",
+    "progress_measure_kind",
+    "progress_unit",
+    "target_due_known",
+    "target_due",
+    "cadence",
+    "phases",
+    "generation_rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "goal_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "acceptance": {
+      "enum": [
+        "DRAFT",
+        "ACCEPTED"
+      ]
+    },
+    "acceptance_ref": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "target": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "description",
+            "measure"
+          ],
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "measure": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "amount",
+                    "unit"
+                  ],
+                  "properties": {
+                    "amount": {
+                      "type": "string",
+                      "pattern": "^(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "\\S"
+                    }
+                  }
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "workload": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "amount",
+            "unit"
+          ],
+          "properties": {
+            "amount": {
+              "type": "string",
+              "pattern": "^(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$"
+            },
+            "unit": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "progress_measure_kind": {
+      "enum": [
+        null,
+        "QUANTITY",
+        "CONFIRMED_OUTCOME"
+      ]
+    },
+    "progress_unit": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "target_due_known": {
+      "type": "boolean"
+    },
+    "target_due": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema_version",
+            "input_kind",
+            "original_value",
+            "source_ref",
+            "instant",
+            "default_policy_ref"
+          ],
+          "properties": {
+            "schema_version": {
+              "const": "0.1.0-draft"
+            },
+            "input_kind": {
+              "enum": [
+                "DATE_ONLY",
+                "EXPLICIT_INSTANT"
+              ]
+            },
+            "original_value": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "source_ref": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "instant": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "default_policy_ref": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "input_kind": {
+                    "const": "DATE_ONLY"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "original_value": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "default_policy_ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "original_value": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "default_policy_ref": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cadence": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "description",
+            "occurrences_per_period"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "NONE",
+                "DAILY",
+                "WEEKLY",
+                "CUSTOM"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "occurrences_per_period": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "DAILY",
+                      "WEEKLY"
+                    ]
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "occurrences_per_period": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "kind": {
+                    "const": "NONE"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "occurrences_per_period": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "phases": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "phase_id",
+              "title",
+              "position",
+              "target_due"
+            ],
+            "properties": {
+              "phase_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "position": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "target_due": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "schema_version",
+                      "input_kind",
+                      "original_value",
+                      "source_ref",
+                      "instant",
+                      "default_policy_ref"
+                    ],
+                    "properties": {
+                      "schema_version": {
+                        "const": "0.1.0-draft"
+                      },
+                      "input_kind": {
+                        "enum": [
+                          "DATE_ONLY",
+                          "EXPLICIT_INSTANT"
+                        ]
+                      },
+                      "original_value": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "source_ref": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      },
+                      "instant": {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      "default_policy_ref": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "pattern": "\\S"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "if": {
+                          "properties": {
+                            "input_kind": {
+                              "const": "DATE_ONLY"
+                            }
+                          }
+                        },
+                        "then": {
+                          "properties": {
+                            "original_value": {
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "default_policy_ref": {
+                              "type": "string",
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            }
+                          }
+                        },
+                        "else": {
+                          "properties": {
+                            "original_value": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "default_policy_ref": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "generation_rules": {
+      "anyOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "rule_id",
+              "version"
+            ],
+            "properties": {
+              "rule_id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "acceptance": {
+            "const": "ACCEPTED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "acceptance_ref": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "acceptance_ref": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "progress_measure_kind": {
+            "const": "QUANTITY"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "progress_unit": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "progress_unit": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "target_due_known": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target_due": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "acceptance": {
+            "const": "ACCEPTED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "target": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "description",
+              "measure"
+            ],
+            "properties": {
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "measure": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "amount",
+                      "unit"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "string",
+                        "pattern": "^(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          },
+          "progress_measure_kind": {
+            "enum": [
+              "QUANTITY",
+              "CONFIRMED_OUTCOME"
+            ]
+          },
+          "target_due_known": {
+            "const": true
+          },
+          "cadence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "description",
+              "occurrences_per_period"
+            ],
+            "properties": {
+              "kind": {
+                "enum": [
+                  "NONE",
+                  "DAILY",
+                  "WEEKLY",
+                  "CUSTOM"
+                ]
+              },
+              "description": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "\\S"
+              },
+              "occurrences_per_period": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "DAILY",
+                        "WEEKLY"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "occurrences_per_period": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "kind": {
+                      "const": "NONE"
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "occurrences_per_period": {
+                      "type": "null"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "phases": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "phase_id",
+                "title",
+                "position",
+                "target_due"
+              ],
+              "properties": {
+                "phase_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "position": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "target_due": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "schema_version",
+                        "input_kind",
+                        "original_value",
+                        "source_ref",
+                        "instant",
+                        "default_policy_ref"
+                      ],
+                      "properties": {
+                        "schema_version": {
+                          "const": "0.1.0-draft"
+                        },
+                        "input_kind": {
+                          "enum": [
+                            "DATE_ONLY",
+                            "EXPLICIT_INSTANT"
+                          ]
+                        },
+                        "original_value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "source_ref": {
+                          "type": "string",
+                          "minLength": 1,
+                          "pattern": "\\S"
+                        },
+                        "instant": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "default_policy_ref": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "minLength": 1,
+                              "pattern": "\\S"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        }
+                      },
+                      "allOf": [
+                        {
+                          "if": {
+                            "properties": {
+                              "input_kind": {
+                                "const": "DATE_ONLY"
+                              }
+                            }
+                          },
+                          "then": {
+                            "properties": {
+                              "original_value": {
+                                "type": "string",
+                                "format": "date"
+                              },
+                              "default_policy_ref": {
+                                "type": "string",
+                                "minLength": 1,
+                                "pattern": "\\S"
+                              }
+                            }
+                          },
+                          "else": {
+                            "properties": {
+                              "original_value": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "default_policy_ref": {
+                                "type": "null"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "generation_rules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "rule_id",
+                "version"
+              ],
+              "properties": {
+                "rule_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                },
+                "version": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "\\S"
+                }
+              }
+            }
+          }
+        },
+        "anyOf": [
+          {
+            "properties": {
+              "workload": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "amount",
+                  "unit"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "string",
+                    "pattern": "^(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  }
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "target": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "description",
+                  "measure"
+                ],
+                "properties": {
+                  "description": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "\\S"
+                  },
+                  "measure": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "amount",
+                      "unit"
+                    ],
+                    "properties": {
+                      "amount": {
+                        "type": "string",
+                        "pattern": "^(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$"
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1,
+                        "pattern": "\\S"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

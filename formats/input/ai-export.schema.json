@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:ai-export:0.1.0-draft",
+  "title": "ai-export offline development contract",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "export_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "job_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "context_ref": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "context_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "snapshot_ref": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "targets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "TASK",
+              "TASKTYPE",
+              "PREFERENCE",
+              "RELATIONSHIP_RULE"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "pattern": "\\S"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "output_contract_ref": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "expected_kind": {
+      "enum": [
+        "NUMERIC_REMAINING",
+        "BEHAVIOR_PROPOSAL"
+      ]
+    },
+    "exported_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "external_content_role": {
+      "const": "DATA_NOT_INSTRUCTIONS"
+    }
+  },
+  "required": [
+    "schema_version",
+    "export_id",
+    "job_id",
+    "job_revision",
+    "context_ref",
+    "context_hash",
+    "snapshot_ref",
+    "targets",
+    "output_contract_ref",
+    "expected_kind",
+    "exported_at",
+    "external_content_role"
+  ],
+  "additionalProperties": false
+}
+

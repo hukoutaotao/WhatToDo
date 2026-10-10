@@ -1,0 +1,353 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "individual-worked-answer",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "partial-answer-with-missing-estimate",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": null,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "no-submission-keeps-defaults-unconfirmed",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": false,
+        "user_statement_ref": null,
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "candidate-response-still-needs-application",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": [
+          {
+            "candidate_id": "synthetic-candidate",
+            "resolution": "CONFIRMED"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unchanged-explicit-batch",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [],
+        "batches": [
+          {
+            "batch_id": "synthetic-batch",
+            "confirmed": true,
+            "members": [
+              {
+                "task_id": "synthetic-task",
+                "expected_revision": 2,
+                "observation_id": "synthetic-user-estimate",
+                "seconds": 600
+              }
+            ],
+            "confirm_existing_completion": true,
+            "no_work_statement": true
+          }
+        ],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "unanswered-batch-not-confirmed",
+      "contract": "review-response",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [
+          {
+            "batch_id": "synthetic-batch",
+            "confirmed": null,
+            "members": [
+              {
+                "task_id": "synthetic-task",
+                "expected_revision": 2,
+                "observation_id": "synthetic-user-estimate",
+                "seconds": 600
+              }
+            ],
+            "confirm_existing_completion": null,
+            "no_work_statement": null
+          }
+        ],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "unsupported-actual-measure",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "GUESS"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "negative-remaining-answer",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": -1,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "submission-needs-user-source",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": null,
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "no-task-revision",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": null,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "completion-is-binary",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "PARTIAL",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": []
+      }
+    },
+    {
+      "id": "body-cannot-mint-user-principal",
+      "contract": "review-response",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "review_id": "synthetic-review",
+        "frame_revision": 3,
+        "submitted": true,
+        "user_statement_ref": "synthetic-user-reply",
+        "task_answers": [
+          {
+            "task_id": "synthetic-task",
+            "expected_revision": 2,
+            "completion": "INCOMPLETE",
+            "worked_on": true,
+            "remaining_seconds": 600,
+            "actual_report": {
+              "seconds": 900,
+              "measure": "CUMULATIVE"
+            }
+          }
+        ],
+        "batches": [],
+        "candidate_answers": [],
+        "principal": "USER"
+      }
+    }
+  ]
+}

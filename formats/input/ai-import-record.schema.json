@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:ai-import-record:0.1.0-draft",
+  "title": "ai-import-record offline development contract",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-draft"
+    },
+    "result_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "job_revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "result_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "validation_state": {
+      "enum": [
+        "VALIDATED_NUMERIC",
+        "PENDING_REVIEW",
+        "REJECTED"
+      ]
+    },
+    "reason": {
+      "type": "string",
+      "pattern": "\\S"
+    },
+    "validated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "schema_version",
+    "result_id",
+    "job_id",
+    "job_revision",
+    "result_hash",
+    "validation_state",
+    "reason",
+    "validated_at"
+  ],
+  "additionalProperties": false
+}
+

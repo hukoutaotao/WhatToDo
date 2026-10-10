@@ -1,0 +1,561 @@
+{
+  "synthetic": true,
+  "cases": [
+    {
+      "id": "accepted-measured-goal",
+      "contract": "goal",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "100",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "qualitative-goal-with-total-workload",
+      "contract": "goal",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": null
+        },
+        "workload": {
+          "amount": "10",
+          "unit": "synthetic-hours"
+        },
+        "progress_measure_kind": "CONFIRMED_OUTCOME",
+        "progress_unit": null,
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "partial-goal-remains-draft",
+      "contract": "goal",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "DRAFT",
+        "acceptance_ref": null,
+        "target": null,
+        "workload": null,
+        "progress_measure_kind": null,
+        "progress_unit": null,
+        "target_due_known": false,
+        "target_due": null,
+        "cadence": null,
+        "phases": null,
+        "generation_rules": null
+      }
+    },
+    {
+      "id": "accepted-with-unknown-workload-and-target",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": null
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "accepted-with-missing-generation-choice",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "100",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": null
+      }
+    },
+    {
+      "id": "unknown-horizon-cannot-have-due",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "DRAFT",
+        "acceptance_ref": null,
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "100",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": false,
+        "target_due": {},
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "daily-cadence-needs-explicit-count",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "100",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "DAILY",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "negative-measure-not-valid",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "-1",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": []
+      }
+    },
+    {
+      "id": "goal-has-no-task-remaining-seconds",
+      "contract": "goal",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "revision": 1,
+        "title": "Synthetic reading goal",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-setup",
+        "target": {
+          "description": "Synthetic measured outcome",
+          "measure": {
+            "amount": "100",
+            "unit": "synthetic-pages"
+          }
+        },
+        "workload": null,
+        "progress_measure_kind": "QUANTITY",
+        "progress_unit": "synthetic-pages",
+        "target_due_known": true,
+        "target_due": null,
+        "cadence": {
+          "kind": "NONE",
+          "description": "No recurring cadence",
+          "occurrences_per_period": null
+        },
+        "phases": [],
+        "generation_rules": [],
+        "user_remaining_seconds": 0
+      }
+    },
+    {
+      "id": "milestone-is-a-checkpoint",
+      "contract": "milestone",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "milestone_id": "synthetic-milestone",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "title": "Synthetic checkpoint",
+        "position": 1,
+        "phase_ref": null,
+        "target": {
+          "amount": "50",
+          "unit": "synthetic-pages"
+        },
+        "target_due": null
+      }
+    },
+    {
+      "id": "milestone-no-duplicate-effort-field",
+      "contract": "milestone",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "milestone_id": "synthetic-milestone",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "title": "Synthetic checkpoint",
+        "position": 1,
+        "phase_ref": null,
+        "target": {
+          "amount": "50",
+          "unit": "synthetic-pages"
+        },
+        "target_due": null,
+        "budget_seconds": 3600
+      }
+    },
+    {
+      "id": "milestone-scoped-revision-required",
+      "contract": "milestone",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "milestone_id": "synthetic-milestone",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 0,
+        "title": "Synthetic checkpoint",
+        "position": 1,
+        "phase_ref": null,
+        "target": {
+          "amount": "50",
+          "unit": "synthetic-pages"
+        },
+        "target_due": null
+      }
+    },
+    {
+      "id": "exam-date-only-not-2359-start",
+      "contract": "exam",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "exam_id": "synthetic-exam",
+        "revision": 1,
+        "title": "Synthetic exam",
+        "course_ref": "synthetic-course",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-exam",
+        "source_ref": "synthetic-user-date",
+        "timing_kind": "DATE_ONLY",
+        "exam_date": "2026-06-01",
+        "interval": null,
+        "coverage": null
+      }
+    },
+    {
+      "id": "exam-exact-fixed-event",
+      "contract": "exam",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "exam_id": "synthetic-exam",
+        "revision": 1,
+        "title": "Synthetic exam",
+        "course_ref": "synthetic-course",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-exam",
+        "source_ref": "synthetic-user-date",
+        "timing_kind": "EXACT_EVENT",
+        "exam_date": null,
+        "interval": {
+          "start": "2026-06-01T09:00:00+08:00",
+          "end": "2026-06-01T11:00:00+08:00"
+        },
+        "coverage": null
+      }
+    },
+    {
+      "id": "unknown-exam-time",
+      "contract": "exam",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "exam_id": "synthetic-exam",
+        "revision": 1,
+        "title": "Synthetic exam",
+        "course_ref": "synthetic-course",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-exam",
+        "source_ref": "synthetic-user-date",
+        "timing_kind": "UNKNOWN",
+        "exam_date": null,
+        "interval": null,
+        "coverage": null
+      }
+    },
+    {
+      "id": "date-only-exam-cannot-invent-interval",
+      "contract": "exam",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "exam_id": "synthetic-exam",
+        "revision": 1,
+        "title": "Synthetic exam",
+        "course_ref": "synthetic-course",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-exam",
+        "source_ref": "synthetic-user-date",
+        "timing_kind": "DATE_ONLY",
+        "exam_date": "2026-06-01",
+        "interval": {
+          "start": "2026-06-01T23:59:00+08:00",
+          "end": "2026-06-02T00:59:00+08:00"
+        },
+        "coverage": null
+      }
+    },
+    {
+      "id": "exam-is-not-task-completion",
+      "contract": "exam",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "exam_id": "synthetic-exam",
+        "revision": 1,
+        "title": "Synthetic exam",
+        "course_ref": "synthetic-course",
+        "acceptance": "ACCEPTED",
+        "acceptance_ref": "synthetic-user-exam",
+        "source_ref": "synthetic-user-date",
+        "timing_kind": "DATE_ONLY",
+        "exam_date": "2026-06-01",
+        "interval": null,
+        "coverage": null,
+        "completion": "COMPLETE"
+      }
+    },
+    {
+      "id": "measured-attainment-without-completion",
+      "contract": "goal-progress",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "observation_id": "synthetic-observation",
+        "observed_at": "2026-01-01T12:00:00+08:00",
+        "source_ref": "synthetic-user-progress",
+        "reported": {
+          "amount": "100",
+          "unit": "synthetic-pages"
+        },
+        "completion": "INCOMPLETE"
+      }
+    },
+    {
+      "id": "reported-outcome-complete-separate",
+      "contract": "goal-progress",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "observation_id": "synthetic-observation",
+        "observed_at": "2026-01-01T12:00:00+08:00",
+        "source_ref": "synthetic-user-progress",
+        "reported": null,
+        "completion": "COMPLETE"
+      }
+    },
+    {
+      "id": "non-finite-progress-string",
+      "contract": "goal-progress",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "observation_id": "synthetic-observation",
+        "observed_at": "2026-01-01T12:00:00+08:00",
+        "source_ref": "synthetic-user-progress",
+        "reported": {
+          "amount": "NaN",
+          "unit": "synthetic-pages"
+        },
+        "completion": "INCOMPLETE"
+      }
+    },
+    {
+      "id": "candidate-only-after-setup",
+      "contract": "goal-onboarding",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "configuration_ready": true,
+        "missing_fields": [],
+        "generation_state": "CANDIDATE_ONLY"
+      }
+    },
+    {
+      "id": "rule-references-need-resolution",
+      "contract": "goal-onboarding",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "configuration_ready": true,
+        "missing_fields": [],
+        "generation_state": "RULE_RESOLUTION_REQUIRED"
+      }
+    },
+    {
+      "id": "partial-setup-not-ready",
+      "contract": "goal-onboarding",
+      "valid": true,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "configuration_ready": false,
+        "missing_fields": [
+          "target"
+        ],
+        "generation_state": "PENDING"
+      }
+    },
+    {
+      "id": "missing-fields-cannot-be-ready",
+      "contract": "goal-onboarding",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "configuration_ready": true,
+        "missing_fields": [
+          "target"
+        ],
+        "generation_state": "CANDIDATE_ONLY"
+      }
+    },
+    {
+      "id": "onboarding-is-not-generation-authority",
+      "contract": "goal-onboarding",
+      "valid": false,
+      "payload": {
+        "schema_version": "0.1.0-draft",
+        "goal_id": "synthetic-goal",
+        "goal_revision": 1,
+        "configuration_ready": true,
+        "missing_fields": [],
+        "generation_state": "AUTHORIZED_AUTOMATION"
+      }
+    }
+  ]
+}
