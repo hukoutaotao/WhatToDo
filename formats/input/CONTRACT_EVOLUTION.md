@@ -1,6 +1,6 @@
 # Offline cross-contract admission and evolution
 
-Evidence scope: `M2-17.a`, synthetic development baseline, **not release frozen**. [Registry](../contract-registry.json) resolves the 29 existing schema versions/hashes, actual consumer files and [relational owners](../../database/design/ownership.json). [Live progress](../../plan/PROGRESS.md) controls task status.
+Evidence scope: `M2-17.a`, synthetic development baseline, **not a real activation release**. Its [29-contract checkpoint](../../reports/acceptance/M2-17a-registry.json) retains the originally verified schema hashes. The [current registry](../contract-registry.json) now additionally registers the [Task aggregate](TASK_AGGREGATE_CONTRACT.md), resolving 30 schemas, consumer files and [relational owners](../../database/design/ownership.json). [Live progress](../../plan/PROGRESS.md) controls task status.
 
 ## Admission
 

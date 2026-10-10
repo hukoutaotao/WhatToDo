@@ -1,0 +1,27 @@
+{
+  "task": "M3A-03",
+  "status": "PASS",
+  "scope": "LAYERED_CONFIGURATION_DATA_ONLY",
+  "verified_on": "2026-10-10",
+  "focused_methods": 9,
+  "commands": [
+    ".venv\\Scripts\\python.exe -m unittest tests.test_runtime_config -q",
+    ".venv\\Scripts\\python.exe tools/check_runtime_config.py",
+    ".venv\\Scripts\\python.exe tools/check_import_boundaries.py"
+  ],
+  "import_modules_checked": 27,
+  "checks": [
+    "Explicit base and override precedence",
+    "Disabled optional adapters require no credentials",
+    "Enabled configured secret references checked but values never retained",
+    "Exact definition identity, version, canonical hash and root scope",
+    "Detached opaque definition bodies",
+    "Malformed JSON, encoding, size and credential failures use redacted codes",
+    "Beijing policy cannot drift with server locale"
+  ],
+  "limitations": [
+    "No adapter factory or provider startup",
+    "Definition body is not a frozen machine Profile schema",
+    "No personal profile activation or canonical mutation"
+  ]
+}

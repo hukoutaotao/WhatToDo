@@ -1,0 +1,86 @@
+{
+  "task": "M3A-04",
+  "status": "PASS",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "migration_role_creates_owned_schema_objects",
+    "loopback_only",
+    "scram_only_hba",
+    "scram_role_verifiers",
+    "application_restricted_role_flags_and_no_memberships",
+    "application_password_authentication",
+    "application_table_and_sequence_dml",
+    "application_ddl_denied",
+    "application_database_creation_denied",
+    "application_role_creation_denied",
+    "application_role_escalation_denied",
+    "application_truncate_denied",
+    "application_temp_creation_denied",
+    "default_function_execution_denied",
+    "test_role_can_read_application_data",
+    "test_role_write_denied",
+    "test_role_ddl_denied",
+    "application_maintenance_database_denied",
+    "wrong_password_denied",
+    "unregistered_database_drop_rejected",
+    "second_disposable_database_is_independent",
+    "owned_database_drop_completed",
+    "exception_path_owned_database_dropped",
+    "exception_path_server_stopped",
+    "owned_database_drop_terminates_remaining_test_session"
+  ],
+  "scope": "ISOLATED_NATIVE_DEVELOPMENT_HARNESS",
+  "failure_teardown": {
+    "run_id": "40afb06e6789428784045b71e781d39c",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "postgresql_version": "18.6",
+  "native_check_count": 25,
+  "harness": {
+    "run_id": "0590e28b82ea4a199c822f5aca274947",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 2,
+    "databases_dropped": 2,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "limitations": [
+    "Local Windows x64 synthetic fixture only",
+    "No production credentials, deployment or endpoint attachment",
+    "Fixture DML is not a trusted canonical write handler",
+    "Migration runner and repositories remain later tasks",
+    "Ignored data/logs are retained; no recursive filesystem deletion"
+  ],
+  "focused_methods": 6,
+  "regression_methods": 330,
+  "commands": [
+    ".venv\\Scripts\\python.exe -m unittest tests.test_postgres_harness -q",
+    ".venv\\Scripts\\python.exe tools/verify_postgres_harness.py",
+    ".venv\\Scripts\\python.exe -m unittest discover -s tests -q"
+  ],
+  "native_execution": "Approved local process execution; sandbox pg_ctl restricted token creation returned Windows error 87"
+}

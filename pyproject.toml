@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools==80.9.0", "wheel==0.45.1", "packaging==25.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "whattodo-core"
+version = "0.1.0.dev0"
+description = "Private WhatToDo generic domain and application foundation"
+requires-python = ">=3.13,<3.14"
+dependencies = ["jsonschema==4.23.0", "rfc3339-validator==0.1.4", "tzdata==2025.2"]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]==3.3.6"]
+
+[project.scripts]
+whattodo-smoke = "src.application.package_smoke:main"
+
+[tool.setuptools]
+packages = ["src", "src.domain", "src.application", "src.adapters"]
+include-package-data = false
+
+[tool.setuptools.data-files]
+"share/whattodo/formats" = ["formats/contract-registry.json"]
+"share/whattodo/formats/input" = ["formats/input/*.schema.json"]
+"share/whattodo/formats/output" = ["formats/output/*.schema.json"]
+"share/whattodo/config" = ["config/runtime.example.json"]
+"share/whattodo/database" = ["database/migration-plan.json"]
+"share/whattodo/database/migrations" = ["database/migrations/*.sql"]
+"share/whattodo/database/runtime-migrations" = ["database/runtime-migrations/*.sql"]

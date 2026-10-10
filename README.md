@@ -6,10 +6,26 @@ Start at the [plan control center](plan/README.md), then read [live progress](pl
 
 Accepted meaning lives in [A0 intent](plan/A0_USER_INTENT.md), [decisions](plan/DECISIONS.md) and linked module specifications. Task relationships, model-first planning, reviewed personal state, Beijing natural-day forecasts and daily reserve rules are already aligned.
 
-Current state: sixteen offline development slices run with synthetic regression checks: Task core, effort accounting, provenance, authorization, reviews, relationships, expiration, time/occupancy, Goals/Exams, [Plan/forecast handoff](formats/output/PLAN_FORECAST_CONTRACT.md), [AI-result handoff](formats/input/AI_RESULT_CONTRACT.md), [application ports/fakes](formats/input/APPLICATION_PORTS_CONTRACT.md) [semantic traceability/scenarios](tests/fixtures/semantic/README.md) and [guided review prototype](formats/input/GUIDED_REVIEW_PROTOTYPE.md). A [checked relational/migration draft](database/README.md) additionally maps their ownership; [a local Python/PostgreSQL spike](toolchain/ADR-001.md) now verifies it against an isolated synthetic database. No application database or service is activated. Their contracts are indexed in [input formats](formats/input/README.md) and [output formats](formats/output/README.md). M0/A0 and detailed planning are complete; M1/M1B/M2 and the application runtime are not. The user has prioritized autonomous system development before remaining personal intake; missing facts remain unknown. Confirmed names are recorded in the [current inventory](plan/intake/CURRENT_INVENTORY.md). Use live progress for the next ready task.
+Current state: sixteen offline development slices run with synthetic regression checks: Task core, effort accounting, provenance, authorization, reviews, relationships, expiration, time/occupancy, Goals/Exams, [Plan/forecast handoff](formats/output/PLAN_FORECAST_CONTRACT.md), [AI-result handoff](formats/input/AI_RESULT_CONTRACT.md), [application ports/fakes](formats/input/APPLICATION_PORTS_CONTRACT.md) [semantic traceability/scenarios](tests/fixtures/semantic/README.md) and [guided review prototype](formats/input/GUIDED_REVIEW_PROTOTYPE.md). A [checked relational/migration draft](database/README.md) additionally maps their ownership; [a local Python/PostgreSQL spike](toolchain/ADR-001.md) now verifies it against an isolated synthetic database. No application database or service is activated. Their contracts are indexed in [input formats](formats/input/README.md) and [output formats](formats/output/README.md). M0/A0 and detailed planning are complete; M1/M1B and the application runtime are not; the D-080 generic M2 baseline now passes with pinned inputs/ownership. The user has prioritized autonomous system development before remaining personal intake; missing facts remain unknown. Confirmed names are recorded in the [current inventory](plan/intake/CURRENT_INVENTORY.md). Use live progress for the next ready task.
 
 Architecture: n8n-only orchestration; PostgreSQL dynamic state; versioned declarative profiles/config; Calendar occupancy; deterministic-first core and replaceable optional AI. Reliability starts with the first persistent-state prototype. The former coarse roadmap and completed audit working file have been consolidated into the new plan's rules and traceability map.
 
 [Cross-contract/version checks](formats/input/CONTRACT_EVOLUTION.md) additionally compose five offline workflows through the existing domain/schema/fake-port boundaries. Unsupported versions retain their original bytes and fail explicitly; supported shapes still require domain and authority checks. No application release gate is closed by these checks.
 
 The [generic Task aggregate](formats/input/TASK_AGGREGATE_CONTRACT.md) now joins Task/effort/time/session/source facts with consistency checks and actual isolated PostgreSQL probes. Historical checkpoints are preserved; live progress records the current generic gate and its limits.
+
+The [private package foundation](toolchain/PACKAGE.md) adds a verified clean
+offline installation, injected UTC clocks/Beijing date values and
+[layered configuration](config/README.md). These modules are available for the
+next persistence tasks. Course intake remains partly deferred; missing personal
+facts do not block this generic development scope.
+
+An [isolated PostgreSQL test harness](toolchain/POSTGRES_TESTS.md) now separates
+application, migration and read-only test roles, checks SCRAM authentication and
+cleans up its own test databases on success or failure. This enables the next
+migration and repository development tasks.
+
+The [migration executor and startup gate](database/RUNTIME_MIGRATIONS.md) now
+apply pinned SQL atomically, retain failure/retry history and reject incompatible
+or incomplete schemas. Native checks cover replay, rollback, connection loss
+and commit-acknowledgement reconciliation; application repositories remain next.

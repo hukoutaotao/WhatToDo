@@ -1,0 +1,20 @@
+{
+  "task": "M3A-02",
+  "status": "PASS",
+  "scope": "CLOCK_AND_TIME_PRIMITIVES",
+  "verified_on": "2026-10-10",
+  "focused_methods": 6,
+  "command": ".venv\\Scripts\\python.exe -m unittest tests.test_clock_values -q",
+  "checks": [
+    "UTC system/frozen Clock protocol",
+    "Beijing month/year rollover",
+    "Date-only source with D-075 23:59",
+    "Explicit offset/microsecond retention",
+    "Distinct DST fold UTC instants",
+    "No naive/ambiguous/finer-than-microsecond values"
+  ],
+  "limitations": [
+    "No actual scheduler or canonical transition",
+    "No real calendar/capacity inferred"
+  ]
+}

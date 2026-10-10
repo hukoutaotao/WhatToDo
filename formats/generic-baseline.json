@@ -1,0 +1,417 @@
+{
+  "baseline_id": "m2-generic-0.1.0",
+  "scope": "GENERIC_DEVELOPMENT_ONLY",
+  "status": "PINNED_FOR_M3_FOUNDATION",
+  "real_activation": "DEFERRED_REQUIRES_ACTUAL_REVIEW_AUTHORITY_ACCESS",
+  "hash_policy": "UTF8_TEXT_NORMALIZED_NEWLINES",
+  "wire_versions": [
+    "0.1.0-draft"
+  ],
+  "language": "Python",
+  "prototype": "LOCAL_SYNTHETIC_GUIDED_CLI_NOT_REAL_CALLER_AUTH",
+  "core_package_paths": {
+    "domain": "src/domain",
+    "application": "src/application",
+    "ports": "src/application/ports.py",
+    "adapters": "src/adapters"
+  },
+  "artifact_extension_policy": "Review changed contract versions and downstream evidence; frozen/applied SQL uses new forward migrations",
+  "deferred": [
+    "M1/M1B real profile/preset activation",
+    "Real user transport/caller access",
+    "Credentials/scopes for enabled external providers",
+    "Personal capacity and complete semester intake",
+    "Actual repositories/authorization-to-commit service",
+    "Solver/renderer/n8n/AI/learning/deployment runtime"
+  ],
+  "unmapped_semantic_decisions": [
+    "D-001",
+    "D-003",
+    "D-005",
+    "D-010",
+    "D-011",
+    "D-012",
+    "D-013",
+    "D-015",
+    "D-021",
+    "D-023",
+    "D-027",
+    "D-028",
+    "D-038",
+    "D-045",
+    "D-047",
+    "D-049",
+    "D-055",
+    "D-060",
+    "D-062",
+    "D-068",
+    "D-070",
+    "D-080"
+  ],
+  "artifacts": [
+    {
+      "path": "database/design/ownership.json",
+      "sha256": "8454c72f4f324325dc64f04e9989ed0e72b2591e7dda9455f4b003e4948ff446"
+    },
+    {
+      "path": "database/design/relational.json",
+      "sha256": "e41ce912e475aefc6a6dee74f724973c331caaa2bfaac6f97b182639e3cc4fa2"
+    },
+    {
+      "path": "database/migrations/001_foundation.sql",
+      "sha256": "b12c168d3829cb236d8d9dcf7033575f372b914d87549a7711ac4704693a3ae3"
+    },
+    {
+      "path": "database/migrations/002_task_effort_review.sql",
+      "sha256": "c6abbbef9dc6e77993721944423dcc067a4b9b1f749fdb43b143c0940e3c9383"
+    },
+    {
+      "path": "database/migrations/003_relationships_notices.sql",
+      "sha256": "6fbb3dc2cb9e95398e7b96254bf9cb371ec4dc204ef4dc627bd227484dad9945"
+    },
+    {
+      "path": "database/migrations/004_goals_calendar_plans.sql",
+      "sha256": "f6ef09f8af6b8c4602f9de2b6dd7fc031f1f2acac3fc1c18188f6429de07d129"
+    },
+    {
+      "path": "database/migrations/005_ai_operations.sql",
+      "sha256": "ab51f6328b191c6c13a9e326841b95d5361183c5be9ec0307009ed9b7e64f3c8"
+    },
+    {
+      "path": "formats/contract-registry.json",
+      "sha256": "08d55049cc35ee5f46fbec9492ed86eed4811ad337f28aa1c057ed99a24249ae"
+    },
+    {
+      "path": "formats/input/ai-export.schema.json",
+      "sha256": "3becb5c02f4645bb836f7132b8edc92f4c71538638c83d9ea74e88909f488d54"
+    },
+    {
+      "path": "formats/input/ai-import-record.schema.json",
+      "sha256": "5f3000e9cdf723d58ef300ef18e17dd60e67a833cf20c5997bdc952877b1f898"
+    },
+    {
+      "path": "formats/input/ai-job.schema.json",
+      "sha256": "8f36dbb3d1e6e4854c53c24669bf0756c11079e3a82e52a98cf8f3e2a7c54542"
+    },
+    {
+      "path": "formats/input/ai-result.schema.json",
+      "sha256": "f47fad37a2dad0ddbafffa71cebffc96225df4d7d677b93b7301b17e6b4f3668"
+    },
+    {
+      "path": "formats/input/availability.schema.json",
+      "sha256": "4d39ba3559c7cb614d55e8b33c1430d29719cf0c1a646602cef702fc1b459e55"
+    },
+    {
+      "path": "formats/input/behavior-candidate.schema.json",
+      "sha256": "5d47d2bc09502fb2297db97ad5626024cee15a9565829f4fda0a16c9aca1c4e0"
+    },
+    {
+      "path": "formats/input/calendar-event.schema.json",
+      "sha256": "6c709c0b7609619ced3992e184c0c41826b0739ff938b2b771525c44c6e0cc43"
+    },
+    {
+      "path": "formats/input/candidate.schema.json",
+      "sha256": "e041ba30f8b67d9d7544ab524af99fda82f99b0dd559b4f91490b01be1a43a43"
+    },
+    {
+      "path": "formats/input/command.schema.json",
+      "sha256": "bae9e850b211d549612c4872684248d1b6bcd541920c2fb5a3231611427dbf91"
+    },
+    {
+      "path": "formats/input/dispatch-result.schema.json",
+      "sha256": "a2e7fbb6f632a47bfd4f960292e5baf66a809e56af16f001bb8dcce0268a7520"
+    },
+    {
+      "path": "formats/input/effort.schema.json",
+      "sha256": "f8f25588670abdba96cf3d84463194ee53ebaf8c7647e66bee2c124a25e3de89"
+    },
+    {
+      "path": "formats/input/exam.schema.json",
+      "sha256": "2234178a79824175b9fc71a14b80019657236ebe24873cb6dde62bab9ecf26f4"
+    },
+    {
+      "path": "formats/input/expiration-notice.schema.json",
+      "sha256": "ff6c8170d01ec6375ca71da73063eaabbb6f7e62d04556e6eaae8a79601c88e8"
+    },
+    {
+      "path": "formats/input/forecast-window.schema.json",
+      "sha256": "ef8942cab6722c8e3eaacc2a706b11a88b3c06f66a73a504e24b95a004b7aa82"
+    },
+    {
+      "path": "formats/input/generation-occurrence.schema.json",
+      "sha256": "8ca3e14f4decc2a6055a6bea8e53e9c861a5ad966d6a504bec0ed50b72e42003"
+    },
+    {
+      "path": "formats/input/goal-onboarding.schema.json",
+      "sha256": "b33af5802619e0af790178ffd666eef191ccca6732b3f12ebe5bc1d0e974cb6c"
+    },
+    {
+      "path": "formats/input/goal-progress.schema.json",
+      "sha256": "d669b8ae75d629dcc4e7886c9fe8af9885291e194e5f55a9be37c74ca8c533e7"
+    },
+    {
+      "path": "formats/input/goal.schema.json",
+      "sha256": "48cc2778c41ce3c98be634398998603f977f60b84adb3c4d1607ddf0fa281aea"
+    },
+    {
+      "path": "formats/input/milestone.schema.json",
+      "sha256": "45efc350a7837c6fd5d7e922dd305a72acd3abd1c115584b30d34dee49c305d0"
+    },
+    {
+      "path": "formats/input/normalized-due.schema.json",
+      "sha256": "d4803cdf9bdf8d30f7f45ad1b1e2aa3c4151b6d5a5c1e28e3d4caa18bba81e27"
+    },
+    {
+      "path": "formats/input/relationship-rule.schema.json",
+      "sha256": "1ced34fd5bbc69d8318bbaf71e1811f680ce1e71769d5becf9434d5005c22056"
+    },
+    {
+      "path": "formats/input/remaining-prediction.schema.json",
+      "sha256": "6ca6aa5f9cdd953ea940d966be1e1e38d37f77867441648d1f34571b20e65795"
+    },
+    {
+      "path": "formats/input/review-response.schema.json",
+      "sha256": "5547a172a177967a059dd2428eee49a368cd1abe6fee2b68926c6ebdfba1c62f"
+    },
+    {
+      "path": "formats/input/source.schema.json",
+      "sha256": "2c9ea044a6ef1afdef7e7243065d212f00e48719d49354cd73a0e9694cb23783"
+    },
+    {
+      "path": "formats/input/task-aggregate.schema.json",
+      "sha256": "a3c2c68088e278fa75fb1a5e0d08a1198bbda340055eab040035cc22e8dcb297"
+    },
+    {
+      "path": "formats/input/task-core.schema.json",
+      "sha256": "9677c8eff2d580bf6e810733c19e0d396903a3a75bcdbbb4f545240406e148bf"
+    },
+    {
+      "path": "formats/input/task-relation.schema.json",
+      "sha256": "e46ba251110313fb224f47d66ecc2ef53b6a2c86a1b4563793ef2856b42ead13"
+    },
+    {
+      "path": "formats/input/today-lock.schema.json",
+      "sha256": "ffd0d0e971ed2694f400dd72a333a8c30843addf0d010ba94912243c27a08e30"
+    },
+    {
+      "path": "formats/input/work-observation.schema.json",
+      "sha256": "2c30b66a7254cd99bf98a3dd3836da7f15a5dd848aab28cbf1985616cb86e1b7"
+    },
+    {
+      "path": "formats/output/plan.schema.json",
+      "sha256": "3edb02aee99737b23748f9dcbf1d11be518f5cb5ae1ca1ae0c1a5641d13b017e"
+    },
+    {
+      "path": "plan/A0_USER_INTENT.md",
+      "sha256": "a5a68f2247605654687d1fc17354442b9fb041d20285cd543fe67a2ed349dbbf"
+    },
+    {
+      "path": "plan/DATA_MODEL_PLAN.md",
+      "sha256": "a617e438958c40f3052134c8486b86f9fb0cb9f3215819ab5a3ba50728a51caf"
+    },
+    {
+      "path": "plan/DECISIONS.md",
+      "sha256": "2512aa4e722eb0689986caca639b16038576bc9dbed2c17b6bd672bbfc575056"
+    },
+    {
+      "path": "plan/IO_CONTRACT_PLAN.md",
+      "sha256": "a1bf9f1f339fd917b4364236da285ff165a7be9d2257507bca2db066d3e363e4"
+    },
+    {
+      "path": "plan/PLANNER_PLAN.md",
+      "sha256": "34f551a685422148274052dca709109e3230c577f4d2f407599610fd7cd05a30"
+    },
+    {
+      "path": "plan/SECURITY_PRIVACY_PLAN.md",
+      "sha256": "05206728c81ac66b1e71483097ab2fca2298d994d5e4a663df9ea3379e10f79b"
+    },
+    {
+      "path": "plan/TASK_RELATIONSHIP_PLAN.md",
+      "sha256": "e8172c90daf867f75af2e54bf5debb7ce2e57ec2b950d44d5ad1096abfa23a2f"
+    },
+    {
+      "path": "reports/acceptance/M2-01b.json",
+      "sha256": "8ecc9675e0ddb8f0c196e0fb5037d512a3b302ef40eb129265a6678001692b27"
+    },
+    {
+      "path": "requirements-toolchain.lock",
+      "sha256": "ef2ea6a718c8ca5c89529e662ee1a54c809ffbabc147b1d2e6d522f7a53d9172"
+    },
+    {
+      "path": "requirements-toolchain.txt",
+      "sha256": "4abd7e094f091c81fd85f3f68c6df25602aeeac06a8b35b83ad66363c664e575"
+    },
+    {
+      "path": "src/adapters/contract_json.py",
+      "sha256": "27bc74f5094c5c8e3a4a7b06f8c21f073f529260b7e57c28039cc4c064b925ab"
+    },
+    {
+      "path": "src/adapters/fakes.py",
+      "sha256": "78e5f408271a7184e57c1ce89738a274bdaf08c01bfbbe7325c65744e8e3061f"
+    },
+    {
+      "path": "src/application/contract_versions.py",
+      "sha256": "2ed82ec6becdc3bf6665aebb670d7e9234e4b20a68551a1a6ffe19200ec18c7b"
+    },
+    {
+      "path": "src/application/guided_review.py",
+      "sha256": "6ba5e0ae11e12dff1475f1400a5e23ac30289cea00d2f809408fcf0b0bda8db7"
+    },
+    {
+      "path": "src/application/ports.py",
+      "sha256": "fad0bf68c1c2ca9140d16b106cd5b7c64b9b9fe770414eb0ae966f30d3794372"
+    },
+    {
+      "path": "src/application/task_aggregate.py",
+      "sha256": "b7c2ed0cb643c8e67343dd22334d3ecea4473251286d508a41f8955596a13edd"
+    },
+    {
+      "path": "src/domain/ai_results.py",
+      "sha256": "bea2fb4bde8d46a1d5dc7320835515c3386c8d0dc08974b62a361af21324c8cd"
+    },
+    {
+      "path": "src/domain/authorization.py",
+      "sha256": "d0215d257e4034081656df243993e48a36662b9e94f9804dea8361e7ed55e631"
+    },
+    {
+      "path": "src/domain/effort.py",
+      "sha256": "1634a98ea597c1375791f48c7619b85167614ec5a7f6b7246c4beaac5e3859a6"
+    },
+    {
+      "path": "src/domain/expiration.py",
+      "sha256": "096dff6757fc782c179cab425aba897f331201c61c6c04f3fb58299f7314678b"
+    },
+    {
+      "path": "src/domain/forecast.py",
+      "sha256": "e3c2fad65f2fb5bc6691cefe3aad80cf67b209bf1e740e9e75b0ad28dd447296"
+    },
+    {
+      "path": "src/domain/goals.py",
+      "sha256": "add4ad769f5cde76f196f0e0aefd197388d90c57da822b5b690008f3010ddb67"
+    },
+    {
+      "path": "src/domain/plan_output.py",
+      "sha256": "41fdf4abf2aa82e682f69270eee395c698e7a0008a0186df5c182ae49df1255a"
+    },
+    {
+      "path": "src/domain/provenance.py",
+      "sha256": "a1633110cb4420cb16fc7bd2e386d5b9f63eb4aef1112c5917c18c924b62ac34"
+    },
+    {
+      "path": "src/domain/relationships.py",
+      "sha256": "530576649c7878d2566fc16ed31edc8e5ef5bd74033fbf094e6ffe5342ca9a2f"
+    },
+    {
+      "path": "src/domain/review.py",
+      "sha256": "f69fc7505931f649381cc1a928c18f891e0461c778480514171323866f75155a"
+    },
+    {
+      "path": "src/domain/task_aggregate.py",
+      "sha256": "7ce22e221aafc15414b506cbcaedc854497d6302fce710436546b131535b11f8"
+    },
+    {
+      "path": "src/domain/time_windows.py",
+      "sha256": "e829e6ecc40a29b61fe7982b9164f7fb93763c7f2272899274b6311c74733d92"
+    },
+    {
+      "path": "tests/fixtures/ai_results/cases.json",
+      "sha256": "6abf51f56c37188cc5c21dbbe4b8f7effaf1934aba0078b7f8e540393e53e809"
+    },
+    {
+      "path": "tests/fixtures/authorization/cases.json",
+      "sha256": "78f912e75d468940b83e91ee5e968dbe74a6a76919f1ae7c034ffc9a02570d19"
+    },
+    {
+      "path": "tests/fixtures/contracts/cross_scenarios.json",
+      "sha256": "a4ee085d9fa20c3ac0ef129a5e6f9cda20c5ef2b2a777e528ba3b1b394b74fb2"
+    },
+    {
+      "path": "tests/fixtures/effort/cases.json",
+      "sha256": "44dfa13a0b5fdb1c5005dc6de5526af4e1943d81ff3ff7c167b3a6b385c23d8d"
+    },
+    {
+      "path": "tests/fixtures/expiration/cases.json",
+      "sha256": "67f4ba82372c91790fdc9a1267c48643744fb903a4f89e53633dbad86c22b2ad"
+    },
+    {
+      "path": "tests/fixtures/forecast_plan/cases.json",
+      "sha256": "8b08c6e95dd432484eb673be15d63c4acb8564f5b2f0dc5d1bba823189a22d81"
+    },
+    {
+      "path": "tests/fixtures/goals/cases.json",
+      "sha256": "69b28475f98c5ba860ebf5b2288368c5a5da84d481f79b0d503e1390aba3d227"
+    },
+    {
+      "path": "tests/fixtures/relationships/cases.json",
+      "sha256": "f54f271664d030fc2988bb2524cd04c86a90c7e896c11091db6a6d6d18762d3a"
+    },
+    {
+      "path": "tests/fixtures/review/cases.json",
+      "sha256": "65bfad1bdc3f265fc0cdd227e4f99717fff439f6db9635a3e962108bd421a709"
+    },
+    {
+      "path": "tests/fixtures/semantic/catalog.json",
+      "sha256": "b2b66defb4cc0d2e0c5a2625941022e37c2d617ebc186d2201de646a889466f7"
+    },
+    {
+      "path": "tests/fixtures/semantic/scenarios.json",
+      "sha256": "c61dfe9bc87bbaf4b20ebeeff682c94d1d2aace22b41cc0e4a075e6dc3ba9d80"
+    },
+    {
+      "path": "tests/fixtures/sources/cases.json",
+      "sha256": "176fa8fc2b801d965594af1f91c9c19d9ae0b90390adaeed961a6a7e707f50b5"
+    },
+    {
+      "path": "tests/fixtures/task_aggregate/cases.json",
+      "sha256": "2ec8730143342314f749f26d4b6939dd0f3876663716c62f9edbacbaa21bdbed"
+    },
+    {
+      "path": "tests/fixtures/task_core/cases.json",
+      "sha256": "53ae73757ea834ef6c893e658c40a48e249c7f6305f14dfd675179ff61c3f5ae"
+    },
+    {
+      "path": "tests/fixtures/time_windows/cases.json",
+      "sha256": "c09bbc39aa3f8a642381720f891703c2ef3b39a709a1c65f34b0e5a8cb7cd8b2"
+    },
+    {
+      "path": "toolchain/ADR-001.md",
+      "sha256": "fb1a2a89f348fd2a3b3cfcd4fcef96d2034b8176446ede131e3dadf0dab78bfc"
+    },
+    {
+      "path": "toolchain/manifest.json",
+      "sha256": "b9ffecd8a72d8763adbbd6106c0e5d9d2b5a2651c24086132e6048960268ecef"
+    },
+    {
+      "path": "tools/check_contract_registry.py",
+      "sha256": "470c3449acddd917a65e5848a3286ab760422d1f85dfba9b93cd09a40ce9fec9"
+    },
+    {
+      "path": "tools/check_contracts.py",
+      "sha256": "a420ba7d4071eefaa1ea17ad2adcd2c8aecb5d6e9feabb5ae20bcfc69b76e486"
+    },
+    {
+      "path": "tools/check_database_design.py",
+      "sha256": "0446a96ac78f129ad5cbbe1499fdffb25a37ac2d5d281d034050cd370ce1e6eb"
+    },
+    {
+      "path": "tools/native_task_aggregate.py",
+      "sha256": "a3e871b1c856d481b6068ff77d9108830a1886b6e9d976358e6b5dabeaa1c609"
+    },
+    {
+      "path": "tools/render_database_design.py",
+      "sha256": "d50334689993bd2bb178aefd1d853cfcbf7a3b7a0317a6c384a1af2dd44e92c2"
+    },
+    {
+      "path": "tools/render_task_aggregate_schema.py",
+      "sha256": "80349dcdba0b1f7de33632a6fdd5dfb1c7477f0c73284a5d46f50361b4492033"
+    },
+    {
+      "path": "tools/validate_task_core.py",
+      "sha256": "2de4462af39b56173b4c190ae8f1c04565808bacee6afa1eb302b0410989c902"
+    },
+    {
+      "path": "tools/verify_toolchain.py",
+      "sha256": "3dc838f42677b633f7b952d3ef7daceb30d5b8e2cca6788cf308e158a1cb20e3"
+    }
+  ]
+}

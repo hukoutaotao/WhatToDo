@@ -1,0 +1,14 @@
+{
+  "schema_version": "0.1.0-config",
+  "planning_timezone": "Asia/Shanghai",
+  "definitions": [],
+  "adapters": {
+    "state_store": {"mode": "FAKE", "secret_env": null},
+    "calendar_source": {"mode": "DISABLED", "secret_env": null},
+    "evidence_source": {"mode": "DISABLED", "secret_env": null},
+    "notification_sink": {"mode": "FAKE", "secret_env": null},
+    "predictor": {"mode": "DISABLED", "secret_env": null},
+    "solver": {"mode": "FAKE", "secret_env": null},
+    "renderer": {"mode": "FAKE", "secret_env": null}
+  }
+}

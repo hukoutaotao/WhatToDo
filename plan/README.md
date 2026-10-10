@@ -9,7 +9,16 @@ This is the entry point for a new AI. The repository contains accepted requireme
 3. Choose one ready card from its [task catalog index](DEVELOPMENT_PLAN.md#6-milestones-and-task-catalogs). Read that catalog's semantic sources and completed prerequisite artifacts.
 4. On a new handoff or semantic change, read [A0 intent](A0_USER_INTENT.md) and [DECISIONS](DECISIONS.md). Do not invent current-semester facts from chat history.
 
-Current-semester names: [confirmed inventory](intake/CURRENT_INVENTORY.md). The next ready task and blockers are maintained in PROGRESS. M0/A0 and the detailed planning deliverable are complete. M1/M1B/M2 remain incomplete. [D-080](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake) explicitly prioritizes system development and defers remaining personal intake; generic offline development may use accepted semantics and synthetic examples. Do not mark deferred facts complete, invent availability or activate unresolved real profiles. Keep the required schema/authority/audit gates for persistence.
+Current-semester names: [confirmed inventory](intake/CURRENT_INVENTORY.md). The next ready task and blockers are maintained in PROGRESS. M0/A0 and the detailed planning deliverable are complete. M1/M1B remain incomplete; the generic M2 development baseline passes, while real activation/runtime gates remain open. [D-080](DECISIONS.md#d-080--develop-the-system-before-completing-personal-intake) explicitly prioritizes system development and defers remaining personal intake; generic offline development may use accepted semantics and synthetic examples. Do not mark deferred facts complete, invent availability or activate unresolved real profiles. Keep the required schema/authority/audit gates for persistence.
+
+M3A-01 through M3A-03 add the [private package foundation](../toolchain/PACKAGE.md),
+injected UTC/date primitives and version-pinned configuration loading. Their
+focused evidence and installation checkpoints are in PROGRESS. M3A-04 adds an
+[isolated PostgreSQL harness with separated roles](../toolchain/POSTGRES_TESTS.md),
+verified with native authentication and success/failure cleanup probes.
+M3A-05 now supplies [ordered migrations and schema compatibility](../database/RUNTIME_MIGRATIONS.md)
+with native rollback/retry/interruption evidence. The next ready scope is
+M3A-06, versioned definition/template repositories.
 
 ## 2. Authority by Subject
 

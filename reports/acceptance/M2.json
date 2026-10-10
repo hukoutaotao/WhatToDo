@@ -1,0 +1,106 @@
+{
+  "task": "M2-18",
+  "status": "PASS_GENERIC_DEVELOPMENT_ONLY",
+  "verified_at": "2026-10-10T07:52:41.575249+00:00",
+  "baseline": "formats/generic-baseline.json",
+  "pinned_artifacts": 91,
+  "wire_contracts": 30,
+  "shape_cases": 258,
+  "semantic_scenarios": 11,
+  "cross_contract_workflows": 5,
+  "regression_methods": 303,
+  "baseline_methods": 3,
+  "domain_import_modules_checked": 12,
+  "native_evidence": "reports/acceptance/M2-01b.json",
+  "native_regression_checkpoint": 300,
+  "native_tables": 51,
+  "native_foreign_keys": 130,
+  "native_server_stopped": true,
+  "verification_commands": [
+    ".venv\\Scripts\\python.exe tools/check_generic_baseline.py",
+    ".venv\\Scripts\\python.exe tools/check_cross_contracts.py",
+    ".venv\\Scripts\\python.exe -m tools.check_semantic_catalog",
+    ".venv\\Scripts\\python.exe -m unittest discover -s tests -q"
+  ],
+  "completion_requirements": [
+    {
+      "requirement": "Versioned core/effort/source/review/relationship/time/goal/plan/AI contract ownership",
+      "evidence": [
+        "formats/contract-registry.json",
+        "formats/input/task-aggregate.schema.json",
+        "src/application/ports.py"
+      ],
+      "scope": "PINNED_GENERIC"
+    },
+    {
+      "requirement": "Cross-contract consistency and explicit unsupported-version behavior",
+      "evidence": [
+        "reports/acceptance/M2-17a.json",
+        "reports/acceptance/M2-17a-registry.json",
+        "tests/test_contract_versions.py",
+        "tests/test_task_aggregate.py"
+      ],
+      "scope": "OFFLINE_SYNTHETIC"
+    },
+    {
+      "requirement": "Selected toolchain, path mapping and pinned dependencies",
+      "evidence": [
+        "toolchain/ADR-001.md",
+        "toolchain/manifest.json",
+        "requirements-toolchain.lock",
+        "formats/generic-baseline.json"
+      ],
+      "scope": "WINDOWS_X64_LOCAL_DEVELOPMENT"
+    },
+    {
+      "requirement": "Relational ownership, migration SQL and native checks",
+      "evidence": [
+        "database/design/ownership.json",
+        "database/design/relational.json",
+        "reports/acceptance/M2-01b.json"
+      ],
+      "scope": "ISOLATED_SYNTHETIC_NATIVE"
+    },
+    {
+      "requirement": "No claim that deferred intake or real activation is complete",
+      "evidence": [
+        "plan/DECISIONS.md",
+        "formats/generic-baseline.json",
+        "reports/acceptance/M2.md"
+      ],
+      "scope": "DEFERRED_ACTIVATION_GATES"
+    }
+  ],
+  "unmapped_decisions": [
+    "D-001",
+    "D-003",
+    "D-005",
+    "D-010",
+    "D-011",
+    "D-012",
+    "D-013",
+    "D-015",
+    "D-021",
+    "D-023",
+    "D-027",
+    "D-028",
+    "D-038",
+    "D-045",
+    "D-047",
+    "D-049",
+    "D-055",
+    "D-060",
+    "D-062",
+    "D-068",
+    "D-070",
+    "D-080"
+  ],
+  "remaining_gates": [
+    "M1/M1B real profile/preset activation",
+    "Real user transport/caller access",
+    "Credentials/scopes for enabled external providers",
+    "Personal capacity and complete semester intake",
+    "Actual repositories/authorization-to-commit service",
+    "Solver/renderer/n8n/AI/learning/deployment runtime"
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "task": "M3A-01",
+  "status": "PASS",
+  "scope": "PRIVATE_PACKAGE_SYNTHETIC_ACCEPTANCE",
+  "python_version": "3.13.5",
+  "import_modules_checked": 23,
+  "optional_credentials": "ABSENT_IN_CHILD_ENV",
+  "network": "DISABLED_FOR_BUILD_AND_INSTALL",
+  "global_environment_modified": false,
+  "pip_check": "No broken requirements found.",
+  "wheel": ".dev-tools/package-validation/0c83fd9dda074ed988287093b5d7dba9/wheels/whattodo_core-0.1.0.dev0-py3-none-any.whl",
+  "wheel_sha256": "c297f2e4d11a65d1dca01b47d18f348c87e8db8d24362b2a246484f5c7cb256e",
+  "packaged_schema_count": 30,
+  "installed_checks": {
+    "version": "0.1.0.dev0",
+    "installed_source": "D:\\WhatToDo\\.dev-tools\\package-validation\\0c83fd9dda074ed988287093b5d7dba9\\installed\\Lib\\site-packages\\src\\__init__.py",
+    "contracts": 30,
+    "postgres_driver": "ABSENT_OPTIONAL",
+    "domain": {
+      "scope": "SYNTHETIC_PACKAGE_CHECK",
+      "budget_seconds": 1800,
+      "budget_source": "USER_FALLBACK",
+      "beijing_start_date": "2026-01-01",
+      "beijing_end_date": "2026-01-03",
+      "canonical_user_seconds": 1800
+    }
+  },
+  "entrypoint": {
+    "beijing_end_date": "2026-01-03",
+    "beijing_start_date": "2026-01-01",
+    "budget_seconds": 1800,
+    "budget_source": "USER_FALLBACK",
+    "canonical_user_seconds": 1800,
+    "scope": "SYNTHETIC_PACKAGE_CHECK"
+  },
+  "clean_install": true,
+  "source_checkout_import": "EXCLUDED_BY_ISOLATED_INTERPRETER",
+  "build_lock": "requirements-build.lock",
+  "runtime_lock": "requirements-runtime.lock",
+  "limitations": [
+    "Private Windows/Python development package only",
+    "Not a deployed command transport, persistence adapter or authenticated user channel",
+    "Real provider/profile activation remains deferred"
+  ],
+  "focused_methods": 6,
+  "verified_on": "2026-10-10",
+  "verification_command": ".venv\\Scripts\\python.exe tools/verify_package_install.py"
+}
