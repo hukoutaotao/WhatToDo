@@ -1,0 +1,603 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:resolution-session:0.1.0-resolution-session",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-resolution-session"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "previous_revision": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9223372036854775807
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "principal_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "intent": {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "0.1.0-resolution-intent"
+        },
+        "session_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        "command_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        "principal_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        "action": {
+          "enum": [
+            "CREATE_TASK",
+            "COMPLETE_TASK",
+            "CANCEL_TASK",
+            "UPDATE_TASK"
+          ]
+        },
+        "target": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "enum": [
+                    "ID",
+                    "NAME"
+                  ]
+                },
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 500,
+                  "pattern": "\\S"
+                },
+                "course": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "mode": {
+                          "enum": [
+                            "ID",
+                            "NAME"
+                          ]
+                        },
+                        "value": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 500,
+                          "pattern": "\\S"
+                        }
+                      },
+                      "required": [
+                        "mode",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "mode",
+                "value",
+                "course"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "creation_task_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "\\S"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "fields": {
+          "type": "object",
+          "required": [],
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "completion": {
+              "enum": [
+                "INCOMPLETE",
+                "COMPLETE"
+              ]
+            },
+            "disposition": {
+              "enum": [
+                "ACTIVE",
+                "CANCELLED",
+                "EXPIRED"
+              ]
+            },
+            "requiredness": {
+              "enum": [
+                "REQUIRED",
+                "OPTIONAL",
+                "EXPIRING"
+              ]
+            },
+            "importance": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "difficulty": {
+              "type": "object",
+              "required": [
+                "thinking_depth",
+                "repetitive_volume",
+                "new_learning_load"
+              ],
+              "properties": {
+                "thinking_depth": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "repetitive_volume": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                },
+                "new_learning_load": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 5
+                }
+              },
+              "additionalProperties": false
+            },
+            "user_remaining_seconds": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "integer",
+                  "minimum": 0
+                }
+              ]
+            },
+            "expiration_condition_ref": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                }
+              ]
+            },
+            "expiration_notice_ref": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "minProperties": 1
+        },
+        "creation_facts": {
+          "type": "object",
+          "properties": {
+            "domain": {
+              "enum": [
+                "study",
+                "exercise",
+                "life_administration",
+                "other"
+              ]
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "schema_version",
+        "session_id",
+        "command_id",
+        "principal_id",
+        "action",
+        "target",
+        "creation_task_id",
+        "fields",
+        "creation_facts"
+      ],
+      "additionalProperties": false
+    },
+    "query_source_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "last_source_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "last_source_observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "state": {
+      "enum": [
+        "NEEDS_COURSE",
+        "NEEDS_TASK",
+        "NEEDS_DETAILS",
+        "RESOLVED"
+      ]
+    },
+    "store_revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "course_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "course_registry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "choices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "TASK",
+              "COURSE"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "\\S"
+          },
+          "revision": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9223372036854775807
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "pattern": "\\S"
+          },
+          "course_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "pattern": "\\S"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "completion": {
+            "anyOf": [
+              {
+                "enum": [
+                  "COMPLETE",
+                  "INCOMPLETE"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "disposition": {
+            "anyOf": [
+              {
+                "enum": [
+                  "ACTIVE",
+                  "CANCELLED",
+                  "EXPIRED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "revision",
+          "label",
+          "course_id",
+          "completion",
+          "disposition"
+        ],
+        "additionalProperties": false
+      },
+      "maxItems": 1000
+    },
+    "selected_task_ref": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "task_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "\\S"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9223372036854775807
+            }
+          },
+          "required": [
+            "task_id",
+            "revision"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "fields": {
+      "type": "object",
+      "required": [],
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "completion": {
+          "enum": [
+            "INCOMPLETE",
+            "COMPLETE"
+          ]
+        },
+        "disposition": {
+          "enum": [
+            "ACTIVE",
+            "CANCELLED",
+            "EXPIRED"
+          ]
+        },
+        "requiredness": {
+          "enum": [
+            "REQUIRED",
+            "OPTIONAL",
+            "EXPIRING"
+          ]
+        },
+        "importance": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "difficulty": {
+          "type": "object",
+          "required": [
+            "thinking_depth",
+            "repetitive_volume",
+            "new_learning_load"
+          ],
+          "properties": {
+            "thinking_depth": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "repetitive_volume": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            },
+            "new_learning_load": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "additionalProperties": false
+        },
+        "user_remaining_seconds": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "integer",
+              "minimum": 0
+            }
+          ]
+        },
+        "expiration_condition_ref": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "\\S"
+            }
+          ]
+        },
+        "expiration_notice_ref": {
+          "anyOf": [
+            {
+              "type": "null"
+            },
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "pattern": "\\S"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "minProperties": 1
+    },
+    "creation_facts": {
+      "type": "object",
+      "properties": {
+        "domain": {
+          "enum": [
+            "study",
+            "exercise",
+            "life_administration",
+            "other"
+          ]
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "missing_fields": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "/core/title",
+          "/core/importance",
+          "/core/requiredness",
+          "/core/difficulty",
+          "/core/domain"
+        ]
+      }
+    },
+    "question": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "schema_version",
+    "session_id",
+    "revision",
+    "previous_revision",
+    "command_id",
+    "principal_id",
+    "intent",
+    "query_source_ref",
+    "last_source_ref",
+    "last_source_observed_at",
+    "created_at",
+    "state",
+    "store_revision",
+    "course_id",
+    "course_registry_hash",
+    "choices",
+    "selected_task_ref",
+    "fields",
+    "creation_facts",
+    "missing_fields",
+    "question"
+  ],
+  "additionalProperties": false
+}

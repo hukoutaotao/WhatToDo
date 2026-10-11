@@ -1,0 +1,57 @@
+{
+  "task": "M3A-10",
+  "status": "PASS",
+  "scope": "SYNTHETIC_DURABLE_COMMAND_REPLAY",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "identical_duplicate_returns_original_receipt_without_permit_or_new_mutation",
+    "authenticated_readonly_lookup_returns_typed_original_receipt_and_new_correlation",
+    "expired_original_permit_does_not_prevent_owned_readonly_replay",
+    "transport_attempt_correlation_changes_do_not_change_command_meaning",
+    "same_id_with_changed_body_source_audit_or_expected_version_is_content_conflict",
+    "untrusted_wrong_principal_or_origin_cannot_read_or_replay_receipts",
+    "missing_receipt_remains_unknown_instead_of_proving_absence_of_commit",
+    "replaying_old_command_after_later_edits_keeps_current_and_historical_task_versions",
+    "reordered_same_batch_replays_original_changed_key_order_without_writes",
+    "receipt_replay_exception_never_authorizes_a_fresh_command_without_exact_permit",
+    "lost_acknowledgement_reconciles_durable_receipt_and_timeout_retry_mutates_once",
+    "rolled_back_command_leaves_no_dedup_tombstone_and_same_id_can_commit_then_replay",
+    "real_concurrent_identical_requests_publish_once_and_retry_replays_same_durable_receipt",
+    "concurrent_same_id_with_changed_payload_has_one_winner_and_durable_content_conflict",
+    "uncommitted_inflight_receipt_is_unknown_and_becomes_observable_after_commit",
+    "completion_timeout_retry_preserves_zero_u_and_retained_actual_observations_without_new_audit",
+    "native_command_and_audit_history_guards_prevent_deleting_replay_evidence",
+    "legacy_non_protocol_receipt_is_explicitly_invalid_not_fabricated",
+    "receipt_with_correct_body_hash_but_wrong_task_transaction_backlink_is_rejected",
+    "fresh_connection_and_empty_permit_registry_replay_old_receipt_after_later_updates",
+    "unavailable_receipt_connection_is_retryable_without_claiming_commit_absence"
+  ],
+  "domain_tables": 68,
+  "domain_foreign_keys": 163,
+  "native_check_count": 21,
+  "limitations": [
+    "Independent exact permits and observation facts are trusted synthetic fixtures; no live authority resolver",
+    "Task transactions and completion facts exercised; actual effort-addition handler remains M3A-15",
+    "No real course/source account/authenticated transport or deployment activation"
+  ],
+  "harness": {
+    "run_id": "dca5aa6362aa471994771608ba2207bf",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "acceptance_checkpoint": "M3A-12",
+  "source_report": ".local-state/postgres-tests/dca5aa6362aa471994771608ba2207bf/command-ledger-report.json"
+}

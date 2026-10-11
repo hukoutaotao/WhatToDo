@@ -1,0 +1,59 @@
+{
+  "task": "M3A-22",
+  "status": "PASS",
+  "scope": "SYNTHETIC_OWNED_REFERENCE_AND_CLARIFICATION_HANDOFF",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "twelfth_migration_preserves_exact_eleven_step_history_without_task_backfills",
+    "duplicate_titles_list_only_owned_stable_ids_and_preserve_canonical_task_audit_epoch",
+    "exact_id_and_unique_exact_human_name_resolve_without_identical_extra_approval",
+    "explicit_id_never_falls_back_to_title_and_single_fuzzy_candidate_still_requires_selection",
+    "independently_bound_course_alias_restricts_matching_to_exact_course_context",
+    "ambiguous_confirmation_stays_pending_and_numbered_reply_resolves_original_list_under_same_command_id",
+    "resolved_reference_cannot_mint_grants_or_publish_without_independent_authorized_handler",
+    "scoped_reply_hands_same_command_to_existing_completion_path_mutating_only_selected_task_without_inferred_work",
+    "restart_owned_replays_return_original_frame_and_command_after_task_change_without_live_bindings",
+    "foreign_principal_external_source_unauthenticated_caller_and_changed_reply_bytes_cannot_resume_or_read_owned_command",
+    "changed_task_rejects_old_frame_atomically_and_explicit_refresh_requires_new_question_revision",
+    "reply_cannot_overwrite_already_known_creation_fields_or_expand_original_effect_scope",
+    "creation_followup_retains_valid_answers_only_reasks_missing_field_and_creates_same_command_without_invented_u_or_total",
+    "completion_of_same_creation_command_preserves_original_manual_pending_history_without_duplicate_task",
+    "course_label_registry_change_requires_new_versioned_question_without_reusing_old_answer",
+    "fresh_input_requires_independent_actor_account_binding_and_exact_retained_source_bytes",
+    "reply_captured_before_question_or_bound_to_another_frame_hash_cannot_advance_history",
+    "unrelated_new_task_does_not_reorder_or_widen_original_listed_choice_scope",
+    "failure_after_frame_head_and_reply_insert_rolls_back_all_process_records_and_preserves_canonical_state",
+    "lost_commit_acknowledgement_remains_unknown_and_owned_reply_lookup_recovers_one_durable_result",
+    "concurrent_answers_to_one_question_have_one_version_winner_without_canonical_task_writes",
+    "resolution_and_reply_history_are_append_only_with_owned_head_compare_and_swap",
+    "native_schema_has_72_domain_tables_176_foreign_keys_and_three_runtime_metadata_tables"
+  ],
+  "migration_steps": 12,
+  "schema_version": "0.7.0-command-resolution",
+  "domain_tables": 72,
+  "domain_foreign_keys": 176,
+  "native_check_count": 23,
+  "limitations": [
+    "Independent synthetic caller/account/course labels and grants; no live channel or personal activation",
+    "Mutation/lifecycle intents are already normalized structured input; other freeform command classes remain separate M3A-21 instances",
+    "No relative date parser or durable caller authentication deployment is supplied by resolution"
+  ],
+  "harness": {
+    "run_id": "86829675c3084392bb7343dc1446b7f4",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

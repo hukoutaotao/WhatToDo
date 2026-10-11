@@ -1,0 +1,46 @@
+{
+  "task": "M3B-05.a",
+  "status": "PASS",
+  "scope": "SYNTHETIC_COMPOSITE_PLANS_AND_SQL_GUARDS_ONLY",
+  "native_checks": [
+    "fifteen_step_upgrade_preserves_exact_receipts_and_legacy_head_without_fabricated_history",
+    "actual_committed_source_with_distinct_root_and_derivative_authority_constructs_exact_pending_composite",
+    "exact_event_fk_rejects_existing_later_task_revision_as_original_creation_source",
+    "typed_head_cannot_publish_without_matching_immutable_history_and_failure_rolls_back_metadata",
+    "head_and_history_payloads_must_match_exactly_at_commit",
+    "staged_history_head_authority_audit_receipt_and_epoch_roll_back_together",
+    "typed_pending_history_round_trip_retains_exact_provenance_and_missing_facts",
+    "created_occurrence_cannot_commit_a_nonexistent_target_reference",
+    "pending_to_created_new_version_retains_first_immutable_snapshot_and_stable_occurrence",
+    "created_occurrence_is_terminal_and_cannot_publish_a_new_revision",
+    "application_role_cannot_update_delete_or_truncate_immutable_generation_history"
+  ],
+  "schema_version": "0.11.0-generation-occurrences",
+  "migration_steps": 16,
+  "domain_tables": 77,
+  "domain_foreign_keys": 193,
+  "native_check_count": 11,
+  "limitations": [
+    "No generation runtime or independent generation authority resolution",
+    "Metadata-only SQL schema probes reference separately user-created synthetic targets, not automatic counterpart creation",
+    "Atomic Task/link/occurrence execution and concurrency are M3B-05.b"
+  ],
+  "harness": {
+    "run_id": "197202b0beb34d4fb88a94e9f6b88882",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

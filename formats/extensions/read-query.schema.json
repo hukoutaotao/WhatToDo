@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:read-query:0.1.0-read-query",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-read-query"
+    },
+    "view": {
+      "enum": [
+        "TASKS",
+        "HISTORY",
+        "PENDING"
+      ]
+    },
+    "task_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "completion": {
+          "anyOf": [
+            {
+              "enum": [
+                "INCOMPLETE",
+                "COMPLETE"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "disposition": {
+          "anyOf": [
+            {
+              "enum": [
+                "ACTIVE",
+                "CANCELLED",
+                "EXPIRED"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "trust": {
+          "anyOf": [
+            {
+              "enum": [
+                "TRUSTED",
+                "STALE",
+                "CONFLICTED",
+                "UNKNOWN"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "domain": {
+          "anyOf": [
+            {
+              "enum": [
+                "study",
+                "exercise",
+                "life_administration",
+                "other"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "context": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "COURSE",
+                    "ACTIVITY",
+                    "GOAL",
+                    "EXAM"
+                  ]
+                },
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "pattern": "\\S"
+                }
+              },
+              "required": [
+                "kind",
+                "id"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "completion",
+        "disposition",
+        "trust",
+        "domain",
+        "context"
+      ],
+      "additionalProperties": false
+    },
+    "pending_kind": {
+      "anyOf": [
+        {
+          "enum": [
+            "MANUAL_CREATION",
+            "EVIDENCE_CANDIDATE",
+            "EVIDENCE_CONFLICT",
+            "CLARIFICATION"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "include_closed": {
+      "type": "boolean"
+    },
+    "page_size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100
+    },
+    "cursor": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "view",
+    "task_id",
+    "filters",
+    "pending_kind",
+    "include_closed",
+    "page_size",
+    "cursor"
+  ],
+  "additionalProperties": false
+}

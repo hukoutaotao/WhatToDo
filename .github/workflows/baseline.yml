@@ -1,0 +1,56 @@
+{
+  "name": "Synthetic baseline",
+  "on": {
+    "push": {},
+    "pull_request": {},
+    "workflow_dispatch": {}
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "jobs": {
+    "baseline": {
+      "runs-on": "windows-2022",
+      "timeout-minutes": 35,
+      "defaults": {
+        "run": {
+          "shell": "pwsh"
+        }
+      },
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10",
+          "with": {
+            "persist-credentials": false,
+            "fetch-depth": 1
+          }
+        },
+        {
+          "name": "Pinned Python",
+          "uses": "actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405",
+          "with": {
+            "python-version": "3.13.5",
+            "architecture": "x64"
+          }
+        },
+        {
+          "name": "Synthetic baseline",
+          "run": "python tools/run_ci.py --bootstrap"
+        },
+        {
+          "name": "Closed diagnostics",
+          "if": "${{ always() }}",
+          "uses": "actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f",
+          "with": {
+            "name": "synthetic-baseline-diagnostics",
+            "path": ".local-state/ci-artifacts/*.json",
+            "include-hidden-files": true,
+            "if-no-files-found": "warn",
+            "retention-days": 7
+          }
+        }
+      ]
+    }
+  }
+}

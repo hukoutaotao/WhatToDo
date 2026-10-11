@@ -75,7 +75,7 @@ def _grants(conn,roles):
         conn.execute(sql.SQL('GRANT USAGE ON SCHEMA whattodo TO {}').format(role))
         conn.execute(sql.SQL('REVOKE ALL ON ALL TABLES IN SCHEMA whattodo FROM {}').format(role))
         for table in tables:
-            protected={'schema_migration','configuration_revision','definition_cache','definition_reference'}
+            protected={'schema_migration','configuration_revision','definition_cache','definition_reference','source_scope','canonical_creation_event'}
             privileges=sql.SQL('SELECT,INSERT,UPDATE,DELETE') if reader==roles.application and table not in protected else sql.SQL('SELECT')
             conn.execute(sql.SQL('GRANT {} ON TABLE whattodo.{} TO {}').format(privileges,sql.Identifier(table),role))
 

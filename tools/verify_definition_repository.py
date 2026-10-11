@@ -10,7 +10,8 @@ from src import __version__
 from src.adapters.git_definitions import GitDefinitionSource
 from src.adapters.migration_files import load_migration_plan
 from src.adapters.postgres_definitions import PostgresDefinitionRepository,REGISTRY_LOCK
-from src.adapters.postgres_migrations import DatabaseRoles,apply_migrations,verify_schema_compatibility
+from src.adapters.postgres_migrations import DatabaseRoles,apply_migrations,verify_schema_compatibility,schema_checked_transaction
+from src.application.migrations import MigrationError
 from src.application.definitions import DefinitionError,DefinitionKey,GitDefinitionRequest,canonical,defaults_from,resolve_task_definitions
 from tools.git_definition_fixture import GitDefinitionFixture
 from tools.postgres_harness import HarnessError,PostgresHarness,ROLES,require
@@ -60,7 +61,7 @@ def verify(harness,report):
         apply_migrations(conn,old,roles=roles,application_version=__version__)
         before=conn.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
         upgraded=apply_migrations(conn,plan,roles=roles,application_version=__version__)
-        require(upgraded.applied==('006_definition_cache',),'DEFINITION_FORWARD_UPGRADE')
+        require(upgraded.applied==tuple(s.migration_id for s in plan.steps[len(old.steps):]),'DEFINITION_FORWARD_UPGRADE')
         require(conn.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=6 ORDER BY position').fetchall()==before,'DEFINITION_OLD_MIGRATIONS_CHANGED')
         checks.append('forward_upgrade_preserves_all_six_old_migration_receipts')
         repo=PostgresDefinitionRepository(conn,source,plan,roles,application_version=__version__)
@@ -116,6 +117,25 @@ def verify(harness,report):
                 contender=PostgresDefinitionRepository(second,source,plan,roles,application_version=__version__)
                 reject(lambda:contender.register([requests[0]]),'DEFINITION_IMPORT_BUSY')
         checks.append('concurrent_registry_import_cannot_race_version_registration')
+        with harness.target(name,'migration').connect() as second:
+            with schema_checked_transaction(conn,plan,application_version=__version__,read_only=False):
+                try:apply_migrations(second,plan,roles=roles,application_version=__version__)
+                except MigrationError as exc:require(str(exc)=='MIGRATION_BUSY','DEFINITION_SCHEMA_LOCK_CODE')
+                else:raise HarnessError('DEFINITION_SCHEMA_CHANGED_DURING_OPERATION')
+            require(apply_migrations(second,plan,roles=roles,application_version=__version__).applied==(),'DEFINITION_SCHEMA_LOCK_NOT_RELEASED')
+        checks.append('schema_lock_is_held_for_entire_repository_transaction_and_released_afterward')
+        for probe,raw_value,raw_digest in [
+            ('raw_hash',envelope('COURSE_PROFILE','native-raw_hash','1',{}),'f'*64),
+            ('body_header',envelope('COURSE_PROFILE','different-id','1',{}),None),
+        ]:
+            from hashlib import sha256
+            raw_probe=canonical(raw_value).encode()
+            probe_key=DefinitionKey('COURSE_PROFILE','native-'+probe,'1')
+            try:
+                with conn.transaction():
+                    conn.execute('INSERT INTO whattodo.definition_cache VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)',(probe_key.kind,probe_key.id,probe_key.version,probe_key.configuration_ref,'a'*64,'synthetic.json','a'*40,raw_digest or sha256(raw_probe).hexdigest(),raw_probe))
+            except psycopg.errors.CheckViolation:checks.append('native_constraint_rejects_invalid_'+probe)
+            else:raise HarnessError('DEFINITION_INVALID_CACHE_ACCEPTED')
         for table in ['definition_cache','definition_reference']:
             try:
                 with conn.transaction():conn.execute('DELETE FROM whattodo.'+table)

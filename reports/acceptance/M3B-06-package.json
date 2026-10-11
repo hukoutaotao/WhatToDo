@@ -1,0 +1,82 @@
+{
+  "task": "M3A-01",
+  "status": "PASS",
+  "scope": "PRIVATE_PACKAGE_SYNTHETIC_ACCEPTANCE",
+  "python_version": "3.13.5",
+  "import_modules_checked": 73,
+  "optional_credentials": "ABSENT_IN_CHILD_ENV",
+  "network": "DISABLED_FOR_BUILD_AND_INSTALL",
+  "global_environment_modified": false,
+  "pip_check": "No broken requirements found.",
+  "wheel": ".dev-tools/package-validation/1c4a00a815fe41ce839bef3875085af8/wheels/whattodo_core-0.1.0.dev0-py3-none-any.whl",
+  "wheel_sha256": "41e61364663c2c5103219225d23ce7f9ba2db2a080db81a8469aeb51dac2fda0",
+  "packaged_schema_count": 40,
+  "installed_checks": {
+    "generation_processing": "INSTALLED_TYPED_CHECKPOINT_AND_EXPLICIT_OPTIONAL_DRIVER_RESULT",
+    "generation_runtime": "INSTALLED_POLICY_SCOPED_HANDLER_EXPLICIT_OPTIONAL_DRIVER_RESULT",
+    "generation_commit": "INSTALLED_COMPOSITE_RECEIPT_AUDIT_AND_OCCURRENCE_NOT_AUTHORIZED",
+    "generation_evaluator": "INSTALLED_EXACT_CANONICAL_MAPPING_AND_PENDING_WITHOUT_OPTIONAL_DRIVER",
+    "read_models": "INSTALLED_QUERY_CURSOR_PROJECTION_AND_AUTHENTICATED_ROUTE_WITH_EXPLICIT_OPTIONAL_DRIVER_RESULT",
+    "command_transport": "INSTALLED_AUTHENTICATED_HANDLER_ROUTE_UNAUTHENTICATED_REJECTION_AND_OPTIONAL_DRIVER_RESULT",
+    "task_resolution": "INSTALLED_VERSIONED_FOLLOWUP_SAME_COMMAND_HANDOFF_AND_OPTIONAL_DRIVER_RESULT",
+    "direct_creation": "INSTALLED_GUIDED_FROZEN_PROPOSAL_EXACT_RAW_MANUAL_HANDOFF_AND_PARTIAL_UNKNOWN_FACTS",
+    "work_reports": "INSTALLED_CUMULATIVE_SETTLEMENT_U_TWO_RECORD_AUDIT_AND_OPTIONAL_DRIVER_RESULT",
+    "task_lifecycle": "INSTALLED_COMPLETE_ZERO_OBSERVATION_CANCEL_TRUTHFUL_TIME_AND_OPTIONAL_DRIVER_RESULT",
+    "extension_contracts": 10,
+    "task_fact_patches": "INSTALLED_OPT_IN_EXACT_PATCH_SOURCE_TIME_U_AND_OPTIONAL_DRIVER_RESULT",
+    "version": "0.1.0.dev0",
+    "installed_source": "D:\\WhatToDo\\.dev-tools\\package-validation\\1c4a00a815fe41ce839bef3875085af8\\installed\\Lib\\site-packages\\src\\__init__.py",
+    "contracts": 30,
+    "postgres_driver": "ABSENT_OPTIONAL",
+    "domain": {
+      "scope": "SYNTHETIC_PACKAGE_CHECK",
+      "budget_seconds": 1800,
+      "budget_source": "USER_FALLBACK",
+      "beijing_start_date": "2026-01-01",
+      "beijing_end_date": "2026-01-03",
+      "canonical_user_seconds": 1800
+    },
+    "clock_check": "BEIJING_YEAR_ROLLOVER",
+    "configuration": {
+      "schema_version": "0.1.0-config",
+      "planning_timezone": "Asia/Shanghai",
+      "definitions": [],
+      "adapter_modes": {
+        "calendar_source": "DISABLED",
+        "evidence_source": "DISABLED",
+        "notification_sink": "FAKE",
+        "predictor": "DISABLED",
+        "renderer": "FAKE",
+        "solver": "FAKE",
+        "state_store": "FAKE"
+      },
+      "authority": "CONFIGURATION_DATA_NOT_ACTIVATION_AUTHORITY"
+    },
+    "migration_steps": 17,
+    "schema_version": "0.12.0-generation-processing",
+    "migration_module": "IMPORTS_WITHOUT_OPTIONAL_DRIVER",
+    "task_storage": "INSTALLED_ADMISSION_AND_PROJECTION_WITHOUT_OPTIONAL_DRIVER",
+    "evidence_storage": "INSTALLED_SOURCE_AND_PENDING_CANDIDATE_WITHOUT_OPTIONAL_DRIVER",
+    "transactions": "INSTALLED_EXACT_PERMIT_PREPARATION_AND_EXPLICIT_OPTIONAL_DRIVER_RESULT",
+    "command_ledger": "INSTALLED_RECEIPT_AUDIT_CHECK_AND_EXPLICIT_OPTIONAL_LOOKUP_DRIVER_RESULT",
+    "command_validation": "INSTALLED_STRICT_COMMAND_EFFECT_SCOPE_AND_EXPLICIT_OPTIONAL_DRIVER_RESULT",
+    "manual_creation": "INSTALLED_READY_PENDING_OBSERVATION_AND_EXPLICIT_OPTIONAL_DRIVER_RESULT"
+  },
+  "entrypoint": {
+    "beijing_end_date": "2026-01-03",
+    "beijing_start_date": "2026-01-01",
+    "budget_seconds": 1800,
+    "budget_source": "USER_FALLBACK",
+    "canonical_user_seconds": 1800,
+    "scope": "SYNTHETIC_PACKAGE_CHECK"
+  },
+  "clean_install": true,
+  "source_checkout_import": "EXCLUDED_BY_ISOLATED_INTERPRETER",
+  "build_lock": "requirements-build.lock",
+  "runtime_lock": "requirements-runtime.lock",
+  "limitations": [
+    "Private Windows/Python development package only",
+    "Not a deployed command transport, persistence adapter or authenticated user channel",
+    "Real provider/profile activation remains deferred"
+  ]
+}

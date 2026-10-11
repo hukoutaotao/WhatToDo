@@ -1,0 +1,216 @@
+{
+  "schema_version": "0.1.0-synthetic-ci",
+  "task": "M3A-20",
+  "status": "PASS",
+  "scope": "PINNED_WINDOWS_SYNTHETIC_BASELINE",
+  "checks": [
+    {
+      "check": "secrets",
+      "status": "PASS",
+      "counts": {
+        "files_checked": 493,
+        "signature_families": 7
+      }
+    },
+    {
+      "check": "documents",
+      "status": "PASS",
+      "counts": {
+        "markdown_files": 108,
+        "local_links": 1603,
+        "fragments": 379,
+        "task_definitions": 215
+      }
+    },
+    {
+      "check": "workflow",
+      "status": "PASS",
+      "counts": {
+        "action_pins": 3,
+        "deployment_steps": 0,
+        "provider_secrets": 0
+      }
+    },
+    {
+      "check": "dependency_pins",
+      "status": "PASS"
+    },
+    {
+      "check": "wheelhouse_build",
+      "status": "PASS"
+    },
+    {
+      "check": "wheelhouse_core",
+      "status": "PASS"
+    },
+    {
+      "check": "generic_baseline",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "import_boundaries",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "contract_registry",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "contract_cases",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "extensions",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "cross_contracts",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "semantic_scenarios",
+      "status": "PASS",
+      "counts": {
+        "unittest_methods": 50
+      }
+    },
+    {
+      "check": "database_design",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "sql_drift",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "aggregate_drift",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "configuration",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "authority",
+      "status": "PASS",
+      "counts": {
+        "unittest_methods": 61
+      }
+    },
+    {
+      "check": "unit_domain",
+      "status": "PASS",
+      "counts": {
+        "unittest_methods": 709
+      }
+    },
+    {
+      "check": "package_install",
+      "status": "PASS",
+      "counts": {}
+    },
+    {
+      "check": "native_migrations",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 29,
+        "databases_created": 6,
+        "databases_dropped": 6,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_authority",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 25,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_transport",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 23,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_reads",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 20,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_backup_restore",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 16,
+        "databases_created": 3,
+        "databases_dropped": 3,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_relationships",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 19,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_creation_outbox",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 21,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_generation_foundation",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 11,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    },
+    {
+      "check": "native_generation_runtime",
+      "status": "PASS",
+      "counts": {
+        "native_checks": 17,
+        "databases_created": 1,
+        "databases_dropped": 1,
+        "server_stopped": true
+      }
+    }
+  ],
+  "deployment": false,
+  "provider_credentials": false,
+  "source_sha256": "e427d2eeb9f3024529702f852eebff8fd225ab15a62a7946a5cbe48623c4fdaa"
+}

@@ -38,8 +38,8 @@ def run_native(harness,plan):
         checks.append('all_current_steps_applied_in_order')
         tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0]
         fks=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0]
-        require((tables,fks)==(53,133),'MIGRATION_DOMAIN_SCHEMA_COUNT')
-        checks.append('extended_domain_schema_53_tables_133_foreign_keys')
+        require((tables,fks)==(82,204),'MIGRATION_DOMAIN_SCHEMA_COUNT')
+        checks.append('extended_domain_schema_82_tables_204_foreign_keys')
         before=conn.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
         require(conn.execute('SELECT count(*) FROM whattodo.schema_migration').fetchone()==(5,),'MIGRATION_LEGACY_RECEIPTS')
         checks.append('five_legacy_receipts_and_current_runtime_receipts')
@@ -165,12 +165,15 @@ def run_native(harness,plan):
     with harness.target(database,'migration').connect() as conn:
         # Owner fixture simulates an unknown newer deployed schema. Append-only
         # history is retained; the older application cannot acquire readiness.
-        conn.execute("INSERT INTO whattodo_meta.migration_history VALUES(8,'007_future',%s,'future',CURRENT_TIMESTAMP)",('a'*64,))
-        conn.execute("UPDATE whattodo_meta.schema_state SET generation=8,schema_version='future' WHERE singleton=TRUE")
+        next_position=len(plan.steps)+1
+        next_id=f'{int(plan.steps[-1].migration_id[:3])+1:03d}_future'
+        conn.execute("INSERT INTO whattodo_meta.migration_history VALUES(%s,%s,%s,'future',CURRENT_TIMESTAMP)",
+            (next_position,next_id,'a'*64))
+        conn.execute("UPDATE whattodo_meta.schema_state SET generation=%s,schema_version='future' WHERE singleton=TRUE",(next_position,))
     with harness.target(database).connect() as app:
         error_code(lambda:verify_schema_compatibility(app,plan,application_version=__version__),'MIGRATION_UNKNOWN_APPLIED_VERSION')
     checks.append('unknown_newer_database_blocks_older_application_startup')
-    return checks
+    return checks,tables,fks
 
 
 def main():
@@ -178,8 +181,8 @@ def main():
     report=dict(task='M3A-05',status='IN_PROGRESS',scope='NATIVE_MIGRATION_AND_STARTUP_GATE',verified_on='2026-10-10',native_checks=[])
     try:
         plan=load_migration_plan(root=ROOT)
-        with harness:report['native_checks']=run_native(harness,plan)
-        report.update(status='PASS',native_check_count=len(report['native_checks']),migration_pins=[dict(id=s.migration_id,sha256=s.content_hash) for s in plan.steps],domain_tables=53,domain_foreign_keys=133,runtime_metadata_tables=3,
+        with harness:report['native_checks'],tables,fks=run_native(harness,plan)
+        report.update(status='PASS',native_check_count=len(report['native_checks']),migration_pins=[dict(id=s.migration_id,sha256=s.content_hash) for s in plan.steps],domain_tables=tables,domain_foreign_keys=fks,runtime_metadata_tables=3,
             limitations=['Synthetic isolated PostgreSQL only','No production application startup, canonical command handler or repositories','No executed production backup/restore; recovery procedure is documented separately'])
     except Exception as exc:
         report.update(status='FAIL',failure_type=type(exc).__name__,failure_code=str(exc) if isinstance(exc,(HarnessError,MigrationError)) else 'MIGRATION_NATIVE_CHECK_FAILED')

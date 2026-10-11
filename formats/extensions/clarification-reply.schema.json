@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:clarification-reply:0.1.0-clarification-reply",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-clarification-reply"
+    },
+    "reply_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "session_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "\\S"
+    },
+    "expected_revision": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9223372036854775807
+    },
+    "scope_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "selection": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500,
+          "pattern": "\\S"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "answers": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "importance": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "requiredness": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "difficulty": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "domain": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "remaining": {
+          "type": "string",
+          "maxLength": 500
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "reply_id",
+    "session_id",
+    "expected_revision",
+    "scope_hash",
+    "selection",
+    "answers"
+  ],
+  "additionalProperties": false
+}

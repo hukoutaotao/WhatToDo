@@ -1,0 +1,58 @@
+{
+  "task": "M3A-09",
+  "status": "PASS",
+  "scope": "SYNTHETIC_ATOMIC_TASK_TRANSACTIONS",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "create_publishes_task_authority_full_audit_receipt_and_epoch_together",
+    "patch_retains_exact_before_after_values_and_old_aggregate_history",
+    "two_aggregate_batch_has_one_epoch_receipt_and_two_full_audited_changes",
+    "stale_store_revision_is_conflict_with_no_authority_audit_or_task_mutation",
+    "stale_aggregate_revision_is_distinct_conflict_with_no_mutation",
+    "missing_independent_permit_cannot_create_canonical_state",
+    "unauthenticated_wrong_principal_and_external_callers_leave_no_rows",
+    "expired_and_different_exact_write_permits_are_rejected",
+    "transport_failure_after_audit_staging_rolls_back_all_task_audit_authority_receipt_and_epoch_rows",
+    "transport_failure_after_epoch_staging_rolls_back_all_task_audit_authority_receipt_and_epoch_rows",
+    "failure_after_first_batch_aggregate_rolls_back_entire_batch_and_audit",
+    "deferred_source_fk_failure_at_commit_rolls_back_state_and_full_audit",
+    "permit_expiring_while_staging_cannot_publish_prepared_state",
+    "native_epoch_lock_contention_is_retryable_and_does_not_publish_rows",
+    "migration_lock_contention_is_retryable_before_any_command_staging",
+    "actual_precommit_connection_loss_is_retryable_and_server_rolls_back_all_rows",
+    "lost_commit_acknowledgement_is_unknown_while_durable_task_audit_and_receipt_survive",
+    "driver_interface_error_without_server_sqlstate_at_commit_retains_unknown_outcome",
+    "two_real_simultaneous_writers_cannot_both_overwrite_one_version",
+    "losing_writer_retry_returns_stale_conflict_instead_of_repeating_state_or_audit",
+    "existing_authority_scope_mismatch_cannot_be_retagged_or_used_as_approval",
+    "fresh_connection_preserves_committed_current_old_task_and_unknown_ack_receipt"
+  ],
+  "domain_tables": 69,
+  "domain_foreign_keys": 169,
+  "native_check_count": 22,
+  "limitations": [
+    "Independent permits supplied by trusted synthetic setup; full authority resolution remains M3A-11",
+    "Task aggregate writes only; future aggregate kinds must add explicit audited storage handlers",
+    "Atomicity regression scope; current command replay/reconciliation acceptance uses the separate M3A-10 launcher",
+    "No real course, source account, command transport or deployment activation"
+  ],
+  "harness": {
+    "run_id": "eef101dfbb4b4694a43d78be6ef7a2ad",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "checkpoint_task": "M3A-15"
+}

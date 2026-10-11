@@ -1,0 +1,52 @@
+{
+  "task": "M3B-05.b",
+  "status": "PASS",
+  "scope": "SYNTHETIC_SCOPED_AUTOMATIC_COUNTERPART_RUNTIME",
+  "native_checks": [
+    "application_role_resolves_real_rule_authority_and_atomically_creates_target_occurrence_full_audit_epoch_and_next_event",
+    "mapped_remaining_retains_original_user_evidence_and_independent_target_budget_without_confirmation_queue",
+    "created_retries_lookup_and_inactive_new_rule_version_return_original_receipt_without_writes",
+    "foreign_unauthenticated_wrong_origin_wrong_account_and_raw_event_are_rejected_without_effects",
+    "authenticated_worker_cannot_generate_from_another_principal_canonical_event_even_with_same_source_account",
+    "uncreated_inactive_rule_or_expired_root_authority_cannot_publish_counterpart_or_pending_effects",
+    "missing_facts_publish_only_pending_once_then_accepted_new_version_creates_one_target_retaining_history",
+    "explicit_reverse_hard_order_is_atomic_and_independent_of_source_to_target_generation_direction",
+    "current_selected_generation_cycle_is_rejected_before_any_authority_or_audit_effect",
+    "two_real_simultaneous_connections_commit_one_counterpart_and_retry_returns_original_receipt",
+    "concurrent_stage_rules_retry_against_current_parent_preserve_both_stages_and_share_one_budget_with_exact_membership",
+    "actual_user_source_cancellation_and_reactivation_leave_existing_independent_target_and_original_occurrence_unchanged",
+    "delayed_generation_maps_original_creation_snapshot_and_reconstructs_receipt_with_later_current_source_revision",
+    "closed_current_parent_publishes_only_failed_occurrence_and_retries_without_task_or_stage_effect",
+    "real_precommit_connection_close_rolls_back_task_observation_outbox_relation_occurrence_authority_audit_receipt_and_epoch",
+    "successful_commit_operational_or_interface_ack_loss_is_unknown_and_fresh_lookup_retry_reconciles_without_duplicates",
+    "fresh_connection_reconstructs_original_full_audited_generation_receipt_after_source_changes_and_rule_edit"
+  ],
+  "schema_version": "0.12.0-generation-processing",
+  "migration_steps": 17,
+  "domain_tables": 82,
+  "domain_foreign_keys": 204,
+  "native_check_count": 17,
+  "limitations": [
+    "Isolated synthetic native runtime; no live worker or personal activation",
+    "Policy selects exact independently configured rule versions; no inferred latest version",
+    "Delivery leasing and bounded cascade orchestration remain M3B-06"
+  ],
+  "harness": {
+    "run_id": "11f00c047a0e45f39ccf9054eba37154",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

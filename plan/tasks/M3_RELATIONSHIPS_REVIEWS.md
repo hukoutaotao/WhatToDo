@@ -75,6 +75,28 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Acceptance / failure and extension checks: Concurrent retries create one counterpart; rule version edits do not recreate it; no redundant per-instance confirmation is emitted for fully authorized targets.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.
 
+### M3B-05.a
+
+**Prepare composite generation transactions and immutable occurrence storage**
+
+- Type: `DEV`. Initial status: `TODO`.
+- Prerequisites: [M3B-04](M3_RELATIONSHIPS_REVIEWS.md#m3b-04)
+- Deliverable / bounded file scope: portable generation commit plans, append-only occurrence history and forward migration.
+- Work: Derive stable target/link/occurrence identity from the canonical source and accepted rule/role; compose target or parent-stage changes, optional explicit typed link and occurrence revision into one exact receipt/audit fingerprint. Retain pending facts and original source/rule/version/default provenance. Add exact source/head/history references without changing prior SQL or base wire contracts.
+- Acceptance / failure and extension checks: Rule version edits retain occurrence/target identity; malformed drafts and inferred temporal links fail; separate and stage effects remain distinct; SQL preserves historical receipts/rows, rejects source drift, missing history and mutation of terminal created occurrences, and supports append-only pending-to-created revisions. Preparation confers no mutation authority.
+- Completion evidence: targeted pure and owned native checks, installed source match and acceptance report in PROGRESS. Parent M3B-05 remains IN_PROGRESS until M3B-05.b is complete.
+
+### M3B-05.b
+
+**Execute scoped generation commits and verify concurrency/recovery**
+
+- Type: `DEV`. Initial status: `TODO`.
+- Prerequisites: [M3B-05.a](M3_RELATIONSHIPS_REVIEWS.md#m3b-05a)
+- Deliverable / bounded file scope: scoped application-role occurrence repository/handler and native failure/concurrency verifier.
+- Work: Independently resolve canonical source, active accepted rule/root authority, exact definitions and graph constraints; re-evaluate construction, derive exact internal permits, then commit Task/stage, relation, occurrence/history, provenance, receipt/audit and epoch together. Resolve missing facts without a redundant per-instance confirmation queue. Enforce stable occurrence replay before any recreation.
+- Acceptance / failure and extension checks: Concurrent retries commit one counterpart; rule edits/cancel/reopen do not recreate or implicitly cancel it; changed and foreign source/principal/account scopes fail; real precommit disconnect rolls back all effects and successful-commit acknowledgement loss reconciles to the original receipt; current parent CAS and stage/shared-budget behavior remain correct. No live worker or personal activation.
+- Completion evidence: scoped handler/native acceptance, full regression/installation, exact artifact pins and PROGRESS. Only then mark parent M3B-05 DONE.
+
 ### M3B-06
 
 **Implement bounded cascade and recovery processing**
@@ -96,6 +118,28 @@ Task order is constrained by explicit dependencies, not by credentials for unrel
 - Work: Reopen the existing stage and keep/reopen its parent INCOMPLETE in one authorized audited transaction; preserve completion history and distinguish new obligations.
 - Acceptance / failure and extension checks: Ambiguous rework stays pending; reporting out-of-order real completion records truth plus a relationship violation; no fabricated prerequisite completion.
 - Completion evidence: artifact paths + exact targeted command/check or user-source reference + observed result + remaining limitations, recorded in PROGRESS. Do not mark done from code presence alone.
+
+### M3B-07.a
+
+**Prepare exact stage commands and truthful rework effects**
+
+- Type: `DEV`. Initial status: `TODO`.
+- Prerequisites: [M3B-02](#m3b-02) and [M3A-15](M3_STATE_FOUNDATION.md#m3a-15).
+- Deliverable / bounded file scope: opt-in stage command contract, typed exact grant, detached stage/parent preparation and execution-order diagnostics.
+- Work: Preserve stage identity and historical values; genuine rework updates the existing stage and parent together, retains positive parent U or asks for a confirmed estimate when necessary, invalidates predictions and distinguishes unresolved/correction/new-obligation intent. Stage completion preserves truthful reported time and violations without fabricating prerequisite or parent completion.
+- Acceptance / failure and extension checks: Shape never grants authority; unknown version/extra approval/foreign caller/stale parent or stage fail; pending intent/needed U has no proposed canonical effects; preparation is immutable and issues no permit; base contracts and SQL remain unchanged.
+- Completion evidence: targeted methods, current full regression and isolated installation, exact artifact pins and PROGRESS. Parent M3B-07 remains IN_PROGRESS until M3B-07.b passes.
+
+### M3B-07.b
+
+**Commit scoped stage rework and truthful completion atomically**
+
+- Type: `DEV`. Initial status: `TODO`.
+- Prerequisites: [M3B-07.a](#m3b-07a).
+- Deliverable / bounded file scope: PostgreSQL stage command handler, transition/violation/pending persistence and additive migration.
+- Work: Resolve independent USER authority, account, current parent/stage and complete bounded current relationship/execution evidence. Apply prepared effects and their immutable transition/violation/observation histories in one exact-permit audited CAS transaction; retain unresolved intent and distinguish new obligations. No per-instance redundant confirmation for resolved instructions.
+- Acceptance / failure and extension checks: Native staged-parent rework, needed-estimate pending, new/correction intent routing, genuine out-of-order completion, foreign principal/account denial, stable replay, simultaneous CAS, real precommit connection loss and postcommit unknown acknowledgement reconciliation. Prior completion/timing/actual work survive; no implied prerequisite/parent completion.
+- Completion evidence: observed native/full regression/installation, exact report pins and ledger; only then mark parent M3B-07 DONE.
 
 ### M3B-08
 

@@ -52,6 +52,76 @@
       "content_hash": "b4115ecdc908aa4856cfbb26e0cce03a515aeb20f2ea3e10fc1ecf9b7e1d8b8e",
       "schema_version": "0.2.0-definition-cache",
       "legacy_design_version": null
+    },
+    {
+      "id": "007_task_aggregate_storage",
+      "path": "database/runtime-migrations/007_task_aggregate_storage.sql",
+      "content_hash": "bb0dc0f77547604809951c14dc7656d3cdeb51d9195ddaec03f0d6f79f386fbd",
+      "schema_version": "0.3.0-task-storage",
+      "legacy_design_version": null
+    },
+    {
+      "id": "008_evidence_storage",
+      "path": "database/runtime-migrations/008_evidence_storage.sql",
+      "content_hash": "30bcfae75afd90742f94516daa56952788d21f8124884dc0ccb08deb55538339",
+      "schema_version": "0.4.0-evidence-storage",
+      "legacy_design_version": null
+    },
+    {
+      "id": "009_manual_creation_pending",
+      "path": "database/runtime-migrations/009_manual_creation_pending.sql",
+      "content_hash": "a42c14d62299c498d3142e55a57e115a8b59d37e4752dd00098d6183ae7abd85",
+      "schema_version": "0.5.0-manual-pending",
+      "legacy_design_version": null
+    },
+    {
+      "id": "010_actual_work_reports",
+      "path": "database/runtime-migrations/010_actual_work_reports.sql",
+      "content_hash": "cff71b7cd5ea1f9eddd13c7528c76afb00303576714016deb15c59124773299d",
+      "schema_version": "0.6.0-work-reports",
+      "legacy_design_version": null
+    },
+    {
+      "id": "011_command_resolution",
+      "path": "database/runtime-migrations/011_command_resolution.sql",
+      "content_hash": "b7f40a6f3f5b8ea8f85034d83b16091f25c327585a41ff7958766099ff48e671",
+      "schema_version": "0.7.0-command-resolution",
+      "legacy_design_version": null
+    },
+    {
+      "id": "012_read_snapshots",
+      "path": "database/runtime-migrations/012_read_snapshots.sql",
+      "content_hash": "841da1f8b2b4307a3714d301ba68d87251fa7d89cdec11b85211f59b5de901bf",
+      "schema_version": "0.8.0-read-models",
+      "legacy_design_version": null
+    },
+    {
+      "id": "013_relationship_storage",
+      "path": "database/runtime-migrations/013_relationship_storage.sql",
+      "content_hash": "a9fc6f7b42069776ff713da7635c4bbb4599c49cf79dff76b628b3c9b5595d88",
+      "schema_version": "0.9.0-relationships",
+      "legacy_design_version": null
+    },
+    {
+      "id": "014_creation_outbox",
+      "path": "database/runtime-migrations/014_creation_outbox.sql",
+      "content_hash": "6ce5e1967fb6389b633d738676132ee69ed46cd9f820732a9adaee1d4842dd9d",
+      "schema_version": "0.10.0-creation-outbox",
+      "legacy_design_version": null
+    },
+    {
+      "id": "015_generation_occurrences",
+      "path": "database/runtime-migrations/015_generation_occurrences.sql",
+      "content_hash": "2f5a1257a53f08da5734b64ddd561ef6a23db490765f2ff54ed5ab482b0fd31f",
+      "schema_version": "0.11.0-generation-occurrences",
+      "legacy_design_version": null
+    },
+    {
+      "id": "016_generation_processing",
+      "path": "database/runtime-migrations/016_generation_processing.sql",
+      "content_hash": "910fdc40ffbfdfabae9fbcb7300dcff0779fc65b67d27532988b5a49e394d4b4",
+      "schema_version": "0.12.0-generation-processing",
+      "legacy_design_version": null
     }
   ]
 }

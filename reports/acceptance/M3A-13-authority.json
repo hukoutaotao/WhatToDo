@@ -1,0 +1,59 @@
+{
+  "task": "M3A-11",
+  "status": "PASS",
+  "scope": "SYNTHETIC_COMMAND_AUTHORITY_PIPELINE",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "resolved_explicit_creation_uses_registered_scope_trusted_seed_and_one_atomic_publication",
+    "owned_authorized_replay_survives_empty_registry_expired_grant_without_second_approval",
+    "changed_domain_command_cannot_borrow_receipt_of_same_concrete_request",
+    "explicit_title_scope_updates_exact_field_and_preserves_history",
+    "external_claimed_user_and_unauthenticated_callers_cannot_write_or_replay",
+    "known_database_approval_id_cannot_populate_independent_grant_registry",
+    "extra_declared_field_is_rejected_against_exact_registered_changes",
+    "complete_write_cannot_smuggle_importance_or_workload_under_title_permission",
+    "undeclared_provenance_change_cannot_expand_authorized_field_scope",
+    "independent_source_account_scope_must_match_registered_user_statement",
+    "expired_registered_grant_cannot_issue_a_fresh_transaction_permit",
+    "serialized_approval_flags_fail_strict_command_shape_before_any_authority_write",
+    "unknown_target_fails_without_new_task_authority_receipt_or_audit",
+    "current_canonical_task_version_is_rechecked_before_permit_issuance",
+    "explicit_parent_completion_binds_zero_u_and_owned_stage_effects_to_exact_observations",
+    "claimed_delivered_condition_cannot_replace_actual_persisted_dispatch_result",
+    "delivered_database_notice_alone_cannot_confirm_an_unknown_expiration_condition",
+    "confirmed_condition_delivered_notice_and_current_version_authorize_expiry_without_resetting_u",
+    "accepted_exact_rule_git_version_type_scope_and_canonical_creation_bind_mapped_creation",
+    "raw_source_record_reference_cannot_impersonate_a_canonical_rule_creation_event",
+    "accepted_rule_does_not_authorize_an_unrelated_target_task_type",
+    "accepted_rule_version_is_exact_and_never_substituted_with_latest_cached_version",
+    "read_only_reference_connection_failure_is_retryable_without_a_false_committed_result",
+    "concurrent_change_after_scope_validation_rejects_stale_publication_without_audit_or_receipt",
+    "fresh_connection_retains_authorized_task_and_complete_scope_audit_history"
+  ],
+  "native_check_count": 25,
+  "limitations": [
+    "Independent grants/seeds/condition confirmations supplied by trusted synthetic resolvers",
+    "Synthetic dispatch rows only; no user message was delivered",
+    "Manual intent parser/handlers and full lifecycle/generation services remain their separate cards",
+    "Current frozen command fields only; no live course/account/transport or deployment activation"
+  ],
+  "harness": {
+    "run_id": "02419541c09f42ea8c0d3539d86ff652",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "checkpoint_task": "M3A-13"
+}

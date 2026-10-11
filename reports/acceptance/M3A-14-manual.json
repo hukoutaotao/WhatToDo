@@ -1,0 +1,62 @@
+{
+  "task": "M3A-12",
+  "status": "PASS",
+  "scope": "SYNTHETIC_MANUAL_TASK_HANDLER",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "tenth_forward_migration_preserves_all_nine_prior_checkpoint_receipts",
+    "resolved_registered_user_instruction_creates_one_accepted_task_and_canonical_creation_link",
+    "copied_defaults_retain_exact_git_hash_version_accepted_source_and_field_provenance",
+    "template_total_is_initial_total_and_never_an_inferred_current_remaining_estimate",
+    "restart_retry_uses_original_history_without_active_grants_intents_defaults_or_source_registry",
+    "same_command_id_cannot_change_meaning_audit_or_expected_store_version",
+    "new_definition_version_changes_only_a_new_task_and_preserves_existing_task_and_defaults_snapshot",
+    "missing_title_ratings_and_requiredness_persist_as_deduplicated_pending_without_task_audit_or_epoch",
+    "pending_reads_retain_all_resolved_facts_and_require_original_principal_and_registered_account_scope",
+    "pending_interpretation_history_cannot_be_deleted_or_rewritten_by_application_role",
+    "unknown_domain_is_not_replaced_with_other_or_inferred_from_a_tasktype",
+    "cached_templates_cannot_supply_unapproved_default_values_or_creation_authority",
+    "unresolved_exact_tasktype_version_stays_pending_without_substitution_by_latest",
+    "course_context_requires_its_exact_profile_version_before_canonical_creation",
+    "contradictory_approved_defaults_are_pending_without_implicit_source_precedence",
+    "explicit_user_override_resolves_only_its_field_and_preserves_other_default_values",
+    "default_use_requires_its_independent_accepted_scope_and_matching_persisted_user_source",
+    "source_and_approved_defaults_alone_cannot_authorize_manual_creation_or_populate_intent_registry",
+    "external_or_unauthenticated_callers_cannot_create_tasks_or_pending_user_intents",
+    "explicit_initial_remaining_has_a_separate_source_authorized_observation_committed_with_task_and_receipt",
+    "known_remaining_creation_retry_preserves_original_task_observation_and_audit_once",
+    "explicit_zero_remaining_is_retained_without_asserting_task_completion",
+    "injected_native_sql_failure_after_observation_staging_rolls_back_observation_task_authority_audit_receipt_and_epoch",
+    "future_user_observation_time_is_rejected_without_fabricating_verification_or_creation",
+    "stale_store_rejects_creation_and_its_supporting_observation_as_one_operation",
+    "fresh_connection_reads_original_creation_and_retains_durable_pending_history"
+  ],
+  "domain_tables": 68,
+  "domain_foreign_keys": 163,
+  "native_check_count": 26,
+  "limitations": [
+    "Authenticated caller, resolved user intent/default acceptance and root grant registries are synthetic trusted inputs",
+    "Manual interpretation and pending review/resolution remain M3A-21/22; no raw natural language is executed",
+    "Deadline and standalone stage fields require their future handler/contract evolution",
+    "No real course/account/source/Calendar or deployed transport is activated"
+  ],
+  "harness": {
+    "run_id": "b46a6ca76e1c4a6681d82473233971ac",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "checkpoint_task": "M3A-14"
+}

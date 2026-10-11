@@ -1,0 +1,96 @@
+{
+  "task": "M3A-05",
+  "status": "PASS",
+  "scope": "NATIVE_MIGRATION_AND_STARTUP_GATE",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "all_current_steps_applied_in_order",
+    "extended_domain_schema_53_tables_133_foreign_keys",
+    "five_legacy_receipts_and_current_runtime_receipts",
+    "rerun_skips_all_steps_without_rewriting_receipts",
+    "changed_applied_pin_rejected_before_mutation",
+    "unsupported_application_version_rejected_before_migration",
+    "older_migration_bundle_cannot_downgrade_database",
+    "application_and_verifier_read_only_startup_pass",
+    "application_schema_state_write_denied",
+    "application_migration_history_write_denied",
+    "application_migration_failure_write_denied",
+    "application_legacy_receipt_write_denied",
+    "application_connection_cannot_execute_migrations",
+    "concurrent_migration_is_busy_without_writes",
+    "startup_is_busy_during_migration",
+    "sql_failure_rolls_back_whole_step_and_receipt",
+    "successful_prefix_survives_later_failure",
+    "failure_candidate_hash_sqlstate_and_recovery_flag_retained",
+    "application_startup_blocked_after_failed_migration",
+    "retry_pending_step_clears_flag_and_preserves_failure_history",
+    "recovered_application_startup_passes",
+    "metadata_bootstrap_failure_is_empty_and_retryable",
+    "connection_loss_rolls_back_uncommitted_step",
+    "lost_failure_record_is_explicit_not_false_success",
+    "connection_loss_releases_lock_and_retries_successfully",
+    "lost_commit_acknowledgement_reads_atomic_success_receipt",
+    "lost_commit_acknowledgement_never_records_false_failure_or_replays_ddl",
+    "unmanaged_preexisting_schema_is_not_adopted",
+    "unknown_newer_database_blocks_older_application_startup"
+  ],
+  "native_check_count": 29,
+  "migration_pins": [
+    {
+      "id": "000_runtime_metadata",
+      "sha256": "eb023512776b0a9b2c3cf2e9c366d1758f13e8c047bd3294fae838317b255c80"
+    },
+    {
+      "id": "001_foundation",
+      "sha256": "b12c168d3829cb236d8d9dcf7033575f372b914d87549a7711ac4704693a3ae3"
+    },
+    {
+      "id": "002_task_effort_review",
+      "sha256": "c6abbbef9dc6e77993721944423dcc067a4b9b1f749fdb43b143c0940e3c9383"
+    },
+    {
+      "id": "003_relationships_notices",
+      "sha256": "6fbb3dc2cb9e95398e7b96254bf9cb371ec4dc204ef4dc627bd227484dad9945"
+    },
+    {
+      "id": "004_goals_calendar_plans",
+      "sha256": "f6ef09f8af6b8c4602f9de2b6dd7fc031f1f2acac3fc1c18188f6429de07d129"
+    },
+    {
+      "id": "005_ai_operations",
+      "sha256": "ab51f6328b191c6c13a9e326841b95d5361183c5be9ec0307009ed9b7e64f3c8"
+    },
+    {
+      "id": "006_definition_cache",
+      "sha256": "b4115ecdc908aa4856cfbb26e0cce03a515aeb20f2ea3e10fc1ecf9b7e1d8b8e"
+    }
+  ],
+  "domain_tables": 53,
+  "domain_foreign_keys": 133,
+  "runtime_metadata_tables": 3,
+  "limitations": [
+    "Synthetic isolated PostgreSQL only",
+    "No production application startup, canonical command handler or repositories",
+    "No executed production backup/restore; recovery procedure is documented separately"
+  ],
+  "harness": {
+    "run_id": "adf469121e6940a5a0e29cacb514ee59",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 6,
+    "databases_dropped": 6,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  },
+  "acceptance_checkpoint": "M3A-06",
+  "source_report": ".local-state/postgres-tests/adf469121e6940a5a0e29cacb514ee59/migration-report.json"
+}

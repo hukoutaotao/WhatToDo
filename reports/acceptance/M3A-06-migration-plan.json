@@ -1,0 +1,57 @@
+{
+  "version": "0.1.0-migrations",
+  "application_versions": [
+    "0.1.0.dev0"
+  ],
+  "steps": [
+    {
+      "id": "000_runtime_metadata",
+      "path": "database/runtime-migrations/000_runtime_metadata.sql",
+      "content_hash": "eb023512776b0a9b2c3cf2e9c366d1758f13e8c047bd3294fae838317b255c80",
+      "schema_version": "0.0.0-partial",
+      "legacy_design_version": null
+    },
+    {
+      "id": "001_foundation",
+      "path": "database/migrations/001_foundation.sql",
+      "content_hash": "b12c168d3829cb236d8d9dcf7033575f372b914d87549a7711ac4704693a3ae3",
+      "schema_version": "0.0.1-partial",
+      "legacy_design_version": "0.1.0-draft"
+    },
+    {
+      "id": "002_task_effort_review",
+      "path": "database/migrations/002_task_effort_review.sql",
+      "content_hash": "c6abbbef9dc6e77993721944423dcc067a4b9b1f749fdb43b143c0940e3c9383",
+      "schema_version": "0.0.2-partial",
+      "legacy_design_version": "0.1.0-draft"
+    },
+    {
+      "id": "003_relationships_notices",
+      "path": "database/migrations/003_relationships_notices.sql",
+      "content_hash": "6fbb3dc2cb9e95398e7b96254bf9cb371ec4dc204ef4dc627bd227484dad9945",
+      "schema_version": "0.0.3-partial",
+      "legacy_design_version": "0.1.0-draft"
+    },
+    {
+      "id": "004_goals_calendar_plans",
+      "path": "database/migrations/004_goals_calendar_plans.sql",
+      "content_hash": "f6ef09f8af6b8c4602f9de2b6dd7fc031f1f2acac3fc1c18188f6429de07d129",
+      "schema_version": "0.0.4-partial",
+      "legacy_design_version": "0.1.0-draft"
+    },
+    {
+      "id": "005_ai_operations",
+      "path": "database/migrations/005_ai_operations.sql",
+      "content_hash": "ab51f6328b191c6c13a9e326841b95d5361183c5be9ec0307009ed9b7e64f3c8",
+      "schema_version": "0.1.0-state-foundation",
+      "legacy_design_version": "0.1.0-draft"
+    },
+    {
+      "id": "006_definition_cache",
+      "path": "database/runtime-migrations/006_definition_cache.sql",
+      "content_hash": "b4115ecdc908aa4856cfbb26e0cce03a515aeb20f2ea3e10fc1ecf9b7e1d8b8e",
+      "schema_version": "0.2.0-definition-cache",
+      "legacy_design_version": null
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "task": "M3B-06",
+  "status": "PASS",
+  "scope": "SYNTHETIC_BOUNDED_FENCED_CASCADE_WORKER",
+  "native_checks": [
+    "worker_consumes_scoped_existing_canonical_events_including_generated_sources_and_terminal_leaves",
+    "finite_first_batch_and_fresh_connection_complete_real_two_step_cascade_with_persistent_lineage_and_leaf_settlement",
+    "partial_rule_checkpoint_resumes_after_new_connection_without_recreating_first_counterpart",
+    "unchanged_pending_facts_stay_waiting_and_new_accepted_inputs_wake_once_preserving_occurrence_history",
+    "changed_input_wake_takes_new_fenced_claim_without_rewriting_prior_delivery_history",
+    "chain_instance_cap_survives_batches_restarts_and_changed_role_policy_without_counting_from_zero",
+    "recursive_selected_graph_stops_as_visible_permanent_delivery_failure_without_counterparts",
+    "actual_ancestry_depth_cap_stops_preexisting_generated_descendant_without_resetting_root_depth",
+    "long_event_renews_real_delivery_lease_between_rules_and_commits_under_current_fencing_revision",
+    "real_precommit_checkpoint_connection_close_rolls_back_partial_metadata_and_fresh_worker_recovers_expired_lease",
+    "expired_stolen_lease_cannot_commit_canonical_effects_and_new_owner_reuses_reservation_safely",
+    "commit_before_checkpoint_process_loss_replays_original_receipt_after_lease_expiry_and_completes_descendants",
+    "typed_unknown_unobserved_commit_remains_retryable_and_recovers_once_instead_of_permanent_failure",
+    "real_concurrent_root_row_lock_is_typed_retry_with_backoff_and_finite_failure_instead_of_false_completion",
+    "typed_transient_failure_retries_with_backoff_then_stops_visibly_at_configured_attempt_limit",
+    "application_cannot_delete_persistent_lineage_checkpoint_or_reservation_history"
+  ],
+  "domain_tables": 82,
+  "domain_foreign_keys": 204,
+  "migration_steps": 17,
+  "schema_version": "0.12.0-generation-processing",
+  "prerequisite_runtime_checks": 17,
+  "native_check_count": 16,
+  "limitations": [
+    "Explicit finite worker calls only; no live scheduling or personal activation"
+  ],
+  "harness": {
+    "run_id": "136f8487de304c438344acfa316e4fbe",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

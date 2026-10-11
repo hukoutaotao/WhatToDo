@@ -1,6 +1,6 @@
 # WhatToDo Plan Control Center
 
-This is the entry point for a new AI. The repository contains accepted requirements, a complete development plan and sixteen runnable offline development slices, including Plan/forecast, AI-result, application ports [semantic scenarios](../tests/fixtures/semantic/README.md) and [guided review](../formats/input/GUIDED_REVIEW_PROTOTYPE.md); a [checked relational/migration draft](../database/README.md) and [native toolchain spike](../toolchain/ADR-001.md) are also available. The application runtime is not yet implemented. Use the [input contract index](../formats/input/README.md), [output contract index](../formats/output/README.md) and live progress ledger for interfaces and executed checks.
+This is the entry point for a new AI. The repository contains accepted requirements, a complete development plan and sixteen runnable offline development slices, including Plan/forecast, AI-result, application ports [semantic scenarios](../tests/fixtures/semantic/README.md) and [guided review](../formats/input/GUIDED_REVIEW_PROTOTYPE.md); a [checked relational/migration draft](../database/README.md) and [native toolchain spike](../toolchain/ADR-001.md) are also available. The complete application runtime is not yet implemented. Use the [input contract index](../formats/input/README.md), [output contract index](../formats/output/README.md) and live progress ledger for interfaces and executed checks.
 
 ## 1. Read and Act
 
@@ -18,7 +18,74 @@ focused evidence and installation checkpoints are in PROGRESS. M3A-04 adds an
 verified with native authentication and success/failure cleanup probes.
 M3A-05 now supplies [ordered migrations and schema compatibility](../database/RUNTIME_MIGRATIONS.md)
 with native rollback/retry/interruption evidence. The next ready scope is
-M3A-06, versioned definition/template repositories.
+M3B-07 truthful stage rework, after verified M3B-06 bounded cascade and recovery processing; other normalization classes and later runtime dependencies remain open. M3A-06 supplies
+[Git-backed immutable definitions](../database/DEFINITION_REPOSITORIES.md),
+exact-version reference checks and default snapshots; native verification proves
+new default versions preserve existing Task history. M3A-07 now provides
+[Task/stage storage](../database/TASK_REPOSITORIES.md) with lossless history,
+permanent stage ownership and an internal transaction-bound append operation.
+M3A-08 provides [source/candidate and pending-confirmation storage](../database/EVIDENCE_REPOSITORIES.md),
+including immutable scoped evidence, conflicts, tombstones and raw-content
+minimization. Ingestion preserves canonical Task/authority/audit state and
+reviewed replay; native acceptance covers 34 checks. M3A-09 adds
+[atomic Task/audit publication](../database/ATOMIC_TRANSACTIONS.md) with exact
+independent permits, native version conflicts, whole-batch rollback and explicit
+unknown commit outcomes. Its 22 native checks and 377 full methods pass.
+M3A-10 adds [durable command replay and receipt reconciliation](../database/COMMAND_LEDGER.md),
+including caller ownership, expired-permit replay, changed-payload conflicts and
+restart/concurrent/unknown-ack verification. Its 21 native replay checks,
+22 atomicity regression checks and 385 full methods pass at that checkpoint.
+M3A-11 now supplies [strict schema and resolved-authority validation](../database/COMMAND_VALIDATION.md),
+including independent root grants/current references, complete effect scope and
+atomic command annotations. Eleven focused methods, 25 native authority checks,
+396 full methods and clean installation across 43 modules pass at that checkpoint.
+M3A-12 now supplies [manual Task creation](../database/MANUAL_TASK_CREATION.md),
+including exact accepted-default provenance, lossless pending facts, one canonical
+creation identity and atomic initial U. Ten focused methods, 26 native creation
+checks, 406 full methods and clean installation across 45 modules pass at that checkpoint. Current
+seventeen-step migrations have 82 domain tables/204 FKs; current migration, authority,
+storage, ledger and atomicity regressions pass. M3A-13 adds [explicit Task fact
+updates](../database/TASK_FACT_PATCHES.md), preserving source time/history and
+original-request replay with atomic due/U support. Fifteen focused methods,
+32 native checks and 421 full methods pass at that checkpoint; clean installation covers 48 modules
+and a separately selected extension while keeping the 30 base schemas unchanged.
+M3A-14 adds [user-confirmed completion/cancellation](../database/TASK_LIFECYCLE.md),
+with atomic parent/stage zero U, retained actual work and honest work timestamps.
+Fourteen focused methods, 34 native checks and 435 full methods pass at that checkpoint; clean
+installation covers 50 modules and both endpoints without optional-driver
+imports. M3A-15 adds [actual-work reporting](../database/WORK_REPORTS.md), with
+increment/cumulative settlement, independent U, lossless optional sessions and
+observation-ID deduplication. Eighteen focused methods, 39 native checks and 453
+full methods pass; current regression evidence and 53-module/33-schema clean
+installation are recorded in PROGRESS. The base 30 contracts and 91 pins remain
+unchanged. M3A-21@CREATE_TASK adds [direct-user creation input](../formats/input/DIRECT_USER_CREATION.md),
+with clear Chinese phrases/text answers, exact statement/source ownership and the
+existing manual service handoff. Twenty-one focused methods, 16 native handoff
+checks, 474 full methods and six scripted/stdin demos pass; clean installation
+covers 54 modules. Other command classes remain separate repeat instances.
+[M3A-22 resolution](../database/COMMAND_RESOLUTION.md) now joins owned Task/course
+snapshots, versioned replies and same-command authorized handoff. Twenty-two
+focused methods, 23 native checks and 496 full methods pass; clean installation
+covers 56 modules/36 selected schemas at that checkpoint.
+[M3A-16 transport](../formats/input/PROTOTYPE_COMMAND_TRANSPORT.md) now exposes
+existing handlers through an authenticated loopback HTTP API. Twenty-nine focused
+methods, 23 native HTTP checks and 525 full methods pass; current clean installation
+covers 60 modules/38 selected schemas at that checkpoint.
+[M3A-17 read models](../database/READ_MODELS.md) now return owned Tasks, retained
+outcomes, pending summaries and exact semantic audit history with restart-safe
+signed pagination. Thirty-one focused methods, 20 native checks and 556 full methods
+pass; current installation covers 62 modules/40 schemas and 63 matching files.
+[M3A-18 backup/restore](../toolchain/BACKUP_RESTORE.md) now verifies all 76 tables,
+catalogs, audits and command receipts in a separate database. Sixteen native
+checks, 33 focused methods and 589 full methods pass, including corruption and
+actual late restore rollback/retry. [M3A-20 isolated CI](../toolchain/CI.md) now
+rehearses the complete entrypoint in a fresh Windows checkout: 602 methods,
+113 native checks, twelve dropped test databases and three deliberate failure
+gates pass. Hosted Actions has not been run.
+[M3A-19 acceptance](../reports/acceptance/M3A.md) now closes the bounded generic
+persistence gate with fifteen requirement mappings, a fresh 602-method/113-native
+run, exact installed-source checks and separate restore. M3B-01 typed storage, M3B-02 graph validation, M3B-03 outbox and M3B-04 generation evaluation are DONE; M3B-05.a/b and parent M3B-05 scoped atomic generation are DONE. [M3B-06 bounded processing](../database/GENERATION_PROCESSING.md) is DONE with 715 methods/197 native checks; M3B-07 stage rework follows; [runtime handoff](../database/GENERATION_RUNTIME.md) records evidence and remaining work.
+Personal intake remains deferred.
 
 ## 2. Authority by Subject
 
@@ -68,3 +135,11 @@ Update all affected semantic specifications, formats, task dependencies/tests an
 The old coarse DEVELOPMENT_PLAN was replaced in place by the executable plan and catalogs. Control/status duplication was consolidated here and in PROGRESS. The completed audit working report was removed; its C01–C21 findings and closed O01–O08 boundaries are preserved in [development-plan traceability](DEVELOPMENT_PLAN.md#13-preserved-audit-findings-and-closed-boundaries) and durable semantic owners. Git history retains prior reports.
 
 Do not create a second competing roadmap or status ledger. Retain accepted intent, decision IDs, alignment method and module specifications; they contain domain information needed by future AIs.
+
+[Typed relationship storage](../database/RELATIONSHIP_STORAGE.md) now preserves accepted rule/link versions and exact provenance. Current regression passes 685 methods and 153 native checks; personal intake remains deferred.
+
+[Bounded relationship graph validation](../database/RELATIONSHIP_GRAPH_VALIDATION.md) now verifies separately typed graphs, precise diagnostics and explicit generation resource limits. Current installation contains 68 modules/69 matching files; automatic generation and personal activation remain future work.
+
+[Canonical creation outbox](../database/CREATION_OUTBOX.md) now preserves the first source snapshot atomically and supports scoped delivery leases, retry/restart recovery and fenced result replay. Delivery state remains separate from Task completion. Rule evaluation is available; atomic target generation remains next.
+
+[Exact-version generation evaluation](../database/GENERATION_EVALUATOR.md) now constructs a validated independent Task or shared-parent stage, or explicit pending facts, with original source/default/template provenance. Atomic counterpart persistence and deduplication remain next.

@@ -1,0 +1,56 @@
+{
+  "task": "M3B-03",
+  "status": "PASS",
+  "scope": "SYNTHETIC_ATOMIC_CAPTURE_AND_SCOPED_LEASES",
+  "native_checks": [
+    "fourteen_step_upgrade_preserves_prior_task_and_receipts_without_historical_backfill",
+    "raw_external_observation_creates_no_canonical_creation_event",
+    "actual_connection_close_after_task_event_staging_rolls_back_task_event_delivery_receipt_audit_and_epoch",
+    "lost_ack_after_real_commit_leaves_durable_ready_event_with_exact_initial_payload_and_original_creation_transaction",
+    "original_command_retry_preserves_one_event_and_initial_delivery_revision",
+    "pending_manual_facts_do_not_publish_a_task_or_creation_event",
+    "subsequent_fact_update_keeps_first_creation_snapshot_without_new_events",
+    "locked_delivery_is_skipped_without_waiting_or_claiming_it",
+    "simultaneous_workers_obtain_exactly_one_fenced_lease_and_restart_reads_that_lease",
+    "other_worker_cannot_read_lease_token_or_claim_unexpired_delivery",
+    "renewal_retains_attempt_and_token_but_fences_previous_delivery_revision",
+    "settlement_replay_verifies_original_source_snapshot_attempt_and_full_lease",
+    "retry_time_and_original_settlement_survive_replay_and_conflicting_result_is_rejected",
+    "original_retry_ack_replays_after_new_claim_without_overwriting_it",
+    "expired_worker_lease_recovers_at_exact_expiry_and_late_previous_worker_cannot_settle",
+    "terminal_result_is_durable_and_original_ack_replays_after_expiry_without_requeue",
+    "delivery_claim_renew_retry_and_done_do_not_mutate_task_audit_receipt_or_store_epoch",
+    "foreign_principal_and_wrong_registered_account_scope_cannot_read_event_or_delivery",
+    "application_role_cannot_insert_events_manually_but_legitimate_task_trigger_can",
+    "canonical_event_and_delivery_history_are_append_only",
+    "waiting_facts_and_failed_results_are_durable_and_malformed_direct_sql_result_is_rejected"
+  ],
+  "schema_version": "0.10.0-creation-outbox",
+  "migration_steps": 15,
+  "domain_tables": 76,
+  "domain_foreign_keys": 183,
+  "native_check_count": 21,
+  "limitations": [
+    "No live worker, rule selection or counterpart generation",
+    "Outcome settlement records delivery processing only; domain mutations require their own authority/transaction",
+    "Historical creations are not backfilled"
+  ],
+  "harness": {
+    "run_id": "1fc283a7a0184ddeae4e17e83d1c9d6c",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

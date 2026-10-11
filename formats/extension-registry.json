@@ -1,0 +1,224 @@
+{
+  "registry_version": "0.1.0-extensions",
+  "scope": "GENERIC_DEVELOPMENT_ONLY",
+  "base_registry": "formats/contract-registry.json",
+  "policy": {
+    "base_contracts": "UNCHANGED",
+    "selection": "EXPLICIT_OPT_IN",
+    "legacy_adapters": "NONE",
+    "unknown_version": "REJECT_RETAIN_ORIGINAL_BYTES",
+    "authority": "INDEPENDENT_EXACT_GRANT_REQUIRED"
+  },
+  "contracts": [
+    {
+      "name": "task-fact-patch",
+      "path": "formats/extensions/task-fact-patch.schema.json",
+      "schema_id": "urn:whattodo:task-fact-patch:0.1.0-task-fact-patch",
+      "schema_hash": "c0ad38e758eea0f540b1e268f0b17138776ab760ea95e79de534dc42ddde3c5f",
+      "supported_versions": [
+        "0.1.0-task-fact-patch"
+      ],
+      "consumers": [
+        "src/application/fact_patches.py",
+        "src/adapters/postgres_fact_patches.py"
+      ],
+      "database_owners": [
+        "task_revision",
+        "task_details_revision",
+        "task_field_provenance",
+        "normalized_due",
+        "effort_observation",
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ]
+    },
+    {
+      "name": "work-report",
+      "path": "formats/extensions/work-report.schema.json",
+      "schema_id": "urn:whattodo:work-report:0.1.0-work-report",
+      "schema_hash": "778382335cb6c397c35462e52c6f8b78ce806a1a8f7a2b185bb6a62727ba2f24",
+      "supported_versions": [
+        "0.1.0-work-report"
+      ],
+      "consumers": [
+        "src/application/work_reports.py",
+        "src/adapters/postgres_work_reports.py"
+      ],
+      "database_owners": [
+        "actual_work_report",
+        "effort_observation",
+        "task_revision",
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ]
+    },
+    {
+      "name": "actual-work-record",
+      "path": "formats/extensions/actual-work-record.schema.json",
+      "schema_id": "urn:whattodo:actual-work-record:0.1.0-actual-work-record",
+      "schema_hash": "c9b33b471fb588922e3d8f17e8e5c141f1e80a7b8ad5d50c727d9dfe8d8ab8c4",
+      "supported_versions": [
+        "0.1.0-actual-work-record"
+      ],
+      "consumers": [
+        "src/application/work_reports.py",
+        "src/application/transactions.py",
+        "src/adapters/postgres_actual_work.py",
+        "src/adapters/postgres_transactions.py"
+      ],
+      "database_owners": [
+        "actual_work_report",
+        "effort_observation",
+        "task_revision",
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ]
+    },
+    {
+      "name": "resolution-intent",
+      "path": "formats/extensions/resolution-intent.schema.json",
+      "schema_id": "urn:whattodo:resolution-intent:0.1.0-resolution-intent",
+      "schema_hash": "313d9b2f3eb57af20bc19ded97493681827c63ff3f63a99d8766466377a3ccb9",
+      "supported_versions": [
+        "0.1.0-resolution-intent"
+      ],
+      "consumers": [
+        "src/application/task_resolution.py",
+        "src/adapters/postgres_resolution.py"
+      ],
+      "database_owners": [
+        "command_resolution_revision",
+        "command_resolution_head",
+        "command_resolution_reply"
+      ]
+    },
+    {
+      "name": "clarification-reply",
+      "path": "formats/extensions/clarification-reply.schema.json",
+      "schema_id": "urn:whattodo:clarification-reply:0.1.0-clarification-reply",
+      "schema_hash": "383cd3c2fecf1cd80c18e8bc1770413e3a42b4d673c15f151bfb46cc5a08bac5",
+      "supported_versions": [
+        "0.1.0-clarification-reply"
+      ],
+      "consumers": [
+        "src/application/task_resolution.py",
+        "src/adapters/postgres_resolution.py"
+      ],
+      "database_owners": [
+        "command_resolution_revision",
+        "command_resolution_head",
+        "command_resolution_reply"
+      ]
+    },
+    {
+      "name": "resolution-session",
+      "path": "formats/extensions/resolution-session.schema.json",
+      "schema_id": "urn:whattodo:resolution-session:0.1.0-resolution-session",
+      "schema_hash": "187c4fdfae3c1dff82f7c5e5f709099e1403960b5cc010ba9f8695b7f96984ad",
+      "supported_versions": [
+        "0.1.0-resolution-session"
+      ],
+      "consumers": [
+        "src/application/task_resolution.py",
+        "src/adapters/postgres_resolution.py"
+      ],
+      "database_owners": [
+        "command_resolution_revision",
+        "command_resolution_head",
+        "command_resolution_reply"
+      ]
+    },
+    {
+      "name": "prototype-request",
+      "path": "formats/extensions/prototype-request.schema.json",
+      "schema_id": "urn:whattodo:prototype-request:0.1.0-prototype-request",
+      "schema_hash": "5219b2d23eea5050ee3fab9e0237dc7affe0fde5d425dd5382a5c08fcb824d08",
+      "supported_versions": [
+        "0.1.0-prototype-request"
+      ],
+      "consumers": [
+        "src/application/command_transport.py",
+        "src/adapters/prototype_http.py",
+        "src/adapters/postgres_transport.py"
+      ],
+      "database_owners": []
+    },
+    {
+      "name": "prototype-response",
+      "path": "formats/extensions/prototype-response.schema.json",
+      "schema_id": "urn:whattodo:prototype-response:0.1.0-prototype-response",
+      "schema_hash": "debdfba3851df1270d72f4836421899dd0af52c1fd3a1027c580e51a2982dd94",
+      "supported_versions": [
+        "0.1.0-prototype-response"
+      ],
+      "consumers": [
+        "src/application/command_transport.py",
+        "src/adapters/prototype_http.py",
+        "src/adapters/postgres_transport.py"
+      ],
+      "database_owners": []
+    },
+    {
+      "name": "read-query",
+      "path": "formats/extensions/read-query.schema.json",
+      "schema_id": "urn:whattodo:read-query:0.1.0-read-query",
+      "schema_hash": "117b728540f4a2431d661bb70e9614ce5d6441c4e11ad7d94ac38eef815dc1d8",
+      "supported_versions": [
+        "0.1.0-read-query"
+      ],
+      "consumers": [
+        "src/application/read_models.py",
+        "src/adapters/postgres_read_models.py"
+      ],
+      "database_owners": [
+        "read_snapshot"
+      ]
+    },
+    {
+      "name": "read-page",
+      "path": "formats/extensions/read-page.schema.json",
+      "schema_id": "urn:whattodo:read-page:0.1.0-read-page",
+      "schema_hash": "bb49b5f497b6d38fb4de2d944f5c021d32f0389a08674f9497a5925fb5ce8ca3",
+      "supported_versions": [
+        "0.1.0-read-page"
+      ],
+      "consumers": [
+        "src/application/read_models.py",
+        "src/adapters/postgres_read_models.py"
+      ],
+      "database_owners": [
+        "read_snapshot"
+      ]
+    },
+    {
+      "name": "stage-command",
+      "path": "formats/extensions/stage-command.schema.json",
+      "schema_id": "urn:whattodo:stage-command:0.1.0-stage-command",
+      "schema_hash": "810c983601e79856c69260b94c4497be3251347461bca671f4d10165c20e0487",
+      "supported_versions": [
+        "0.1.0-stage-command"
+      ],
+      "consumers": [
+        "src/application/stage_commands.py"
+      ],
+      "database_owners": [
+        "stage_revision",
+        "stage_effort_revision",
+        "task_stage_revision",
+        "task_revision",
+        "task_details_revision",
+        "effort_observation",
+        "authority_record",
+        "command_transaction",
+        "audit_entry",
+        "audit_change"
+      ]
+    }
+  ]
+}

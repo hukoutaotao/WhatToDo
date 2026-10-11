@@ -20,7 +20,8 @@ packages = ["src", "src.domain", "src.application", "src.adapters"]
 include-package-data = false
 
 [tool.setuptools.data-files]
-"share/whattodo/formats" = ["formats/contract-registry.json"]
+"share/whattodo/formats" = ["formats/contract-registry.json", "formats/extension-registry.json"]
+"share/whattodo/formats/extensions" = ["formats/extensions/*.schema.json"]
 "share/whattodo/formats/input" = ["formats/input/*.schema.json"]
 "share/whattodo/formats/output" = ["formats/output/*.schema.json"]
 "share/whattodo/config" = ["config/runtime.example.json"]

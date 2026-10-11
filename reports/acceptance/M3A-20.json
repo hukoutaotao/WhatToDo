@@ -1,0 +1,441 @@
+{
+  "task": "M3A-20",
+  "status": "PASS",
+  "scope": "FRESH_WINDOWS_CHECKOUT_WORKER_REHEARSAL",
+  "source_sha256": "0cba6a60ac0972799767d0f55a355de37ab0b61a6c6393a5538756c84ef996e7",
+  "copied_source_files": 445,
+  "inherited_environment": false,
+  "inherited_database": false,
+  "seeded_public_postgres_archive": true,
+  "hosted_github_run": false,
+  "checks": [
+    {
+      "check": "fresh_bootstrap_and_complete_baseline",
+      "status": "PASS",
+      "worker_result": {
+        "schema_version": "0.1.0-synthetic-ci",
+        "task": "M3A-20",
+        "status": "PASS",
+        "scope": "PINNED_WINDOWS_SYNTHETIC_BASELINE",
+        "checks": [
+          {
+            "check": "secrets",
+            "status": "PASS",
+            "counts": {
+              "files_checked": 445,
+              "signature_families": 7
+            }
+          },
+          {
+            "check": "documents",
+            "status": "PASS",
+            "counts": {
+              "markdown_files": 102,
+              "local_links": 1467,
+              "fragments": 373,
+              "task_definitions": 213
+            }
+          },
+          {
+            "check": "workflow",
+            "status": "PASS",
+            "counts": {
+              "action_pins": 3,
+              "deployment_steps": 0,
+              "provider_secrets": 0
+            }
+          },
+          {
+            "check": "bootstrap",
+            "status": "PASS"
+          },
+          {
+            "check": "dependency_pins",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_build",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_core",
+            "status": "PASS"
+          },
+          {
+            "check": "generic_baseline",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "import_boundaries",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_registry",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_cases",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "extensions",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "cross_contracts",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "semantic_scenarios",
+            "status": "PASS",
+            "counts": {
+              "unittest_methods": 50
+            }
+          },
+          {
+            "check": "database_design",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "sql_drift",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "aggregate_drift",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "configuration",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "authority",
+            "status": "PASS",
+            "counts": {
+              "unittest_methods": 61
+            }
+          },
+          {
+            "check": "unit_domain",
+            "status": "PASS",
+            "counts": {
+              "unittest_methods": 602
+            }
+          },
+          {
+            "check": "package_install",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "native_migrations",
+            "status": "PASS",
+            "counts": {
+              "native_checks": 29,
+              "databases_created": 6,
+              "databases_dropped": 6,
+              "server_stopped": true
+            }
+          },
+          {
+            "check": "native_authority",
+            "status": "PASS",
+            "counts": {
+              "native_checks": 25,
+              "databases_created": 1,
+              "databases_dropped": 1,
+              "server_stopped": true
+            }
+          },
+          {
+            "check": "native_transport",
+            "status": "PASS",
+            "counts": {
+              "native_checks": 23,
+              "databases_created": 1,
+              "databases_dropped": 1,
+              "server_stopped": true
+            }
+          },
+          {
+            "check": "native_reads",
+            "status": "PASS",
+            "counts": {
+              "native_checks": 20,
+              "databases_created": 1,
+              "databases_dropped": 1,
+              "server_stopped": true
+            }
+          },
+          {
+            "check": "native_backup_restore",
+            "status": "PASS",
+            "counts": {
+              "native_checks": 16,
+              "databases_created": 3,
+              "databases_dropped": 3,
+              "server_stopped": true
+            }
+          }
+        ],
+        "deployment": false,
+        "provider_credentials": false,
+        "source_sha256": "0cba6a60ac0972799767d0f55a355de37ab0b61a6c6393a5538756c84ef996e7"
+      }
+    },
+    {
+      "check": "credential_file_rejected_before_children",
+      "status": "PASS",
+      "worker_result": {
+        "schema_version": "0.1.0-synthetic-ci",
+        "task": "M3A-20",
+        "status": "FAIL",
+        "scope": "PINNED_WINDOWS_SYNTHETIC_BASELINE",
+        "checks": [
+          {
+            "check": "secrets",
+            "status": "FAIL",
+            "code": "CI_SECRET_SIGNATURE_OR_CREDENTIAL_FILE"
+          }
+        ],
+        "deployment": false,
+        "provider_credentials": false,
+        "failure_code": "CI_SECRET_SIGNATURE_OR_CREDENTIAL_FILE"
+      }
+    },
+    {
+      "check": "invalid_contract_blocks_before_authority_package_and_native",
+      "status": "PASS",
+      "worker_result": {
+        "schema_version": "0.1.0-synthetic-ci",
+        "task": "M3A-20",
+        "status": "FAIL",
+        "scope": "PINNED_WINDOWS_SYNTHETIC_BASELINE",
+        "checks": [
+          {
+            "check": "secrets",
+            "status": "PASS",
+            "counts": {
+              "files_checked": 446,
+              "signature_families": 7
+            }
+          },
+          {
+            "check": "documents",
+            "status": "PASS",
+            "counts": {
+              "markdown_files": 102,
+              "local_links": 1467,
+              "fragments": 373,
+              "task_definitions": 213
+            }
+          },
+          {
+            "check": "workflow",
+            "status": "PASS",
+            "counts": {
+              "action_pins": 3,
+              "deployment_steps": 0,
+              "provider_secrets": 0
+            }
+          },
+          {
+            "check": "dependency_pins",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_build",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_core",
+            "status": "PASS"
+          },
+          {
+            "check": "generic_baseline",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "import_boundaries",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_registry",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_cases",
+            "status": "FAIL",
+            "exit_code": 1
+          }
+        ],
+        "deployment": false,
+        "provider_credentials": false,
+        "source_sha256": "7d42ac3be1ecfd30cc25d9138fe5b42af47bd5f8e3e76eb3aae70f2713197e14",
+        "failure_code": "CI_CHILD_CHECK_FAILED"
+      }
+    },
+    {
+      "check": "authority_regression_blocks_before_package_and_native",
+      "status": "PASS",
+      "worker_result": {
+        "schema_version": "0.1.0-synthetic-ci",
+        "task": "M3A-20",
+        "status": "FAIL",
+        "scope": "PINNED_WINDOWS_SYNTHETIC_BASELINE",
+        "checks": [
+          {
+            "check": "secrets",
+            "status": "PASS",
+            "counts": {
+              "files_checked": 445,
+              "signature_families": 7
+            }
+          },
+          {
+            "check": "documents",
+            "status": "PASS",
+            "counts": {
+              "markdown_files": 102,
+              "local_links": 1467,
+              "fragments": 373,
+              "task_definitions": 213
+            }
+          },
+          {
+            "check": "workflow",
+            "status": "PASS",
+            "counts": {
+              "action_pins": 3,
+              "deployment_steps": 0,
+              "provider_secrets": 0
+            }
+          },
+          {
+            "check": "dependency_pins",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_build",
+            "status": "PASS"
+          },
+          {
+            "check": "wheelhouse_core",
+            "status": "PASS"
+          },
+          {
+            "check": "generic_baseline",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "import_boundaries",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_registry",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "contract_cases",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "extensions",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "cross_contracts",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "semantic_scenarios",
+            "status": "PASS",
+            "counts": {
+              "unittest_methods": 50
+            }
+          },
+          {
+            "check": "database_design",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "sql_drift",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "aggregate_drift",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "configuration",
+            "status": "PASS",
+            "counts": {}
+          },
+          {
+            "check": "authority",
+            "status": "FAIL",
+            "exit_code": 1
+          }
+        ],
+        "deployment": false,
+        "provider_credentials": false,
+        "source_sha256": "4554245a97a18d5a032c6983e57b9d2cc0d7d8ffc27b648b005d6be162ba886a",
+        "failure_code": "CI_CHILD_CHECK_FAILED"
+      }
+    }
+  ],
+  "native_cleanup_verified": true,
+  "verified_on": "2026-10-10",
+  "focused_unittest_methods": 13,
+  "full_unittest_methods": 602,
+  "native_check_count": 113,
+  "total_test_databases_created": 12,
+  "total_test_databases_dropped": 12,
+  "action_commit_pins": {
+    "actions/checkout": "df4cb1c069e1874edd31b4311f1884172cec0e10",
+    "actions/setup-python": "a309ff8b426b58ec0e2a45f0f869d46889d02405",
+    "actions/upload-artifact": "b7c566a772e6b6bfb58ed0dc250532a479d7789f"
+  },
+  "artifact_hashes": {
+    ".github/workflows/baseline.yml": "d73c6cfd01f6ba53dd2ed5d3739856decb3ae3813dc580cb8d58e5502c84faa4",
+    "tools/ci_checks.py": "3964f6ffcdaca641d1d51acfa489a5bbe99dc63fe512a9e5c23760837d622e97",
+    "tools/run_ci.py": "99d951b033f314be78ea4324da5663c636902bd0ec094f7871fd15ffa1dc08b6",
+    "tools/verify_ci_rehearsal.py": "c620132d5bcc214bf5fcea7e17c206dc59ff6d6845d2d653a28770c1143100a7",
+    "tests/test_ci_baseline.py": "caff24463d779e41a1318c82307ac387db102f8fe99943a0df9bb0aa3588fadd",
+    "tests/test_development_backup.py": "eb23f510ce54dacd6e0b3c8a14e5f5154ea975fa7d080da9c1f03b7f0728768f",
+    "toolchain/CI.md": "fb65fa349730ae291a32875221995ecd775c4e1972e5313cbbcc2ddd1898e53d"
+  },
+  "validation_commands": [
+    ".venv/Scripts/python.exe -m unittest tests.test_ci_baseline -q",
+    ".venv/Scripts/python.exe tools/run_ci.py",
+    ".venv/Scripts/python.exe tools/verify_ci_rehearsal.py"
+  ],
+  "limitations": [
+    "Fresh local Windows worker rehearsal; no hosted GitHub Actions invocation, workflow publication or branch-protection change",
+    "Only the pinned public PostgreSQL archive was seeded; environment and binary extraction were created afresh and no private database was inherited",
+    "Credential signatures and file types are bounded policy, not universal secret detection",
+    "No deployment, provider activation, personal intake or full runtime release certified"
+  ]
+}

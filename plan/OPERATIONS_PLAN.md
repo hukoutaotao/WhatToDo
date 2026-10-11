@@ -188,6 +188,10 @@ Minimum backup/audit/state-version/staleness/confirmation protection begins with
 
 Observe accepted generation rule versions, canonical source events, deduplication/occurrence keys, cascade failures, graph conflicts, and pending target facts. Persist source creation/outbox and generation audit so retry/restart cannot create multiple counterparts or turn unaccepted evidence into a trigger. Rule changes do not automatically regenerate historical counterparts.
 
+[Typed rule/link persistence](../database/RELATIONSHIP_STORAGE.md) now has an
+isolated native verifier. Its enclosing transaction owns receipt/audit/epoch
+publication; canonical-event outbox and automatic generation remain future work.
+
 Notify-before-record expiration requires explicit process state: detected confirmed condition → dispatch user-facing notice → revalidate current Task/version/condition → commit EXPIRED/history. “Informed” means successful dispatch through the chosen user-facing channel, not merely writing a log/unsent queue item; no read receipt/acknowledgement is required. Failed dispatch stays pending/retryable. Record notification and transition IDs to avoid duplicate notices/writes and audit any state change between them.
 
 Runtime, channel, service code, and workflows do not yet exist. Preserve stale-state handling and safe fallback while model predictions or notification services are unavailable.
