@@ -163,7 +163,8 @@ def prepare_stage_command(codec,command,grant,before,*,caller,now,order=StageOrd
     f=command.fields;intent=f.get('intent')
     if intent!='SAME_OBLIGATION':
         code={'NEW_OBLIGATION':'STAGE_NEW_OBLIGATION_REQUIRES_CREATION','CORRECTION':'STAGE_CORRECTION_REQUIRES_RECONCILIATION'}.get(intent,'STAGE_INTENT_UNRESOLVED')
-        return PreparedStageCommand('PENDING',code,missing_fields=('intent',))
+        missing={'NEW_OBLIGATION':'new_obligation_facts','CORRECTION':'correction_facts'}.get(intent,'intent')
+        return PreparedStageCommand('PENDING',code,missing_fields=(missing,))
     if original['core']['disposition']!='ACTIVE':return PreparedStageCommand('PENDING','STAGE_PARENT_INACTIVE',missing_fields=('parent_reactivation',))
     old_stage=original['effort']['stages'][index];old_u=original['effort']['user_remaining']
     if command.operation=='REWORK':
@@ -221,5 +222,7 @@ def prepare_stage_command(codec,command,grant,before,*,caller,now,order=StageOrd
     transition=dict(command=command.as_record(),command_fingerprint=command.fingerprint,source_ref=grant.evidence_ref,source_observed_at=grant.source_observed_at.isoformat(),
         previous_parent_revision=before.revision,parent_revision=before.revision+1,previous_stage_revision=command.expected_stage_revision,stage_revision=detail['revision'],
         previous_parent_completion=original['core']['completion'],previous_stage_completion=old_stage['completion'],previous_parent_completed_at=original['timing']['completed_at'],
-        reported_completed_at=reported,issues=issues,order_snapshot=serial_time(relation_pins))
+        previous_stage_completed_at=target_evidence.completed_at.isoformat() if target_evidence is not None and target_evidence.completed_at is not None else None,
+        target_execution=serial_time(asdict(target_evidence)) if target_evidence is not None else None,
+        order_input_hash=sha256(canonical(order.payload).encode()).hexdigest(),reported_completed_at=reported,issues=issues,order_snapshot=serial_time(relation_pins))
     return PreparedStageCommand('PREPARED','STAGE_EFFECTS_PREPARED',admit_storage(codec,canonical(value).encode()),tuple(estimates),canonical(transition))

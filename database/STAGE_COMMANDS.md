@@ -52,7 +52,7 @@ a closed reason and missing information. It performs no SQL and issues no permit
   parent revision. Separately supplied stage U is not added to the parent budget.
   Changed field provenance points to the exact source; unrelated provenance remains.
 - Unresolved intent, correction and new obligations remain PENDING with distinct
-  reasons and no proposed canonical effects. Correction must reconcile the old
+  reasons and no proposed canonical effects. Known correction/new-obligation intent asks for its missing facts rather than the already resolved intent. Correction must reconcile the old
   record; a new obligation requires the creation path. Inactive parents require
   explicit reactivation rather than a silent disposition change.
 
@@ -76,7 +76,7 @@ are distinct diagnostic codes.
 
 The proposed transition retains command/source references, separate before/after
 stage/parent revisions and outcomes, historical parent completion time, reported
-stage time, exact relation/evidence pins and diagnostics. M3B-07.b must persist
+stage time, historical stage completion/actual-start evidence, the complete order-input hash, exact relation/evidence pins and diagnostics. M3B-07.b must persist
 these together with Task/observations/authority/audit/receipt/epoch, then verify
 the original full receipt on replay. A confirmed instruction needs no second
 per-instance approval.
@@ -87,7 +87,7 @@ Run `.venv/Scripts/python.exe -m unittest tests.test_stage_commands -q` for targ
 authority, identity, history, budget, pending, timestamp and truth/order checks.
 `tools/run_ci.py` verifies the full regression and isolated installation, including
 installed stage rework and effect-free pending preparation without a permit.
-[M3B-07.a acceptance](../reports/acceptance/M3B-07a.json) records observed results.
+Twenty focused methods and 735 full methods pass. Final local CI passes 30 phases/197 unchanged native prerequisite checks, with all seventeen databases dropped and ten servers stopped. Installation matches 74 modules/75 source files/41 schemas. [M3B-07.a acceptance](../reports/acceptance/M3B-07a.json) records observed results and exact pins. This does not certify new native stage mutations.
 
 The next card is M3B-07.b. This preparer is not a deployed stage mutation handler,
 a durable pending queue or completed parent M3B-07. Live activation, personal intake,

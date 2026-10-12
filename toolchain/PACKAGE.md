@@ -101,6 +101,8 @@ clean package installation, native command/read/restore checks and exact source
 comparison in another new checkout. It freezes this prototype evidence at schema
 0.8.0-read-models; later relationship/review/runtime work is outside this gate.
 
-[Composite generation preparation](../database/GENERATION_COMMIT_FOUNDATION.md) is also installed without the optional driver. Installed smoke reconstructs its exact receipt/audit and occurrence payload; preparation issues no permit. Current verification matches all 74 source files across checkout/wheel/install, with 73 modules and 40 schemas. The [scoped generation policy/handler](../database/GENERATION_RUNTIME.md) is included; installed smoke exercises explicit optional-driver absence, while native checks verify actual atomic generation and recovery.
+[Composite generation preparation](../database/GENERATION_COMMIT_FOUNDATION.md) is also installed without the optional driver. Installed smoke reconstructs its exact receipt/audit and occurrence payload; preparation issues no permit. Current verification matches all 75 source files across checkout/wheel/install, with 74 modules and 41 schemas. The [scoped generation policy/handler](../database/GENERATION_RUNTIME.md) is included; installed smoke exercises explicit optional-driver absence, while native checks verify actual atomic generation and recovery.
 
 [Bounded processing](../database/GENERATION_PROCESSING.md) is installed with typed checkpoints and explicit optional-driver absence. Seventeen SQL resources resolve the current generation-processing schema.
+
+[Stage command preparation](../database/STAGE_COMMANDS.md) is installed with the eleventh opt-in extension. Installed smoke reopens one existing stage, binds a fresh parent estimate and retains unresolved intent without effects; it issues no permit and needs no PostgreSQL driver. All 75 source files match checkout/wheel/install.

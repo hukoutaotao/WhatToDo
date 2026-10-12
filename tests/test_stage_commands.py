@@ -89,6 +89,7 @@ class StageCommandTests(unittest.TestCase):
         for intent in ('UNRESOLVED','CORRECTION','NEW_OBLIGATION'):
             c,g,b=self.fixture(fields=dict(intent=intent));p=self.prepare(c,g,b)
             self.assertEqual(p.state,'PENDING');self.assertIsNone(p.record);self.assertIsNone(p.transition);self.assertEqual(p.estimates,())
+            self.assertEqual(p.missing_fields,({'UNRESOLVED':'intent','CORRECTION':'correction_facts','NEW_OBLIGATION':'new_obligation_facts'}[intent],))
         self.assertEqual(p.code,'STAGE_NEW_OBLIGATION_REQUIRES_CREATION')
 
     def test_cancelled_parent_requires_explicit_reactivation_instead_of_implicit_change(self):
@@ -108,7 +109,10 @@ class StageCommandTests(unittest.TestCase):
         value=deepcopy(self.value);value['core']['completion']=value['effort']['completion']='COMPLETE';value['effort']['user_remaining']['seconds']=0
         value['effort']['stages'][0]['completion']='COMPLETE';value['timing']['completed_at']='2025-12-31T12:00:00+08:00'
         c,g,b=self.fixture(value=value,fields=dict(intent='SAME_OBLIGATION',parent_remaining_seconds=900,stage_remaining_seconds=600))
-        p=self.prepare(c,g,b);v=p.record.aggregate.as_record()
+        previous_stage_time=NOW-timedelta(hours=2)
+        old_stage=StageExecutionEvidence(Endpoint('STAGE','stage-2'),b.task_id,b.revision,'COMPLETE',2,completed_at=previous_stage_time)
+        p=self.prepare(c,g,b,order=StageOrderSnapshot(executions=(old_stage,)));v=p.record.aggregate.as_record()
+        self.assertEqual(p.transition['previous_stage_completed_at'],previous_stage_time.isoformat())
         self.assertEqual(v['core']['completion'],'INCOMPLETE');self.assertIsNone(v['timing']['completed_at'])
         self.assertEqual(p.transition['previous_parent_completed_at'],value['timing']['completed_at'])
         self.assertEqual(v['effort']['user_remaining']['seconds'],900);self.assertEqual(v['effort']['stages'][1]['user_remaining']['seconds'],600)
@@ -160,7 +164,10 @@ class StageCommandTests(unittest.TestCase):
     def test_start_prerequisite_uses_actual_start_while_soft_sequence_never_blocks_truth(self):
         c,g,b=self.fixture(operation='COMPLETE',stage='stage-1')
         order=self.order(b,kind='START_PREREQUISITE',prior_complete='COMPLETE',completed_at=NOW-timedelta(minutes=1),started_at=NOW-timedelta(minutes=2))
-        self.assertEqual(self.prepare(c,g,b,order=order).transition['issues'][0]['code'],'ORDER_VIOLATION')
+        transition=self.prepare(c,g,b,order=order).transition
+        self.assertEqual(transition['issues'][0]['code'],'ORDER_VIOLATION')
+        self.assertEqual(transition['target_execution']['started_at'],order.executions[1].started_at.isoformat())
+        self.assertEqual(len(transition['order_input_hash']),64)
         order=self.order(b,kind='SOFT_SEQUENCE');self.assertEqual(self.prepare(c,g,b,order=order).transition['issues'],[])
 
     def test_unresolved_order_evidence_is_effect_free_and_drift_is_rejected(self):

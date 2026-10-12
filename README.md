@@ -46,7 +46,7 @@ later work. Native tests cover persistent roundtrip and rollback.
 scope-bound source versions, field provenance, conflicts and pending history.
 Native tests cover tombstones, raw-content minimization and reviewed replay,
 with canonical Task/authority/audit state preserved. Current progress records
-715 regression methods and a seventeen-step runtime schema with 82 domain tables.
+735 regression methods and a seventeen-step runtime schema with 82 domain tables.
 
 [Atomic Task transactions](database/ATOMIC_TRANSACTIONS.md) now commit exact-permit
 updates, full audits, command receipts and version advances together. Native
@@ -132,7 +132,7 @@ atomic rollback/replay and independent restore in a freshly bootstrapped checkou
 All 15 bounded requirements, 602 methods and 113 native checks pass. The broader
 relationship/review runtime, integrations, planning and deployment remain open.
 
-[Typed relationship storage](database/RELATIONSHIP_STORAGE.md) now preserves accepted rule/link versions and exact provenance. Current regression passes 715 methods and 197 native checks; personal intake remains deferred.
+[Typed relationship storage](database/RELATIONSHIP_STORAGE.md) now preserves accepted rule/link versions and exact provenance. Current regression passes 735 methods and 197 native prerequisite checks; personal intake remains deferred.
 
 [Bounded relationship graph validation](database/RELATIONSHIP_GRAPH_VALIDATION.md) now verifies separately typed graphs, precise diagnostics and explicit generation resource limits. Current package includes 73 modules/74 source files; scoped generation and bounded processing are implemented, while personal activation remains deferred.
 
@@ -141,3 +141,5 @@ relationship/review runtime, integrations, planning and deployment remain open.
 [Exact-version generation evaluation](database/GENERATION_EVALUATOR.md) now constructs a validated independent Task or shared-parent stage, or explicit pending facts, with original source/default/template provenance. [Scoped counterpart persistence and deduplication](database/GENERATION_RUNTIME.md) are now verified.
 
 [Composite generation foundation](database/GENERATION_COMMIT_FOUNDATION.md) now prepares exact Task/stage/link/occurrence effects and provides immutable occurrence history with legacy-preserving migration. M3B-05.a and the [scoped runtime](database/GENERATION_RUNTIME.md) are verified; parent M3B-05 is DONE. Actual concurrent deduplication, parent-stage CAS, disconnect rollback and lost-acknowledgement reconciliation pass. [M3B-06 bounded processing](database/GENERATION_PROCESSING.md) integrates durable checkpoints, lease fencing, cumulative chain budgets and recovery. M3B-06 is DONE after 30-phase CI and clean installation; truthful stage rework follows.
+
+[Exact stage preparation](database/STAGE_COMMANDS.md) is verified as M3B-07.a: explicit rework preserves stage identity/history and parent budget, while truthful completion retains order diagnostics. Parent M3B-07 remains IN_PROGRESS; the real scoped atomic handler is M3B-07.b. Current installation has 74 modules/75 exact source hashes/41 schemas.
