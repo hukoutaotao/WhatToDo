@@ -1,0 +1,67 @@
+{
+  "task": "M3B-07.b",
+  "status": "PASS",
+  "scope": "SYNTHETIC_SCOPED_STAGE_COMMAND_RUNTIME",
+  "native_checks": [
+    "real_entrypoint_resolves_actual_parent_and_stage_and_commits_truthful_stage_completion",
+    "independently_registered_ambiguous_instruction_commits_only_lossless_pending_metadata",
+    "stored_row_or_supplied_command_cannot_replace_independently_injected_exact_grant",
+    "fresh_accepted_intruder_grant_cannot_modify_a_task_owned_by_another_birth_principal",
+    "foreign_grant_source_and_owned_grant_targeting_an_unregistered_task_birth_account_both_fail_without_effects",
+    "rework_uses_current_historical_execution_pins_and_preserves_original_completion_history",
+    "fresh_same_obligation_instruction_resolves_matching_pending_but_preserves_correction_and_new_obligation_routes",
+    "original_receipt_replays_after_expired_grants_new_trace_and_wire_whitespace_but_changed_content_conflicts",
+    "independently_resolved_current_accepted_hard_relation_publishes_truth_and_audited_issue_without_completing_prerequisite",
+    "order_receipt_reconstructs_historical_task_relation_execution_and_issue_effects",
+    "newly_added_relationships_and_later_completion_do_not_rewrite_an_original_rework_receipt",
+    "real_precommit_connection_close_rolls_back_every_effect_and_original_command_retries_once",
+    "two_real_entrypoints_publish_one_parent_stage_change_and_return_retryable_for_the_concurrent_loser",
+    "real_successful_commit_with_lost_ack_returns_unknown_and_fresh_lookup_recovers_original_effect_once",
+    "interface_commit_ack_loss_is_unknown_and_original_execute_replays_without_current_grants_or_duplicate_effects"
+  ],
+  "foundation_checks_not_counted": 14,
+  "foundation_checks": [
+    "pinned_eighteenth_step_preserves_all_prior_migration_and_task_payload_history",
+    "ambiguous_correction_and_new_obligation_pending_persist_losslessly_without_task_or_estimate_changes",
+    "completed_parent_rework_without_fresh_positive_u_persists_pending_without_reopening",
+    "forged_typed_plan_cannot_drop_required_observations_and_leaves_no_transaction_effects",
+    "exact_audited_rework_atomically_reopens_existing_stage_parent_and_retains_completion_actual_work_and_other_stage_history",
+    "fresh_parent_remaining_uses_original_user_grant_and_actual_source_capture_time",
+    "task_and_transition_are_bound_to_one_full_audit_receipt_and_epoch_advance",
+    "actual_sql_raw_hash_constraint_rejects_bypassed_writer_tampering_and_rolls_back_all_effects",
+    "real_connection_close_after_task_and_journal_insertion_rolls_back_observations_audits_receipt_and_epoch",
+    "real_deferred_or_history_failure_rolls_back_staged_task_observations_journal_audits_receipt_and_epoch",
+    "explicit_stage_completion_preserves_incomplete_parent_and_reported_time_without_fabricated_work",
+    "actual_simultaneous_epoch_lock_and_parent_cas_publish_one_rework_and_no_loser_history",
+    "application_role_cannot_update_or_delete_journal_issue_or_pending_resolution_history",
+    "fresh_connection_reconstructs_original_journal_after_later_parent_and_stage_changes"
+  ],
+  "lifecycle_fixture_checks_not_counted": 34,
+  "schema_version": "0.13.0-stage-commands",
+  "migration_steps": 18,
+  "domain_tables": 85,
+  "domain_foreign_keys": 219,
+  "native_check_count": 15,
+  "limitations": [
+    "Unified CI and parent acceptance are recorded separately; generated endpoints have a separate native verifier",
+    "No personal/provider/model/n8n/deployment activation"
+  ],
+  "harness": {
+    "run_id": "ff8e16b69dab4839a36f2200a2bcf837",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

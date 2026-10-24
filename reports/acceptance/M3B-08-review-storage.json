@@ -1,0 +1,48 @@
+{
+  "task": "M3B-08",
+  "status": "PASS",
+  "scope": "INTERNAL_REVIEW_CAPTURE_STORAGE_ONLY_NOT_COMPLETE_SOURCE_QUERY",
+  "native_checks": [
+    "pinned_nineteenth_step_preserves_all_eighteen_prior_migration_receipts",
+    "one_minute_target_persists_all_141_ranked_questions_without_canonical_task_authority_audit_or_epoch_changes",
+    "fresh_connection_and_signing_key_cursor_walk_returns_every_frozen_low_priority_question_once",
+    "owned_request_lookup_and_later_capture_preserve_original_rank_title_group_counts_and_questions",
+    "foreign_principal_changed_account_scope_and_forged_typed_header_cannot_read_captured_rows",
+    "deferred_sql_membership_guard_rejects_a_missing_final_question_and_rolls_back_the_entire_capture",
+    "actual_sql_payload_hash_validation_rejects_bypassed_writer_tampering_without_partial_metadata",
+    "real_connection_close_after_header_and_three_entries_rolls_back_and_original_capture_retries_once",
+    "application_role_cannot_update_or_delete_review_capture_header_or_question_history",
+    "expired_presentation_remains_unanswered_and_cannot_delete_or_reconcile_any_personal_state"
+  ],
+  "schema_version": "0.14.0-review-queue",
+  "migration_steps": 19,
+  "domain_tables": 87,
+  "domain_foreign_keys": 221,
+  "activated_steps": 19,
+  "retained_questions": 141,
+  "native_check_count": 10,
+  "limitations": [
+    "Questions are independently supplied synthetic projections; complete admitted-source enumeration and actual Task eligibility are not certified",
+    "Pinned nineteenth migration is tested as an upgrade from the actual eighteen-step predecessor",
+    "Public source query, initial-request recovery and unified acceptance require their own gates, not this component probe",
+    "No canonical personal state, user answer or reconciliation completion is written"
+  ],
+  "harness": {
+    "run_id": "5b4bf97ab2ef4df7982584009ad2a681",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

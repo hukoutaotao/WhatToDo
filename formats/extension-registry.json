@@ -205,7 +205,10 @@
         "0.1.0-stage-command"
       ],
       "consumers": [
-        "src/application/stage_commands.py"
+        "src/application/stage_commands.py",
+        "src/application/stage_commit.py",
+        "src/adapters/postgres_stage_commit.py",
+        "src/adapters/postgres_stage_commands.py"
       ],
       "database_owners": [
         "stage_revision",
@@ -217,7 +220,46 @@
         "authority_record",
         "command_transaction",
         "audit_entry",
-        "audit_change"
+        "audit_change",
+        "stage_command_journal",
+        "stage_relationship_issue",
+        "stage_pending_resolution"
+      ]
+    },
+    {
+      "name": "review-queue-query",
+      "path": "formats/extensions/review-queue-query.schema.json",
+      "schema_id": "urn:whattodo:review-queue-query:0.1.0-review-queue-query",
+      "schema_hash": "1401469d4b527656f6db0eae90737ab38aefce39ae9472f45899e2bf6035ba45",
+      "supported_versions": [
+        "0.1.0-review-queue-query"
+      ],
+      "consumers": [
+        "src/application/review_queue.py",
+        "src/adapters/postgres_review_service.py",
+        "src/adapters/postgres_review_queue.py"
+      ],
+      "database_owners": [
+        "review_queue_snapshot",
+        "review_queue_entry"
+      ]
+    },
+    {
+      "name": "review-queue-page",
+      "path": "formats/extensions/review-queue-page.schema.json",
+      "schema_id": "urn:whattodo:review-queue-page:0.1.0-review-queue-page",
+      "schema_hash": "6a15445543fd4bd673b82283d478fb56048bfc459db05e13b4cd735a01fc7b2b",
+      "supported_versions": [
+        "0.1.0-review-queue-page"
+      ],
+      "consumers": [
+        "src/application/review_queue.py",
+        "src/adapters/postgres_review_service.py",
+        "src/adapters/postgres_review_queue.py"
+      ],
+      "database_owners": [
+        "review_queue_snapshot",
+        "review_queue_entry"
       ]
     }
   ]

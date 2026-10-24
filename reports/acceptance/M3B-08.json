@@ -1,0 +1,155 @@
+{
+  "task": "M3B-08",
+  "status": "PASS",
+  "verified_on": "2026-10-23",
+  "scope": "COMPLETE_FULL_QUEUE_REVIEW_READ_MODEL_WITH_PINNED_CAPTURE_STORAGE_AND_AUTHENTICATED_QUERY",
+  "next_task": "M3B-09",
+  "requirements": {
+    "complete_unresolved_source_enumeration": {
+      "status": "PASS",
+      "native_checks": [
+        "actual_owned_tasks_and_four_pending_families_retain_far_future_low_optional_and_missing_user_estimates_without_reasking_ready_intents_or_mutating_canonical_state",
+        "actual_retained_stage_intents_include_correction_and_new_obligation_without_consuming_resolved_journals",
+        "current_pending_and_failed_generation_heads_and_generated_task_births_are_verified_against_actual_cached_rule_receipts"
+      ]
+    },
+    "short_target_cannot_drop_low_priority_questions": {
+      "status": "PASS",
+      "native_checks": [
+        "one_minute_target_persists_all_141_ranked_questions_without_canonical_task_authority_audit_or_epoch_changes",
+        "fresh_connection_and_signing_key_cursor_walk_returns_every_frozen_low_priority_question_once"
+      ]
+    },
+    "durable_frozen_pagination_and_grouping": {
+      "status": "PASS",
+      "native_checks": [
+        "owned_request_lookup_and_later_capture_preserve_original_rank_title_group_counts_and_questions",
+        "original_initial_request_and_all_frozen_pages_survive_new_canonical_tasks_while_a_fresh_request_sees_them"
+      ]
+    },
+    "unanswered_items_persist_and_no_personal_reconciliation_from_sync": {
+      "status": "PASS",
+      "native_checks": [
+        "expired_presentation_remains_unanswered_and_cannot_delete_or_reconcile_any_personal_state",
+        "application_role_cannot_update_or_delete_review_capture_header_or_question_history"
+      ]
+    },
+    "authenticated_scoped_query_and_recovery": {
+      "status": "PASS",
+      "native_checks": [
+        "changed_account_query_owner_and_signed_cursor_fail_and_unconfigured_scope_is_a_visible_coverage_gap",
+        "foreign_principal_changed_account_scope_and_forged_typed_header_cannot_read_captured_rows",
+        "real_outer_commit_then_operational_or_interface_ack_loss_is_unknown_and_original_request_recovers_one_capture",
+        "simultaneous_initial_request_has_one_frozen_capture_with_safe_busy_or_serialization_retry"
+      ]
+    },
+    "unadmitted_sources_are_visible_blockers_not_empty_queues": {
+      "status": "PASS",
+      "native_checks": [
+        "unowned_legacy_review_presence_blocks_complete_enumeration_without_revealing_its_contents"
+      ]
+    },
+    "atomic_capture_and_immutable_history_sql_guards": {
+      "status": "PASS",
+      "native_checks": [
+        "deferred_sql_membership_guard_rejects_a_missing_final_question_and_rolls_back_the_entire_capture",
+        "actual_sql_payload_hash_validation_rejects_bypassed_writer_tampering_without_partial_metadata",
+        "real_connection_close_after_header_and_three_entries_rolls_back_and_original_capture_retries_once"
+      ]
+    },
+    "registered_contracts_and_pinned_migration": {
+      "status": "PASS",
+      "evidence": "Both complete review-queue query/page opt-in contracts registered with three consumers and two storage owners; additive nineteenth SQL step pinned at 0.14.0-review-queue with 19 steps, 87 domain tables/221 FKs plus three metadata tables; all eighteen prior SQL raw hashes unchanged"
+    },
+    "byte_budgets_without_silent_truncation": {
+      "status": "PASS",
+      "evidence": "Explicit 2 MiB item and 4 MiB complete-page ceilings; page accounting includes group metadata, cursors and envelope fields; a 2003-question/2001-group regression returns only questions that fit then resumes, and unpageable metadata fails whole-capture admission explicitly"
+    },
+    "installed_package_and_backup_restore": {
+      "status": "PASS",
+      "evidence": "Clean installation selects both registered contracts with base-codec opt-in rejection and explicit optional-driver outcome; actual 90-table restore returns original request replay, signed continuation and unanswered projections with no duplicated header/entries"
+    },
+    "unified_ci_and_frozen_prerequisites": {
+      "status": "PASS",
+      "evidence": "34-phase local CI, 781 full methods, 247 native checks across fourteen groups; 23 databases dropped, fourteen PostgreSQL servers and all HTTP listeners stopped; 30 base contracts, 91 generic pins and 13 registered extensions unchanged"
+    }
+  },
+  "targeted_unittest_methods": 20,
+  "combined_review_stage_ci_methods": 57,
+  "full_unittest_methods": 781,
+  "ci_phase_count": 34,
+  "ci_native_checks": 247,
+  "ci_native_groups": 14,
+  "ci_databases_dropped": 23,
+  "ci_servers_stopped": 14,
+  "ci_http_listeners_stopped": 3,
+  "installed_modules": 81,
+  "installed_source_files_verified": 82,
+  "packaged_schemas": 43,
+  "registered_extensions": 13,
+  "postgres_optional_driver": "ABSENT_DURING_INSTALLED_SMOKE",
+  "schema_version": "0.14.0-review-queue",
+  "migration_steps": 19,
+  "domain_tables": 87,
+  "domain_foreign_keys": 221,
+  "prior_sql_files_unchanged": 18,
+  "verified_restore_tables": 90,
+  "source_version": "0.1.1-review-sources",
+  "historical_receipt_depth_admission": "100000_GENERATION_DEPTH_CEILING_INDEPENDENT_OF_EXECUTION_POLICY",
+  "artifact_hashes": {
+    "src/application/review_queue.py": "2d653fe82ee4045cbdcba62e1f1c774390aa75506d653cc0cfba0be5f77d2495",
+    "src/adapters/postgres_review_queue.py": "b37c3339567685f4264e724c452efd233a165958d047677fe18a219633d489f7",
+    "src/adapters/postgres_review_service.py": "eb0d57f056f45c50ccb1d93fb26267591794c3635434f85464a7680c17e9dcf0",
+    "src/adapters/postgres_review_sources.py": "99a6544b2510f9e23be9a06225e2215a5dd7e1f1c7faa8fabda0ad2090fe10f1",
+    "src/adapters/postgres_stage_commands.py": "84ee8d6b9224f613dbed1f6b36aebae98477e88d4a9d37a156c71f7b7968d161",
+    "src/adapters/postgres_stage_commit.py": "ca44493b6b093541d96758f3e5ae1d0c2ee3f12f4aede249fe643282fdc310cc",
+    "src/application/stage_commands.py": "01a959351eef96e0b69e8158942ffc24353e05e3c7ae65f31a5a96b39a727bc7",
+    "src/application/stage_commit.py": "692cf74c98f667d046137c6de6393d2ec48e31bbda42046917485f515fc559d6",
+    "tests/test_review_queue.py": "8507031d8970b53e6da2acd57916bd5dde8688fd2c7c6737ced7ef1773033d29",
+    "tests/test_review_service.py": "d614cf4f61400448aa025af524cbe40f39f6bcf0c97fcc9ad171329b765cd0cb",
+    "tests/test_stage_command_handler.py": "122207dd3d2287a9bed9eeb6a462b4c2627b7b2071b945bc95aecac381508f89",
+    "tests/test_stage_commands.py": "507e1958b182c2325ddbeb2c1fef38efbd07a32b78149dc098722e193b6488b7",
+    "tests/test_stage_commit.py": "12faab16de1a77adff0060fad7d4b0f7cdef73d763f89fc0648b2d8fbe8c17c6",
+    "tests/test_ci_baseline.py": "833922f0ebd2713ef3be3d0b3892dd479471d0e8154599fcc2b3b11f2fa560a8",
+    "tools/verify_review_queue_storage.py": "68d5ca12b306507577ca8bbf84e743d6862377ac6185c479f7ff4985edc851ca",
+    "tools/verify_review_sources.py": "0c510baf352724908dd491e413938dc7a9709e3d62ecb6149591daec1781c745",
+    "tools/verify_stage_commands.py": "d0750628953c1b6a4f60f8972ee93a9f6c77e4d2b465d4883ba01bb00c71e40a",
+    "tools/verify_stage_generated.py": "73d2e3d411fbf9042cbfb6b6259aed076c8aa36f9dcd38adab0e404184271144",
+    "tools/verify_backup_restore.py": "9c092299e5ebf3f12712ff5662ee338a2527bc74826f616abaf6cc55a9ff1367",
+    "tools/verify_package_install.py": "8a42c65cb7549a5e0610e26069a1ddc0c13e1f17f05b259cc5f6ec93f1237326",
+    "tools/run_ci.py": "9c68c07f6c750c125504be59f7dfe242491a958503b6373053dd00b66acd9b6d",
+    "database/runtime-migrations/017_stage_commands.sql": "180ed120d6e1f90e5fbaffb49f06d46809803076f36c93d8b6cd99d95ca0f441",
+    "database/runtime-migrations/018_review_queue.sql": "705c5a0cfae516b70009c85e8c9dbb6125d429482962cadb789aa50bcdd66298",
+    "formats/extensions/review-queue-query.schema.json": "70168784bd37ac16fca133bfb39ee8de9ee5500cf9d7da2e11a674db9a4ffaf2",
+    "formats/extensions/review-queue-page.schema.json": "5ccd0f322288d515024fff9cf1ed83c14c16162f08d6bfea3c3af083bc70ba74",
+    "formats/extension-registry.json": "35eec6b2ed9eaa4c16455be1edd0ee13140a1220aac2a6c59ed2b1a8ef49a488",
+    "database/migration-plan.json": "8802ac405c3b377d74276ae46c17d4215fff6ebfff71996f75c10b39605b6758"
+  },
+  "commands": [
+    ".venv/Scripts/python.exe -m unittest tests.test_review_queue tests.test_review_service -q",
+    ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+    ".venv/Scripts/python.exe tools/run_ci.py"
+  ],
+  "limitations": [
+    "Isolated synthetic SQL/runtime and installed package; no live provider, personal profile, n8n, model or deployment activation",
+    "Presentation and successful synchronization never submit answers or establish personal reconciliation, including an empty queue",
+    "Resolved clarification waiting for execution and source-coverage blockers carry requires_response=false; no answer is fabricated for either",
+    "Answer submission, unchanged-estimate batch confirmation and evening review coordination remain M3B-09/M3B-10",
+    "Historical receipt-depth admission uses the admitted history ceiling; the default execution policy keeps its smaller depth",
+    "Local pinned CI and clean installation; hosted Actions and production integration are not claimed"
+  ],
+  "ci_report": "reports/acceptance/M3B-08-ci.json",
+  "ci_report_sha256": "c47e4bb42b4b52641fb1e31eef730c5d6a611d5f240c76f2f971339c232d3d54",
+  "package_report": "reports/acceptance/M3B-08-package.json",
+  "package_report_sha256": "fd4117fb1ec9151cf79d26c6782a605394ec768ae23873761a965ea14e45acac",
+  "backup_report": "reports/acceptance/M3B-08-backup.json",
+  "backup_report_sha256": "16f6b5ef0cf41d2f045d36fb89139729c212fe3337ce8e106e9a6eb39ce94289",
+  "review_storage_report": "reports/acceptance/M3B-08-review-storage.json",
+  "review_storage_report_sha256": "a0b06cdd14638e5d4d5c4b8c324404c78677ad8cc14862642759b87d27099e05",
+  "review_sources_report": "reports/acceptance/M3B-08-review-sources.json",
+  "review_sources_report_sha256": "9a744103f25647d3acb3de372543cc8091988682109d18cc8265b09adc304e1c",
+  "capture_checkpoint_report": "reports/acceptance/M3B-08-capture.json",
+  "capture_checkpoint_report_sha256": "a4788568e4bef667341825669088c9d6fefeb4628ff9f7d3d5b0b3d395f37a56",
+  "sources_checkpoint_report": "reports/acceptance/M3B-08-sources.json",
+  "sources_checkpoint_report_sha256": "aaf2e921fe461125988898edcc9cf17db7897038f6765d3daacc8691544ed3e4"
+}

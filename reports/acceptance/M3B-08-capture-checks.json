@@ -1,0 +1,79 @@
+{
+  "task": "M3B-08",
+  "scope": "CAPTURE_COMPONENT_NOT_COMPLETE_SOURCE_QUERY",
+  "status": "PASS",
+  "checks": [
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "tests.test_review_queue",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "----------------------------------------------------------------------\nRan 12 tests in 1.928s\n\nOK\n"
+    },
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-q"
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "----------------------------------------------------------------------\nRan 772 tests in 45.635s\n\nOK\n"
+    },
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "tools/check_import_boundaries.py"
+      ],
+      "returncode": 0,
+      "stdout": "79 package modules: static import/clock boundaries pass; runtime behavior is tested separately\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "tools/check_contract_registry.py"
+      ],
+      "returncode": 0,
+      "stdout": "30 draft contracts: exact versions/hashes/owners/consumers resolve; release gate remains open\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "tools/check_extension_registry.py"
+      ],
+      "returncode": 0,
+      "stdout": "11 opt-in extension: exact resource/consumer/owner checks pass; 30 base contracts and 91 baseline pins unchanged\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        ".venv\\Scripts\\python.exe",
+        "tools/check_generic_baseline.py"
+      ],
+      "returncode": 0,
+      "stdout": "Generic baseline pinned: 30 wire contracts / 51 tables / 130 FKs; M3 foundation may proceed; real activation remains deferred\n",
+      "stderr": ""
+    }
+  ],
+  "artifact_hashes": {
+    "src/application/review_queue.py": "5f0b75dea14c81f2febfc507918a4edb8a0d065b2f02f19498f635eebad10634",
+    "src/adapters/postgres_review_queue.py": "b37c3339567685f4264e724c452efd233a165958d047677fe18a219633d489f7",
+    "tests/test_review_queue.py": "e5d74c44e52e8836ce71d99f094003d49ecda228dafa9663d5d83a1794178fb8",
+    "tools/verify_review_queue_storage.py": "f61c37e9681a5eabdde24254f8c19af1ec05639bed8fd1a930cf08ac0023f8f0",
+    "tools/verify_package_install.py": "291a93d9c42d24ae68e1d781c592c0af0bcecba971cf9e71ca66ee5edea68e6a",
+    "database/runtime-migrations/018_review_queue.sql": "b8cd12b83480560c451bb772a3eb275f93be98a157d18b5c4688fc46ddcdb526",
+    "formats/extensions/drafts/review-queue-query.schema.json": "70168784bd37ac16fca133bfb39ee8de9ee5500cf9d7da2e11a674db9a4ffaf2",
+    "formats/extensions/drafts/review-queue-page.schema.json": "31bba57677e33a6bca2ca0aaf7a0ccd1dff53a4969728a64945d661612655cd0"
+  }
+}

@@ -4,8 +4,9 @@ M3B-07.a supplies the detached preparation required by
 [M3B-07 stage rework](../plan/tasks/M3_RELATIONSHIPS_REVIEWS.md#m3b-07).
 [M3B-07.b](../plan/tasks/M3_RELATIONSHIPS_REVIEWS.md#m3b-07b) retains the full
 PostgreSQL handler, pending/history/violation persistence, independent reference
-resolution and atomic concurrency/recovery requirements. Parent M3B-07 remains
-IN_PROGRESS until that runtime acceptance passes.
+resolution and atomic concurrency/recovery requirements. Runtime child and parent are now DONE at the synthetic scope recorded in
+[final runtime acceptance](../reports/acceptance/M3B-07b.json) and
+[parent acceptance](../reports/acceptance/M3B-07.json).
 
 ## Opt-in contract and independent authority
 
@@ -87,8 +88,133 @@ Run `.venv/Scripts/python.exe -m unittest tests.test_stage_commands -q` for targ
 authority, identity, history, budget, pending, timestamp and truth/order checks.
 `tools/run_ci.py` verifies the full regression and isolated installation, including
 installed stage rework and effect-free pending preparation without a permit.
-Twenty focused methods and 735 full methods pass. Final local CI passes 30 phases/197 unchanged native prerequisite checks, with all seventeen databases dropped and ten servers stopped. Installation matches 74 modules/75 source files/41 schemas. [M3B-07.a acceptance](../reports/acceptance/M3B-07a.json) records observed results and exact pins. This does not certify new native stage mutations.
+At the historical preparation checkpoint, twenty focused methods and 735 full methods pass. Its local CI passes 30 phases/197 unchanged native prerequisite checks, with all seventeen databases dropped and ten servers stopped. Installation matches 74 modules/75 source files/41 schemas. [M3B-07.a acceptance](../reports/acceptance/M3B-07a.json) records observed results and exact pins. That preparation checkpoint does not certify native mutations; final runtime evidence follows below.
 
-The next card is M3B-07.b. This preparer is not a deployed stage mutation handler,
-a durable pending queue or completed parent M3B-07. Live activation, personal intake,
+The preparer alone does not establish runtime completion. M3B-07.b now supplies
+that separately verified runtime; the complete deployed application remains later work. Live activation, personal intake,
 provider/model integration and deployment remain deferred.
+
+## Historical storage checkpoint
+
+[Composite stage plans](../src/application/stage_commit.py) preserve the original
+command bytes, exact source capture, parent hashes, stage versions and full order
+snapshot. A pending journal has one metadata write and no Task/estimate effects.
+A committed plan includes the Task, transition and separate relationship issues
+in its receipt and full audit fingerprint. Neither value issues a permit.
+
+[The internal PostgreSQL writer](../src/adapters/postgres_stage_commit.py) requires
+an already-open checked transaction and an independently supplied exact permit.
+It rechecks the stored USER authority/source, rebuilds the plan against the
+current parent, retains original estimate authority/capture and writes all
+effects with one epoch advance. Observation `recorded_at` is the write time;
+the reported/verified estimate times retain the source capture time.
+
+[Migration 017](runtime-migrations/017_stage_commands.sql) adds
+immutable journal, relationship-issue and pending-resolution storage. Exact
+parent/stage/hash references and deferred source/authority/audit guards bind
+records to their original transaction. Every declared order issue must have a
+stored child in that transaction; late child appends are rejected. Migration
+017 is now pinned in migration-plan.json and its actual consumers/storage owners
+are registered in the extension registry. The current schema has eighteen steps,
+85 domain tables and 219 foreign keys. Earlier preparation and candidate
+checkpoints retain their historical scope and artifact pins; unified acceptance
+is recorded separately.
+
+The [partial component checkpoint](../reports/acceptance/M3B-07b-stage-storage.json)
+archives the [native report](../reports/acceptance/M3B-07b-stage-storage-native.json)
+and [installation report](../reports/acceptance/M3B-07b-stage-storage-package.json).
+Twelve new/32 combined focused methods and 747 full methods pass; independent
+checkout/wheel/installed checks match all 77 source hashes, 76 modules and 41
+schemas. Historical M3B-07.a counts above retain their original scope.
+
+Run `.venv/Scripts/python.exe tools/verify_stage_commit.py` for the isolated
+candidate probes. Fourteen new native checks cover lossless pending, needed-U
+pending, actual staged-parent rework/completion, exact receipts, original
+estimate provenance, SQL hash rejection, immutable history, whole-transaction
+rollback, a real connection close and simultaneous-writer CAS. The 34 lifecycle
+fixture checks are prerequisite evidence and are counted separately. This is
+component verification; it does not establish independent account/complete
+relationship resolution, relationship-issue/resolution publication, public
+command replay or postcommit unknown-outcome reconciliation. Those remain
+required before M3B-07.b and parent M3B-07 can be DONE. The storage checkpoint
+above is historical component evidence; the following checkpoint advances those
+runtime requirements.
+
+## Historical scoped entrypoint checkpoint
+
+[PostgresStageCommandHandler](../src/adapters/postgres_stage_commands.py) accepts
+only opted-in command bytes and authenticated request context. Exact grants,
+source/account scopes and optional exact definition repositories are injected
+independently. Registered USER source/authority must match the command; an owned
+grant cannot edit a Task whose immutable birth principal/account is foreign.
+Rule-generated Task births additionally reconstruct their original accepted
+rule, exact cached definitions and generation receipt ancestry.
+
+Within one checked snapshot the handler resolves the current parent/stage and
+all applicable latest incoming hard relations. Each relation is checked against
+its accepted authority, normalized storage, audit and historical owner bindings.
+Execution evidence uses current Task versions separately from those historical
+link bindings. Actual stage completion times come from retained transitions;
+unknown starts remain unknown. A reported out-of-order completion commits truth
+and its separately audited relationship issue, preserving its prerequisite.
+
+Ambiguous intent, missing necessary U and inactive-parent instructions can save
+pending metadata without resolving an unrelated order graph. A later compatible
+same-obligation command links matching pending journals to its transition with
+full audit/receipt effects. Known earlier fields must agree; correction/new
+obligation and foreign-stage instructions stay distinct. Old pending journals
+remain immutable: active pending reads must exclude rows with a resolution link.
+
+Both `execute` retries and `lookup` reconstruct the original receipt, full audit,
+Task history, observations, historical order inputs and pending-resolution links.
+Current grants need not be reinjected and old grants can have expired. Changed
+command meaning under the same ID conflicts. `execute` retains the original
+expected store revision/audit identity; `lookup` needs neither. Later Task edits
+or new relationships cannot rewrite a prior result. Actual precommit connection
+loss is retryable; lost acknowledgement after a real outer COMMIT is UNKNOWN
+until an owned original-result lookup/retry reconciles it.
+
+Run `.venv/Scripts/python.exe tools/verify_stage_commands.py` for current scoped
+entrypoint checks, and `.venv/Scripts/python.exe tools/verify_stage_generated.py`
+for actual generated stages and generated-parent receipt ancestry. The latter
+also verifies parent-owned U and preserved actual-work history. Prerequisite
+lifecycle, storage and generation checks are recorded separately, without adding
+their repeated execution to the new entrypoint-case counts.
+
+The linked scoped runtime checkpoint was verified before manifest activation.
+Migration 017 and the extension consumers/owners are now registered. Unified CI
+and final parent acceptance now pass, as recorded below. The complete application, user transport integration
+and live personal activation are not established by these isolated tests.
+
+The [scoped runtime checkpoint](../reports/acceptance/M3B-07b-stage-entry.json)
+archives [15 entrypoint cases](../reports/acceptance/M3B-07b-stage-entry-native.json),
+[two actual generated endpoint cases](../reports/acceptance/M3B-07b-stage-entry-generated.json)
+and [clean installation](../reports/acceptance/M3B-07b-stage-entry-package.json).
+Forty-two focused/757 full methods pass; all 78 checkout/wheel/installed source
+hashes match, with 77 modules and 41 schemas. Component/lifecycle/generation
+fixture checks are separately listed and do not inflate the 17 new native cases.
+Both temporary databases are dropped and both PostgreSQL servers stop.
+
+Storage admission retains the fixed byte/count ceilings while current execution
+uses the independently configured graph limits. Historical journal reconstruction
+does not silently replace a larger accepted graph with the default 4096-endpoint
+policy. The boundary regression exercises 4097 facts under an explicit larger
+policy and proves ordinary default-policy admission still rejects that size.
+
+## Final runtime acceptance
+
+[M3B-07.b](../reports/acceptance/M3B-07b.json) verifies ten requirement groups and
+the complete [parent](../reports/acceptance/M3B-07.json). Final unified CI passes
+32 phases, 760 methods and 228 native checks across twelve groups. The stage
+groups include 14 storage, 15 entrypoint and two generated endpoint cases once;
+repeated prerequisites are excluded. All nineteen databases are dropped, twelve
+PostgreSQL servers and both HTTP listeners stop. Clean installation matches 77
+modules/78 source hashes and 41 schemas. The pinned eighteen-step runtime is
+0.13.0-stage-commands, with 85 domain tables/219 FKs plus three metadata tables;
+actual restore verifies all 88 tables. Earlier seventeen SQL files, thirty base
+contracts and 91 generic pins are unchanged.
+
+Correction/new-obligation facts remain explicitly pending until their separate
+reconciliation/creation facts are supplied. Unknown actual starts remain unknown.
+These runtime boundaries do not activate personal profiles, providers, n8n,
+models or deployment. Next M3B-08 exposes the complete unresolved review queue.

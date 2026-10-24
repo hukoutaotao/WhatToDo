@@ -1,4 +1,4 @@
--- Immutable stage-command journals. Not activated in the runtime manifest yet.
+-- Additive immutable stage-command journals and audited resolution history.
 BEGIN;
 SET LOCAL search_path=pg_catalog;
 ALTER TABLE whattodo.task_payload_revision ADD CONSTRAINT stage_journal_exact_task_hash
@@ -163,6 +163,10 @@ BEGIN
    AND a.before_revision=NEW.before_task_revision AND a.after_revision=NEW.after_task_revision) THEN
   RAISE EXCEPTION 'Stage transition requires the same audited parent transaction' USING ERRCODE='23514';
  END IF;
+ IF NEW.state='COMMITTED' AND jsonb_array_length(NEW.runtime_payload#>'{transition,issues}')
+  IS DISTINCT FROM (SELECT count(*) FROM whattodo.stage_relationship_issue WHERE transition_ref=NEW.record_id) THEN
+  RAISE EXCEPTION 'Every stage order issue must be published atomically' USING ERRCODE='23514';
+ END IF;
  RETURN NEW;
 END;
 $guard$;
@@ -182,6 +186,12 @@ BEGIN
   OR change.before_value IS NOT NULL OR change.after_revision IS DISTINCT FROM 1 THEN
   RAISE EXCEPTION 'Stage child requires its exact transition/audit transaction' USING ERRCODE='23514';
  END IF;
+ IF NOT EXISTS(SELECT 1 FROM whattodo.stage_command_journal j WHERE j.record_id=NEW.transition_ref
+   AND j.xmin::text::numeric=(pg_current_xact_id()::text::numeric % 4294967296))
+  OR NOT EXISTS(SELECT 1 FROM whattodo.audit_change a WHERE a.change_id=NEW.audit_change_ref
+   AND a.xmin::text::numeric=(pg_current_xact_id()::text::numeric % 4294967296)) THEN
+  RAISE EXCEPTION 'Stage child cannot be appended to an already committed transition' USING ERRCODE='23514';
+ END IF;
  IF TG_TABLE_NAME='stage_relationship_issue' THEN
   IF NOT (event.runtime_payload#>'{transition,issues}' @> jsonb_build_array(NEW.runtime_payload-'issue_id'-'transition_ref'))
    OR NOT EXISTS(SELECT 1 FROM whattodo.task_relation_revision r WHERE r.relation_id=NEW.relation_id
@@ -196,7 +206,10 @@ BEGIN
    OR pending.before_task_revision>event.before_task_revision
    OR pending.runtime_payload#>>'{command,principal_id}' IS DISTINCT FROM event.runtime_payload#>>'{command,principal_id}'
    OR pending.runtime_payload#>>'{command,operation}' IS DISTINCT FROM event.runtime_payload#>>'{command,operation}'
-   OR pending.runtime_payload#>>'{command,fields,intent}' IN ('CORRECTION','NEW_OBLIGATION') THEN
+   OR pending.runtime_payload#>>'{command,fields,intent}' IN ('CORRECTION','NEW_OBLIGATION')
+   OR event.runtime_payload#>>'{command,fields,intent}' IS DISTINCT FROM 'SAME_OBLIGATION'
+   OR NOT (event.runtime_payload#>'{command,fields}' @>
+    ((pending.runtime_payload#>'{command,fields}')-'intent'-ARRAY(SELECT jsonb_array_elements_text(pending.runtime_payload->'missing_fields')))) THEN
    RAISE EXCEPTION 'Pending resolution scope mismatch' USING ERRCODE='23514';
   END IF;
  END IF;

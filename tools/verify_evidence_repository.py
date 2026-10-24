@@ -267,8 +267,8 @@ def verify(harness,report):
         else:raise HarnessError('EVIDENCE_SCOPE_CONFIGURATION_BYPASSED')
         report['domain_tables']=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0]
         report['domain_foreign_keys']=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0]
-        require((report['domain_tables'],report['domain_foreign_keys'])==(82,204),'EVIDENCE_SCHEMA_COUNTS')
-        checks.append('native_schema_has_82_domain_tables_and_204_foreign_keys')
+        require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'EVIDENCE_SCHEMA_COUNTS')
+        checks.append('native_schema_has_87_domain_tables_and_221_foreign_keys')
         require(canonical_snapshot()==canonical_before,'EVIDENCE_FINAL_CANONICAL_STATE_CHANGED')
     with harness.target(name).connect() as restarted:
         repository=PostgresEvidenceRepository(restarted,codec,plan,application_version=__version__,clock=clock,scopes=(a,))

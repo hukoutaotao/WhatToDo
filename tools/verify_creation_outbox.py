@@ -82,7 +82,7 @@ def verify(harness,report):
         with harness.target(db,'migration').connect() as owner:
             prefix=owner.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
             result=apply_migrations(owner,plan,roles=roles,application_version=__version__)
-            require(result.applied==('014_creation_outbox','015_generation_occurrences','016_generation_processing') and owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=14 ORDER BY position').fetchall()==prefix,'OUTBOX_UPGRADE_PREFIX')
+            require(result.applied==('014_creation_outbox','015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue') and owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=14 ORDER BY position').fetchall()==prefix,'OUTBOX_UPGRADE_PREFIX')
         require(conn.execute('SELECT count(*) FROM whattodo.canonical_creation_event').fetchone()==(0,),'OUTBOX_RETROACTIVE_BACKFILL')
         checks.append('fourteen_step_upgrade_preserves_prior_task_and_receipts_without_historical_backfill')
         source('external',b'Synthetic external discovery',kind='EMAIL')
@@ -249,7 +249,7 @@ def verify(harness,report):
         report.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),
             domain_tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],
             domain_foreign_keys=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0])
-        require((report['domain_tables'],report['domain_foreign_keys'])==(82,204),'OUTBOX_SCHEMA_COUNTS')
+        require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'OUTBOX_SCHEMA_COUNTS')
 
 
 def main():

@@ -302,7 +302,7 @@ def verify(harness,report):
         report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,
             domain_tables=fresh.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],
             domain_foreign_keys=fresh.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0])
-        require((report['domain_tables'],report['domain_foreign_keys'])==(82,204),'WORK_SCHEMA_COUNT')
+        require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'WORK_SCHEMA_COUNT')
 
 
 def main():

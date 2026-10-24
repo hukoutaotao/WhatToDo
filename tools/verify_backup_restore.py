@@ -25,6 +25,7 @@ from src.adapters.postgres_lifecycle import PostgresLifecycleHandler
 from src.adapters.postgres_manual_tasks import PostgresManualTaskHandler
 from src.adapters.postgres_migrations import DatabaseRoles,apply_migrations,schema_checked_transaction
 from src.adapters.postgres_read_models import PostgresReadService
+from src.adapters.postgres_review_service import PostgresReviewQueueService
 from src.adapters.postgres_resolution import PostgresResolutionService
 from src.adapters.postgres_tasks import PostgresTaskRepository
 from src.adapters.postgres_transactions import PostgresTransactionCoordinator
@@ -37,6 +38,7 @@ from src.application.evidence_storage import SourceScope
 from src.application.fact_patches import FactPatch,FactPatchGrant
 from src.application.manual_tasks import ResolvedManualIntent
 from src.application.ports import RequestContext
+from src.application.review_queue import ReviewQueueQuery
 from src.application.work_reports import admit_work_report,WorkReportGrant
 from src.domain.authorization import AuthorityGrant,CallerIdentity,Command,change
 from src.domain.provenance import capture_source,make_candidate
@@ -89,6 +91,15 @@ def verify(harness,report):
         q=dict(schema_version='0.1.0-read-query',view='TASKS',task_id=None,filters=dict(completion=None,disposition=None,trust=None,domain=None,context=None),pending_kind=None,include_closed=False,page_size=1,cursor=None)
         pages=PostgresReadService(conn,codec,plan,**options,cursor_key=KEY,scopes=(SCOPE,));first=pages.query(canonical(q).encode(),RequestContext('read','backup-correlation'),caller=CALLER);require(first.status=='SUCCESS' and first.value.as_record()['has_more'],'BACKUP_FIXTURE_READ');cursor=first.value.as_record()['next_cursor'];original_tasks={key:reader.get(key) for key in ('a','b')};original_history=[reader.get('a',r) for r in range(1,6)]
         checks.append('synthetic_fixture_contains_real_create_patch_actual_work_complete_cancel_audits_receipts_due_u_definitions_evidence_pending_clarification_and_read_snapshot_history')
+        review_query=ReviewQueueQuery(1,1)
+        review_service=PostgresReviewQueueService(conn,codec,plan,**options,cursor_key=KEY,source_scopes=(SCOPE,),definitions=definitions)
+        review_first=review_service.query(canonical(review_query.as_record()).encode(),RequestContext('review-backup','review-backup'),caller=CALLER)
+        require(review_first.status=='SUCCESS' and review_first.value['total_items']>=5
+            and review_first.value['next_cursor'] is not None,'BACKUP_REVIEW_CAPTURE_'+review_first.code)
+        review_cursor=review_first.value['next_cursor']
+        review_second=review_service.query(canonical(replace(review_query,cursor=review_cursor).as_record()).encode(),
+            RequestContext('review-backup-next','review-backup'),caller=CALLER)
+        require(review_second.status=='SUCCESS','BACKUP_REVIEW_SECOND_'+review_second.code)
         original_run=run_pg;capture=dict(calls=0);captured_epoch=epoch()
         def interleaved(h,tool,args,**kw):
             if tool=='pg_dump':
@@ -106,7 +117,7 @@ def verify(harness,report):
             with schema_checked_transaction(owner,plan,application_version=__version__):before_source=inventory(owner)
         target_db=harness.create_database(initialize_schema=False)
         restored=restore_backup(harness,target_db,bundle,plan=plan,application_version=__version__)
-        require(restored['status']=='VERIFIED' and restored['tables_checked']==85,'BACKUP_RESTORE_COUNTS');checks.append('actual_custom_archive_restores_all_82_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database')
+        require(restored['status']=='VERIFIED' and restored['tables_checked']==90,'BACKUP_RESTORE_COUNTS');checks.append('actual_custom_archive_restores_all_87_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database')
         with harness.target(source_db,'migration').connect() as owner:
             with schema_checked_transaction(owner,plan,application_version=__version__):require(inventory(owner)==before_source,'BACKUP_SOURCE_RESTORE_MUTATED')
         checks.append('original_source_database_and_its_concurrent_postsnapshot_task_are_preserved_byte_for_byte_during_restore')
@@ -118,6 +129,17 @@ def verify(harness,report):
             commit_lookup=PostgresTransactionCoordinator(restored_conn,codec,plan,**options).lookup_commit(RequestContext(complete.command_id,'after-restore'),caller=CALLER);require(commit_lookup.code=='COMMIT_FOUND' and commit_lookup.value==original_receipt,'BACKUP_LEDGER_LOOKUP_'+commit_lookup.code)
             replay=PostgresLifecycleHandler(restored_conn,codec,plan,**options).complete(canonical(complete.as_record()).encode(),RequestContext(complete.command_id,'after-restore'),expected_store_revision=old_epoch,audit_id='audit-complete-a',caller=CALLER);require(replay.code=='REPLAY' and replay.value==original_receipt,'BACKUP_REPLAY_'+replay.code);checks.append('restored_receipt_lookup_and_original_completion_retry_validate_owned_audits_and_return_original_commit_without_live_grants_or_duplicate_publication')
             restored_page=PostgresReadService(restored_conn,codec,plan,**options,cursor_key=KEY,scopes=(SCOPE,)).query(canonical(dict(q,cursor=cursor)).encode(),RequestContext('read-restored','backup-correlation'),caller=CALLER);require(restored_page.status=='SUCCESS' and restored_page.value.as_record()['items'][0]['id']=='b','BACKUP_CURSOR_RESTORE');checks.append('retained_read_cursor_continues_original_snapshot_after_restore_with_independently_rebound_key_without_exporting_that_key')
+            restored_reviews=PostgresReviewQueueService(restored_conn,codec,plan,**options,cursor_key=KEY,source_scopes=(SCOPE,))
+            review_replay=restored_reviews.query(canonical(review_query.as_record()).encode(),RequestContext('review-backup','review-restored'),caller=CALLER)
+            review_next=restored_reviews.query(canonical(replace(review_query,cursor=review_cursor).as_record()).encode(),
+                RequestContext('review-restored-next','review-restored'),caller=CALLER)
+            require(review_replay.status=='SUCCESS' and review_next.status=='SUCCESS'
+                and review_replay.value==review_first.value and review_next.value==review_second.value
+                and not review_next.value['personal_reconciliation_complete'],'BACKUP_REVIEW_REPLAY')
+            require(restored_conn.execute('SELECT count(*) FROM whattodo.review_queue_snapshot').fetchone()==(1,)
+                and restored_conn.execute('SELECT count(*) FROM whattodo.review_queue_entry').fetchone()==(review_first.value['total_items'],),
+                'BACKUP_REVIEW_DUPLICATE_OR_LOST_ENTRY')
+            checks.append('nonempty_complete_review_header_entries_and_original_request_replay_signed_cursor_unanswered_state_survive_actual_separate_database_restore')
             definition=PostgresDefinitionRepository(restored_conn,git,plan,roles,application_version=__version__).get(DefinitionKey(profile['kind'],profile['id'],profile['version']));require(definition is not None and definition.body==profile['body'],'BACKUP_DEFINITION_RESTORE')
             pending=PostgresReadService(restored_conn,codec,plan,**options,cursor_key=KEY,scopes=(SCOPE,)).query(canonical(dict(q,view='PENDING',page_size=100)).encode(),RequestContext('pending-restored','backup-correlation'),caller=CALLER);require(pending.status=='SUCCESS' and {i['kind'] for i in pending.value.as_record()['items']}=={'MANUAL_CREATION','EVIDENCE_CANDIDATE','EVIDENCE_CONFLICT','CLARIFICATION'},'BACKUP_PENDING_RESTORE');checks.append('restored_exact_definition_cache_source_candidate_conflict_manual_pending_and_unanswered_clarification_remain_readable_without_activation')
         for role,sql in [('application',"INSERT INTO whattodo.source_scope VALUES('blocked','blocked','blocked',CURRENT_TIMESTAMP)"),('test',"UPDATE whattodo.store_epoch SET revision=revision")]:
@@ -165,7 +187,7 @@ def verify(harness,report):
         else:raise HarnessError('BACKUP_CATALOG_DRIFT_ACCEPTED')
         checks.append('postrestore_extra_table_or_catalog_drift_is_detected_even_when_all_migration_receipts_are_unchanged')
         require(not list(harness.run_root.glob('backup-client-*.pgpass')),'BACKUP_PASSWORD_FILE_RETAINED');checks.append('client_password_files_are_outside_bundles_and_removed_after_success_and_failed_real_restore_without_diagnostic_secret_output')
-        report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,source_database_preserved=True,restored_database_count=2,bundle_manifest_sha256=bundle.manifest_hash,bundle_archive_sha256=manifest['files']['database.dump']['sha256'],bundle_bytes=manifest['files']['database.dump']['bytes'],verified_tables=85,verified_catalog_categories=len(manifest['inventory']['catalogs']),captured_store_revision=captured_epoch,source_postcapture_store_revision=epoch(),config_references_only=True,role_credentials_exported=False)
+        report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,source_database_preserved=True,restored_database_count=2,bundle_manifest_sha256=bundle.manifest_hash,bundle_archive_sha256=manifest['files']['database.dump']['sha256'],bundle_bytes=manifest['files']['database.dump']['bytes'],verified_tables=restored['tables_checked'],verified_catalog_categories=len(manifest['inventory']['catalogs']),captured_store_revision=captured_epoch,source_postcapture_store_revision=epoch(),config_references_only=True,role_credentials_exported=False)
 
 def main():
     harness=PostgresHarness();report=dict(task='M3A-18',status='IN_PROGRESS',scope='SYNTHETIC_DEVELOPMENT_BACKUP_SEPARATE_DATABASE_RESTORE',verified_on='2026-10-10',native_checks=[])

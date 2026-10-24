@@ -160,3 +160,23 @@ Transaction and lock behavior follows official
 and [PostgreSQL advisory-lock documentation](https://www.postgresql.org/docs/18/explicit-locking.html#ADVISORY-LOCKS).
 
 M3B-06 appends [generation processing](runtime-migrations/016_generation_processing.sql), the seventeenth step at `0.12.0-generation-processing`: 82 domain tables/204 foreign keys plus three metadata tables. Persistent lineage, checkpoints and chain reservations support the [finite worker](GENERATION_PROCESSING.md); earlier SQL remains unchanged.
+
+M3B-07.b appends [stage command history](runtime-migrations/017_stage_commands.sql),
+the eighteenth step at 0.13.0-stage-commands: 85 domain tables/219 foreign keys
+plus three metadata tables. Journal, issue and pending-resolution records bind
+exact Task/stage versions, original source/authority, full audits and the same
+transaction; histories are immutable. Native upgrade retains all prior receipts
+and Task bytes, and actual backup/restore verifies all 88 tables. Earlier
+seventeen SQL raw hashes remain unchanged. [Runtime acceptance](../reports/acceptance/M3B-07b.json)
+records actual concurrent publication, connection loss and owned original replay;
+pinning the resources does not deploy or activate a live database.
+
+M3B-08 appends [complete review captures](runtime-migrations/018_review_queue.sql),
+the nineteenth step at `0.14.0-review-queue`: 87 domain tables/221 foreign keys
+plus three metadata tables. Immutable capture headers and ordered entries bind
+the original principal/request, exact query/account scope, full membership hash
+and canonical store epoch. Deferred guards reject partial capture and historical
+mutation. The storage verifier builds the actual eighteen-step predecessor and
+upgrades it; backup/restore now expects all 90 tables. All eighteen earlier SQL
+raw hashes are retained. See the [runtime handoff](REVIEW_QUEUE.md); full acceptance
+is recorded separately from resource registration.

@@ -1,0 +1,63 @@
+{
+  "task": "M3A-18",
+  "status": "PASS",
+  "scope": "SYNTHETIC_DEVELOPMENT_BACKUP_SEPARATE_DATABASE_RESTORE",
+  "verified_on": "2026-10-10",
+  "native_checks": [
+    "synthetic_fixture_contains_real_create_patch_actual_work_complete_cancel_audits_receipts_due_u_definitions_evidence_pending_clarification_and_read_snapshot_history",
+    "archive_and_all_row_catalog_digests_share_one_exported_snapshot_even_when_another_connection_commits_during_capture",
+    "bundle_has_only_database_archive_manifest_and_hash_pinned_definition_adapter_secret_references_without_source_role_or_provider_credential_values",
+    "actual_custom_archive_restores_all_87_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database",
+    "original_source_database_and_its_concurrent_postsnapshot_task_are_preserved_byte_for_byte_during_restore",
+    "restored_current_and_historical_task_bytes_keep_completion_cancel_zero_u_original_total_actual_work_and_original_due_offset_microseconds_independent",
+    "restored_receipt_lookup_and_original_completion_retry_validate_owned_audits_and_return_original_commit_without_live_grants_or_duplicate_publication",
+    "retained_read_cursor_continues_original_snapshot_after_restore_with_independently_rebound_key_without_exporting_that_key",
+    "nonempty_complete_review_header_entries_and_original_request_replay_signed_cursor_unanswered_state_survive_actual_separate_database_restore",
+    "restored_exact_definition_cache_source_candidate_conflict_manual_pending_and_unanswered_clarification_remain_readable_without_activation",
+    "restored_application_cannot_register_source_accounts_and_verifier_cannot_mutate_store_state",
+    "source_and_already_restored_target_are_rejected_before_any_clean_create_or_restore_overwrite",
+    "single_byte_archive_corruption_is_rejected_by_independent_manifest_pin_before_client_start_or_target_mutation",
+    "rewriting_self_reported_archive_and_manifest_hashes_cannot_replace_the_independently_retained_bundle_pin",
+    "actual_postdata_trigger_failure_rolls_back_full_restore_to_empty_target_and_same_trusted_archive_retry_succeeds",
+    "postrestore_extra_table_or_catalog_drift_is_detected_even_when_all_migration_receipts_are_unchanged",
+    "client_password_files_are_outside_bundles_and_removed_after_success_and_failed_real_restore_without_diagnostic_secret_output"
+  ],
+  "migration_steps": 19,
+  "schema_version": "0.14.0-review-queue",
+  "source_database_preserved": true,
+  "restored_database_count": 2,
+  "bundle_manifest_sha256": "f0eac8351d70f00e85b38cc7293942a0654f0b623b6470249c83ced1a60ea6ee",
+  "bundle_archive_sha256": "1fae82ff0f2baea398d09af172f81891b72dd48161ef9d95914a4006832dbf0a",
+  "bundle_bytes": 495113,
+  "verified_tables": 90,
+  "verified_catalog_categories": 10,
+  "captured_store_revision": 7,
+  "source_postcapture_store_revision": 8,
+  "config_references_only": true,
+  "role_credentials_exported": false,
+  "native_check_count": 17,
+  "limitations": [
+    "Owned Windows PostgreSQL 18.6 synthetic development harness only; no production endpoint or deployed backup service",
+    "Archive is trusted executable database content; independent checksum detects corruption but is not authorization for untrusted archives",
+    "Secret values and global role credentials are not exported; runtime secrets/cursor keys and external definition sources require separate trusted rebinding",
+    "This logical probe does not claim continuous recovery, remote retention or live activation"
+  ],
+  "harness": {
+    "run_id": "5c667cdb62734683bf9b01e6c05a5a2e",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 3,
+    "databases_dropped": 3,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

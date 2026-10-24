@@ -1,6 +1,6 @@
 """Internal stage publication, inside an already authorized transaction.
 
-This is not a command entrypoint. The future stage handler must independently
+This is not a command entrypoint. The stage handler must independently
 resolve principal/account ownership and complete current order evidence before
 minting an exact permit. Publication rechecks stored USER authority and rebuilds
 the complete plan; it never commits, registers a grant or issues a permit.
@@ -8,7 +8,7 @@ the complete plan; it never commits, registers a grant or issues a permit.
 from src.adapters.postgres_tasks import PostgresTaskRepository
 from src.application.command_ledger import validate_audit_fingerprint, validate_caller
 from src.application.stage_commands import StageCommandGrant
-from src.application.stage_commit import StageCommitPlan, order_from_payload, prepare_stage_commit
+from src.application.stage_commit import StageCommandJournal, StageCommitPlan, STORAGE_ORDER_LIMITS, order_from_payload, prepare_stage_commit
 from src.application.transactions import require, valid_permit
 
 
@@ -47,9 +47,16 @@ class PostgresStageCommitWriter:
             application_version=self.application_version, clock=self.clock, permits=(permit,))
         before = repository._get_in_transaction(journal.command.task_id)
         require(before is not None and before.content_hash == journal.before_task_hash, 'STAGE_CURRENT_PARENT_MISMATCH')
+        pending=[]
+        for resolution in prepared.resolutions:
+            row=self.connection.execute('''SELECT runtime_payload FROM whattodo.stage_command_journal j
+                WHERE record_id=%s AND NOT EXISTS(SELECT 1 FROM whattodo.stage_pending_resolution r WHERE r.pending_ref=j.record_id)''',
+                (resolution['pending_ref'],)).fetchone()
+            require(row is not None,'STAGE_PENDING_ALREADY_RESOLVED')
+            pending.append(StageCommandJournal.from_payload(row[0]))
         rebuilt = prepare_stage_commit(self.codec, journal.raw_command, root, before, caller=caller, now=now,
             context=request.context, expected_store_revision=request.expected_store_revision, audit_id=request.audit_id,
-            order=order_from_payload(journal.payload['order_snapshot']))
+            order=order_from_payload(journal.payload['order_snapshot'],limits=STORAGE_ORDER_LIMITS),pending=tuple(pending))
         require(rebuilt == prepared, 'STAGE_EXACT_COMMIT_PLAN_REQUIRED')
         require(self.connection.execute('SELECT revision FROM whattodo.store_epoch WHERE singleton=TRUE FOR UPDATE NOWAIT').fetchone()
             == (request.expected_store_revision,), 'STAGE_STALE_STORE_REVISION')
@@ -79,7 +86,7 @@ class PostgresStageCommitWriter:
                 and observation.source_ref == journal.source_ref and observation.observed_at == journal.source_observed_at,
                 'STAGE_OBSERVATION_ORIGINAL_SOURCE')
             self.connection.execute('INSERT INTO whattodo.effort_observation VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)',
-                (*observation.row[:5], observation.observed_at, *observation.row[5:], None, request.context.request_id))
+                (*observation.row[:5], now, *observation.row[5:], None, request.context.request_id))
         if prepared.task is not None:
             change = next(a for a in prepared.audits if a.key.kind == 'TASK')
             repository._append_in_transaction(prepared.task, bindings, request=request, caller=caller,
@@ -97,6 +104,13 @@ class PostgresStageCommitWriter:
                 VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s)''',
                 (issue['issue_id'], issue['transition_ref'], issue['relation_id'], issue['relation_revision'],
                     issue['code'], issue['kind'], request.context.request_id, change.change_ref, Jsonb(issue)))
+        for resolution in prepared.resolutions:
+            change=next(a for a in prepared.audits if a.key.id==resolution['resolution_id'])
+            self.connection.execute('''INSERT INTO whattodo.stage_pending_resolution
+                (resolution_id,pending_ref,transition_ref,transaction_ref,audit_change_ref,runtime_payload)
+                VALUES(%s,%s,%s,%s,%s,%s)''',
+                (resolution['resolution_id'],resolution['pending_ref'],resolution['transition_ref'],
+                    request.context.request_id,change.change_ref,Jsonb(resolution)))
         self._root(journal, self.clock.now())
         valid_permit(request, caller, permit, self.clock.now())
         updated = self.connection.execute('''UPDATE whattodo.store_epoch SET revision=%s,last_transaction_ref=%s

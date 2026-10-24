@@ -49,7 +49,7 @@ def verify(harness,report):
     database=harness.create_database(initialize_schema=False);roles=DatabaseRoles(ROLES['migration'],ROLES['application'],ROLES['test'])
     with harness.target(database,'migration').connect() as owner:
         apply_migrations(owner,old,roles=roles,application_version=__version__);before=owner.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
-        out=apply_migrations(owner,plan,roles=roles,application_version=__version__);require(out.applied==('012_read_snapshots','013_relationship_storage','014_creation_outbox','015_generation_occurrences','016_generation_processing'),'READ_UPGRADE_SUFFIX')
+        out=apply_migrations(owner,plan,roles=roles,application_version=__version__);require(out.applied==('012_read_snapshots','013_relationship_storage','014_creation_outbox','015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue'),'READ_UPGRADE_SUFFIX')
         require(owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=12 ORDER BY position').fetchall()==before,'READ_UPGRADE_PREFIX')
         for scope in (SCOPE,OTHER_SCOPE):register_source_scope(owner,plan,roles,scope,application_version=__version__,clock=CLOCK)
     checks.append('thirteenth_metadata_migration_preserves_all_twelve_prior_migration_receipts')
@@ -209,7 +209,7 @@ def verify(harness,report):
             faulty=PostgresReadService(Fault(),codec,plan,**options,cursor_key=KEY,scopes=(SCOPE,));n=conn.execute('SELECT count(*) FROM whattodo.read_snapshot').fetchone()[0];before=canonical_state();out=read(query(),faulty);require(out.status=='RETRYABLE' and conn.execute('SELECT count(*) FROM whattodo.read_snapshot').fetchone()[0]==n and canonical_state()==before,'READ_CACHE_ROLLBACK')
             checks.append('precommit_snapshot_cache_fault_rolls_back_metadata_and_preserves_all_canonical_state_with_typed_retry')
             report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,domain_tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],domain_foreign_keys=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0],**counts)
-            require((report['domain_tables'],report['domain_foreign_keys'])==(82,204),'READ_SCHEMA_COUNT')
+            require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'READ_SCHEMA_COUNT')
     finally:
         server.shutdown();server.server_close();thread.join(timeout=5);require(not thread.is_alive(),'READ_HTTP_SERVER_NOT_STOPPED');report['http_server_stopped']=True
 

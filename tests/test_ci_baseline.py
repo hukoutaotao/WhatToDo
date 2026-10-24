@@ -72,5 +72,35 @@ class CIBaselineTests(unittest.TestCase):
             value={'status':'PASS','native_checks':['synthetic'],'harness':{'server_stopped':False,'databases_created':1,'databases_dropped':1,'initdb_password_file_retained':False},'raw_content':'synthetic-sensitive'};p.write_text(json.dumps(value),encoding='utf-8')
             with self.assertRaisesRegex(CIError,'CLEANUP_OR_RESULT'):native_summary(root,'native_migrations',set())
             value['harness']['server_stopped']=True;p.write_text(json.dumps(value),encoding='utf-8');self.assertEqual(native_summary(root,'native_migrations',set()),dict(native_checks=1,databases_created=1,databases_dropped=1,server_stopped=True))
+    def test_stage_summary_counts_component_once_and_excludes_repeated_prerequisites(self):
+        with TemporaryDirectory() as d:
+            root=Path(d);p=root/'.local-state/postgres-tests/synthetic/stage-commands-report.json';p.parent.mkdir(parents=True)
+            value=dict(status='PASS',native_checks=['entrypoint'],native_check_count=1,foundation_checks=['storage'],foundation_checks_not_counted=1,
+                lifecycle_fixture_checks_not_counted=34,generation_fixture_checks_not_counted=17,
+                harness=dict(server_stopped=True,databases_created=1,databases_dropped=1,initdb_password_file_retained=False))
+            p.write_text(json.dumps(value),encoding='utf-8')
+            self.assertEqual(native_summary(root,'native_stage_commands',set()),dict(native_checks=2,databases_created=1,databases_dropped=1,server_stopped=True))
+    def test_stage_summary_rejects_duplicate_missing_or_inconsistent_case_counts(self):
+        with TemporaryDirectory() as d:
+            root=Path(d);p=root/'.local-state/postgres-tests/synthetic/stage-commands-report.json';p.parent.mkdir(parents=True)
+            base=dict(status='PASS',native_checks=['entrypoint'],native_check_count=1,foundation_checks=['storage'],foundation_checks_not_counted=1,
+                harness=dict(server_stopped=True,databases_created=1,databases_dropped=1,initdb_password_file_retained=False))
+            for changed in (dict(foundation_checks=None),dict(foundation_checks=['entrypoint']),dict(foundation_checks_not_counted=2),dict(native_check_count=True)):
+                p.write_text(json.dumps(base|changed),encoding='utf-8')
+                with self.assertRaisesRegex(CIError,'STAGE_COMPONENT_COUNTS'):native_summary(root,'native_stage_commands',set())
+
+    def test_review_summary_requires_exact_new_cases_and_http_cleanup_without_counting_fixture_repeats(self):
+        with TemporaryDirectory() as d:
+            root=Path(d);p=root/'.local-state/postgres-tests/synthetic/review-sources-report.json';p.parent.mkdir(parents=True)
+            value=dict(status='PASS',native_checks=['new-case'],native_check_count=1,http_server_stopped=True,
+                read_fixture_checks_not_counted=20,stage_fixture_checks_not_counted=29,lifecycle_fixture_checks_not_counted=34,
+                generation_fixture_checks_not_counted=17,
+                harness=dict(server_stopped=True,databases_created=3,databases_dropped=3,initdb_password_file_retained=False))
+            p.write_text(json.dumps(value),encoding='utf-8')
+            self.assertEqual(native_summary(root,'native_review_sources',set()),dict(native_checks=1,databases_created=3,databases_dropped=3,server_stopped=True))
+            for change,code in ((dict(native_check_count=True),'REVIEW_CASE_COUNTS'),(dict(native_checks=['duplicate','duplicate'],native_check_count=2),'REVIEW_CASE_COUNTS'),
+                (dict(read_fixture_checks_not_counted=None),'REVIEW_CASE_COUNTS'),(dict(http_server_stopped=False),'HTTP_CLEANUP')):
+                p.write_text(json.dumps(value|change),encoding='utf-8')
+                with self.assertRaisesRegex(CIError,code):native_summary(root,'native_review_sources',set())
 
 if __name__=='__main__':unittest.main()

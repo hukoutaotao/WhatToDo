@@ -1,0 +1,52 @@
+{
+  "task": "M3B-07.b",
+  "status": "PASS",
+  "scope": "SYNTHETIC_INTERNAL_COMPOSITE_STAGE_WRITER_AND_UNACTIVATED_SQL_CANDIDATE",
+  "native_checks": [
+    "candidate_eighteenth_step_preserves_all_prior_migration_and_task_payload_history",
+    "ambiguous_correction_and_new_obligation_pending_persist_losslessly_without_task_or_estimate_changes",
+    "completed_parent_rework_without_fresh_positive_u_persists_pending_without_reopening",
+    "forged_typed_plan_cannot_drop_required_observations_and_leaves_no_transaction_effects",
+    "exact_audited_rework_atomically_reopens_existing_stage_parent_and_retains_completion_actual_work_and_other_stage_history",
+    "fresh_parent_remaining_uses_original_user_grant_and_actual_source_capture_time",
+    "task_and_transition_are_bound_to_one_full_audit_receipt_and_epoch_advance",
+    "actual_sql_raw_hash_constraint_rejects_bypassed_writer_tampering_and_rolls_back_all_effects",
+    "real_connection_close_after_task_and_journal_insertion_rolls_back_observations_audits_receipt_and_epoch",
+    "real_deferred_or_history_failure_rolls_back_staged_task_observations_journal_audits_receipt_and_epoch",
+    "explicit_stage_completion_preserves_incomplete_parent_and_reported_time_without_fabricated_work",
+    "actual_simultaneous_epoch_lock_and_parent_cas_publish_one_rework_and_no_loser_history",
+    "application_role_cannot_update_or_delete_journal_issue_or_pending_resolution_history",
+    "fresh_connection_reconstructs_original_journal_after_later_parent_and_stage_changes"
+  ],
+  "fixture_native_check_count": 34,
+  "candidate_schema_version": "0.13.0-stage-commands",
+  "candidate_steps": 18,
+  "domain_tables": 85,
+  "domain_foreign_keys": 219,
+  "activated_steps": 17,
+  "native_check_count": 14,
+  "limitations": [
+    "No public stage-command handler or independently resolved current relationship/account scope",
+    "Migration 017 is applied only to an owned disposable candidate database, not activated in the runtime manifest",
+    "Relationship issue/resolution effects, concurrent command CAS and transport-loss reconciliation remain required runtime acceptance",
+    "The prerequisite lifecycle fixture checks are reported separately and not counted as new stage checks"
+  ],
+  "harness": {
+    "run_id": "c96d9fee16e3495585f92e34a188ea8a",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

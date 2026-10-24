@@ -284,9 +284,9 @@ def verify(harness, report):
                 raise HarnessError('TASK_STORAGE_HISTORY_MUTATED')
         tables = conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0]
         fks = conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0]
-        require((tables, fks) == (82, 204), 'TASK_STORAGE_SCHEMA_COUNTS')
+        require((tables, fks) == (87, 221), 'TASK_STORAGE_SCHEMA_COUNTS')
         report.update(domain_tables=tables, domain_foreign_keys=fks)
-        checks.append('native_schema_has_82_domain_tables_and_204_foreign_keys')
+        checks.append('native_schema_has_87_domain_tables_and_221_foreign_keys')
     with harness.target(name).connect() as restarted:
         repository = PostgresTaskRepository(restarted, codec, plan, application_version=__version__, clock=clock)
         require(repository.get('staged-task') == updated and repository.get('staged-task', 1) == original,

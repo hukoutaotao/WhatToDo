@@ -132,3 +132,31 @@ The historical M3B-05 checkpoint passes 29 phases, 709 full methods and 181 nati
 M3B-06 adds a tenth native group for finite cascades, checkpoints, changed-input recovery, root budgets, fencing, renewal, real checkpoint disconnects and bounded retries. Its prerequisite generation checks are reported separately, avoiding duplicate summary counts. The M3B-06 baseline passes 30 phases, 715 full methods and 197 native checks. All seventeen databases are dropped, all ten owned PostgreSQL servers and both HTTP listeners stop. Clean installation verifies 73 modules and 74 matching source hashes across checkout/wheel/install; 40 schemas and seventeen SQL resources resolve. [Acceptance](../reports/acceptance/M3B-06.json) records exact scope and artifact pins.
 
 M3B-07.a final local CI passes 30 phases/735 full methods and the unchanged 197 native prerequisite-regression checks. All seventeen databases are dropped, ten servers and both HTTP listeners stop. Installation verifies 74 modules/75 exact source hashes/41 schemas. This verifies detached stage rework/order preparation and installed pending behavior; a native stage command mutation handler remains M3B-07.b. [Acceptance](../reports/acceptance/M3B-07a.json) retains that boundary.
+
+M3B-07.b adds native_stage_commands and native_stage_generated. The first
+includes its 14 internal storage cases exactly once together with 15 scoped
+entrypoint cases; the second verifies two actual generated endpoint cases.
+Repeated lifecycle/generation fixture checks do not inflate these counts.
+Duplicate or inconsistent component case declarations fail the summary gate.
+[Final acceptance](../reports/acceptance/M3B-07b.json) passes 32 phases, 760 full
+methods and 228 native checks across twelve groups. All nineteen databases,
+twelve PostgreSQL servers and both HTTP listeners are cleaned up. Installation
+verifies 77 modules/78 source hashes/41 schemas; eighteen migrations resolve
+0.13.0-stage-commands with 85 domain tables/219 FKs plus three metadata tables.
+The earlier seventeen SQL files and generic baseline remain unchanged. This is
+local isolated verification, without hosted publication or live activation.
+
+M3B-08 adds `native_review_storage` and `native_review_sources`. Storage checks
+whole-capture rollback, immutable ordered membership and continuation; source
+checks enumerate admitted Task/manual/clarification/evidence/generation/stage
+sources, original-request recovery and actual acknowledgement loss. Repeated
+prerequisite fixture cases are excluded from new-case counts. Exact case counts
+and HTTP cleanup are required by the summary gate. [Final
+acceptance](../reports/acceptance/M3B-08.json) passes 34 phases, 781 full
+methods and 247 native checks across fourteen groups. All twenty-three owned
+databases, fourteen PostgreSQL servers and all HTTP listeners are cleaned up.
+Installation verifies 81 modules/82 exact source hashes/43 schemas; nineteen
+migrations resolve 0.14.0-review-queue with 87 domain tables/221 FKs plus
+three metadata tables, and actual backup restore verifies all 90 tables. The
+earlier eighteen SQL files and generic baseline remain unchanged. This is local
+isolated verification, without hosted publication or live activation.

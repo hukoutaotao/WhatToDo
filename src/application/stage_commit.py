@@ -13,6 +13,7 @@ import re
 from src.application.definitions import canonical, identity, strict_json
 from src.application.ports import AggregateKey, CommitRequest, CommitReceipt, RecordWrite, RequestContext
 from src.application.relationship_storage import EndpointBinding, RelationStorageRecord
+from src.application.relationship_validation import GraphLimits
 from src.application.stage_commands import (StageCommand, StageCommandGrant, StageExecutionEvidence,
     StageOrderSnapshot, admit_stage_command, prepare_stage_command)
 from src.application.task_storage import TaskStorageRecord
@@ -21,6 +22,11 @@ from src.domain.relationships import Endpoint, TaskRelation
 from src.domain.task_aggregate import instant
 
 VERSION = '0.1.0-stage-journal'
+# Storage admission is not the current execution policy. A trusted handler may
+# select a larger bounded graph; historical replay must not silently substitute
+# the default 4096-endpoint policy for that already committed exact snapshot.
+STORAGE_ORDER_LIMITS = GraphLimits(max_relations=100000, max_endpoints=100000,
+    max_payload_bytes=8388608, max_traversal_work=10000000)
 
 
 def digest(value):
@@ -39,7 +45,7 @@ def command_from_payload(value):
     return command
 
 
-def order_from_payload(value):
+def order_from_payload(value, *, limits=GraphLimits()):
     require(isinstance(value, dict) and set(value) == {'relations', 'executions'}, 'STAGE_JOURNAL_ORDER')
     try:
         relations = []
@@ -57,7 +63,7 @@ def order_from_payload(value):
             for name in ('started_at', 'completed_at'):
                 e[name] = instant(e[name]) if e[name] is not None else None
             executions.append(StageExecutionEvidence(**e))
-        order = StageOrderSnapshot(tuple(relations), tuple(executions))
+        order = StageOrderSnapshot(tuple(relations), tuple(executions), limits)
     except (KeyError, TypeError, ValueError, OverflowError):
         require(False, 'STAGE_JOURNAL_ORDER')
     require(order.payload == value, 'STAGE_JOURNAL_ORDER')
@@ -94,7 +100,7 @@ class StageCommandJournal:
             or (self.state == 'COMMITTED' and self.after_task_hash is not None and self.transition_json is not None and not self.missing_fields),
             'STAGE_JOURNAL_EFFECTS')
         require(isinstance(self.order_json, str) and len(self.order_json.encode()) <= 8388608, 'STAGE_JOURNAL_ORDER_SIZE')
-        order = order_from_payload(strict_json(self.order_json))
+        order = order_from_payload(strict_json(self.order_json), limits=STORAGE_ORDER_LIMITS)
         object.__setattr__(self, 'order_json', canonical(order.payload))
         if self.transition_json is not None:
             require(isinstance(self.transition_json, str) and len(self.transition_json.encode()) <= 8388608, 'STAGE_JOURNAL_TRANSITION_SIZE')
@@ -188,14 +194,30 @@ class StageCommitPlan:
     observations: tuple = field(repr=False)
     audits: tuple[StageAuditChange, ...] = field(repr=False)
     issue_jsons: tuple[str, ...] = field(default=(), repr=False)
+    resolution_jsons: tuple[str, ...] = field(default=(), repr=False)
     @property
     def receipt_body(self): return asdict(self.receipt)
     @property
     def issues(self): return tuple(strict_json(v) for v in self.issue_jsons)
+    @property
+    def resolutions(self): return tuple(strict_json(v) for v in self.resolution_jsons)
+
+
+def can_resolve_stage_pending(pending, command):
+    """Match an older unresolved instruction, retaining its independently known facts."""
+    require(isinstance(pending,StageCommandJournal) and isinstance(command,StageCommand), 'STAGE_TYPED_PENDING_RESOLUTION')
+    old=pending.command
+    return (pending.state=='PENDING' and command.fields.get('intent')=='SAME_OBLIGATION'
+        and old.fields.get('intent') not in ('CORRECTION','NEW_OBLIGATION')
+        and (old.principal_id,old.task_id,old.stage_id,old.operation,old.expected_stage_revision)==
+            (command.principal_id,command.task_id,command.stage_id,command.operation,command.expected_stage_revision)
+        and old.expected_revision<=command.expected_revision
+        and all(k in ('intent',*pending.missing_fields) or k in command.fields and command.fields[k]==v
+            for k,v in old.fields.items()))
 
 
 def prepare_stage_commit(codec, raw, grant, before, *, caller, now, context, expected_store_revision, audit_id,
-                         order=StageOrderSnapshot()):
+                         order=StageOrderSnapshot(), pending=()):
     """Recompute exact effects from independently resolved inputs, without a permit."""
     command = admit_stage_command(codec, raw)
     require(isinstance(context, RequestContext) and context.request_id == command.command_id, 'STAGE_COMMIT_REQUEST_SCOPE')
@@ -213,6 +235,16 @@ def prepare_stage_commit(codec, raw, grant, before, *, caller, now, context, exp
         body = dict(issue_id='stage-issue-' + digest([journal.record_id, item]), transition_ref=journal.record_id, **item)
         issues.append(canonical(body))
         changes.append((AggregateKey('STAGE_RELATIONSHIP_ISSUE', body['issue_id']), None, 1, None, body))
+    require(isinstance(pending,tuple) and len(pending)<=98 and all(isinstance(p,StageCommandJournal) for p in pending)
+        and len({p.record_id for p in pending})==len(pending), 'STAGE_PENDING_RESOLUTION_LIMIT')
+    require(not pending or journal.state=='COMMITTED' and all(can_resolve_stage_pending(p,command) for p in pending),
+        'STAGE_PENDING_RESOLUTION_SCOPE')
+    resolutions=[]
+    for prior in sorted(pending,key=lambda p:p.record_id):
+        body=dict(resolution_id='stage-resolution-'+digest([prior.record_id,journal.record_id]),
+            pending_ref=prior.record_id,transition_ref=journal.record_id)
+        resolutions.append(canonical(body))
+        changes.append((AggregateKey('STAGE_PENDING_RESOLUTION',body['resolution_id']),None,1,None,body))
     require(len(changes) <= 100, 'STAGE_COMMIT_EFFECT_LIMIT')
     changes.sort(key=lambda c: (c[0].kind, c[0].id))
     writes = tuple(RecordWrite(key, revision, canonical(new)) for key, revision, _, _, new in changes)
@@ -221,4 +253,4 @@ def prepare_stage_commit(codec, raw, grant, before, *, caller, now, context, exp
     receipt = CommitReceipt(command.command_id, request.fingerprint, expected_store_revision + 1, audit_id, tuple(w.key for w in writes))
     audits = tuple(StageAuditChange('change-' + digest([audit_id, key.kind, key.id, after]), key, revision, after,
         canonical(old) if old is not None else None, canonical(new)) for key, revision, after, old, new in changes)
-    return StageCommitPlan(request, receipt, journal, prepared.record, prepared.estimates, audits, tuple(issues))
+    return StageCommitPlan(request, receipt, journal, prepared.record, prepared.estimates, audits, tuple(issues),tuple(resolutions))

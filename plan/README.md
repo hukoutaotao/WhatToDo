@@ -18,7 +18,7 @@ focused evidence and installation checkpoints are in PROGRESS. M3A-04 adds an
 verified with native authentication and success/failure cleanup probes.
 M3A-05 now supplies [ordered migrations and schema compatibility](../database/RUNTIME_MIGRATIONS.md)
 with native rollback/retry/interruption evidence. The next ready scope is
-M3B-07.b scoped atomic stage runtime, after verified M3B-07.a detached preparation; other normalization classes and later runtime dependencies remain open. M3A-06 supplies
+M3B-09 scoped unchanged-estimate batches, after verified M3B-07.a preparation, M3B-07.b scoped atomic stage runtime and M3B-08 full-queue review; other normalization classes and later runtime dependencies remain open. M3A-06 supplies
 [Git-backed immutable definitions](../database/DEFINITION_REPOSITORIES.md),
 exact-version reference checks and default snapshots; native verification proves
 new default versions preserve existing Task history. M3A-07 now provides
@@ -84,7 +84,7 @@ rehearses the complete entrypoint in a fresh Windows checkout: 602 methods,
 gates pass. Hosted Actions has not been run.
 [M3A-19 acceptance](../reports/acceptance/M3A.md) now closes the bounded generic
 persistence gate with fifteen requirement mappings, a fresh 602-method/113-native
-run, exact installed-source checks and separate restore. M3B-01 typed storage, M3B-02 graph validation, M3B-03 outbox and M3B-04 generation evaluation are DONE; M3B-05.a/b and parent M3B-05 scoped atomic generation are DONE. [M3B-06 bounded processing](../database/GENERATION_PROCESSING.md) is DONE with 715 methods/197 native checks; M3B-07.a preparation is DONE while parent stage rework remains IN_PROGRESS; M3B-07.b follows; [runtime handoff](../database/GENERATION_RUNTIME.md) records evidence and remaining work.
+run, exact installed-source checks and separate restore. M3B-01 typed storage, M3B-02 graph validation, M3B-03 outbox and M3B-04 generation evaluation are DONE; M3B-05.a/b and parent M3B-05 scoped atomic generation are DONE. [M3B-06 bounded processing](../database/GENERATION_PROCESSING.md) is DONE with 715 methods/197 native checks; M3B-07.a preparation, M3B-07.b scoped runtime and parent M3B-07 are DONE; [runtime handoff](../database/GENERATION_RUNTIME.md) records evidence and remaining work.
 Personal intake remains deferred.
 
 ## 2. Authority by Subject
@@ -140,8 +140,10 @@ Do not create a second competing roadmap or status ledger. Retain accepted inten
 
 [Bounded relationship graph validation](../database/RELATIONSHIP_GRAPH_VALIDATION.md) now verifies separately typed graphs, precise diagnostics and explicit generation resource limits. Current installation contains 68 modules/69 matching files; automatic generation and personal activation remain future work.
 
-[Canonical creation outbox](../database/CREATION_OUTBOX.md) now preserves the first source snapshot atomically and supports scoped delivery leases, retry/restart recovery and fenced result replay. Delivery state remains separate from Task completion. Rule evaluation is available; atomic target generation remains next.
+[Canonical creation outbox](../database/CREATION_OUTBOX.md) now preserves the first source snapshot atomically and supports scoped delivery leases, retry/restart recovery and fenced result replay. Delivery state remains separate from Task completion. Rule evaluation, atomic target generation and bounded processing are verified.
 
-[Exact-version generation evaluation](../database/GENERATION_EVALUATOR.md) now constructs a validated independent Task or shared-parent stage, or explicit pending facts, with original source/default/template provenance. Atomic counterpart persistence and deduplication remain next.
+[Exact-version generation evaluation](../database/GENERATION_EVALUATOR.md) now constructs a validated independent Task or shared-parent stage, or explicit pending facts, with original source/default/template provenance. Atomic counterpart persistence and deduplication are verified.
 
-[Stage preparation](../database/STAGE_COMMANDS.md) adds an opt-in exact command/grant and effect-free pending/immutable stage-parent-order effects. Current CI has 735 methods/197 native prerequisite checks; installation verifies 74 modules/75 source hashes/41 schemas. Actual stage runtime remains M3B-07.b.
+[Stage runtime](../database/STAGE_COMMANDS.md) now independently resolves USER/account/Task ownership and complete current relationship/execution inputs, then persists truthful Task/stage/pending/issue/resolution histories with atomic recovery and original replay. [Parent acceptance](../reports/acceptance/M3B-07.json) passes 32-phase CI, 760 methods/228 native cases and installed 77 modules/78 source hashes/41 schemas. M3B-07 and its runtime child are DONE.
+
+[Complete review queue](../database/REVIEW_QUEUE.md) now enumerates every unresolved admitted source and future-relevant incomplete Task needing estimates with frozen pagination, group counts and original-request recovery; a short target never drops low-priority questions and presentation cannot complete personal reconciliation. [Final acceptance](../reports/acceptance/M3B-08.json) passes 34-phase CI, 781 methods/247 native cases and installed 81 modules/82 source hashes/43 schemas. M3B-08 is DONE; M3B-09 unchanged-estimate batches is next. The full application and live/personal activation remain unfinished.

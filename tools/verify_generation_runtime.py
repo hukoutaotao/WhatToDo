@@ -53,7 +53,7 @@ def verify(h, report, *, post_verify=None):
     checks = report['native_checks']; plan = load_migration_plan(root=ROOT)
     roles = DatabaseRoles(ROLES['migration'], ROLES['application'], ROLES['test'])
     db = h.create_database(initialize_schema=False)
-    codec = ContractJSONCodec(load_supported_schemas(root=ROOT)); git = GitDefinitionFixture(h.run_root / 'git-fixture')
+    codec = ContractJSONCodec(load_supported_schemas(root=ROOT)); git = GitDefinitionFixture(h.run_root / 'generation-runtime' / 'git-fixture')
     fixtures.GenerationEvaluatorTests.setUpClass(); f = fixtures.GenerationEvaluatorTests()
     _, base, memory = f.setup_values()
     rules = {}; envelopes = {}
@@ -293,7 +293,7 @@ def verify(h, report, *, post_verify=None):
         success(out);require(out.value.receipt==retained,'GENERATION_RUNTIME_RESTART')
         checks.append('fresh_connection_reconstructs_original_full_audited_generation_receipt_after_source_changes_and_rule_edit')
     if post_verify is not None:post_verify(h,db,codec,plan,roles,git)
-    report.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=82,domain_foreign_keys=204)
+    report.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=87,domain_foreign_keys=221)
 
 
 def main():

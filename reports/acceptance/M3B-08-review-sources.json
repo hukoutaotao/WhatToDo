@@ -1,0 +1,39 @@
+{
+  "task": "M3B-08",
+  "status": "PASS",
+  "scope": "COMPLETE_ADMITTED_SOURCE_QUERY_PINNED_RUNTIME",
+  "native_checks": [
+    "actual_owned_tasks_and_four_pending_families_retain_far_future_low_optional_and_missing_user_estimates_without_reasking_ready_intents_or_mutating_canonical_state",
+    "original_initial_request_and_all_frozen_pages_survive_new_canonical_tasks_while_a_fresh_request_sees_them",
+    "changed_account_query_owner_and_signed_cursor_fail_and_unconfigured_scope_is_a_visible_coverage_gap",
+    "unowned_legacy_review_presence_blocks_complete_enumeration_without_revealing_its_contents",
+    "real_outer_commit_then_operational_or_interface_ack_loss_is_unknown_and_original_request_recovers_one_capture",
+    "simultaneous_initial_request_has_one_frozen_capture_with_safe_busy_or_serialization_retry",
+    "actual_retained_stage_intents_include_correction_and_new_obligation_without_consuming_resolved_journals",
+    "current_pending_and_failed_generation_heads_and_generated_task_births_are_verified_against_actual_cached_rule_receipts"
+  ],
+  "read_fixture_checks_not_counted": 20,
+  "http_server_stopped": true,
+  "stage_fixture_checks_not_counted": 29,
+  "lifecycle_fixture_checks_not_counted": 34,
+  "generation_fixture_checks_not_counted": 17,
+  "native_check_count": 8,
+  "harness": {
+    "run_id": "e2e9ff5c176c424ba1d2da3c046da765",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 3,
+    "databases_dropped": 3,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

@@ -232,7 +232,7 @@ def verify(h,report):
                 except Exception as exc:require(getattr(exc,'sqlstate',None)=='23514','WORKER_HISTORY_SQLSTATE')
                 else:require(False,'WORKER_HISTORY_MUTATED')
             checks.append('application_cannot_delete_persistent_lineage_checkpoint_or_reservation_history')
-            report.update(domain_tables=82,domain_foreign_keys=204,migration_steps=17,schema_version=plan.schema_version)
+            report.update(domain_tables=87,domain_foreign_keys=221,migration_steps=19,schema_version=plan.schema_version)
     fixture_report=dict(native_checks=[]);verify_runtime(h,fixture_report,post_verify=processing)
     report['prerequisite_runtime_checks']=len(fixture_report['native_checks'])
 

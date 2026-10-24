@@ -106,3 +106,19 @@ comparison in another new checkout. It freezes this prototype evidence at schema
 [Bounded processing](../database/GENERATION_PROCESSING.md) is installed with typed checkpoints and explicit optional-driver absence. Seventeen SQL resources resolve the current generation-processing schema.
 
 [Stage command preparation](../database/STAGE_COMMANDS.md) is installed with the eleventh opt-in extension. Installed smoke reopens one existing stage, binds a fresh parent estimate and retains unresolved intent without effects; it issues no permit and needs no PostgreSQL driver. All 75 source files match checkout/wheel/install.
+
+The current [stage runtime package](../reports/acceptance/M3B-07b-package.json)
+adds composite journal/receipt plans, pending resolution and the scoped handler.
+Installed smoke checks committed/pending reconstruction and explicit optional
+driver absence; native tests separately verify real publication and recovery.
+All 78 current source hashes match checkout/wheel/install, with 77 modules and
+41 schemas. Eighteen SQL resources resolve 0.13.0-stage-commands. The package is
+private; no application database, personal profile or service is activated.
+
+The complete [review queue](../database/REVIEW_QUEUE.md) adds two selected
+contracts, for 43 schemas, and the nineteenth pinned SQL resource at
+`0.14.0-review-queue`. Installed smoke verifies typed capture/paging, admission of
+the selected page, rejection by the unchanged base codec, and explicit optional
+driver absence at the public query boundary. Its source collector imports without
+provider credentials or database initialization. Native and unified runtime
+acceptance remain separately recorded in the live ledger.

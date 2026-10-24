@@ -55,7 +55,7 @@ def main():
             names=archive.namelist()
             if any('/intake/' in n or n.startswith(('tests/','tools/','plan/','.')) for n in names):raise RuntimeError('PRIVATE_OR_DEVELOPER_ARTIFACT_PACKAGED')
             schemas=[n for n in names if n.endswith('.schema.json')]
-            if len(schemas)!=41:raise RuntimeError('PACKAGED_CONTRACT_COVERAGE')
+            if len(schemas)!=43:raise RuntimeError('PACKAGED_CONTRACT_COVERAGE')
         run([installed,'-m','pip','install','--no-index','--find-links',ROOT/'.dev-tools/wheelhouse/core','--require-hashes','-r',ROOT/'requirements-runtime.lock'],cwd=run_root,env=env)
         local_lock=run_root/'package.lock'
         digest=sha256(wheel.read_bytes()).hexdigest()
@@ -109,8 +109,8 @@ assert DateOnly.parse('2027-01-01').as_due(source_ref='synthetic-source').instan
 config=load_runtime_config(pathlib.Path(sysconfig.get_path('data'))/'share/whattodo/config/runtime.example.json',env={})
 assert config.definitions==()
 plan=load_migration_plan()
-assert len(plan.steps)==17
-assert plan.schema_version=='0.12.0-generation-processing'
+assert len(plan.steps)==19
+assert plan.schema_version=='0.14.0-review-queue'
 outbox_now=datetime(2026,1,1,tzinfo=timezone.utc)
 outbox_event=CreationEvent(event_id_for('installed-source-task'),'installed-source-task',1,'a'*64,'creation-tx','principal','authority',outbox_now)
 outbox_lease=DeliveryLease(outbox_event,2,1,'installed-worker','b'*32,outbox_now,outbox_now+timedelta(seconds=60))
@@ -226,7 +226,7 @@ manual_handler=PostgresManualTaskHandler(None,codec,plan,application_version='0.
 manual_unavailable=manual_handler.create(json.dumps(manual.as_record()).encode(),RequestContext(manual.command_id,'synthetic-manual-correlation'),expected_store_revision=1,audit_id='synthetic-manual-audit',caller=caller)
 assert manual_unavailable.status=='PERMANENT' and manual_unavailable.code=='TRANSACTION_DRIVER_UNAVAILABLE'
 extended=load_supported_schemas()
-assert len(extended)==41 and all(extended[k]==s for k,s in schemas.items())
+assert len(extended)==43 and all(extended[k]==s for k,s in schemas.items())
 extended_codec=ContractJSONCodec(extended)
 from copy import deepcopy
 from src.application.stage_commands import StageCommand,StageCommandGrant,admit_stage_command,prepare_stage_command
@@ -242,6 +242,54 @@ assert installed_stage_prepared.state=='PREPARED' and installed_stage_prepared.r
 assert installed_stage_prepared.record.aggregate.as_record()['effort']['user_remaining']['seconds']==600 and not hasattr(installed_stage_prepared,'permit')
 installed_stage_unknown=StageCommand('installed-pending-stage',caller.principal_id,'installed-pending-stage-grant',record.task_id,1,'installed-rework-stage',1,'REWORK',json.dumps(dict(intent='UNRESOLVED')))
 assert prepare_stage_command(extended_codec,installed_stage_unknown,StageCommandGrant(installed_stage_unknown,'synthetic-source',clock.now(),clock.now()),installed_stage_before,caller=caller,now=clock.now()).record is None
+from src.application.stage_commit import StageCommandJournal,prepare_stage_commit
+from src.adapters.postgres_stage_commit import PostgresStageCommitWriter
+installed_stage_commit=prepare_stage_commit(extended_codec,json.dumps(installed_stage_command.as_record()).encode(),installed_stage_grant,
+    installed_stage_before,caller=caller,now=clock.now(),context=RequestContext(installed_stage_command.command_id,'installed-stage-trace'),
+    expected_store_revision=1,audit_id='installed-stage-audit')
+assert StageCommandJournal.from_payload(installed_stage_commit.journal.payload)==installed_stage_commit.journal
+assert installed_stage_commit.task==installed_stage_prepared.record and len(installed_stage_commit.request.writes)==2
+assert installed_stage_commit.observations[0].authority_ref==installed_stage_command.authority_ref
+assert not hasattr(installed_stage_commit,'permit')
+installed_stage_pending_commit=prepare_stage_commit(extended_codec,json.dumps(installed_stage_unknown.as_record()).encode(),
+    StageCommandGrant(installed_stage_unknown,'synthetic-source',clock.now(),clock.now()),installed_stage_before,caller=caller,now=clock.now(),
+    context=RequestContext(installed_stage_unknown.command_id,'installed-stage-pending-trace'),expected_store_revision=1,audit_id='installed-stage-pending-audit')
+assert installed_stage_pending_commit.task is None and len(installed_stage_pending_commit.request.writes)==1
+assert installed_stage_pending_commit.request.writes[0].key.kind=='STAGE_PENDING'
+assert PostgresStageCommitWriter(None,extended_codec,plan,application_version='0.1.0.dev0',clock=clock).connection is None
+from src.adapters.postgres_stage_commands import PostgresStageCommandHandler
+installed_stage_handler=PostgresStageCommandHandler(None,extended_codec,plan,application_version='0.1.0.dev0',clock=clock)
+installed_stage_lookup=installed_stage_handler.lookup(json.dumps(installed_stage_command.as_record()).encode(),
+    RequestContext(installed_stage_command.command_id,'installed-stage-lookup'),caller=caller)
+assert installed_stage_lookup.status=='PERMANENT' and installed_stage_lookup.code=='TRANSACTION_DRIVER_UNAVAILABLE'
+from src.application.review_queue import ReviewQueueItem,ReviewQueueQuery,ReviewQueueCursor,make_review_queue_snapshot,make_review_queue_page
+from src.adapters.postgres_review_queue import PostgresReviewQueueStore
+installed_queue_query=ReviewQueueQuery(1,1)
+installed_queue_items=tuple(ReviewQueueItem('TASK_ESTIMATE','installed-question-'+str(i),1,'ESTIMATE_VERIFICATION',
+    'Synthetic pending question',5,1,'installed-group') for i in range(2))
+installed_queue=make_review_queue_snapshot(installed_queue_query,installed_queue_items,snapshot_id='installed-queue',
+    principal_id=caller.principal_id,request_id='installed-queue-request',scope_hash='a'*64,store_revision=1,last_transaction_ref=None,
+    observed_at=clock.now(),expires_at=clock.now()+timedelta(hours=1),coverage_blockers=('SYNTHETIC_PROJECTIONS_ONLY',))
+installed_queue_signer=ReviewQueueCursor(b'installed-synthetic-review-key-32')
+installed_queue_page=make_review_queue_page(installed_queue,installed_queue_query,index=0,signer=installed_queue_signer)
+assert installed_queue_page['total_items']==2 and installed_queue_page['returned_count']==1
+assert installed_queue_page['items'][0]['answer'] is None and not installed_queue_page['personal_reconciliation_complete']
+assert not installed_queue_page['enumeration_complete']
+assert installed_queue_signer.decode(installed_queue_page['next_cursor'],principal_id=caller.principal_id,
+    query_hash=installed_queue_query.fingerprint)==('installed-queue',1)
+assert PostgresReviewQueueStore(None,clock=clock,cursor_key=b'installed-synthetic-review-key-32').connection is None
+from src.adapters.postgres_review_service import PostgresReviewQueueService
+installed_queue_service=PostgresReviewQueueService(None,codec,plan,application_version='0.1.0.dev0',clock=clock,
+    cursor_key=b'installed-synthetic-review-key-32')
+installed_queue_unselected=installed_queue_service.query(json.dumps(installed_queue_query.as_record()).encode(),
+    RequestContext('installed-unselected-queue','installed-unselected-queue'),caller=caller)
+assert (installed_queue_unselected.status,installed_queue_unselected.code)==('PERMANENT','REVIEW_QUEUE_QUERY_UNSUPPORTED')
+assert extended_codec.admit('review-queue-page',json.dumps(installed_queue_page).encode()).status=='SUPPORTED_SHAPE'
+installed_selected_queue_service=PostgresReviewQueueService(None,extended_codec,plan,application_version='0.1.0.dev0',clock=clock,
+    cursor_key=b'installed-synthetic-review-key-32')
+installed_queue_no_driver=installed_selected_queue_service.query(json.dumps(installed_queue_query.as_record()).encode(),
+    RequestContext('installed-selected-queue','installed-selected-queue'),caller=caller)
+assert (installed_queue_no_driver.status,installed_queue_no_driver.code)==('PERMANENT','TRANSACTION_DRIVER_UNAVAILABLE')
 patch=FactPatch('installed-fact-patch',caller.principal_id,'installed-fact-grant',core['task_id'],1,json.dumps(dict(deadline='2026-10-13T13:30:00.123456+08:00',importance=4,user_remaining_seconds=1200)))
 patch_raw=json.dumps(patch.as_record()).encode()
 assert admit_fact_patch(extended_codec,patch_raw)==patch
@@ -373,6 +421,8 @@ print(json.dumps(dict(stage_commands='INSTALLED_EXACT_STAGE_REWORK_AND_EFFECT_FR
         smoke_script=run_root/'installed-smoke.py'
         smoke_script.write_text(code,encoding='utf-8')
         observed=json.loads(run([installed,'-I',smoke_script],cwd=run_root,env=env))
+        report['review_queue_component']='INSTALLED_SYNTHETIC_CAPTURE_CURSOR_AND_INTERNAL_STORE_IMPORT_WITHOUT_OPTIONAL_DRIVER'
+        report['review_queue_source_query']='INSTALLED_SELECTED_QUERY_PAGE_CONTRACTS_BASE_OPT_IN_REJECTION_AND_OPTIONAL_DRIVER_OUTCOME'
         script=clean_env/'Scripts/whattodo-smoke.exe'
         entry=json.loads(run([script],cwd=run_root,env=env))
         if entry!=observed['domain']:raise RuntimeError('INSTALLED_ENTRYPOINT_MISMATCH')

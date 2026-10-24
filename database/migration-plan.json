@@ -122,6 +122,20 @@
       "content_hash": "910fdc40ffbfdfabae9fbcb7300dcff0779fc65b67d27532988b5a49e394d4b4",
       "schema_version": "0.12.0-generation-processing",
       "legacy_design_version": null
+    },
+    {
+      "id": "017_stage_commands",
+      "path": "database/runtime-migrations/017_stage_commands.sql",
+      "content_hash": "180ed120d6e1f90e5fbaffb49f06d46809803076f36c93d8b6cd99d95ca0f441",
+      "schema_version": "0.13.0-stage-commands",
+      "legacy_design_version": null
+    },
+    {
+      "id": "018_review_queue",
+      "path": "database/runtime-migrations/018_review_queue.sql",
+      "content_hash": "705c5a0cfae516b70009c85e8c9dbb6125d429482962cadb789aa50bcdd66298",
+      "schema_version": "0.14.0-review-queue",
+      "legacy_design_version": null
     }
   ]
 }

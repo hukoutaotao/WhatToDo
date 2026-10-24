@@ -41,9 +41,10 @@ CALLER=CallerIdentity('principal','USER_COMMAND',True);SCOPE=SourceScope('synthe
 DIMS=dict(thinking_depth=2,repetitive_volume=2,new_learning_load=3)
 
 
-def verify(harness,report):
+def verify(harness,report,*,migration_plan=None):
     import psycopg
-    plan=load_migration_plan(root=ROOT);codec=ContractJSONCodec(trusted_schemas());checks=report['native_checks']
+    plan=load_migration_plan(root=ROOT) if migration_plan is None else migration_plan
+    codec=ContractJSONCodec(trusted_schemas());checks=report['native_checks']
     database=harness.create_database(initialize_schema=False);roles=DatabaseRoles(ROLES['migration'],ROLES['application'],ROLES['test'])
     with harness.target(database,'migration').connect() as owner:
         apply_migrations(owner,plan,roles=roles,application_version=__version__)

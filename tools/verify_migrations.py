@@ -38,8 +38,8 @@ def run_native(harness,plan):
         checks.append('all_current_steps_applied_in_order')
         tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0]
         fks=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0]
-        require((tables,fks)==(82,204),'MIGRATION_DOMAIN_SCHEMA_COUNT')
-        checks.append('extended_domain_schema_82_tables_204_foreign_keys')
+        require((tables,fks)==(87,221),'MIGRATION_DOMAIN_SCHEMA_COUNT')
+        checks.append('extended_domain_schema_87_tables_221_foreign_keys')
         before=conn.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
         require(conn.execute('SELECT count(*) FROM whattodo.schema_migration').fetchone()==(5,),'MIGRATION_LEGACY_RECEIPTS')
         checks.append('five_legacy_receipts_and_current_runtime_receipts')

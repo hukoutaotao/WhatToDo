@@ -1,0 +1,71 @@
+{
+  "task": "M3B-07",
+  "status": "PASS",
+  "verified_on": "2026-10-23",
+  "scope": "TRUTHFUL_STAGE_REWORK_AND_COMPLETION_WITH_SCOPED_ATOMIC_RECOVERY",
+  "children": [
+    {
+      "task": "M3B-07.a",
+      "report": "reports/acceptance/M3B-07a.json",
+      "sha256": "6f44301f1011d7aa12974485b0113700eaeb4362842495f354a2d402495a74f6"
+    },
+    {
+      "task": "M3B-07.b",
+      "report": "reports/acceptance/M3B-07b.json",
+      "sha256": "4216a35e985db9579995c31f4d8c16333d679d76d53930128e6339c61491f4e5"
+    }
+  ],
+  "requirements": {
+    "independent_exact_user_scope": {
+      "status": "PASS",
+      "evidence": "Strict bytes/caller/injected grant; registered source/account and Task-birth owner; actual foreign source and target-account refusals"
+    },
+    "current_relation_execution_scope": {
+      "status": "PASS",
+      "evidence": "Latest accepted hard links, normalized/audited historical bindings, current Task/stage execution and unknown actual-start retention"
+    },
+    "same_obligation_identity_history_and_budget": {
+      "status": "PASS",
+      "evidence": "Same stage identity, parent INCOMPLETE, fresh/retained positive U, preserved timing/work/other-stage history and invalidated predictions"
+    },
+    "durable_distinct_pending_and_resolution": {
+      "status": "PASS",
+      "evidence": "Lossless pending and compatible audited resolution; known fields preserved and correction/new-obligation routes remain distinct"
+    },
+    "truthful_out_of_order_completion": {
+      "status": "PASS",
+      "evidence": "Real stage completion with stored/audited issue; no invented prerequisite or parent completion"
+    },
+    "audited_atomic_publication_and_sql_guards": {
+      "status": "PASS",
+      "evidence": "Task/observations/journal/issues/resolutions/receipt/epoch together; exact FK/source/authority/XID/audit constraints and immutable histories"
+    },
+    "original_owned_replay": {
+      "status": "PASS",
+      "evidence": "Historical full request/audit/task/order/estimate/resolution reconstruction; expired/absent grants, changed graph/Task and whitespace retry; altered meaning conflicts"
+    },
+    "actual_concurrency_and_failure_recovery": {
+      "status": "PASS",
+      "evidence": "Actual simultaneous CAS, precommit connection close and outer-COMMIT OperationalError/InterfaceError ack loss; UNKNOWN plus one recovered original effect"
+    },
+    "generated_endpoints_and_resource_bounds": {
+      "status": "PASS",
+      "evidence": "Actual generated stage/parent accepted rule/definition/birth ancestry, parent-owned U, unchanged work and 4097-fact configured snapshot roundtrip"
+    },
+    "activated_resources_installation_and_regression": {
+      "status": "PASS",
+      "evidence": "Pinned eighteenth SQL step, 4 consumers/13 owners, 85 domain tables/219 FKs, actual 88-table restore, clean install and unified 32-phase/760-method/228-native CI"
+    }
+  },
+  "full_unittest_methods": 760,
+  "ci_phase_count": 32,
+  "ci_native_checks": 228,
+  "next_task": "M3B-08",
+  "limitations": [
+    "Isolated synthetic SQL/runtime and installed package; no live provider, personal profile, n8n, model or deployment activation",
+    "Correction/new-obligation intent is an explicit pending route requiring its missing reconciliation/creation facts",
+    "Stage actual starts remain unknown without real evidence; source capture/release times are never substituted",
+    "Earlier reports retain historical pins; final ledger/report documentary additions follow observed checks",
+    "Whole application and later review/expiration/planning/integration/deployment cards remain unfinished"
+  ]
+}
