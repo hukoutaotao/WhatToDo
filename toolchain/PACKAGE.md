@@ -122,3 +122,10 @@ the selected page, rejection by the unchanged base codec, and explicit optional
 driver absence at the public query boundary. Its source collector imports without
 provider credentials or database initialization. Native and unified runtime
 acceptance remain separately recorded in the live ledger.
+
+The scoped [review batch](../database/REVIEW_BATCHES.md) confirmation adds one
+selected contract, for 44 schemas, and the twentieth pinned SQL resource at
+`0.15.0-review-batches`. Installed smoke verifies exact member bindings, a
+confirmed verification plan, silence-confirms-none, base-codec opt-in rejection
+and the explicit optional-driver outcome at the confirmation boundary. Final
+unified acceptance is recorded in the live ledger.

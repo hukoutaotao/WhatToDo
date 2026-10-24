@@ -293,7 +293,7 @@ def verify(h, report, *, post_verify=None):
         success(out);require(out.value.receipt==retained,'GENERATION_RUNTIME_RESTART')
         checks.append('fresh_connection_reconstructs_original_full_audited_generation_receipt_after_source_changes_and_rule_edit')
     if post_verify is not None:post_verify(h,db,codec,plan,roles,git)
-    report.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=87,domain_foreign_keys=221)
+    report.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=89,domain_foreign_keys=230)
 
 
 def main():

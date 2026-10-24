@@ -57,8 +57,11 @@ def verify(h, report):
     with h.target(database, 'migration').connect() as owner:
         prefix = owner.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
         old_payloads = owner.execute('SELECT task_id,task_revision,raw_bytes FROM whattodo.task_payload_revision ORDER BY 1,2').fetchall()
-        applied = apply_migrations(owner, plan, roles=roles, application_version=__version__)
+        applied = apply_migrations(owner, replace(plan, steps=plan.steps[:19]), roles=roles, application_version=__version__)
         require(applied.applied == ('017_stage_commands','018_review_queue'), 'STAGE_CANDIDATE_APPLY')
+        # This component verifies the stage-journal upgrade path only; its runtime
+        # components target the actual nineteen-step predecessor of the batch step.
+        plan = replace(plan, steps=plan.steps[:19])
         require(owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=17 ORDER BY position').fetchall() == prefix
             and owner.execute('SELECT task_id,task_revision,raw_bytes FROM whattodo.task_payload_revision ORDER BY 1,2').fetchall() == old_payloads,
             'STAGE_UPGRADE_REWROTE_HISTORY')

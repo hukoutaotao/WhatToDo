@@ -41,7 +41,8 @@ CHECKS=(
  ('native_stage_commands',('tools/verify_stage_commands.py',)),
  ('native_stage_generated',('tools/verify_stage_generated.py',)),
  ('native_review_storage',('tools/verify_review_queue_storage.py',)),
- ('native_review_sources',('tools/verify_review_sources.py',)))
+ ('native_review_sources',('tools/verify_review_sources.py',)),
+ ('native_review_batches',('tools/verify_review_batches.py',)))
 NATIVE_REPORTS={'native_migrations':'migration-report.json','native_authority':'authorization-report.json','native_transport':'command-transport-report.json','native_reads':'read-models-report.json','native_backup_restore':'backup-restore-report.json','native_relationships':'relationship-storage-report.json'}
 NATIVE_REPORTS['native_creation_outbox']='creation-outbox-report.json'
 NATIVE_REPORTS['native_generation_foundation']='generation-foundation-report.json'
@@ -51,6 +52,7 @@ NATIVE_REPORTS['native_stage_commands']='stage-commands-report.json'
 NATIVE_REPORTS['native_stage_generated']='stage-generated-report.json'
 NATIVE_REPORTS['native_review_storage']='review-queue-storage-report.json'
 NATIVE_REPORTS['native_review_sources']='review-sources-report.json'
+NATIVE_REPORTS['native_review_batches']='review-batches-report.json'
 
 def native_summary(root,check,before):
     choices=list((root/'.local-state/postgres-tests').glob('*/'+NATIVE_REPORTS[check]));new=[p for p in choices if p.parent.name not in before]
@@ -59,7 +61,7 @@ def native_summary(root,check,before):
     need(r['status']=='PASS' and h['server_stopped'] is True and h['databases_created']==h['databases_dropped'] and h['initdb_password_file_retained'] is False,'CI_NATIVE_CLEANUP_OR_RESULT')
     if check in ('native_transport','native_reads','native_review_sources'):need(r['http_server_stopped'] is True,'CI_HTTP_CLEANUP')
     count=len(r['native_checks'])
-    if check in ('native_review_storage','native_review_sources'):
+    if check in ('native_review_storage','native_review_sources','native_review_batches'):
         need(isinstance(r['native_checks'],list) and all(isinstance(c,str) for c in r['native_checks'])
             and len(set(r['native_checks']))==count and count>0
             and type(r.get('native_check_count')) is int and r['native_check_count']==count,'CI_REVIEW_CASE_COUNTS')
@@ -69,6 +71,10 @@ def native_summary(root,check,before):
             keys=('read_fixture_checks_not_counted','stage_fixture_checks_not_counted',
                 'lifecycle_fixture_checks_not_counted','generation_fixture_checks_not_counted')
             need(all(type(r.get(k)) is int and r[k]>=0 for k in keys),'CI_REVIEW_CASE_COUNTS')
+        if check=='native_review_batches':
+            # The lifecycle prerequisite fixture checks are separate evidence.
+            need(type(r.get('fixture_native_check_count')) is int and r['fixture_native_check_count']>=0,
+                'CI_REVIEW_CASE_COUNTS')
     if check=='native_stage_commands':
         component=r.get('foundation_checks')
         need(isinstance(component,list) and all(isinstance(c,str) for c in component)
@@ -125,7 +131,7 @@ def run(*,bootstrap=False,root=ROOT):
             before={p.name for p in (root/'.local-state/postgres-tests').glob('*')} if check in NATIVE_REPORTS else set()
             if args and args[0].startswith('tools/') and args[0].endswith('.py'):
                 args=('-m',args[0][:-3].replace('/','.'),*args[1:])
-            counts=execute(check,[interpreter,*args],420 if check in ('package_install','native_generation_worker','native_review_sources') else 300)
+            counts=execute(check,[interpreter,*args],420 if check in ('package_install','native_generation_worker','native_review_sources','native_review_batches') else 300)
             if check in ('authority','unit_domain'):need(counts.get('unittest_methods',0)>0,'CI_UNIT_COUNT_MISSING')
             if check in NATIVE_REPORTS:counts=native_summary(root,check,before)
             report['checks'].append(closed_result(check,'PASS',counts=counts));print(check+' PASS',flush=True)

@@ -55,7 +55,7 @@ def main():
             names=archive.namelist()
             if any('/intake/' in n or n.startswith(('tests/','tools/','plan/','.')) for n in names):raise RuntimeError('PRIVATE_OR_DEVELOPER_ARTIFACT_PACKAGED')
             schemas=[n for n in names if n.endswith('.schema.json')]
-            if len(schemas)!=43:raise RuntimeError('PACKAGED_CONTRACT_COVERAGE')
+            if len(schemas)!=44:raise RuntimeError('PACKAGED_CONTRACT_COVERAGE')
         run([installed,'-m','pip','install','--no-index','--find-links',ROOT/'.dev-tools/wheelhouse/core','--require-hashes','-r',ROOT/'requirements-runtime.lock'],cwd=run_root,env=env)
         local_lock=run_root/'package.lock'
         digest=sha256(wheel.read_bytes()).hexdigest()
@@ -109,8 +109,8 @@ assert DateOnly.parse('2027-01-01').as_due(source_ref='synthetic-source').instan
 config=load_runtime_config(pathlib.Path(sysconfig.get_path('data'))/'share/whattodo/config/runtime.example.json',env={})
 assert config.definitions==()
 plan=load_migration_plan()
-assert len(plan.steps)==19
-assert plan.schema_version=='0.14.0-review-queue'
+assert len(plan.steps)==20
+assert plan.schema_version=='0.15.0-review-batches'
 outbox_now=datetime(2026,1,1,tzinfo=timezone.utc)
 outbox_event=CreationEvent(event_id_for('installed-source-task'),'installed-source-task',1,'a'*64,'creation-tx','principal','authority',outbox_now)
 outbox_lease=DeliveryLease(outbox_event,2,1,'installed-worker','b'*32,outbox_now,outbox_now+timedelta(seconds=60))
@@ -226,7 +226,7 @@ manual_handler=PostgresManualTaskHandler(None,codec,plan,application_version='0.
 manual_unavailable=manual_handler.create(json.dumps(manual.as_record()).encode(),RequestContext(manual.command_id,'synthetic-manual-correlation'),expected_store_revision=1,audit_id='synthetic-manual-audit',caller=caller)
 assert manual_unavailable.status=='PERMANENT' and manual_unavailable.code=='TRANSACTION_DRIVER_UNAVAILABLE'
 extended=load_supported_schemas()
-assert len(extended)==43 and all(extended[k]==s for k,s in schemas.items())
+assert len(extended)==44 and all(extended[k]==s for k,s in schemas.items())
 extended_codec=ContractJSONCodec(extended)
 from copy import deepcopy
 from src.application.stage_commands import StageCommand,StageCommandGrant,admit_stage_command,prepare_stage_command
@@ -290,6 +290,40 @@ installed_selected_queue_service=PostgresReviewQueueService(None,extended_codec,
 installed_queue_no_driver=installed_selected_queue_service.query(json.dumps(installed_queue_query.as_record()).encode(),
     RequestContext('installed-selected-queue','installed-selected-queue'),caller=caller)
 assert (installed_queue_no_driver.status,installed_queue_no_driver.code)==('PERMANENT','TRANSACTION_DRIVER_UNAVAILABLE')
+from src.application.review_batches import BatchMember,ReviewBatchCommand,ReviewBatchGrant,admit_review_batch,prepare_review_batch,prepare_batch_commit,BatchTaskEvidence
+from src.adapters.postgres_review_batches import PostgresReviewBatchHandler
+installed_batch_value=deepcopy(value)
+installed_batch_value['effort']['user_remaining']=dict(seconds=600,observation_id='observation-installed-batch',
+    observed_at='2025-12-31T00:00:00+00:00',verified_at='2025-12-31T00:00:00+00:00')
+installed_batch_record=admit_storage(extended_codec,json.dumps(installed_batch_value).encode())
+installed_batch_members=(BatchMember(installed_batch_record.task_id,1,'observation-installed-batch',600),)
+installed_batch=ReviewBatchCommand('installed-review-batch',caller.principal_id,'installed-batch-grant','installed-review',2,
+    'installed-statement','installed-batch',True,installed_batch_members)
+installed_batch_raw=json.dumps(installed_batch.as_record()).encode()
+assert admit_review_batch(extended_codec,installed_batch_raw)==installed_batch
+assert codec.admit('review-batch',installed_batch_raw).status!='SUPPORTED_SHAPE'
+installed_batch_grant=ReviewBatchGrant(installed_batch,'synthetic-source',clock.now()-timedelta(minutes=2),clock.now()-timedelta(minutes=1))
+installed_batch_prepared=prepare_review_batch(installed_batch,installed_batch_grant,(BatchTaskEvidence(installed_batch_record,'UNTOUCHED'),),caller=caller,now=clock.now())
+assert installed_batch_prepared.state=='CONFIRMED' and len(installed_batch_prepared.verifications)==1
+assert installed_batch_prepared.verifications[0].task_revision==1 and not hasattr(installed_batch_prepared,'permit')
+installed_batch_plan=prepare_batch_commit(extended_codec,installed_batch_raw,installed_batch_grant,
+    (BatchTaskEvidence(installed_batch_record,'UNTOUCHED'),),caller=caller,now=clock.now(),
+    context=RequestContext(installed_batch.command_id,'installed-batch-trace'),expected_store_revision=1,audit_id='installed-batch-audit')
+assert {w.key.kind for w in installed_batch_plan.request.writes}=={'REVIEW_BATCH_CONFIRMED','REVIEW_VERIFICATION'}
+installed_batch_silent=ReviewBatchCommand('installed-silent-batch',caller.principal_id,'installed-silent-grant','installed-review',2,
+    'installed-silent-statement','installed-silent-batch',None,installed_batch_members)
+installed_silent_raw=json.dumps(installed_batch_silent.as_record()).encode()
+installed_silent_plan=prepare_batch_commit(extended_codec,installed_silent_raw,
+    ReviewBatchGrant(installed_batch_silent,'synthetic-source',clock.now()-timedelta(minutes=2),clock.now()-timedelta(minutes=1)),
+    (BatchTaskEvidence(installed_batch_record,'UNTOUCHED'),),caller=caller,now=clock.now(),
+    context=RequestContext(installed_batch_silent.command_id,'installed-silent-trace'),expected_store_revision=1,audit_id='installed-silent-audit')
+assert installed_silent_plan.journal.state=='NOT_CONFIRMED' and not installed_silent_plan.journal.verifications
+installed_batch_handler=PostgresReviewBatchHandler(None,extended_codec,plan,application_version='0.1.0.dev0',clock=clock,
+    grants=(installed_batch_grant,))
+installed_batch_unavailable=installed_batch_handler.confirm(installed_batch_raw,
+    RequestContext(installed_batch.command_id,'installed-batch-unavailable'),expected_store_revision=1,
+    audit_id='installed-batch-audit',caller=caller)
+assert (installed_batch_unavailable.status,installed_batch_unavailable.code)==('PERMANENT','TRANSACTION_DRIVER_UNAVAILABLE')
 patch=FactPatch('installed-fact-patch',caller.principal_id,'installed-fact-grant',core['task_id'],1,json.dumps(dict(deadline='2026-10-13T13:30:00.123456+08:00',importance=4,user_remaining_seconds=1200)))
 patch_raw=json.dumps(patch.as_record()).encode()
 assert admit_fact_patch(extended_codec,patch_raw)==patch
@@ -423,6 +457,7 @@ print(json.dumps(dict(stage_commands='INSTALLED_EXACT_STAGE_REWORK_AND_EFFECT_FR
         observed=json.loads(run([installed,'-I',smoke_script],cwd=run_root,env=env))
         report['review_queue_component']='INSTALLED_SYNTHETIC_CAPTURE_CURSOR_AND_INTERNAL_STORE_IMPORT_WITHOUT_OPTIONAL_DRIVER'
         report['review_queue_source_query']='INSTALLED_SELECTED_QUERY_PAGE_CONTRACTS_BASE_OPT_IN_REJECTION_AND_OPTIONAL_DRIVER_OUTCOME'
+        report['review_batch_confirmation']='INSTALLED_EXACT_VERIFICATION_PLAN_SILENCE_AND_OPTIONAL_DRIVER_OUTCOME'
         script=clean_env/'Scripts/whattodo-smoke.exe'
         entry=json.loads(run([script],cwd=run_root,env=env))
         if entry!=observed['domain']:raise RuntimeError('INSTALLED_ENTRYPOINT_MISMATCH')

@@ -25,6 +25,7 @@ from src.adapters.postgres_lifecycle import PostgresLifecycleHandler
 from src.adapters.postgres_manual_tasks import PostgresManualTaskHandler
 from src.adapters.postgres_migrations import DatabaseRoles,apply_migrations,schema_checked_transaction
 from src.adapters.postgres_read_models import PostgresReadService
+from src.adapters.postgres_review_batches import PostgresReviewBatchHandler,register_review_batch_grant
 from src.adapters.postgres_review_service import PostgresReviewQueueService
 from src.adapters.postgres_resolution import PostgresResolutionService
 from src.adapters.postgres_tasks import PostgresTaskRepository
@@ -38,6 +39,7 @@ from src.application.evidence_storage import SourceScope
 from src.application.fact_patches import FactPatch,FactPatchGrant
 from src.application.manual_tasks import ResolvedManualIntent
 from src.application.ports import RequestContext
+from src.application.review_batches import BatchMember,ReviewBatchCommand,ReviewBatchGrant
 from src.application.review_queue import ReviewQueueQuery
 from src.application.work_reports import admit_work_report,WorkReportGrant
 from src.domain.authorization import AuthorityGrant,CallerIdentity,Command,change
@@ -101,6 +103,18 @@ def verify(harness,report):
             RequestContext('review-backup-next','review-backup'),caller=CALLER)
         require(review_second.status=='SUCCESS','BACKUP_REVIEW_SECOND_'+review_second.code)
         original_run=run_pg;capture=dict(calls=0);captured_epoch=epoch()
+        batch_record=reader.get('b');batch_estimate=batch_record.aggregate.as_record()['effort']['user_remaining']
+        batch_command=ReviewBatchCommand('batch-b','principal','root-batch-b','review-backup',1,'statement-batch-b',
+            'batch-b',True,(BatchMember('b',batch_record.revision,batch_estimate['observation_id'],batch_estimate['seconds']),))
+        batch_source=source(batch_command.command_id,canonical(batch_command.as_record()).encode()).record_id
+        batch_grant=ReviewBatchGrant(batch_command,batch_source,NOW-timedelta(minutes=1),NOW)
+        with harness.target(source_db,'migration').connect() as owner:
+            register_review_batch_grant(owner,batch_grant,plan,application_version=__version__)
+        batch_out=PostgresReviewBatchHandler(conn,codec,plan,**options,grants=(batch_grant,)).confirm(
+            canonical(batch_command.as_record()).encode(),RequestContext(batch_command.command_id,'backup-correlation'),
+            expected_store_revision=epoch(),audit_id='audit-batch-b',caller=CALLER)
+        require(batch_out.status=='SUCCESS' and batch_out.code=='REVIEW_BATCH_CONFIRMED','BACKUP_FIXTURE_BATCH_'+batch_out.code)
+        original_batch_receipt=batch_out.value.receipt;captured_epoch=epoch()
         def interleaved(h,tool,args,**kw):
             if tool=='pg_dump':
                 require(any(str(a).startswith('--snapshot=') for a in args),'BACKUP_NO_EXPORTED_SNAPSHOT');create('concurrent');capture['calls']+=1
@@ -117,7 +131,7 @@ def verify(harness,report):
             with schema_checked_transaction(owner,plan,application_version=__version__):before_source=inventory(owner)
         target_db=harness.create_database(initialize_schema=False)
         restored=restore_backup(harness,target_db,bundle,plan=plan,application_version=__version__)
-        require(restored['status']=='VERIFIED' and restored['tables_checked']==90,'BACKUP_RESTORE_COUNTS');checks.append('actual_custom_archive_restores_all_87_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database')
+        require(restored['status']=='VERIFIED' and restored['tables_checked']==92,'BACKUP_RESTORE_COUNTS');checks.append('actual_custom_archive_restores_all_89_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database')
         with harness.target(source_db,'migration').connect() as owner:
             with schema_checked_transaction(owner,plan,application_version=__version__):require(inventory(owner)==before_source,'BACKUP_SOURCE_RESTORE_MUTATED')
         checks.append('original_source_database_and_its_concurrent_postsnapshot_task_are_preserved_byte_for_byte_during_restore')
@@ -140,6 +154,16 @@ def verify(harness,report):
                 and restored_conn.execute('SELECT count(*) FROM whattodo.review_queue_entry').fetchone()==(review_first.value['total_items'],),
                 'BACKUP_REVIEW_DUPLICATE_OR_LOST_ENTRY')
             checks.append('nonempty_complete_review_header_entries_and_original_request_replay_signed_cursor_unanswered_state_survive_actual_separate_database_restore')
+            restored_batch=PostgresReviewBatchHandler(restored_conn,codec,plan,**options,grants=(batch_grant,)).confirm(
+                canonical(batch_command.as_record()).encode(),RequestContext(batch_command.command_id,'batch-restored'),
+                expected_store_revision=original_batch_receipt.store_revision-1,audit_id='audit-batch-b',caller=CALLER)
+            require(restored_batch.status=='SUCCESS' and restored_batch.code=='REVIEW_BATCH_REPLAYED'
+                and restored_batch.value.receipt==original_batch_receipt
+                and restored_conn.execute('SELECT count(*) FROM whattodo.review_batch_confirmation').fetchone()==(1,)
+                and restored_conn.execute('SELECT count(*) FROM whattodo.review_batch_verification').fetchone()==(1,)
+                and restored_conn.execute("SELECT count(*) FROM whattodo.effort_observation WHERE kind='UNCHANGED_VERIFICATION'").fetchone()==(1,),
+                'BACKUP_BATCH_RESTORE_'+restored_batch.code)
+            checks.append('restored_batch_confirmation_verification_and_unchanged_observation_replay_without_duplicates')
             definition=PostgresDefinitionRepository(restored_conn,git,plan,roles,application_version=__version__).get(DefinitionKey(profile['kind'],profile['id'],profile['version']));require(definition is not None and definition.body==profile['body'],'BACKUP_DEFINITION_RESTORE')
             pending=PostgresReadService(restored_conn,codec,plan,**options,cursor_key=KEY,scopes=(SCOPE,)).query(canonical(dict(q,view='PENDING',page_size=100)).encode(),RequestContext('pending-restored','backup-correlation'),caller=CALLER);require(pending.status=='SUCCESS' and {i['kind'] for i in pending.value.as_record()['items']}=={'MANUAL_CREATION','EVIDENCE_CANDIDATE','EVIDENCE_CONFLICT','CLARIFICATION'},'BACKUP_PENDING_RESTORE');checks.append('restored_exact_definition_cache_source_candidate_conflict_manual_pending_and_unanswered_clarification_remain_readable_without_activation')
         for role,sql in [('application',"INSERT INTO whattodo.source_scope VALUES('blocked','blocked','blocked',CURRENT_TIMESTAMP)"),('test',"UPDATE whattodo.store_epoch SET revision=revision")]:

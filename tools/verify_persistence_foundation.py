@@ -25,7 +25,7 @@ REQUIREMENTS={
  'authenticated_scope':('command-transport',('payload_principal_and_task_scope_forgery_fail_before_existing_handler_invocation',)),
  'atomic_rollback':('command-transport',('native_precommit_failure_rolls_back_all_task_audit_receipt_epoch_state_then_same_wire_retry_commits_once',)),
  'lost_ack_reconciliation':('command-transport',('lost_transport_result_after_real_commit_stays_unknown_and_lookup_or_same_id_retry_recovers_one_original_receipt',)),
- 'separate_restore':('backup-restore',('actual_custom_archive_restores_all_87_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database',)),
+ 'separate_restore':('backup-restore',('actual_custom_archive_restores_all_89_domain_and_three_metadata_tables_and_catalog_constraints_functions_triggers_privileges_and_sequence_state_into_separate_empty_database',)),
  'source_preservation':('backup-restore',('original_source_database_and_its_concurrent_postsnapshot_task_are_preserved_byte_for_byte_during_restore',)),
  'restored_canonical_history':('backup-restore',('restored_current_and_historical_task_bytes_keep_completion_cancel_zero_u_original_total_actual_work_and_original_due_offset_microseconds_independent',)),
  'restored_command_replay':('backup-restore',('restored_receipt_lookup_and_original_completion_retry_validate_owned_audits_and_return_original_commit_without_live_grants_or_duplicate_publication',)),

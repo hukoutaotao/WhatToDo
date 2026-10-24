@@ -34,7 +34,7 @@ class FactPatchTests(unittest.TestCase):
 
     def test_opt_in_does_not_replace_or_change_any_base_schema(self):
         base=load_contract_schemas(root=ROOT);all_schemas=load_supported_schemas(root=ROOT)
-        self.assertEqual(len(base),30);self.assertEqual(len(all_schemas),43)
+        self.assertEqual(len(base),30);self.assertEqual(len(all_schemas),44)
         self.assertEqual({k:all_schemas[k] for k in base},base)
         p,_,_=self.values();raw=canonical(p.as_record()).encode()
         self.assertNotEqual(ContractJSONCodec(base).admit('task-fact-patch',raw).status,'SUPPORTED_SHAPE')

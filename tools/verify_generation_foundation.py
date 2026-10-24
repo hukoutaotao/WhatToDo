@@ -104,7 +104,7 @@ def verify(h,r):
             before=owner.execute("SELECT * FROM whattodo.generation_occurrence WHERE generation_key='legacy-generation'").fetchone()
             prefix=owner.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
             result=apply_migrations(owner,plan,roles=roles,application_version=__version__)
-            require(result.applied==('015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue') and owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=15 ORDER BY position').fetchall()==prefix,'GENERATION_UPGRADE_PREFIX')
+            require(result.applied==('015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue','019_review_batches') and owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=15 ORDER BY position').fetchall()==prefix,'GENERATION_UPGRADE_PREFIX')
             after=owner.execute("SELECT * FROM whattodo.generation_occurrence WHERE generation_key='legacy-generation'").fetchone()
             require(after[:len(before)]==before and all(v is None for v in after[len(before):]) and owner.execute('SELECT count(*) FROM whattodo.generation_occurrence_revision').fetchone()==(0,),'GENERATION_LEGACY_BACKFILL')
         checks.append('fifteen_step_upgrade_preserves_exact_receipts_and_legacy_head_without_fabricated_history')
@@ -186,8 +186,9 @@ def verify(h,r):
             reject(lambda:conn.execute(verb),'23514')
         reject(lambda:conn.execute('TRUNCATE whattodo.generation_occurrence_revision'),('23514','0A000','42501'))
         checks.append('application_role_cannot_update_delete_or_truncate_immutable_generation_history')
-        require((conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0])==(87,221),'GENERATION_SCHEMA_COUNTS')
-        r.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=87,domain_foreign_keys=221)
+        require(conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0]==89
+            and conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0]==230,'GENERATION_SCHEMA_COUNTS')
+        r.update(schema_version=plan.schema_version,migration_steps=len(plan.steps),domain_tables=89,domain_foreign_keys=230)
 
 
 def main():

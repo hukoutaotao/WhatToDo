@@ -261,6 +261,22 @@
         "review_queue_snapshot",
         "review_queue_entry"
       ]
+    },
+    {
+      "name": "review-batch",
+      "path": "formats/extensions/review-batch.schema.json",
+      "schema_id": "urn:whattodo:review-batch:0.1.0-review-batch",
+      "schema_hash": "b7bef1cfc32febeb167b12046ff0bc4180a858fe5291744fb738cc84b4a809ba",
+      "supported_versions": [
+        "0.1.0-review-batch"
+      ],
+      "consumers": [
+        "src/application/review_batches.py"
+      ],
+      "database_owners": [
+        "review_batch_confirmation",
+        "review_batch_verification"
+      ]
     }
   ]
 }

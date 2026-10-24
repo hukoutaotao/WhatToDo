@@ -160,3 +160,20 @@ migrations resolve 0.14.0-review-queue with 87 domain tables/221 FKs plus
 three metadata tables, and actual backup restore verifies all 90 tables. The
 earlier eighteen SQL files and generic baseline remain unchanged. This is local
 isolated verification, without hosted publication or live activation.
+
+M3B-09 adds `native_review_batches`. It builds the actual nineteen-step
+lifecycle predecessor (34 fixture checks reported separately), upgrades through
+the pinned twentieth step and verifies confirmed-batch verification without
+Task/U mutation, worked-on exclusion, silence-confirms-none, stale-member
+conflicts, changed-estimate exclusion, overlap rejection by handler and SQL
+unique, original replay, foreign-authority denial, immutable history and
+fresh-connection journal reconstruction. [Final
+acceptance](../reports/acceptance/M3B-09.json) passes 35 phases, 799 full
+methods and 259 native checks across fifteen groups. All twenty-four owned
+databases, fifteen PostgreSQL servers and all HTTP listeners are cleaned up.
+Installation verifies 83 modules/84 exact source hashes/44 schemas; twenty
+migrations resolve 0.15.0-review-batches with 89 domain tables/230 FKs plus
+three metadata tables, and actual backup restore verifies all 92 tables
+including restored batch replay. The earlier nineteen SQL files and generic
+baseline remain unchanged. This is local isolated verification, without hosted
+publication or live activation.

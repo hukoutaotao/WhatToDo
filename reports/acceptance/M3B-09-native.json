@@ -1,0 +1,49 @@
+{
+  "task": "M3B-09",
+  "status": "PASS",
+  "scope": "SYNTHETIC_SCOPED_UNCHANGED_ESTIMATE_BATCH_CONFIRMATION",
+  "native_checks": [
+    "pinned_twentieth_step_preserves_all_nineteen_prior_migration_and_task_payload_history",
+    "confirmed_batch_verifies_each_untouched_estimate_with_separate_time_without_task_or_u_mutation",
+    "task_worked_on_after_the_estimate_is_excluded_and_rejects_the_whole_batch",
+    "silence_confirms_none_and_an_unconfirmed_batch_records_no_member_verification",
+    "stale_member_version_conflicts_instead_of_silently_approving_changed_values",
+    "changed_estimate_identity_or_seconds_is_excluded_from_confirmation",
+    "overlapping_confirmed_batches_are_rejected_by_handler_and_sql_unique_constraint",
+    "original_command_replay_returns_original_receipt_and_journal_without_duplicate_effects",
+    "foreign_principal_and_unregistered_grant_cannot_confirm_any_member",
+    "application_role_cannot_update_or_delete_batch_or_verification_history",
+    "fresh_connection_reconstructs_the_original_journal_and_verification_payload"
+  ],
+  "fixture_native_check_count": 34,
+  "schema_version": "0.15.0-review-batches",
+  "migration_steps": 20,
+  "domain_tables": 89,
+  "domain_foreign_keys": 230,
+  "activated_steps": 20,
+  "native_check_count": 11,
+  "limitations": [
+    "The prerequisite lifecycle fixture checks are reported separately and not counted as new batch checks",
+    "Verification preserves estimates and never mutates Tasks, U or actual work",
+    "Evening review coordination and answer submission remain separate cards",
+    "No personal profile activation, live provider, n8n or deployment is claimed"
+  ],
+  "harness": {
+    "run_id": "39ebc2f48ffc40c7b48c5f5674d4d5e4",
+    "scope": "SYNTHETIC_TEST_ONLY",
+    "listen_address": "127.0.0.1",
+    "authentication": "SCRAM_SHA_256",
+    "roles": {
+      "bootstrap": "wt_bootstrap",
+      "migration": "wt_migration",
+      "application": "wt_application",
+      "test": "wt_test_readonly"
+    },
+    "databases_created": 1,
+    "databases_dropped": 1,
+    "server_stopped": true,
+    "initdb_password_file_retained": false,
+    "production_endpoint": "NOT_ACCEPTED",
+    "recursive_filesystem_cleanup": false
+  }
+}

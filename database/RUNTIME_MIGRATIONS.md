@@ -180,3 +180,17 @@ mutation. The storage verifier builds the actual eighteen-step predecessor and
 upgrades it; backup/restore now expects all 90 tables. All eighteen earlier SQL
 raw hashes are retained. See the [runtime handoff](REVIEW_QUEUE.md); full acceptance
 is recorded separately from resource registration.
+
+M3B-09 appends [scoped unchanged-estimate batch confirmations](runtime-migrations/019_review_batches.sql),
+the twentieth step at `0.15.0-review-batches`: 89 domain tables/230 foreign keys
+plus three metadata tables. `review_batch_confirmation` binds the exact command
+bytes, fingerprint, review/frame/statement identity and state; each
+`review_batch_verification` row pins one member's task revision and original
+estimate with a separate verification time, `UNIQUE(task_id, observation_id)`
+rejects overlapping confirmed batches even through a bypassed writer, and every
+verification writes one `UNCHANGED_VERIFICATION` effort observation bound to its
+batch. The batch verifier builds the actual nineteen-step lifecycle predecessor
+and upgrades it; backup/restore verifies all 92 tables including restored batch
+replay. All nineteen earlier SQL raw hashes are retained. See the [runtime
+handoff](REVIEW_BATCHES.md); final unified acceptance is recorded separately
+from resource registration.

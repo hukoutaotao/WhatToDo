@@ -103,4 +103,16 @@ class CIBaselineTests(unittest.TestCase):
                 p.write_text(json.dumps(value|change),encoding='utf-8')
                 with self.assertRaisesRegex(CIError,code):native_summary(root,'native_review_sources',set())
 
+    def test_batch_summary_requires_exact_new_cases_and_excludes_fixture_repeats(self):
+        with TemporaryDirectory() as d:
+            root=Path(d);p=root/'.local-state/postgres-tests/synthetic/review-batches-report.json';p.parent.mkdir(parents=True)
+            value=dict(status='PASS',native_checks=['new-case'],native_check_count=1,fixture_native_check_count=34,
+                harness=dict(server_stopped=True,databases_created=1,databases_dropped=1,initdb_password_file_retained=False))
+            p.write_text(json.dumps(value),encoding='utf-8')
+            self.assertEqual(native_summary(root,'native_review_batches',set()),dict(native_checks=1,databases_created=1,databases_dropped=1,server_stopped=True))
+            for change,code in ((dict(native_check_count=True),'REVIEW_CASE_COUNTS'),(dict(native_checks=['duplicate','duplicate'],native_check_count=2),'REVIEW_CASE_COUNTS'),
+                (dict(fixture_native_check_count=None),'REVIEW_CASE_COUNTS')):
+                p.write_text(json.dumps(value|change),encoding='utf-8')
+                with self.assertRaisesRegex(CIError,code):native_summary(root,'native_review_batches',set())
+
 if __name__=='__main__':unittest.main()

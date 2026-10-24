@@ -39,7 +39,7 @@ def verify(harness,report):
         native_transactions(conn)
         prefix=conn.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
         result=apply_migrations(conn,plan,roles=roles,application_version=__version__)
-        require(result.applied==('013_relationship_storage','014_creation_outbox','015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue') and conn.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=13 ORDER BY position').fetchall()==prefix,'RELATIONSHIP_UPGRADE_PREFIX')
+        require(result.applied==('013_relationship_storage','014_creation_outbox','015_generation_occurrences','016_generation_processing','017_stage_commands','018_review_queue','019_review_batches') and conn.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=13 ORDER BY position').fetchall()==prefix,'RELATIONSHIP_UPGRADE_PREFIX')
         checks.append('upgrade_preserves_all_thirteen_prior_receipts_and_existing_source_authority')
         fixture=GitDefinitionFixture(harness.run_root/'git-fixture')
         definitions=PostgresDefinitionRepository(conn,GitDefinitionSource(fixture.root),plan,roles,application_version=__version__)
@@ -181,7 +181,7 @@ def verify(harness,report):
         report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,
             domain_tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],
             domain_foreign_keys=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0])
-        require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'RELATIONSHIP_SCHEMA_COUNTS')
+        require((report['domain_tables'],report['domain_foreign_keys'])==(89,230),'RELATIONSHIP_SCHEMA_COUNTS')
 
 
 def main():

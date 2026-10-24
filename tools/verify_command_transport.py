@@ -221,7 +221,7 @@ def verify(harness,report):
             require(counts['backend_opens']==opens and state()==before,'TRANSPORT_HTTP_FRAMING_OPENED')
             checks.append('actual_http_invalid_content_type_chunked_input_and_declared_oversize_return_typed_errors_without_database_access')
             report.update(migration_steps=len(plan.steps),schema_version=plan.schema_version,domain_tables=conn.execute("SELECT count(*) FROM pg_tables WHERE schemaname='whattodo'").fetchone()[0],domain_foreign_keys=conn.execute("SELECT count(*) FROM pg_constraint c JOIN pg_namespace n ON n.oid=c.connamespace WHERE n.nspname='whattodo' AND c.contype='f'").fetchone()[0],**counts)
-            require((report['domain_tables'],report['domain_foreign_keys'])==(87,221),'TRANSPORT_SCHEMA_CHANGED')
+            require((report['domain_tables'],report['domain_foreign_keys'])==(89,230),'TRANSPORT_SCHEMA_CHANGED')
             checks.append('current_runtime_schema_and_canonical_ownership_remain_unchanged')
     finally:
         server.shutdown();server.server_close();thread.join(timeout=5);require(not thread.is_alive(),'TRANSPORT_HTTP_SERVER_NOT_STOPPED')

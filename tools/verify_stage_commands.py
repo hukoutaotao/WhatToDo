@@ -42,7 +42,7 @@ def verify(h,report):
     report['foundation_checks_not_counted']=len(support['native_checks'])
     report['foundation_checks']=support['native_checks']
     report['lifecycle_fixture_checks_not_counted']=support['fixture_native_check_count']
-    database=h._created[-1]; plan=foundation.candidate_plan(); roles=DatabaseRoles(ROLES['migration'],ROLES['application'],ROLES['test'])
+    database=h._created[-1]; full=foundation.candidate_plan(); plan=replace(full,steps=full.steps[:19]); roles=DatabaseRoles(ROLES['migration'],ROLES['application'],ROLES['test'])
     codec=ContractJSONCodec(load_supported_schemas(root=ROOT)); checks=report['native_checks']
     foreign_scope=SourceScope('synthetic-stage-foreign','scope','foreign-account')
     with h.target(database,'migration').connect() as owner:

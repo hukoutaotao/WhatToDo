@@ -136,6 +136,13 @@
       "content_hash": "705c5a0cfae516b70009c85e8c9dbb6125d429482962cadb789aa50bcdd66298",
       "schema_version": "0.14.0-review-queue",
       "legacy_design_version": null
+    },
+    {
+      "id": "019_review_batches",
+      "path": "database/runtime-migrations/019_review_batches.sql",
+      "content_hash": "98e937bc7f96e2d8d2a75fb0571353b8e8888327d6ef411dc75671f2fe9d61d5",
+      "schema_version": "0.15.0-review-batches",
+      "legacy_design_version": null
     }
   ]
 }

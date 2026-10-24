@@ -1,0 +1,122 @@
+{
+  "task": "M3B-09",
+  "status": "PASS",
+  "verified_on": "2026-10-23",
+  "scope": "SCOPED_UNCHANGED_ESTIMATE_BATCH_CONFIRMATION_WITH_PINNED_VERIFICATION_STORAGE",
+  "next_task": "M3B-10",
+  "requirements": {
+    "explicit_confirmation_for_untouched_unchanged_tasks": {
+      "status": "PASS",
+      "native_checks": [
+        "confirmed_batch_verifies_each_untouched_estimate_with_separate_time_without_task_or_u_mutation"
+      ]
+    },
+    "silence_confirms_none": {
+      "status": "PASS",
+      "native_checks": [
+        "silence_confirms_none_and_an_unconfirmed_batch_records_no_member_verification"
+      ]
+    },
+    "worked_on_new_missing_changed_estimates_excluded": {
+      "status": "PASS",
+      "native_checks": [
+        "task_worked_on_after_the_estimate_is_excluded_and_rejects_the_whole_batch",
+        "changed_estimate_identity_or_seconds_is_excluded_from_confirmation"
+      ]
+    },
+    "stale_member_version_conflicts": {
+      "status": "PASS",
+      "native_checks": [
+        "stale_member_version_conflicts_instead_of_silently_approving_changed_values"
+      ]
+    },
+    "overlapping_confirmed_batches_rejected": {
+      "status": "PASS",
+      "native_checks": [
+        "overlapping_confirmed_batches_are_rejected_by_handler_and_sql_unique_constraint"
+      ]
+    },
+    "per_task_version_provenance_and_separate_verification_time": {
+      "status": "PASS",
+      "evidence": "Each verification pins task ID/revision, original observation ID, seconds and observation time with the separate grant-observed verification time; deterministic identity binds review/frame, statement, batch, task and estimate; every verification writes one UNCHANGED_VERIFICATION effort observation bound to its batch without numeric seconds"
+    },
+    "original_replay_and_foreign_authority": {
+      "status": "PASS",
+      "native_checks": [
+        "original_command_replay_returns_original_receipt_and_journal_without_duplicate_effects",
+        "foreign_principal_and_unregistered_grant_cannot_confirm_any_member"
+      ]
+    },
+    "pinned_migration_and_immutable_history": {
+      "status": "PASS",
+      "native_checks": [
+        "pinned_twentieth_step_preserves_all_nineteen_prior_migration_and_task_payload_history",
+        "application_role_cannot_update_or_delete_batch_or_verification_history",
+        "fresh_connection_reconstructs_the_original_journal_and_verification_payload"
+      ]
+    },
+    "installed_package_and_backup_restore": {
+      "status": "PASS",
+      "evidence": "Clean installation selects the registered contract with base-codec opt-in rejection and explicit optional-driver outcome; actual 92-table restore returns the original batch receipt and verification/unchanged-observation history without duplicates"
+    },
+    "unified_ci_and_frozen_prerequisites": {
+      "status": "PASS",
+      "evidence": "35-phase local CI, 799 full methods, 259 native checks across fifteen groups; 24 databases dropped, fifteen PostgreSQL servers and all HTTP listeners stopped; 30 base contracts, 91 generic pins and 14 registered extensions unchanged"
+    }
+  },
+  "targeted_unittest_methods": 17,
+  "full_unittest_methods": 799,
+  "ci_phase_count": 35,
+  "ci_native_checks": 259,
+  "ci_native_groups": 15,
+  "ci_databases_dropped": 24,
+  "ci_servers_stopped": 15,
+  "ci_http_listeners_stopped": 3,
+  "installed_modules": 83,
+  "installed_source_files_verified": 84,
+  "packaged_schemas": 44,
+  "registered_extensions": 14,
+  "postgres_optional_driver": "ABSENT_DURING_INSTALLED_SMOKE",
+  "schema_version": "0.15.0-review-batches",
+  "migration_steps": 20,
+  "domain_tables": 89,
+  "domain_foreign_keys": 230,
+  "prior_sql_files_unchanged": 19,
+  "verified_restore_tables": 92,
+  "fixture_native_checks_not_counted": 34,
+  "artifact_hashes": {
+    "src/application/review_batches.py": "6a8205c29e24db75961a57d04ff9e49811b756cd87bbaa0c5bc8a0e39b000ffb",
+    "src/adapters/postgres_review_batches.py": "0cca1253bd6a9b8160509a9505301521c0ecbd15dfe3df3e5c88c0bbbc87114b",
+    "tests/test_review_batches.py": "f464ba51c688339d56e1646d33cb1fbd3d722ae3831e57205242a8af3de863f6",
+    "tools/verify_review_batches.py": "a1cd92dbc0817237f4596494ff688691228f0055f06386053873e8877f94b60b",
+    "database/runtime-migrations/019_review_batches.sql": "98e937bc7f96e2d8d2a75fb0571353b8e8888327d6ef411dc75671f2fe9d61d5",
+    "formats/extensions/review-batch.schema.json": "31583cce80487093ce331a9b13f6a47884b2495176aab5d62467b0f56b48a7a1",
+    "formats/extension-registry.json": "732ae90339fd1215a245cf0b76a66a028a646a33b4324bc0f5950b3435fb2ed7",
+    "database/migration-plan.json": "0ec4967f6f45688a7d36307e7f739644dde2cf9cd8694c8372b2b273930522c5",
+    "tools/run_ci.py": "61bb11e18765ca989a98ee362f0903991cdfbdadebb67cbb81b104594a1ddff1",
+    "tools/verify_package_install.py": "8c97eec5665eea5b5556ad16990176d13b485f04cfd68ce7e8398b4996039fb0",
+    "tools/verify_backup_restore.py": "96eccc3c6149fc5501154736119783cc586f93d534090e7e3479aa4cc8b736f1",
+    "tests/test_ci_baseline.py": "505c531cd06ec528871ea47d59bcfdd5c1895694b3b8a298494865b949841160"
+  },
+  "commands": [
+    ".venv/Scripts/python.exe -m unittest tests.test_review_batches -q",
+    ".venv/Scripts/python.exe -m unittest discover -s tests -q",
+    ".venv/Scripts/python.exe tools/verify_review_batches.py",
+    ".venv/Scripts/python.exe tools/run_ci.py"
+  ],
+  "limitations": [
+    "Isolated synthetic SQL/runtime and installed package; no live provider, personal profile, n8n, model or deployment activation",
+    "Verification preserves estimates and never mutates Tasks, U or actual work; a batch invents no completion answer",
+    "Worked-on detection relies on committed positive actual-work observations after the estimate's observation time; future source-derived work evidence extends this",
+    "Evening review coordination, answer submission and partial-answer handling remain M3B-10",
+    "Local pinned CI and clean installation; hosted Actions and production integration are not claimed"
+  ],
+  "ci_report": "reports/acceptance/M3B-09-ci.json",
+  "ci_report_sha256": "b194c9df34b8120df8a9364b38e20c225101f3cb4764099ffe1e036e157f2fed",
+  "package_report": "reports/acceptance/M3B-09-package.json",
+  "package_report_sha256": "27780a8ed43364204a36e9c1803adbce6f6d061658c9f3d1a4001ac18593886a",
+  "backup_report": "reports/acceptance/M3B-09-backup.json",
+  "backup_report_sha256": "66c203d38868f50ca25038c23e2ddd5340800f2c3b3900473a5fe5da195e0ff5",
+  "native_report": "reports/acceptance/M3B-09-native.json",
+  "native_report_sha256": "211d21c63262031bc1c72eaece145c38dd0f7acf30894a720b3272ab0be7dec1"
+}

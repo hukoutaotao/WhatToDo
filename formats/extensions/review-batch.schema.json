@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:whattodo:review-batch:0.1.0-review-batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "command_id",
+    "principal_id",
+    "origin",
+    "authority_ref",
+    "review_ref",
+    "batch_id",
+    "confirmed",
+    "members"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "0.1.0-review-batch"
+    },
+    "command_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^(?!\\s*$)[^\\u0000]+$"
+    },
+    "principal_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^(?!\\s*$)[^\\u0000]+$"
+    },
+    "origin": {
+      "const": "USER_COMMAND"
+    },
+    "authority_ref": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^(?!\\s*$)[^\\u0000]+$"
+    },
+    "review_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "frame_revision",
+        "user_statement_ref"
+      ],
+      "properties": {
+        "review_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^(?!\\s*$)[^\\u0000]+$"
+        },
+        "frame_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9223372036854775807
+        },
+        "user_statement_ref": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "pattern": "^(?!\\s*$)[^\\u0000]+$"
+        }
+      }
+    },
+    "batch_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200,
+      "pattern": "^(?!\\s*$)[^\\u0000]+$"
+    },
+    "confirmed": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "no_work_statement": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "task_id",
+          "revision",
+          "observation_id",
+          "seconds"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^(?!\\s*$)[^\\u0000]+$"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9223372036854775807
+          },
+          "observation_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200,
+            "pattern": "^(?!\\s*$)[^\\u0000]+$"
+          },
+          "seconds": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          }
+        }
+      }
+    }
+  }
+}

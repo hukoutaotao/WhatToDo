@@ -35,14 +35,17 @@ def review_plan():
 
 def verify(h,report):
     import psycopg
-    plan=review_plan();base=replace(plan,steps=plan.steps[:18]);db=h.create_database(initialize_schema=False)
+    plan=review_plan();target=replace(plan,steps=plan.steps[:19]);base=replace(plan,steps=plan.steps[:18]);db=h.create_database(initialize_schema=False)
     roles=DatabaseRoles(ROLES['migration'],ROLES['application'],ROLES['test']);checks=report['native_checks']
     with h.target(db,'migration').connect() as owner:
         apply_migrations(owner,base,roles=roles,application_version=__version__)
         prior=owner.execute('SELECT * FROM whattodo_meta.migration_history ORDER BY position').fetchall()
-        out=apply_migrations(owner,plan,roles=roles,application_version=__version__)
+        out=apply_migrations(owner,target,roles=roles,application_version=__version__)
         require(out.applied==('018_review_queue',) and owner.execute('SELECT * FROM whattodo_meta.migration_history WHERE position<=18 ORDER BY position').fetchall()==prior,
             'REVIEW_CAPTURE_UPGRADE_PREFIX')
+    # This component verifies the review-capture upgrade path only; its runtime
+    # boundary targets the actual nineteen-step predecessor of the batch step.
+    plan=target
     checks.append('pinned_nineteenth_step_preserves_all_eighteen_prior_migration_receipts')
     with h.target(db).connect() as conn:
         def store(c=conn,clock=CLOCK):return PostgresReviewQueueStore(c,clock=clock,cursor_key=KEY)
